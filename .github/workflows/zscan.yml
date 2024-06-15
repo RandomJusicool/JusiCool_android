@@ -1,10 +1,12 @@
-name: "Zimperium zScan"
+name: Zimperium zScan
 
 on:
   push:
-    branches: [ "develop" ]
+    branches:
+      - develop
   pull_request:
-    branches: [ "develop" ]
+    branches:
+      - develop
 
 jobs:
   zscan:
@@ -31,24 +33,19 @@ jobs:
           build-tools: 30.0.3
 
       - name: Create local.properties
-        run: |
-          echo "sdk.dir=$ANDROID_HOME" > $GITHUB_WORKSPACE/local.properties
-
-      - name: Grant execute permission to Gradle wrapper
-        run: chmod +x ./gradlew
+        run: echo "sdk.dir=$ANDROID_HOME" > $GITHUB_WORKSPACE/local.properties
 
       - name: Execute gradle build
         run: ./gradlew build
 
-      - name: Zimperium zScan
-        uses: Zimperium/zScanMarketplace@v1.1
-            
+      - name: Run Zimperium zScan
+        uses: zimperium/zscanmarketplace@v1
         timeout-minutes: 60
         with:
-          client_env: env_string
-          client_id: id_string
+          client_env: mapsfreemium
+          client_id: ${{ secrets.CLIENT_ID }}
           client_secret: ${{ secrets.ZSCAN_CLIENT_SECRET }}
-          app_file: app-release-unsigned.apk
+          app_file: ./InsecureBankv2.apk
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
