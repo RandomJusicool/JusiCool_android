@@ -16,9 +16,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven ( url = "https://jitpack.io" )
     }
 }
 
+gradle.startParameter.excludedTaskNames.addAll(listOf(":buildSrc:testClasses"))
+
 rootProject.name = "JusiCool_android"
 include(":app")
- 
+include(":data")
+include(":domain")
+include(":presentation")

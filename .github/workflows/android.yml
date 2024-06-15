@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
         with:
           fetch-depth: 0
          
@@ -42,7 +42,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
         
-      - name: JUSICOOL Android CI Discord Notic
+      - name: JUSICOOL Android CI Discord Notification
         uses: sarisia/actions-status-discord@v1
         if: ${{ success() }}
         with:
@@ -55,7 +55,7 @@ jobs:
           url: "https://github.com/sarisia/actions-status-discord"
           username: JusiCool CI 봇
 
-      - name: JUSICOOL Android CI Discord Notic
+      - name: JUSICOOL Android CI Discord Notification
         uses: sarisia/actions-status-discord@v1
         if: ${{ failure() }}
         with:
