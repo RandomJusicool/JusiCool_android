@@ -49,7 +49,7 @@ jobs:
           title: ✅ JusiCool-Android-CI 성공! ✅
           webhook: ${{ secrets.JUSICOOL_DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          #image: ${{ secrets.SUCCESS_IMAGE }}
+          image: ${{ secrets.SUCCESS_IMAGE }}
           description: 성공했노..!
           color: 00FF00
           url: "https://github.com/sarisia/actions-status-discord"
@@ -71,7 +71,7 @@ jobs:
           title: ❗️ JusiCool-Android-CI 실패! ❗️
           webhook: ${{ secrets.JUSICOOL_DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          #image: ${{ secrets.FAILED_IMAGE }}
+          image: ${{ secrets.FAILED_IMAGE }}
           description: 실패했노...
           color: 00FF00
           url: "https://github.com/sarisia/actions-status-discord"
