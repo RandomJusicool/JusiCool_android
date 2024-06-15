@@ -27,7 +27,7 @@ jobs:
       - name: Setup JDK 17
         uses: actions/setup-java@v3
         with:
-          distribution: "zulu"
+          distribution: "temurin"
           java-version: 17
 
       - name: Setup Android SDK
@@ -50,8 +50,8 @@ jobs:
           webhook: ${{ secrets.JUSICOOL_DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.SUCCESS_IMAGE }}
-          description: 성공했노..!
-          color: 00FF00
+          description: 각하..성공했긔..
+          color: 0000CD
           url: "https://github.com/sarisia/actions-status-discord"
           username: JusiCool CI 봇
 
@@ -63,7 +63,7 @@ jobs:
           webhook: ${{ secrets.JUSICOOL_DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.FAILED_IMAGE }}
-          description: 실패했노...
+          description: 실패해버렸긔..
           color: 00FF00
           url: "https://github.com/sarisia/actions-status-discord"
           username: JusiCool CI 봇
