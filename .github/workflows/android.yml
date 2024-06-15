@@ -51,7 +51,7 @@ jobs:
           status: ${{ job.status }}
           image: ${{ secrets.SUCCESS_IMAGE }}
           description: 각하..성공했긔..
-          color: 00FF00
+          color: 0000CD
           url: "https://github.com/sarisia/actions-status-discord"
           username: JusiCool CI 봇
 
