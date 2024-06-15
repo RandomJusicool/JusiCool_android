@@ -1,7 +1,7 @@
 plugins {
     id(Dependency.Gradle.LIBRARY)
     id(Dependency.Gradle.KOTLIN)
-    id(Dependency.Gradle.KP)
+    id(Dependency.Gradle.KSP)
 }
 
 android {
