@@ -42,7 +42,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
         
-      - name: JUSICOOL Android CI Discord Notification
+      - name: JUSICOOL Android CI Discord Notic
         uses: sarisia/actions-status-discord@v1
         if: ${{ success() }}
         with:
@@ -55,7 +55,7 @@ jobs:
           url: "https://github.com/sarisia/actions-status-discord"
           username: JusiCool CI 봇
 
-      - name: JUSICOOL Android CI Discord Notification
+      - name: JUSICOOL Android CI Discord Notic
         uses: sarisia/actions-status-discord@v1
         if: ${{ failure() }}
         with:
