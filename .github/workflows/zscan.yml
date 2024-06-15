@@ -34,6 +34,9 @@ jobs:
         run: |
           echo "sdk.dir=$ANDROID_HOME" > $GITHUB_WORKSPACE/local.properties
 
+      - name: Grant execute permission to Gradle wrapper
+        run: chmod +x ./gradlew
+
       - name: Execute gradle build
         run: ./gradlew build
 
