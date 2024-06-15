@@ -40,8 +40,9 @@ jobs:
       - name: Execute gradle build
         run: ./gradlew build
 
-      - name: Run Zimperium zScan
-        uses: zimperium/zscanmarketplace@bfc6670f6648d796098c251ccefcfdb98983174d
+      - name: Zimperium zScan
+        uses: Zimperium/zScanMarketplace@v1.1
+            
         timeout-minutes: 60
         with:
           client_env: env_string
