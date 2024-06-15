@@ -54,15 +54,6 @@ jobs:
           color: 00FF00
           url: "https://github.com/sarisia/actions-status-discord"
           username: JusiCool CI 봇
-          embed: |  # 임베드 데이터 명시적으로 정의
-            {
-              "title": "✅ JusiCool-Android-CI 성공! ✅",
-              "description": "성공했노..!",
-              "color": 65280,
-              "image": {
-                "url": "${{ secrets.SUCCESS_IMAGE }}"
-              }
-            }
 
       - name: JUSICOOL Android CI Discord Notification
         uses: sarisia/actions-status-discord@v1
@@ -76,12 +67,3 @@ jobs:
           color: 00FF00
           url: "https://github.com/sarisia/actions-status-discord"
           username: JusiCool CI 봇
-          embed: |  # 임베드 데이터 명시적으로 정의
-            {
-              "title": "❗️ JusiCool-Android-CI 실패! ❗️",
-              "description": "실패했노...",
-              "color": 167116
-              "image": {
-                "url": "${{ secrets.FAILED_IMAGE }}"
-              }
-            }
