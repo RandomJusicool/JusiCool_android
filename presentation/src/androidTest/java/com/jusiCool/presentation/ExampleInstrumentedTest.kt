@@ -1,4 +1,4 @@
-package com.JusiCool_android.presentation
+package com.jusiCool.presentation
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

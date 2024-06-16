@@ -1,4 +1,4 @@
-package com.JusiCool_android.jusicool_android
+package com.jusiCool.jusicool_android
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
