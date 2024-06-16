@@ -1,4 +1,4 @@
-package com.JDS.presentation
+package com.JusiCool_android.presentation
 
 import org.junit.Test
 
