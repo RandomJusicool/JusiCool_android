@@ -1,4 +1,4 @@
-package com.JDS.jusicool_android
+package com.JusiCool_android.data
 
 import org.junit.Test
 
