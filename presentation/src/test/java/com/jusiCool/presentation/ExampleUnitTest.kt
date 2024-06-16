@@ -1,4 +1,4 @@
-package com.JusiCool_android.domain
+package com.jusiCool.presentation
 
 import org.junit.Test
 

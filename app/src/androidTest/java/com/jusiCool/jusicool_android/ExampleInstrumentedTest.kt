@@ -1,4 +1,4 @@
-package com.JusiCool_android.jusicool_android
+package com.jusiCool.jusicool_android
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
