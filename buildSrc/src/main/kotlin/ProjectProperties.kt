@@ -29,9 +29,9 @@ object ProjectProperties {
     }
 
     object NameSpace {
-        const val PRESENTATION = "com.example.presentation"
-        const val DOMAIN = "com.example.domain"
-        const val DATA = "com.example.data"
-        const val APP = "com.example.jusicool_android"
+        const val PRESENTATION = "com.jusiCool.presentation"
+        const val DOMAIN = "com.jusiCool.domain"
+        const val DATA = "com.jusiCool.data"
+        const val APP = "com.jusiCool.jusicool_android"
     }
 }
