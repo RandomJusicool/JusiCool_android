@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 
-@Composable
+/*@Composable
 fun JusiCool_Android_NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
@@ -25,4 +25,4 @@ fun JusiCool_Android_NavHost(
     ) {
 
     }
-}
+}*/
