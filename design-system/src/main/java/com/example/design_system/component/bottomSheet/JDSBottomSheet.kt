@@ -66,7 +66,6 @@ fun JDSBottomSheet(
 @Composable
 fun JDSBottomSheetPreview() {
     Column {
-
         JDSBottomSheet(
             companyName = "회사 이름",
             stockStatus = "현재가 1주 50,000",

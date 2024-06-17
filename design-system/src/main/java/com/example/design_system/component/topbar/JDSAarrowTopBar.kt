@@ -21,7 +21,7 @@ fun JDSArrowTopBar(
     betweenText: String = "",
     endIcon: @Composable () -> Unit = { Spacer(modifier = Modifier.size(24.dp)) }
 ) {
-    JusiCoolAndroidTheme { colors, typography ->
+    JusiCoolAndroidTheme { _, _ ->
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
