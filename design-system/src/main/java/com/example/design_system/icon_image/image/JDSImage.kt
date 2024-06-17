@@ -4,7 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import com.jusiCool.`design-system`.R
+import com.example.design_system.R
 
 @Composable
 fun CardsImage(modifier: Modifier = Modifier) {

@@ -26,37 +26,38 @@ fun JDSBottomSheet(
     secondaryButton: @Composable () -> Unit,
 ) {
     JusiCoolAndroidTheme { colors, typography ->
-    Column(
-        verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .background(
-                color = colors.WHITE,
-                shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
-            )
-            .padding(top = 32.dp, bottom = 32.dp)
-    ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
+            verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier
+                .background(
+                    color = colors.WHITE,
+                    shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+                )
+                .padding(top = 32.dp, bottom = 32.dp)
         ) {
-            Text(
-                text = companyName,
-                style = typography.label,
-                color = colors.Black,
-            )
-            Text(
-                text = stockStatus,
-                style = typography.bodySmall,
-                color = colors.GRAY400,
-            )
-        }
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            primaryButton()
-            secondaryButton()
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = companyName,
+                    style = typography.label,
+                    color = colors.Black,
+                )
+                Text(
+                    text = stockStatus,
+                    style = typography.bodySmall,
+                    color = colors.GRAY400,
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                primaryButton()
+                secondaryButton()
+            }
         }
     }
 }
@@ -104,6 +105,5 @@ fun JDSBottomSheetPreview() {
                 ) {}
             }
         )
-    }
     }
 }
