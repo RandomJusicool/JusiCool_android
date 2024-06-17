@@ -19,7 +19,6 @@ import com.example.design_system.theme.JusiCoolAndroidTheme
 fun JDSButton(
     modifier: Modifier = Modifier,
     text: String,
-
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
@@ -46,23 +45,21 @@ fun JDSButton(
     }
 }
 
-    @Preview
-    @Composable
-    fun JDSButtonPreview() {
-        JusiCoolAndroidTheme { colors, typhography ->
-            Column {
-                JDSButton(
-                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
-                    text = "text",
-                    enabled = true,
-                    onClick = {}
-                )
-                JDSButton(
-                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
-                    text = "text",
-                    enabled = false,
-                    onClick = {}
-                )
-            }
-        }
+@Preview
+@Composable
+fun JDSButtonPreview() {
+    Column {
+        JDSButton(
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
+            text = "text",
+            enabled = true,
+            onClick = {}
+        )
+        JDSButton(
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
+            text = "text",
+            enabled = false,
+            onClick = {}
+        )
     }
+}

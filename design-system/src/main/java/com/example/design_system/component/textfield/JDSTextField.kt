@@ -45,85 +45,85 @@ fun JDSTextField(
     onClickSupportText: () -> Unit = {}
 ) {
     JusiCoolAndroidTheme { colors, typography ->
-    val focusRequester = remember { FocusRequester() }
-    val isFocused = remember { mutableStateOf(false) }
-    val currentOnTextChange by rememberUpdatedState(newValue = onTextChange)
+        val focusRequester = remember { FocusRequester() }
+        val isFocused = remember { mutableStateOf(false) }
+        val currentOnTextChange by rememberUpdatedState(newValue = onTextChange)
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
-        horizontalAlignment = Alignment.Start,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(100.dp)
-    ) {
-        Text(
-            text = label,
-            color = if (isError) colors.ERROR else colors.Black,
-            style = typography.bodySmall
-        )
-
-        BasicTextField(
-            value = textState,
-            onValueChange = { newText -> currentOnTextChange(newText) },
-            enabled = isEnabled,
-            modifier = Modifier
-                .border(
-                    width = 1.dp,
-                    color = if (isFocused.value && textFieldOutlineColor == colors.GRAY100) colors.MAIN else textFieldOutlineColor,
-                    shape = RoundedCornerShape(size = 8.dp)
-                )
-                .height(54.dp)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
+            horizontalAlignment = Alignment.Start,
+            modifier = modifier
                 .fillMaxWidth()
-                .background(
-                    color = if (isEnabled) colors.WHITE else colors.GRAY100,
-                    shape = RoundedCornerShape(size = 8.dp)
-                )
-                .padding(
-                    start = 16.dp,
-                    top = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                )
-                .focusRequester(focusRequester)
-                .onFocusChanged { focusState ->
-                    isFocused.value = focusState.isFocused
-                },
-            visualTransformation = visualTransformation,
-            decorationBox = { innerTextField ->
-                Column(
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    if (textState.isEmpty()) {
-                        Text(
-                            text = textFieldInfo,
-                            color = if (textState.isEmpty()) colors.GRAY2 else colors.Black,
-                            style = typography.bodySmall,
-                        )
-                    }
-                }
-                innerTextField()
-            }
-        )
+                .height(100.dp)
+        ) {
+            Text(
+                text = label,
+                color = if (isError) colors.ERROR else colors.Black,
+                style = typography.bodySmall
+            )
 
-        Text(
-            text = supportText,
-            color = if (isError) colors.ERROR else colors.MAIN,
-            style = typography.label,
-            modifier = if (!isError) Modifier
-                .align(Alignment.End)
-                .clickableSingle(
-                    enabled = supportTextClick,
-                    onClick = onClickSupportText
-                ) else Modifier
-        )
-    }
+            BasicTextField(
+                value = textState,
+                onValueChange = { newText -> currentOnTextChange(newText) },
+                enabled = isEnabled,
+                modifier = Modifier
+                    .border(
+                        width = 1.dp,
+                        color = if (isFocused.value && textFieldOutlineColor == colors.GRAY100) colors.MAIN else textFieldOutlineColor,
+                        shape = RoundedCornerShape(size = 8.dp)
+                    )
+                    .height(54.dp)
+                    .fillMaxWidth()
+                    .background(
+                        color = if (isEnabled) colors.WHITE else colors.GRAY100,
+                        shape = RoundedCornerShape(size = 8.dp)
+                    )
+                    .padding(
+                        start = 16.dp,
+                        top = 16.dp,
+                        end = 16.dp,
+                        bottom = 16.dp
+                    )
+                    .focusRequester(focusRequester)
+                    .onFocusChanged { focusState ->
+                        isFocused.value = focusState.isFocused
+                    },
+                visualTransformation = visualTransformation,
+                decorationBox = { innerTextField ->
+                    Column(
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        if (textState.isEmpty()) {
+                            Text(
+                                text = textFieldInfo,
+                                color = if (textState.isEmpty()) colors.GRAY2 else colors.Black,
+                                style = typography.bodySmall,
+                            )
+                        }
+                    }
+                    innerTextField()
+                }
+            )
+
+            Text(
+                text = supportText,
+                color = if (isError) colors.ERROR else colors.MAIN,
+                style = typography.label,
+                modifier = if (!isError) Modifier
+                    .align(Alignment.End)
+                    .clickableSingle(
+                        enabled = supportTextClick,
+                        onClick = onClickSupportText
+                    ) else Modifier
+            )
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun JDSTextFieldPreview() {
-    JusiCoolAndroidTheme { colors, typography ->
+    JusiCoolAndroidTheme { colors, _ ->
         val (textState, onTextChange) = remember { mutableStateOf("") }
 
         Column {
