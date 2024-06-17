@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.rememberSwipeableState
+import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -21,23 +25,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.ExperimentalWearMaterialApi
-import androidx.wear.compose.material.FractionalThreshold
-import androidx.wear.compose.material.rememberSwipeableState
-import androidx.wear.compose.material.swipeable
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalWearMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun JDSToggleButton(
     modifier: Modifier = Modifier,
@@ -47,7 +46,7 @@ fun JDSToggleButton(
     onClick: () -> Unit,
     setIsSelected: (Boolean) -> Unit,
 ) {
-    JusiCoolAndroidTheme { colors, typography ->
+    JusiCoolAndroidTheme { colors, _ ->
         val sizePx = with(LocalDensity.current) { (width - height).toPx() }
         val anchors = mapOf(0f to 0, sizePx to 1)
         val coroutineScope = rememberCoroutineScope()
