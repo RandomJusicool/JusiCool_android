@@ -43,8 +43,8 @@ fun JDSButton(
             colors = ButtonDefaults.buttonColors(
                 containerColor = colors.MAIN,
                 contentColor = colors.WHITE,
-                disabledContainerColor = colors.GRAY600,
-                disabledContentColor = colors.GRAY300
+                disabledContainerColor = colors.GRAY300,
+                disabledContentColor = colors.GRAY600
             ),
             contentPadding = PaddingValues(vertical = 16.dp),
             shape = RoundedCornerShape(12.dp),
