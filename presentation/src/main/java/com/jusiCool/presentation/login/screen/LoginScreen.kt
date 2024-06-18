@@ -83,7 +83,6 @@ internal fun LoginScreen(
       JusiCoolAndroidTheme { colors, typography ->
          val emailTextState = remember { mutableStateOf("") }
          val passwordTextState = remember { mutableStateOf("") }
-         var isTextStatus = ""
 
          Column(
             modifier = modifier
