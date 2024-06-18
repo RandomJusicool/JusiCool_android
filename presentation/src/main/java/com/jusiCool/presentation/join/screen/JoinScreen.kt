@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.example.design_system.component.button.ButtonState
 import com.example.design_system.component.button.JDSButton
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.component.modifier.padding.paddingHorizontal
@@ -132,7 +133,7 @@ fun JoinScreen(
                                 .fillMaxWidth()
                                 .height(53.dp),
                             text = "다음",
-                            enabled = nameTextState.isNotEmpty(),
+                            state = if (nameTextState.isNotEmpty()) ButtonState.Enable else ButtonState.Disable,
                             onClick = {
                                 coroutine.launch {
                                     pagerState.animateScrollToPage(1)
@@ -183,7 +184,7 @@ fun JoinScreen(
                                 .fillMaxWidth()
                                 .height(53.dp),
                             text = "다음",
-                            enabled = nameTextState.isNotEmpty(),
+                            state = if (nameTextState.isNotEmpty()) ButtonState.Enable else ButtonState.Disable,
                             onClick = {
                                 if (!authenticationCodeIsSent) {
                                     setAuthenticationCodeIsSent(true)
@@ -235,7 +236,7 @@ fun JoinScreen(
                                 .fillMaxWidth()
                                 .height(53.dp),
                             text = "시작하기",
-                            enabled = nameTextState.isNotEmpty(),
+                            state = if (nameTextState.isNotEmpty()) ButtonState.Enable else ButtonState.Disable,
                             onClick = { if (passWordTextState == rePassWordTextState) navigateToMain() },
                         )
                     }
