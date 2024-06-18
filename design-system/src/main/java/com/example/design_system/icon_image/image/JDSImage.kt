@@ -43,9 +43,18 @@ fun CommunityFloatButtonImage(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun GraphImage(modifier: Modifier = Modifier) {
+fun GraphFloatButtonImage(modifier: Modifier = Modifier) {
     Image(
         painter = painterResource(id = R.drawable.chat_float_button_image),
+        contentDescription = null,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun GraphImage(modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.graph_image),
         contentDescription = null,
         modifier = modifier,
     )

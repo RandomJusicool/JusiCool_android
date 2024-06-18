@@ -7,12 +7,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.jusiCool.presentation.splash.screen.splashRoute
 
 @Composable
 fun JusiCool_Android_NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "startDestination",
+    startDestination: String = "splashRoute",
 ) {
     NavHost(
         modifier = modifier,
@@ -23,6 +24,6 @@ fun JusiCool_Android_NavHost(
         popExitTransition = { ExitTransition.None },
         startDestination = startDestination
     ) {
-
+        splashRoute()
     }
 }
