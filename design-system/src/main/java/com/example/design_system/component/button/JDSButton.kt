@@ -115,13 +115,18 @@ fun JDSRedColorOutLineButton(
 @Composable
 fun JDSButtonPreview() {
     Column(
-        modifier = Modifier.height(200.dp),
+        modifier = Modifier.height(300.dp),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         JDSButton(
             text = "o0뀨0o",
             modifier = Modifier.fillMaxWidth()
         ) {}
+        JDSButton(
+            text = "o0뀨0o",
+            modifier = Modifier.fillMaxWidth(),
+            state = ButtonState.Disable
+            ) {}
         JDSMainColorOutLineButton(
             text = "o0뀨0o",
             modifier = Modifier.fillMaxWidth()
