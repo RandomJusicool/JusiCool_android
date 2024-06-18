@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
 
 @Composable
@@ -25,5 +26,10 @@ fun JusiCool_Android_NavHost(
         startDestination = startDestination
     ) {
         splashRoute()
+
+        joinRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToMain = { /* TODO: */ }
+        )
     }
 }
