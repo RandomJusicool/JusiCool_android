@@ -33,5 +33,6 @@ object ProjectProperties {
         const val DOMAIN = "com.jusiCool.domain"
         const val DATA = "com.jusiCool.data"
         const val APP = "com.jusiCool.jusicool_android"
+        const val DESIGN_SYSTEM = "com.example.design_system"
     }
 }
