@@ -132,7 +132,7 @@ fun JoinScreen(
                                 .fillMaxWidth()
                                 .height(53.dp),
                             text = "다음",
-                            enabled = nameTextState.isEmpty(),
+                            enabled = nameTextState.isNotEmpty(),
                             onClick = {
                                 coroutine.launch {
                                     pagerState.animateScrollToPage(1)
@@ -183,7 +183,7 @@ fun JoinScreen(
                                 .fillMaxWidth()
                                 .height(53.dp),
                             text = "다음",
-                            enabled = nameTextState.isEmpty(),
+                            enabled = nameTextState.isNotEmpty(),
                             onClick = {
                                 if (!authenticationCodeIsSent) {
                                     setAuthenticationCodeIsSent(true)
@@ -235,7 +235,7 @@ fun JoinScreen(
                                 .fillMaxWidth()
                                 .height(53.dp),
                             text = "시작하기",
-                            enabled = nameTextState.isEmpty(),
+                            enabled = nameTextState.isNotEmpty(),
                             onClick = { if (passWordTextState == rePassWordTextState) navigateToMain() },
                         )
                     }
