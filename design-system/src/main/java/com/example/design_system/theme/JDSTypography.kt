@@ -87,4 +87,22 @@ object JDSTypography {
         fontWeight = FontWeight.Normal,
         textAlign = TextAlign.Center,
     )
+
+    @Stable
+    val Regular = TextStyle(
+        fontFamily = pretendard,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        fontWeight = FontWeight.Normal,
+        textAlign = TextAlign.Center
+    )
+
+    @Stable
+    val RegularM = TextStyle(
+        fontFamily = pretendard,
+        fontSize = 16.sp,
+        lineHeight = 22.sp,
+        fontWeight = FontWeight.Normal,
+        textAlign = TextAlign.Center
+    )
 }
