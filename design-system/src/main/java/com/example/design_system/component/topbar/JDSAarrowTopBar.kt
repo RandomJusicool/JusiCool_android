@@ -27,7 +27,6 @@ fun JDSArrowTopBar(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
                 .fillMaxWidth()
-                .height(56.dp)
                 .padding(
                     horizontal = 24.dp,
                     vertical = 16.dp
