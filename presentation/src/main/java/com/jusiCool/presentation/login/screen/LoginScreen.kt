@@ -40,13 +40,13 @@ fun NavController.navigationToLogin() {
 }
 
 fun NavGraphBuilder.loginRoute(
-   navigateToSignUp: () -> Unit,
+   navigateToJoin: () -> Unit,
    navigateToLogin: () -> Unit,
    navigateToFindPassword: () -> Unit,
 ) {
    composable(route = loginRoute) {
       LoginRoute(
-         navigateToSignUp = navigateToSignUp,
+         navigateToJoin = navigateToJoin,
          navigateToLogin = navigateToLogin,
          navigateToFindPassword = navigateToFindPassword
       )
@@ -56,7 +56,7 @@ fun NavGraphBuilder.loginRoute(
 @Composable
 internal fun LoginRoute(
    modifier: Modifier = Modifier,
-   navigateToSignUp: () -> Unit,
+   navigateToJoin: () -> Unit,
    navigateToLogin: () -> Unit,
    navigateToFindPassword: () -> Unit, // 디자인 적용후 사용예정
 ) {
@@ -65,7 +65,7 @@ internal fun LoginRoute(
    LoginScreen(
       modifier = modifier,
       focusManager = focusManager,
-      navigateToSignUp = navigateToSignUp,
+      navigateToJoin = navigateToJoin,
       navigateToLogin = { email, password -> }, // 추후 viewmodel 개발후 통신 예정
       navigateToFindPassword = navigateToFindPassword,
    )
@@ -75,7 +75,7 @@ internal fun LoginRoute(
 internal fun LoginScreen(
    modifier: Modifier = Modifier,
    focusManager: FocusManager,
-   navigateToSignUp: () -> Unit,
+   navigateToJoin: () -> Unit,
    navigateToLogin: (String, String) -> Unit = { _ ,_ -> },
    navigateToFindPassword: () -> Unit,
 ) {
@@ -147,7 +147,7 @@ internal fun LoginScreen(
                Text(
                   modifier = Modifier
                      .fillMaxWidth()
-                     .clickableSingle { navigateToSignUp() },
+                     .clickableSingle { navigateToJoin() },
                   text = "회원가입",
                   style = typography.RegularM,
                   color = colors.MAIN,
@@ -162,7 +162,7 @@ internal fun LoginScreen(
 @Composable
 private fun LoginScreenPre() {
    LoginRoute(
-      navigateToSignUp = { /*TODO*/ },
+      navigateToJoin = { /*TODO*/ },
       navigateToLogin = { /*TODO*/ }
    ) {}
 }
