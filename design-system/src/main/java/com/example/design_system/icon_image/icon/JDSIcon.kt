@@ -43,3 +43,12 @@ fun SearchIcon(modifier: Modifier = Modifier) {
         modifier = modifier.size(24.dp),
     )
 }
+
+@Composable
+fun RightChevronIcon(modifier: Modifier = Modifier) {
+    Icon(
+        painter = painterResource(id = R.drawable.right_chevron_icon),
+        contentDescription = null,
+        modifier = modifier.size(24.dp),
+    )
+}
