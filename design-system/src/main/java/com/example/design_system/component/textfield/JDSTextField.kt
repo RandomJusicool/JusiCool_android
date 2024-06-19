@@ -110,7 +110,6 @@ fun JDSTextField(
                     innerTextField()
                 }
             )
-
             Text(
                 text = helperText,
                 color = if (isError) colors.ERROR else colors.MAIN,
@@ -125,6 +124,7 @@ fun JDSTextField(
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
