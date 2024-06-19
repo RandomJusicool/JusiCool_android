@@ -83,6 +83,7 @@ internal fun LoginScreen(
       JusiCoolAndroidTheme { colors, typography ->
          val emailTextState = remember { mutableStateOf("") }
          val passwordTextState = remember { mutableStateOf("") }
+         var isTextStatus = ""
 
          Column(
             modifier = modifier
@@ -107,18 +108,18 @@ internal fun LoginScreen(
                modifier = Modifier.padding(horizontal = 24.dp),
                label = "이메일",
                textFieldInfo = "아이디를 입력해주세요",
-               textState = "",
+               textState = isTextStatus,
                textFieldOutlineColor = colors.GRAY100,
-               onTextChange = {}
+               onTextChange = { emailTextState.value = it }
             )
             Spacer(modifier = Modifier.height(4.dp))
             JDSTextField(
                modifier = Modifier.padding(horizontal = 24.dp),
                label = "비밀번호",
                textFieldInfo = "비빌번호를 입력해주세요",
-               textState = "",
+               textState = isTextStatus,
                textFieldOutlineColor = colors.GRAY100,
-               onTextChange = {}
+               onTextChange = { passwordTextState.value = it }
             )
             Spacer(modifier = Modifier.weight(1f))
             Column(
