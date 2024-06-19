@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 abstract class ColorTheme {
     abstract val MAIN: Color
+    abstract val MAIN200:Color
     abstract val Black: Color
     abstract val WHITE: Color
 
