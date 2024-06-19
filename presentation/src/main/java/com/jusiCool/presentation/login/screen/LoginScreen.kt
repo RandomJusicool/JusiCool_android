@@ -40,15 +40,15 @@ fun NavController.navigationToLogin() {
 }
 
 fun NavGraphBuilder.loginRoute(
-   signUpClicked: () -> Unit,
-   loginClicked: () -> Unit,
-   findPassword: () -> Unit
+   navigateToSignUp: () -> Unit,
+   navigateToLogin: () -> Unit,
+   navigateToFindPassword: () -> Unit,
 ) {
    composable(route = loginRoute) {
       LoginRoute(
-         signUpClicked = signUpClicked,
-         loginClicked = loginClicked,
-         findPassword = findPassword
+         navigateToSignUp = navigateToSignUp,
+         navigateToLogin = navigateToLogin,
+         navigateToFindPassword = navigateToFindPassword
       )
    }
 }
@@ -56,18 +56,18 @@ fun NavGraphBuilder.loginRoute(
 @Composable
 internal fun LoginRoute(
    modifier: Modifier = Modifier,
-   signUpClicked: () -> Unit,
-   loginClicked: () -> Unit, // 디자인 적용후 사용예정
-   findPassword: () -> Unit,
+   navigateToSignUp: () -> Unit,
+   navigateToLogin: () -> Unit,
+   navigateToFindPassword: () -> Unit, // 디자인 적용후 사용예정
 ) {
    val focusManager = LocalFocusManager.current
    
    LoginScreen(
       modifier = modifier,
       focusManager = focusManager,
-      signUpClicked = signUpClicked,
-      loginClicked = { email, password -> }, // 추후 viewmodel 개발후 통신 예정
-      findPassword = findPassword,
+      navigateToSignUp = navigateToSignUp,
+      navigateToLogin = { email, password -> }, // 추후 viewmodel 개발후 통신 예정
+      navigateToFindPassword = navigateToFindPassword,
    )
 }
 
@@ -75,9 +75,9 @@ internal fun LoginRoute(
 internal fun LoginScreen(
    modifier: Modifier = Modifier,
    focusManager: FocusManager,
-   signUpClicked: () -> Unit,
-   loginClicked: (String, String) -> Unit = { _ ,_ -> },
-   findPassword: () -> Unit,
+   navigateToSignUp: () -> Unit,
+   navigateToLogin: (String, String) -> Unit = { _ ,_ -> },
+   navigateToFindPassword: () -> Unit,
 ) {
    CompositionLocalProvider(LocalFocusManager provides focusManager) {
       JusiCoolAndroidTheme { colors, typography ->
@@ -123,7 +123,10 @@ internal fun LoginScreen(
             Spacer(modifier = Modifier.weight(1f))
             Column(
                modifier = Modifier
-                  .paddingHorizontal(horizontal = 24.dp, bottom = 82.dp)
+                  .paddingHorizontal(
+                     horizontal = 24.dp,
+                     bottom = 82.dp
+                  )
             ) {
                JDSButton(
                   modifier = Modifier
@@ -131,7 +134,7 @@ internal fun LoginScreen(
                      .height(54.dp),
                   text = "확인",
                   state = if (emailTextState.value.checkEmailRegex() && passwordTextState.value.checkPasswordRegex()) ButtonState.Enable else ButtonState.Disable,
-                  onClick = { loginClicked(emailTextState.value, passwordTextState.value) }
+                  onClick = { navigateToLogin(emailTextState.value, passwordTextState.value) }
                )
                Spacer(modifier = Modifier.height(4.dp))
                Text(
@@ -144,9 +147,7 @@ internal fun LoginScreen(
                Text(
                   modifier = Modifier
                      .fillMaxWidth()
-                     .clickableSingle {
-                        signUpClicked()
-                     },
+                     .clickableSingle { navigateToSignUp() },
                   text = "회원가입",
                   style = typography.RegularM,
                   color = colors.MAIN,
@@ -161,7 +162,7 @@ internal fun LoginScreen(
 @Composable
 private fun LoginScreenPre() {
    LoginRoute(
-      signUpClicked = { /*TODO*/ },
-      loginClicked = { /*TODO*/ }
+      navigateToSignUp = { /*TODO*/ },
+      navigateToLogin = { /*TODO*/ }
    ) {}
 }
