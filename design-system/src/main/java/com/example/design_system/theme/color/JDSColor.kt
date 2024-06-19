@@ -2,8 +2,9 @@ package com.example.design_system.theme.color
 
 import androidx.compose.ui.graphics.Color
 
-object JDSColor: ColorTheme() {
+object JDSColor : ColorTheme() {
     override val MAIN = Color(0xFF2756F1)
+    override val MAIN200 = Color(0xFFA8BCFA)
     override val Black = Color(0xFF000000)
     override val WHITE = Color(0xFFFFFFFF)
 
