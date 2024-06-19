@@ -81,9 +81,8 @@ internal fun LoginScreen(
 ) {
    CompositionLocalProvider(LocalFocusManager provides focusManager) {
       JusiCoolAndroidTheme { colors, typography ->
-         val emailTextState = remember { mutableStateOf("") }
-         val passwordTextState = remember { mutableStateOf("") }
-         var isTextStatus = ""
+         val (emailTextState, onChangeEmail) = remember { mutableStateOf("") }
+         val (passwordTextState, onChangePassword) = remember { mutableStateOf("") }
 
          Column(
             modifier = modifier
@@ -95,7 +94,10 @@ internal fun LoginScreen(
                   }
                }
          ) {
-            LogoImage(modifier = modifier.padding(start = 24.dp, top = 60.dp))
+            LogoImage(modifier = modifier.padding(
+               start = 24.dp,
+               top = 60.dp)
+            )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                modifier = Modifier.padding(start = 26.dp),
@@ -106,20 +108,18 @@ internal fun LoginScreen(
             Spacer(modifier = Modifier.padding(top = 58.dp))
             JDSTextField(
                modifier = Modifier.padding(horizontal = 24.dp),
+               textState = emailTextState,
+               placeHolder = "아이디를 입력해주세요",
                label = "이메일",
-               textFieldInfo = "아이디를 입력해주세요",
-               textState = isTextStatus,
-               textFieldOutlineColor = colors.GRAY100,
-               onTextChange = { emailTextState.value = it }
+               onTextChange = onChangeEmail
             )
             Spacer(modifier = Modifier.height(4.dp))
             JDSTextField(
                modifier = Modifier.padding(horizontal = 24.dp),
+               textState = passwordTextState,
+               placeHolder = "비밀번호를 입력해주세요",
                label = "비밀번호",
-               textFieldInfo = "비빌번호를 입력해주세요",
-               textState = isTextStatus,
-               textFieldOutlineColor = colors.GRAY100,
-               onTextChange = { passwordTextState.value = it }
+               onTextChange = onChangePassword
             )
             Spacer(modifier = Modifier.weight(1f))
             Column(
@@ -134,8 +134,8 @@ internal fun LoginScreen(
                      .fillMaxWidth()
                      .height(54.dp),
                   text = "확인",
-                  state = if (emailTextState.value.checkEmailRegex() && passwordTextState.value.checkPasswordRegex()) ButtonState.Enable else ButtonState.Disable,
-                  onClick = { navigateToLogin(emailTextState.value, passwordTextState.value) }
+                  state = if (emailTextState.checkEmailRegex() && passwordTextState.checkPasswordRegex()) ButtonState.Enable else ButtonState.Disable,
+                  onClick = { navigateToLogin(emailTextState, passwordTextState) }
                )
                Spacer(modifier = Modifier.height(4.dp))
                Text(
