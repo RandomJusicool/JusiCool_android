@@ -62,10 +62,14 @@ fun SearchIcon(
 }
 
 @Composable
-fun RightChevronIcon(modifier: Modifier = Modifier) {
+fun RightChevronIcon(
+    modifier: Modifier = Modifier,
+    tint: Color = Color.Unspecified
+) {
     Icon(
         painter = painterResource(id = R.drawable.right_chevron_icon),
         contentDescription = null,
         modifier = modifier.size(24.dp),
+        tint = tint
     )
 }
