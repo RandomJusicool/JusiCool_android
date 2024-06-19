@@ -27,11 +27,11 @@ fun JusiCool_Android_NavHost(
         startDestination = startDestination
     ) {
         splashRoute()
-
+        
         loginRoute(
-            signUpClicked = { TODO() },
-            loginClicked = { TODO() },
-            findPassword = { TODO() }
+            navigateToFindPassword = { TODO() },
+            navigateToLogin = { TODO() },
+            navigateToSignUp = { TODO() }
         )
 
         joinRoute(
