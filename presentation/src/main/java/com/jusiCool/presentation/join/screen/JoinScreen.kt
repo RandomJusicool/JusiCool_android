@@ -122,9 +122,8 @@ fun JoinScreen(
                         Spacer(modifier = Modifier.fillMaxHeight(0.0552f))
                         JDSTextField(
                             label = "이름",
-                            textFieldInfo = "실명을 적어주세요",
+                            placeHolder = "실명을 적어주세요",
                             textState = nameTextState,
-                            textFieldOutlineColor = JDSColor.Black,
                             onTextChange = setNameTextState,
                         )
                         Spacer(modifier = Modifier.weight(1f))
@@ -163,17 +162,15 @@ fun JoinScreen(
                         Column {
                             JDSTextField(
                                 label = "이메일",
-                                textFieldInfo = "이메일을 적어주세요",
+                                placeHolder = "이메일을 적어주세요",
                                 textState = emailTextState,
-                                textFieldOutlineColor = JDSColor.Black,
                                 onTextChange = setEmailTextState,
                             )
                             if (authenticationCodeIsSent) {
                                 JDSTextField(
                                     label = "인증번호",
-                                    textFieldInfo = "인증번호를 입력해주세요",
+                                    placeHolder = "인증번호를 입력해주세요",
                                     textState = authenticationCodeTextState,
-                                    textFieldOutlineColor = JDSColor.Black,
                                     onTextChange = setAuthenticationCodeTextState,
                                 )
                             }
@@ -217,16 +214,14 @@ fun JoinScreen(
                         Column {
                             JDSTextField(
                                 label = "비밀번호",
-                                textFieldInfo = "비밀번호를 입력해주세요",
+                                placeHolder = "비밀번호를 입력해주세요",
                                 textState = passWordTextState,
-                                textFieldOutlineColor = JDSColor.Black,
                                 onTextChange = setPassWordTextState,
                             )
                             JDSTextField(
                                 label = "비밀번호 재입력",
-                                textFieldInfo = "비밀번호를 다시 입력해주세요",
+                                placeHolder = "비밀번호를 다시 입력해주세요",
                                 textState = rePassWordTextState,
-                                textFieldOutlineColor = JDSColor.Black,
                                 onTextChange = setRePassWordTextState,
                             )
                         }
