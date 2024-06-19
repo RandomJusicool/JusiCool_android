@@ -59,4 +59,8 @@ dependencies {
     implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
 
     implementation(Dependency.DataStore.PREFERENCES)
+
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation ("com.squareup.moshi:moshi-kotlin:1.12.0")
+    ksp("com.squareup.retrofit2:moshi-kotlin-codegen:1.12.0")
 }
