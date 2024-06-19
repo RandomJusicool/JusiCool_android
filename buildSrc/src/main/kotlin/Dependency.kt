@@ -73,4 +73,10 @@ object Dependency {
     object DataStore {
         const val PREFERENCES = "androidx.datastore:datastore-preferences:${Versions.PREFERENCES}"
     }
+
+    object Moshi {
+        const val MOSHI = "com.squareup.retrofit2:converter-moshi:${Versions.MOSHI}"
+        const val RETROFIT_MOSHI_CONVERTER = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI_CONVERTER}"
+        const val RETROFIT_MOSHI_CODEGEN = "com.squareup.retrofit2:moshi-kotlin-codegen:${Versions.MOSHI}"
+    }
 }
