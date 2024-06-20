@@ -43,7 +43,7 @@ fun JDSToggleButton(
     height: Dp,
     width: Dp,
     isSelected: Boolean,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
     setIsSelected: (Boolean) -> Unit,
 ) {
     JusiCoolAndroidTheme { colors, _ ->
