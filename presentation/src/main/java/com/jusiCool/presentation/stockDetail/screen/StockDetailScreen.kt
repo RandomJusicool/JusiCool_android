@@ -119,7 +119,7 @@ fun StockDetailScreen(
             Column(
                 verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(vertical = 32.dp)
+                modifier = Modifier.padding(vertical = 32.dp, horizontal = 24.dp)
             ) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
@@ -144,23 +144,27 @@ fun StockDetailScreen(
                 ) {
                     if (isSellBottomSheet) {
                         JDSOutlinedButton(
+                            modifier = Modifier.fillMaxWidth(),
                             text = "현재가 구매 하기",
                             outLineColor = JDSColor.MAIN,
                             onClick = navigateToStockBuying
                         )
                         JDSOutlinedButton(
+                            modifier = Modifier.fillMaxWidth(),
                             text = "예약 구매 하기",
                             outLineColor = JDSColor.MAIN,
                             onClick = navigateToStockBuying
                         )
                     } else {
                         JDSOutlinedButton(
+                            modifier = Modifier.fillMaxWidth(),
                             text = "현재가 판매 하기",
                             textColor = JDSColor.ERROR,
                             outLineColor = JDSColor.ERROR,
                             onClick = navigateToStockSell
                         )
                         JDSOutlinedButton(
+                            modifier = Modifier.fillMaxWidth(),
                             text = "예약 판매 하기",
                             textColor = JDSColor.ERROR,
                             outLineColor = JDSColor.ERROR,
