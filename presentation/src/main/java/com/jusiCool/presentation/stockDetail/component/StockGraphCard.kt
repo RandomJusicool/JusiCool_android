@@ -38,29 +38,21 @@ fun StockGraphCard(
     toggleOnClick: () -> Unit,
     setWhichTimeSegmentSelected: (TimeSegment) -> Unit,
 ) {
-    val (isToggleSelected, setIsToggleSelected) = remember { mutableStateOf(false) }
-
+    val (isToggleSelected, setIsToggleSelected) = remember {
+        mutableStateOf(false)
+    }
     Column(
+        verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
+        horizontalAlignment = Alignment.Start,
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = JDSColor.WHITE,
-                shape = RoundedCornerShape(size = 12.dp)
-            )
-            .padding(
-                vertical = 20.dp,
-                horizontal = 16.dp
-            ),
-        verticalArrangement = Arrangement.spacedBy(
-            20.dp,
-            Alignment.Top
-        ),
-        horizontalAlignment = Alignment.Start,
+            .background(color = JDSColor.WHITE, shape = RoundedCornerShape(size = 12.dp))
+            .padding(vertical = 20.dp, horizontal = 16.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "차트",
@@ -68,10 +60,7 @@ fun StockGraphCard(
                 color = JDSColor.Black
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    8.dp,
-                    Alignment.CenterHorizontally
-                ),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
@@ -89,16 +78,13 @@ fun StockGraphCard(
             }
         }
         Column(
-            verticalArrangement = Arrangement.spacedBy(
-                12.dp,
-                Alignment.Top
-            ),
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
             horizontalAlignment = Alignment.Start,
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Top,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 TimeSegment.values().forEach {
                     ChartTimeSegmentItem(
@@ -130,38 +116,6 @@ fun StockGraphCard(
     }
 }
 
-@Composable
-fun ChartTimeSegmentItem(
-    modifier: Modifier = Modifier,
-    text: String,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .clickableSingle { onClick() }
-            .border(
-                width = 1.dp,
-                color = if (isSelected) JDSColor.MAIN
-                else JDSColor.GRAY200,
-                shape = RoundedCornerShape(size = 12.dp)
-            )
-            .padding(
-                horizontal = 12.dp,
-                vertical = 6.dp
-            )
-    ) {
-        Text(
-            text = text,
-            style = JDSTypography.label,
-            color = if (isSelected) JDSColor.MAIN
-            else JDSColor.GRAY400
-        )
-    }
-}
-
 @Preview
 @Composable
 fun StockGraphCardPreview() {
@@ -176,6 +130,33 @@ fun StockGraphCardPreview() {
         setWhichTimeSegmentSelected = setWhichTimeSegmentSelected,
         toggleOnClick = {}
     )
+}
+
+@Composable
+fun ChartTimeSegmentItem(
+    modifier: Modifier = Modifier,
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .clickableSingle { onClick() }
+            .border(
+                width = 1.dp,
+                color = if (isSelected) JDSColor.MAIN else JDSColor.GRAY200,
+                shape = RoundedCornerShape(size = 12.dp)
+            )
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+    ) {
+        Text(
+            text = text,
+            style = JDSTypography.label,
+            color = if (isSelected) JDSColor.MAIN else JDSColor.GRAY400
+        )
+    }
 }
 
 @Preview
