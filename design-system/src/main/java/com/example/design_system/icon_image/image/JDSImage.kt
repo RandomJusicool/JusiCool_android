@@ -88,7 +88,7 @@ fun SendImage(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SpEEchBubbleImage(modifier: Modifier = Modifier) {
+fun SpeechBubbleImage(modifier: Modifier = Modifier) {
     Image(
         painter = painterResource(id = R.drawable.speech_bubble_image),
         contentDescription = null,
