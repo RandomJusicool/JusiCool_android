@@ -16,18 +16,18 @@ import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.presentation.communityList.component.CommunityMainList
 
-const val communityRoute = "communityRoute"
+const val communityMainRoute = "communityRoute"
 
-fun NavController.navigateToCommunity() {
-    this.navigate(communityRoute)
+fun NavController.navigateToMainCommunity() {
+    this.navigate(communityMainRoute)
 }
 
-fun NavGraphBuilder.communityRoute(
+fun NavGraphBuilder.communityMainRoute(
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit
 ) {
-    composable(route = communityRoute) {
-        CommunityRoute(
+    composable(route = communityMainRoute) {
+        CommunityMainRoute(
             popUpBackStack = popUpBackStack,
             navigateToCommunity = navigateToCommunity
         )
@@ -35,12 +35,12 @@ fun NavGraphBuilder.communityRoute(
 }
 
 @Composable
-internal fun CommunityRoute(
+internal fun CommunityMainRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit
 ) {
-    CommunityScreen(
+    CommunityMainScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
         navigateToCommunity = navigateToCommunity
@@ -48,7 +48,7 @@ internal fun CommunityRoute(
 }
 
 @Composable
-internal fun CommunityScreen(
+internal fun CommunityMainScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit,
@@ -80,8 +80,8 @@ internal fun CommunityScreen(
 
 @Preview
 @Composable
-private fun CommunityScreenPre() {
-    CommunityRoute(popUpBackStack = { /*TODO*/ }) {
+private fun CommunityMainScreenPre() {
+    CommunityMainRoute(popUpBackStack = { /*TODO*/ }) {
         
     }
 }

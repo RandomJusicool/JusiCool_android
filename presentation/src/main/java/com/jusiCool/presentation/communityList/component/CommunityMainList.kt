@@ -17,22 +17,19 @@ import kotlinx.collections.immutable.persistentListOf
 fun CommunityMainList(
     modifier: Modifier = Modifier,
     data: ImmutableList<TemList> = persistentListOf(),
-    navigateToDetailCommunity: () -> Unit
+    navigateToCommunity: () -> Unit
 ) {
     JusiCoolAndroidTheme { colors, _ ->
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
                 .background(color = colors.GRAY50)
-                .padding(
-                    horizontal = 24.dp,
-                    vertical = 8.dp
-                )
+                .padding(horizontal = 24.dp)
         ) {
             itemsIndexed(data) {_, item ->
                 CommunityMainListItem(
                     data = item,
-                    onClick = navigateToDetailCommunity
+                    onClick = navigateToCommunity
                 )
             }
         }
