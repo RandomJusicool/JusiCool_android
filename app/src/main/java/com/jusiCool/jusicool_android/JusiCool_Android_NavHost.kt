@@ -12,6 +12,7 @@ import com.jusiCool.presentation.communityList.screen.communityMainRoute
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.login.screen.loginRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
+import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
 
 @Composable
 fun JusiCool_Android_NavHost(
@@ -26,19 +27,25 @@ fun JusiCool_Android_NavHost(
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None },
-        startDestination = startDestination
+        startDestination = startDestination,
     ) {
         splashRoute()
 
         loginRoute(
             navigateToFindPassword = { TODO() },
             navigateToLogin = { TODO() },
-            navigateToJoin = { TODO() }
+            navigateToJoin = { TODO() },
+        )
+
+        stockDetailRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToStockBuying = { TODO() },
+            navigateToStockSell = { TODO() },
         )
 
         joinRoute(
             popUpBackStack = navController::popBackStack,
-            navigateToMain = { /* TODO: */ }
+            navigateToMain = { /* TODO: */ },
         )
 
         communityMainRoute(
