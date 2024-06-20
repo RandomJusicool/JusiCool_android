@@ -85,4 +85,6 @@ dependencies {
     implementation(Dependency.Gauth.GAUTH)
 
     implementation(Dependency.Google.SWIPE_REFRESH)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
 }
