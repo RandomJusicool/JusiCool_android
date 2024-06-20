@@ -24,12 +24,12 @@ fun NavController.navigateToCommunity() {
 
 fun NavGraphBuilder.communityRoute(
     popUpBackStack: () -> Unit,
-    navigateToDetailCommunity: () -> Unit
+    navigateToCommunity: () -> Unit
 ) {
     composable(route = communityRoute) {
         CommunityRoute(
             popUpBackStack = popUpBackStack,
-            navigateToDetailCommunity = navigateToDetailCommunity
+            navigateToCommunity = navigateToCommunity
         )
     }
 }
@@ -38,12 +38,12 @@ fun NavGraphBuilder.communityRoute(
 internal fun CommunityRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToDetailCommunity: () -> Unit
+    navigateToCommunity: () -> Unit
 ) {
     CommunityScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        navigateToDetailCommunity = navigateToDetailCommunity
+        navigateToCommunity = navigateToCommunity
     )
 }
 
@@ -51,7 +51,7 @@ internal fun CommunityRoute(
 internal fun CommunityScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToDetailCommunity: () -> Unit,
+    navigateToCommunity: () -> Unit,
     // data: TemList
     ) {
     JusiCoolAndroidTheme { colors, _ ->
@@ -71,7 +71,7 @@ internal fun CommunityScreen(
                 )
                 CommunityMainList(
                     // data = data,
-                    navigateToDetailCommunity = navigateToDetailCommunity
+                    navigateToDetailCommunity = navigateToCommunity
                 )
             }
         }
