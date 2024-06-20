@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.community.screen
+package com.jusiCool.presentation.communityList.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,7 @@ import com.example.design_system.component.modifier.clickableSingle.clickableSin
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
-import com.jusiCool.presentation.community.component.CommunityMainList
+import com.jusiCool.presentation.communityList.component.CommunityMainList
 
 const val communityRoute = "communityRoute"
 

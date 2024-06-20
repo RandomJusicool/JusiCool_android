@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.community.component
+package com.jusiCool.presentation.communityList.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,8 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.theme.JusiCoolAndroidTheme
-import com.jusiCool.presentation.communityList.component.CommunityMainListItem
-import com.jusiCool.presentation.communityList.component.TemList
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
