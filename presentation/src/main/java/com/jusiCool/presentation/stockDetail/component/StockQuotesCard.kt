@@ -27,15 +27,13 @@ data class StockQuotesCardData(
 )
 
 @Composable
-fun StockQuotesCard(modifier: Modifier = Modifier) {
+fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 데이터 받아오기
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
         horizontalAlignment = Alignment.Start,
         modifier = modifier
             .background(color = JDSColor.WHITE, shape = RoundedCornerShape(size = 12.dp))
             .padding(16.dp)
-
-
     ) {
         Text(
             text = "시세",
