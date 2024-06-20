@@ -3,9 +3,11 @@ package com.jusiCool.presentation.stockDetail.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -32,12 +34,13 @@ enum class TimeSegment(val depiction: String) {
 @Composable
 fun StockGraphCard(
     modifier: Modifier = Modifier,
-    isToggleSelected: Boolean,
     whichTimeSegmentSelected: TimeSegment,
     toggleOnClick: () -> Unit,
-    setIsToggleSelected: (Boolean) -> Unit,
     setWhichTimeSegmentSelected: (TimeSegment) -> Unit,
 ) {
+    val (isToggleSelected, setIsToggleSelected) = remember {
+        mutableStateOf(false)
+    }
     Column(
         verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
         horizontalAlignment = Alignment.Start,
@@ -91,13 +94,31 @@ fun StockGraphCard(
                 }
             }
         }
+        if (isToggleSelected) {
+            // TODO: 주식 그래프 추가
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(284.dp)
+            ) {
+                Text(text = "캔들 차트, 캔들 차트, 캔들 차트, 캔들 차트, 캔들 차트, 캔들 차트, 캔들 차트, 캔들 차트, 캔들 차트, 캔들 차트, 캔들 차트, 캔들 차트")
+            }
+        } else {
+            // TODO: 주식 그래프 추가
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(284.dp)
+            ) {
+                Text(text = "선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프")
+            }
+        }
     }
 }
 
 @Preview
 @Composable
 fun StockGraphCardPreview() {
-    val (isToggleSelected, setIsToggleSelected) = remember { mutableStateOf(false) }
     val (whichTimeSegmentSelected, setWhichTimeSegmentSelected) = remember {
         mutableStateOf(
             TimeSegment.ONE_MINUTE
@@ -105,9 +126,7 @@ fun StockGraphCardPreview() {
     }
 
     StockGraphCard(
-        isToggleSelected = isToggleSelected,
         whichTimeSegmentSelected = whichTimeSegmentSelected,
-        setIsToggleSelected = setIsToggleSelected,
         setWhichTimeSegmentSelected = setWhichTimeSegmentSelected,
         toggleOnClick = {}
     )
