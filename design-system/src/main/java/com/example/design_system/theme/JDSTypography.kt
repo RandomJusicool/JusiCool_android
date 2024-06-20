@@ -67,7 +67,6 @@ object JDSTypography {
         fontSize = 16.sp,
         lineHeight = 22.sp,
         fontWeight = FontWeight.SemiBold,
-        textAlign = TextAlign.Center,
     )
 
     @Stable
@@ -85,7 +84,6 @@ object JDSTypography {
         fontSize = 14.sp,
         lineHeight = 18.sp,
         fontWeight = FontWeight.Normal,
-        textAlign = TextAlign.Center,
     )
 
     @Stable
