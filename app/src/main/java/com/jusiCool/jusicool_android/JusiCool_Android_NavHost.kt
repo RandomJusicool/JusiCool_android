@@ -40,6 +40,7 @@ fun JusiCool_Android_NavHost(
             popUpBackStack = navController::popBackStack,
             navigateToStockBuying = { TODO() },
             navigateToStockSell = { TODO() },
+            navigateToCommunity = { TODO() },
         )
 
         joinRoute(
