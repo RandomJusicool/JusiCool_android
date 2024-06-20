@@ -71,7 +71,7 @@ internal fun CommunityScreen(
                 )
                 CommunityMainList(
                     // data = data,
-                    navigateToDetailCommunity = navigateToCommunity
+                    navigateToCommunity = navigateToCommunity
                 )
             }
         }
