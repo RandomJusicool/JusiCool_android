@@ -18,12 +18,14 @@ fun NavGraphBuilder.stockDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
+    navigateToCommunity: () -> Unit,
 ) {
     composable(stockDetail) {
         StockDetailRoute(
             popUpBackStack = popUpBackStack,
             navigateToStockBuying = navigateToStockBuying,
             navigateToStockSell = navigateToStockSell,
+            navigateToCommunity = navigateToCommunity,
         )
     }
 }
@@ -36,12 +38,14 @@ fun StockDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
+    navigateToCommunity: () -> Unit,
 ) {
     StockDetailScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
         navigateToStockBuying = navigateToStockBuying,
         navigateToStockSell = navigateToStockSell,
+        navigateToCommunity = navigateToCommunity,
     )
 }
 
@@ -53,6 +57,7 @@ fun StockDetailScreen(
     popUpBackStack: () -> Unit,
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
+    navigateToCommunity: () -> Unit,
 ) {
 
 }
