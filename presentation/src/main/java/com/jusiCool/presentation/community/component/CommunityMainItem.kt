@@ -29,7 +29,7 @@ fun CommunityMainListItem(
     modifier: Modifier = Modifier,
     data: TemList,
     onClick: () -> Unit
-    ) {
+) {
     JusiCoolAndroidTheme { colors, typography ->
         Spacer(modifier = modifier.height(30.dp))
         Surface(

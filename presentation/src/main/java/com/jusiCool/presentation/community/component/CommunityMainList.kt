@@ -10,11 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.theme.JusiCoolAndroidTheme
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun CommunityMainList(
     modifier: Modifier = Modifier,
-    data: List<TemList> = listOf(),
+    data: ImmutableList<TemList> = persistentListOf(),
     navigateToDetailCommunity: () -> Unit
 ) {
     JusiCoolAndroidTheme { colors, _ ->
