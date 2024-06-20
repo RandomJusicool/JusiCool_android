@@ -29,17 +29,11 @@ data class StockQuotesCardData(
 @Composable
 fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 데이터 받아오기
     Column(
-        modifier = modifier
-            .background(
-                color = JDSColor.WHITE,
-                shape = RoundedCornerShape(size = 12.dp)
-            )
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(
-            12.dp,
-            Alignment.Top
-        ),
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
         horizontalAlignment = Alignment.Start,
+        modifier = modifier
+            .background(color = JDSColor.WHITE, shape = RoundedCornerShape(size = 12.dp))
+            .padding(16.dp)
     ) {
         Text(
             text = "시세",
@@ -47,10 +41,7 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
             color = JDSColor.Black
         )
         Column(
-            verticalArrangement = Arrangement.spacedBy(
-                20.dp,
-                Alignment.Top
-            ),
+            verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             PriceBoundsChart(
@@ -70,24 +61,21 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
                 )
             )
             Row(
+                horizontalArrangement = Arrangement.spacedBy(11.5.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp),
-                horizontalArrangement = Arrangement.spacedBy(
-                    11.5.dp,
-                    Alignment.CenterHorizontally
-                ),
-                verticalAlignment = Alignment.CenterVertically,
+                    .height(70.dp)
             ) {
                 Column(
-                    modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.weight(1f)
                 ) {
                     Row(
-                        modifier = Modifier.weight(1f),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             text = "시작가",
@@ -102,9 +90,9 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
                         )
                     }
                     Row(
-                        modifier = Modifier.weight(1f),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             text = "종가",
@@ -129,14 +117,14 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
                         )
                 )
                 Column(
-                    modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.weight(1f)
                 ) {
                     Row(
-                        modifier = Modifier.weight(1f),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             text = "거래량",
@@ -151,9 +139,9 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
                         )
                     }
                     Row(
-                        modifier = Modifier.weight(1f),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             text = "거래대금",
@@ -172,6 +160,12 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun StockQuotesCardPreview() {
+    StockQuotesCard()
 }
 
 @Composable
@@ -193,29 +187,22 @@ fun PriceBoundsChart(
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    4.dp,
-                    Alignment.Start
-                ),
+                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth(
-                            0.6f.times(
-                                stockQuotesCardData.min
-                                    .minus(stockQuotesCardData.min / 3)
-                                        / stockQuotesCardData.max
-                                    .minus(stockQuotesCardData.max / 3)
-                            )
+                            0.6f
+                                    * stockQuotesCardData.min
+                                .minus(stockQuotesCardData.min / 2)
+                                    / stockQuotesCardData.max
+                                .minus(stockQuotesCardData.max / 2)
                         )
                         .height(20.dp)
                         .background(
                             JDSColor.MAIN200,
-                            shape = RoundedCornerShape(
-                                topEnd = 10.dp,
-                                bottomEnd = 10.dp
-                            )
+                            shape = RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp)
                         )
                 )
                 Text(
@@ -225,10 +212,7 @@ fun PriceBoundsChart(
                 )
             }
             Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    4.dp,
-                    Alignment.Start
-                ),
+                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Spacer(
@@ -237,10 +221,7 @@ fun PriceBoundsChart(
                         .height(20.dp)
                         .background(
                             JDSColor.MAIN,
-                            shape = RoundedCornerShape(
-                                topEnd = 10.dp,
-                                bottomEnd = 10.dp
-                            )
+                            shape = RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp)
                         )
                 )
                 Text(
@@ -251,12 +232,6 @@ fun PriceBoundsChart(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun StockQuotesCardPreview() {
-    StockQuotesCard()
 }
 
 @Preview
