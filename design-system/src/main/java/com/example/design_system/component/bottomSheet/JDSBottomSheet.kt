@@ -73,14 +73,16 @@ fun JDSBottomSheetPreview() {
                 JDSButton(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
-                        .fillMaxHeight(0.03f), text = "현재가 구매 하기"
+                        .fillMaxHeight(0.03f),
+                    text = "현재가 구매 하기",
                 ) {}
             },
             secondaryButton = {
                 JDSButton(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
-                        .fillMaxHeight(0.03f), text = "예약 구매 하기"
+                        .fillMaxHeight(0.03f),
+                    text = "예약 구매 하기",
                 ) {}
             }
         )
