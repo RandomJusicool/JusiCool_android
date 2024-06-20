@@ -2,6 +2,12 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CommunityListItemPre">
+        <State />
+      </entry>
+      <entry key="JoinScreenPreview">
+        <State />
+      </entry>
       <entry key="LoginScreenPre">
         <State>
           <targetSelectedWithDropDown>
@@ -15,7 +21,7 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-06-19T03:03:40.569859Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-06-19T06:16:05.160298Z" />
         </State>
       </entry>
       <entry key="app">
