@@ -104,3 +104,12 @@ fun GraphSkeletonImage(modifier: Modifier = Modifier) {
         modifier = modifier,
     )
 }
+
+@Composable
+fun EllipseImage(modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.ellipse_image),
+        contentDescription = null,
+        modifier = modifier,
+    )
+}

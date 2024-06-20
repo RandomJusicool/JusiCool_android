@@ -75,10 +75,14 @@ fun RightChevronIcon(
 }
 
 @Composable
-fun RightChevronIcon(modifier: Modifier = Modifier) {
+fun GraphIcon(
+    modifier: Modifier = Modifier,
+    tint: Color = Color.Unspecified
+) {
     Icon(
-        painter = painterResource(id = R.drawable.right_chevron_icon),
+        painter = painterResource(id = R.drawable.graph_icon),
         contentDescription = null,
         modifier = modifier.size(24.dp),
+        tint = tint
     )
 }

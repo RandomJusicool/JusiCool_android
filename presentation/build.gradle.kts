@@ -85,4 +85,6 @@ dependencies {
     implementation(Dependency.Gauth.GAUTH)
 
     implementation(Dependency.Google.SWIPE_REFRESH)
+
+    implementation("io.coil-kt:coil-compose:1.5.0")
 }

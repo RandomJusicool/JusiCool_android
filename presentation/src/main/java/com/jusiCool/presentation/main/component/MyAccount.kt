@@ -20,7 +20,8 @@ import com.example.design_system.theme.color.JDSColor
 data class MyAccountData(
     val point: Int,
     val revenue: Int,
-    val revenuePercent: Float
+    val revenuePercent: Float,
+    val orderesStockHistory: Int
 )
 
 @Composable
@@ -79,19 +80,19 @@ fun MyAccountPreview() {
         MyAccount(
             modifier = Modifier
                 .width(312.dp),
-            myAccountData = MyAccountData(137871,-5778,4.0f)
+            myAccountData = MyAccountData(137871,-5778,4.0f,6)
         )
 
         MyAccount(
             modifier = Modifier
                 .width(312.dp),
-            myAccountData = MyAccountData(137871,5778,4.0f)
+            myAccountData = MyAccountData(137871,5778,4.0f,6)
         )
 
         MyAccount(
             modifier = Modifier
                 .width(312.dp),
-            myAccountData = MyAccountData(137871,0,0.0f)
+            myAccountData = MyAccountData(137871,0,0.0f,6)
         )
     }
 }
