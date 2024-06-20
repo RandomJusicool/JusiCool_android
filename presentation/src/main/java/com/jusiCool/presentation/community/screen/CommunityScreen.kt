@@ -19,7 +19,6 @@ import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.presentation.community.component.CommunityList
 import com.jusiCool.presentation.community.component.WritingCommunityButton
-import com.jusiCool.presentation.communityList.component.TemList
 
 const val communityRoute = "communityRoute"
 
