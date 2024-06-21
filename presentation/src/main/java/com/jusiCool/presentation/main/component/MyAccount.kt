@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,7 +36,6 @@ fun MyAccount(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(135.dp)
             .background(
                 color = JDSColor.WHITE,
                 shape = RoundedCornerShape(size = 12.dp)
@@ -47,6 +47,8 @@ fun MyAccount(
             color = JDSColor.Black,
             style = JDSTypography.bodyMedium
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
@@ -61,6 +63,8 @@ fun MyAccount(
                 style = JDSTypography.titleMedium
             )
         }
+
+        Spacer(modifier = Modifier.height(4.dp))
 
         Text(
             text = "$formattedRevenue 원 (${myAccountData.revenuePercent}%)",

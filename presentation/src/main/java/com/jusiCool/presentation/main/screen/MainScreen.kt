@@ -27,6 +27,9 @@ import com.jusiCool.presentation.main.component.MyStocks
 import com.jusiCool.presentation.main.component.MyStocksData
 import com.jusiCool.presentation.main.component.PopularNews
 import com.jusiCool.presentation.main.component.SummaryNewsData
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
+import okhttp3.internal.immutableListOf
 
 const val mainRoute = "mainRoute"
 
@@ -39,8 +42,6 @@ fun NavGraphBuilder.mainRoute(
     navigateToStockDetail: () -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
-    navigateToHeldShare: () -> Unit, //보유 주식
-    navigateToEntireShare: () -> Unit, //전체 주식
 ) {
     composable(route = mainRoute) {
         MainRoute(
@@ -48,8 +49,6 @@ fun NavGraphBuilder.mainRoute(
             navigateToStockDetail = navigateToStockDetail,
             navigateToNews = navigateToNews,
             navigateToOrderHistory = navigateToOrderHistory,
-            navigateToHeldShare = navigateToHeldShare,
-            navigateToEntireShare = navigateToEntireShare,
         )
     }
 }
@@ -61,8 +60,6 @@ fun MainRoute(
     navigateToStockDetail: () -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
-    navigateToHeldShare: () -> Unit,
-    navigateToEntireShare: () -> Unit,
 ) {
     MainScreen(
         modifier = modifier,
@@ -70,16 +67,17 @@ fun MainRoute(
         navigateToStockDetail = navigateToStockDetail,
         navigateToNews = navigateToNews,
         navigateToOrderHistory = navigateToOrderHistory,
-        navigateToHeldShare = navigateToHeldShare,
-        navigateToEntireShare = navigateToEntireShare
     )
 }
 
-val TempMyStockData = listOf(
+val TempMyStockData = persistentListOf(
     MyStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
     MyStocksData("마이크로소프트", 1231, 11131, -8160, 7.9f),
     MyStocksData("마이크로소프트", 1231, 11131, 0, 7.9f),
     MyStocksData("마이크로소프트", 1, 11131, 8160, 7.9f),
+    MyStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    MyStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    MyStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
     MyStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
 )
 
@@ -99,8 +97,7 @@ fun MainScreen(
     navigateToStockDetail: () -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
-    navigateToHeldShare: () -> Unit,
-    navigateToEntireShare: () -> Unit,
+
 ) {
     Column(
         modifier = modifier
@@ -117,7 +114,7 @@ fun MainScreen(
             endIcon = {
                 GraphIcon(
                     tint = JDSColor.GRAY400,
-                    modifier = Modifier.clickableSingle { navigateToEntireShare() }
+                    modifier = Modifier.clickableSingle { /*TODO*/ }
                 )
             }
         )
@@ -138,8 +135,6 @@ fun MainScreen(
                     myAccountData = TempMyAccountData,
                     navigateToStockDetail = navigateToStockDetail,
                     navigateToOrderHistory = navigateToOrderHistory,
-                    navigateToHeldShare = navigateToHeldShare,
-                    navigateToEntireShare = navigateToEntireShare,
                 )
             }
 
@@ -165,7 +160,5 @@ fun MainScreenPriview() {
         navigateToStockDetail = { /*TODO*/ },
         navigateToNews = { /*TODO*/ },
         navigateToOrderHistory = { /*TODO*/ },
-        navigateToHeldShare = { /*TODO*/ },
-        navigateToEntireShare = { /*TODO*/ }
     )
 }
