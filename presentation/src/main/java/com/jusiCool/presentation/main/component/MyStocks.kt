@@ -47,9 +47,7 @@ fun MyStocks(
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .height(27.dp)
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "보유 주식",
@@ -79,12 +77,7 @@ fun MyStocks(
                         style = JDSTypography.label,
                         color = JDSColor.GRAY400,
                     )
-                    RightChevronIcon(
-                        tint = JDSColor.GRAY400,
-                        modifier = Modifier
-                            .width(24.dp)
-                            .height(24.dp)
-                    )
+                    RightChevronIcon(tint = JDSColor.GRAY400,)
                 }
             }
         }
