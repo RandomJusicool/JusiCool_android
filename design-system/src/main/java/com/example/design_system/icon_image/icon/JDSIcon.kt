@@ -75,52 +75,14 @@ fun RightChevronIcon(
 }
 
 @Composable
-fun RectangleIcon(
+fun GraphIcon(
     modifier: Modifier = Modifier,
     tint: Color = Color.Unspecified
 ) {
     Icon(
-        painterResource(id = R.drawable.rectangle),
-        contentDescription = null,
-        tint = tint
-    )
-}
-
-@Composable
-fun HeartIcon(
-    modifier: Modifier = Modifier,
-    tint: Color = Color.Unspecified
-) {
-    Icon(
-        painterResource(id = R.drawable.heart_streamline_core_1),
-        contentDescription = null,
-        modifier = modifier.size(16.dp),
-        tint = tint
-    )
-}
-
-@Composable
-fun CommentIcon(
-    modifier: Modifier = Modifier,
-    tint: Color = Color.Unspecified
-) {
-    Icon(
-        painter = painterResource(id = R.drawable.jusicool_comment),
+        painter = painterResource(id = R.drawable.graph_icon),
         contentDescription = null,
         modifier = modifier.size(24.dp),
-        tint = tint
-    )
-}
-
-@Composable
-fun PencilIcon(
-    modifier: Modifier = Modifier,
-    tint: Color = Color.Unspecified
-) {
-    Icon(
-        painter = painterResource(id = R.drawable.pencil),
-        contentDescription = null,
-        modifier = modifier.size(20.dp),
         tint = tint
     )
 }

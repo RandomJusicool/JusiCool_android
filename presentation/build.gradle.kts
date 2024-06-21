@@ -86,5 +86,7 @@ dependencies {
 
     implementation(Dependency.Google.SWIPE_REFRESH)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+
+    implementation("io.coil-kt:coil-compose:1.5.0")
 }
