@@ -33,14 +33,13 @@ fun Stocks(
 ) {
     val formmatedMyShare = "%,d".format(myStocksData.share)
     val formattedMyStockPrice = "%,d".format(myStocksData.myStockPrice)
-    val formattedMyStockRevenue =
-        if (myStocksData.myStockRevenue > 0) "+%,d".format(myStocksData.myStockRevenue) else "%,d".format(myStocksData.myStockRevenue)
+    val formattedMyStockRevenue = if (myStocksData.myStockRevenue > 0) "+%,d".format(myStocksData.myStockRevenue)
+    else "%,d".format(myStocksData.myStockRevenue)
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
-            .height(48.dp)
             .background(color = JDSColor.WHITE)
             .clickableSingle { navigateToStockDetail() }
     ) {

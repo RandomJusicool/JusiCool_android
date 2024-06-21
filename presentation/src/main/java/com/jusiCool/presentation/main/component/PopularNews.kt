@@ -46,7 +46,6 @@ fun PopularNews(
         verticalArrangement = Arrangement.spacedBy(24.dp),
         modifier = modifier
             .fillMaxWidth()
-            .height(331.dp)
             .background(color = JDSColor.WHITE, shape = RoundedCornerShape(size = 12.dp))
             .padding(16.dp)
     ) {

@@ -24,32 +24,23 @@ import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.presentation.main.screen.TempMyAccountData
 import com.jusiCool.presentation.main.screen.TempMyStockData
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun MyStocks(
     modifier: Modifier = Modifier,
-    myStocksData: List<MyStocksData>,
+    myStocksData: ImmutableList<MyStocksData>,
     myAccountData: MyAccountData,
     navigateToStockDetail: () -> Unit,
     navigateToOrderHistory: () -> Unit,
-    navigateToHeldShare: () -> Unit,
-    navigateToEntireShare: () -> Unit,
 ) {
-    val itemHeight = 48.dp
-    val itemSpacing = 16.dp
-    val maxVisibleItems = 6
-    val visibleItems = myStocksData.size.coerceAtMost(maxVisibleItems)
-    val columnHeight = if (visibleItems > 0) {
-        itemHeight * visibleItems + itemSpacing * (visibleItems - 1) + 150.dp
-    } else {
-        246.dp
-    }
+    val visibleItems = myStocksData.size.coerceAtMost(6)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxWidth()
-            .height(columnHeight)
             .background(color = JDSColor.WHITE, shape = RoundedCornerShape(size = 12.dp))
             .padding(16.dp)
     ) {
@@ -66,27 +57,22 @@ fun MyStocks(
                 color = JDSColor.Black
             )
 
-            if (visibleItems > 5) {
+            if (visibleItems > 6) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clickableSingle { navigateToHeldShare() },
+                    modifier = Modifier.clickableSingle { /*TODO*/ },
                 ) {
                     Text(
                         text = "더보기",
                         style = JDSTypography.label,
                         color = JDSColor.GRAY400,
                     )
-                    RightChevronIcon(
-                        tint = JDSColor.GRAY400,
-                        modifier = Modifier
-                            .width(24.dp)
-                            .height(24.dp)
-                    )
+                    RightChevronIcon(tint = JDSColor.GRAY400,)
                 }
             } else if(visibleItems == 0){
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clickableSingle { navigateToEntireShare() },
+                    modifier = Modifier.clickableSingle { /*TODO*/ },
                 ) {
                     Text(
                         text = "주식 보러가기",
@@ -167,12 +153,7 @@ fun MyStocks(
                     color = JDSColor.GRAY600
                 )
 
-                RightChevronIcon(
-                    tint = JDSColor.GRAY400,
-                    modifier = Modifier
-                        .width(24.dp)
-                        .height(24.dp)
-                )
+                RightChevronIcon(tint = JDSColor.GRAY400,)
             }
         }
     }
@@ -188,8 +169,6 @@ fun MyStocksPreview() {
             myAccountData = TempMyAccountData,
             navigateToStockDetail = { /*TODO*/ },
             navigateToOrderHistory = { /*TODO*/ },
-            navigateToHeldShare = { /*TODO*/ },
-            navigateToEntireShare = { /*TODO*/ },
         )
     }
 }
