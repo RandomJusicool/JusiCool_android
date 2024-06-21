@@ -36,7 +36,10 @@ fun CommunityCard(
             .padding(16.dp),
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp,
+                Alignment.Start
+            ),
             verticalAlignment = Alignment.Top,
         ) {
             Text(
@@ -47,9 +50,9 @@ fun CommunityCard(
             SpeechBubbleImage()
         }
         Row(
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top,
-            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "해당 주식 관련 이야기 나누기",

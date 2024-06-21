@@ -34,7 +34,10 @@ fun StockPreviewCard(
             .padding(16.dp),
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp,
+                Alignment.Start
+            ),
             verticalAlignment = Alignment.Top,
         ) {
             Text(
@@ -49,7 +52,10 @@ fun StockPreviewCard(
             )
         }
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp,
+                Alignment.Start
+            ),
             verticalAlignment = Alignment.Top,
         ) {
             Text(
@@ -68,6 +74,6 @@ fun StockPreviewCard(
 
 @Preview
 @Composable
-fun StockPreviewCardPreview(){
+fun StockPreviewCardPreview() {
     StockPreviewCard(currentStock = "218,951", stockDiff = "-1,900P (0.8%)")
 }
