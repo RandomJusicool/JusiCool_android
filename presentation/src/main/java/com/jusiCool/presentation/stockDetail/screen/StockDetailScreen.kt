@@ -109,17 +109,22 @@ fun StockDetailScreen(
     )
     val (whichTimeSegmentSelected, setWhichTimeSegmentSelected)
             = remember { mutableStateOf(TimeSegment.ONE_MINUTE) }
-    val (isSellBottomSheet, setIsSellBottomSheet)
-            = remember { mutableStateOf(false) }
+    val (isSellBottomSheet, setIsSellBottomSheet) = remember { mutableStateOf(false) }
 
     ModalBottomSheetLayout(
         modifier = modifier,
         sheetState = sheetState,
         sheetContent = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically),
+                verticalArrangement = Arrangement.spacedBy(
+                    24.dp,
+                    Alignment.CenterVertically
+                ),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(vertical = 32.dp, horizontal = 24.dp)
+                modifier = Modifier.padding(
+                    vertical = 32.dp,
+                    horizontal = 24.dp,
+                )
             ) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
@@ -138,7 +143,10 @@ fun StockDetailScreen(
                     )
                 }
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+                    verticalArrangement = Arrangement.spacedBy(
+                        12.dp,
+                        Alignment.CenterVertically
+                    ),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -175,7 +183,10 @@ fun StockDetailScreen(
             }
         },
         sheetBackgroundColor = JDSColor.WHITE,
-        sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+        sheetShape = RoundedCornerShape(
+            topStart = 12.dp,
+            topEnd = 12.dp
+        )
     ) {
         Scaffold(
             modifier = modifier
@@ -194,7 +205,10 @@ fun StockDetailScreen(
             },
             bottomBar = {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        12.dp,
+                        Alignment.Start
+                    ),
                     verticalAlignment = Alignment.Top,
                     modifier = Modifier
                         .fillMaxWidth()
