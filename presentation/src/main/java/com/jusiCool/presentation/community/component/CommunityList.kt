@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityList.component
+package com.jusiCool.presentation.community.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,12 +14,12 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun CommunityMainList(
+fun CommunityList(
     modifier: Modifier = Modifier,
-    data: ImmutableList<TemList> = persistentListOf(),
-    navigateToCommunity: () -> Unit
+    data: ImmutableList<CommunityListItemTemData> = persistentListOf(),
+    navigateToDetailCommunity: () -> Unit
 ) {
-    JusiCoolAndroidTheme { colors, _ ->
+    JusiCoolAndroidTheme { colors, typography ->  
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
@@ -27,9 +27,9 @@ fun CommunityMainList(
                 .padding(horizontal = 24.dp)
         ) {
             itemsIndexed(data) {_, item ->
-                CommunityMainListItem(
+                CommunityListItem(
                     data = item,
-                    onClick = navigateToCommunity
+                    onClick = navigateToDetailCommunity
                 )
             }
         }
@@ -38,6 +38,8 @@ fun CommunityMainList(
 
 @Preview
 @Composable
-private fun CommunityMainListPre() {
-    CommunityMainList{}
+private fun CommunityListPre() {
+    CommunityList {
+
+    }
 }
