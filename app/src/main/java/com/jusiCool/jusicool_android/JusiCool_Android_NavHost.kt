@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.login.screen.loginRoute
+import com.jusiCool.presentation.main.screen.mainRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
 
 @Composable
@@ -37,6 +38,13 @@ fun JusiCool_Android_NavHost(
         joinRoute(
             popUpBackStack = navController::popBackStack,
             navigateToMain = { /* TODO: */ }
+        )
+
+        mainRoute(
+            navigateToSearch = { /*TODO*/ },
+            navigateToStockDetail = { /*TODO*/ },
+            navigateToNews = { /*TODO*/ },
+            navigateToOrderHistory = { /*TODO*/ },
         )
     }
 }
