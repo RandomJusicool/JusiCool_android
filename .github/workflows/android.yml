@@ -50,7 +50,7 @@ jobs:
           webhook: ${{ secrets.JUSICOOL_DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.SUCCESS_IMAGE }}
-          description: 각하..성공했긔..
+          description: 성공...
           color: 0000CD
           url: "https://github.com/sarisia/actions-status-discord"
           username: JusiCool CI 봇
@@ -63,7 +63,7 @@ jobs:
           webhook: ${{ secrets.JUSICOOL_DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.FAILED_IMAGE }}
-          description: 실패해버렸긔..
+          description: 실패...
           color: 00FF00
           url: "https://github.com/sarisia/actions-status-discord"
           username: JusiCool CI 봇
