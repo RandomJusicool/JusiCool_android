@@ -43,11 +43,11 @@ fun PopularNews(
     navigateToNews: () -> Unit,
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(24.dp),
         modifier = modifier
             .fillMaxWidth()
             .background(color = JDSColor.WHITE, shape = RoundedCornerShape(size = 12.dp))
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text(
             text = "대표 인기 뉴스",
@@ -57,13 +57,13 @@ fun PopularNews(
 
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)){
             Image(
-                painter = rememberAsyncImagePainter(summaryNewsData.imageUrl),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .height(120.dp)
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(12.dp)),
+                painter = rememberAsyncImagePainter(summaryNewsData.imageUrl),
+                contentDescription = null,
+                contentScale = ContentScale.Crop
             )
 
             Text(
@@ -96,17 +96,17 @@ fun PopularNews(
         }
 
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(26.dp)
-                .padding(start = 4.dp, end = 4.dp)
+                .padding(start = 4.dp, end = 4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
+                modifier = Modifier.clickableSingle { navigateToNews() },
                 text = "뉴스 더보기",
                 style = JDSTypography.bodySmall,
-                color = JDSColor.Black,
-                modifier = Modifier.clickableSingle { navigateToNews() }
+                color = JDSColor.Black
             )
 
             RightChevronIcon()

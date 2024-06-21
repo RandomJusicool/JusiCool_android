@@ -37,11 +37,11 @@ fun Stocks(
     else "%,d".format(myStocksData.myStockRevenue)
 
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
             .background(color = JDSColor.WHITE)
-            .clickableSingle { navigateToStockDetail() }
+            .clickableSingle { navigateToStockDetail() },
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(
@@ -83,8 +83,7 @@ fun Stocks(
 fun StocksPreview() {
     Column {
         Stocks(
-            modifier = Modifier
-                .width(280.dp),
+            modifier = Modifier.width(280.dp),
             myStocksData = MyStocksData(
                 stockName = "마이크로소프트",
                 share = 1231,
@@ -96,8 +95,7 @@ fun StocksPreview() {
         )
 
         Stocks(
-            modifier = Modifier
-                .width(280.dp),
+            modifier = Modifier.width(280.dp),
             myStocksData = MyStocksData(
                 stockName = "마이크로소프트",
                 share = 1231,
@@ -109,8 +107,7 @@ fun StocksPreview() {
         )
 
         Stocks(
-            modifier = Modifier
-                .width(280.dp),
+            modifier = Modifier.width(280.dp),
             myStocksData = MyStocksData(
                 stockName = "마이크로소프트",
                 share = 1231,

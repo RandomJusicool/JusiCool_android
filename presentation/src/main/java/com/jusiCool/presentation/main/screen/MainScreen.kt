@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -96,9 +98,10 @@ fun MainScreen(
     navigateToSearch: () -> Unit,
     navigateToStockDetail: () -> Unit,
     navigateToNews: () -> Unit,
-    navigateToOrderHistory: () -> Unit,
-
+    navigateToOrderHistory: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -113,41 +116,36 @@ fun MainScreen(
             },
             endIcon = {
                 GraphIcon(
-                    tint = JDSColor.GRAY400,
-                    modifier = Modifier.clickableSingle { /*TODO*/ }
+                    modifier = Modifier.clickableSingle { /*TODO*/ },
+                    tint = JDSColor.GRAY400
                 )
             }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(3.dp),
-            modifier = Modifier.padding(horizontal = 24.dp)
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .verticalScroll(scrollState),
+            verticalArrangement = Arrangement.spacedBy(3.dp)
         ) {
-            item {
-                MyAccount(myAccountData = TempMyAccountData)
-            }
+            MyAccount(myAccountData = TempMyAccountData)
 
-            item {
-                MyStocks(
-                    myStocksData = TempMyStockData,
-                    myAccountData = TempMyAccountData,
-                    navigateToStockDetail = navigateToStockDetail,
-                    navigateToOrderHistory = navigateToOrderHistory,
-                )
-            }
+            MyStocks(
+                myStocksData = TempMyStockData,
+                myAccountData = TempMyAccountData,
+                navigateToStockDetail = navigateToStockDetail,
+                navigateToOrderHistory = navigateToOrderHistory,
+            )
 
-            item {
-                PopularNews(
-                    summaryNewsData = TempSummaryNewsData,
-                    navigateToNews = navigateToNews,
-                )
-            }
+            PopularNews(
+                summaryNewsData = TempSummaryNewsData,
+                navigateToNews = navigateToNews,
+            )
 
-            item {
-                Spacer(modifier = Modifier.height(13.dp))
-            }
+            Spacer(modifier = Modifier.height(13.dp))
+
         }
     }
 }
