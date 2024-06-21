@@ -95,12 +95,3 @@ fun SpeechBubbleImage(modifier: Modifier = Modifier) {
         modifier = modifier,
     )
 }
-
-@Composable
-fun GraphSkeletonImage(modifier: Modifier = Modifier) {
-    Image(
-        painter = painterResource(id = R.drawable.graph_skeleton_image),
-        contentDescription = null,
-        modifier = modifier,
-    )
-}

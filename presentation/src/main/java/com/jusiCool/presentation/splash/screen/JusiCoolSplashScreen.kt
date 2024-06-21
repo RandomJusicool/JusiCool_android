@@ -26,21 +26,25 @@ import com.example.design_system.theme.color.JDSColor
 
 const val splashRoute = "splashRoute"
 
+// 화면이동을 구현하는 NavController확장함수
 fun NavController.navigationToSplash() {
     this.navigate(splashRoute)
 }
 
+// navHost에 화면을 등록할 수 있게 하는 확장 함수
 fun NavGraphBuilder.splashRoute() {
     composable(splashRoute) {
         JusiCoolSplashRoute()
     }
 }
 
+// Route
 @Composable
 fun JusiCoolSplashRoute(modifier: Modifier = Modifier) {
     JusiCoolSplashScreen(modifier = modifier)
 }
 
+// Screen
 @Composable
 fun JusiCoolSplashScreen(modifier: Modifier = Modifier) {
     Column(
