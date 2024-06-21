@@ -47,7 +47,7 @@ fun JDSNoOutLinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
-                        color = colors.WHITE,
+                        color = colors.GRAY50,
                         shape = RoundedCornerShape(size = 8.dp)
                     )
                     .padding(16.dp),
