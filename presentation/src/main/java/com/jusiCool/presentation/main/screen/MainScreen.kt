@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -30,8 +29,6 @@ import com.jusiCool.presentation.main.component.MyStocksData
 import com.jusiCool.presentation.main.component.PopularNews
 import com.jusiCool.presentation.main.component.SummaryNewsData
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
-import okhttp3.internal.immutableListOf
 
 const val mainRoute = "mainRoute"
 
