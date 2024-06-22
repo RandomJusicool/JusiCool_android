@@ -12,6 +12,7 @@ import com.jusiCool.presentation.communityList.screen.communityMainRoute
 import com.jusiCool.presentation.communityWriting.screen.communityWritingRoute
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.login.screen.loginRoute
+import com.jusiCool.presentation.main.screen.mainRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
 import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
 
@@ -57,7 +58,8 @@ fun JusiCool_Android_NavHost(
 
         communityRoute(
             popUpBackStack = navController::popBackStack,
-            navigateToDetailCommunity = { TODO() }
+            navigateToDetailCommunity = { TODO() },
+            navigateToCommunityWriting = { TODO() }
         )
 
         mainRoute(
