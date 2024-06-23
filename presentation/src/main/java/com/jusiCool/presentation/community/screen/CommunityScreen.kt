@@ -17,7 +17,6 @@ import com.example.design_system.component.modifier.clickableSingle.clickableSin
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
-import com.jusiCool.presentation.community.component.CommunityList
 import com.jusiCool.presentation.community.component.WritingCommunityButton
 
 const val communityRoute = "communityRoute"
@@ -29,7 +28,7 @@ fun NavController.navigateToCommunity() {
 fun NavGraphBuilder.communityRoute(
     navigateToCommunityWriting: () -> Unit,
     navigateToDetailCommunity: () -> Unit,
-    popUpBackStack: () -> Unit
+    popUpBackStack: () -> Unit,
 ) {
     composable(route = communityRoute) {
         CommunityRoute(
@@ -68,7 +67,7 @@ internal fun CommunityScreen(
     // data1: TemList,
     // data2: CommunityListItemTemData
 ) {
-    JusiCoolAndroidTheme { colors, typography ->  
+    JusiCoolAndroidTheme { colors, typography ->
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -83,10 +82,19 @@ internal fun CommunityScreen(
                     },
                     betweenText = "임의 값" // data1.company
                 )
-                CommunityList(
-                    // data = data2,
-                    navigateToDetailCommunity = navigateToDetailCommunity
-                )
+//                LazyColumn(
+//                    modifier = modifier
+//                        .fillMaxSize()
+//                        .background(color = colors.GRAY50)
+//                        .padding(horizontal = 24.dp)
+//                ) {
+//                    itemsIndexed(data) { _, item ->
+//                        CommunityListItem(
+//                            data = item,
+//                            onClick = navigateToDetailCommunity
+//                        )
+//                    }
+//                }
             }
             WritingCommunityButton(
                 modifier = Modifier
@@ -94,8 +102,7 @@ internal fun CommunityScreen(
                     .padding(
                         end = 24.dp,
                         bottom = 24.dp
-                    )
-                ,
+                    ),
                 onClick = navigateToCommunityWriting
             )
         }
