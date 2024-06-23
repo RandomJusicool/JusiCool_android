@@ -14,20 +14,19 @@ import com.example.design_system.component.modifier.clickableSingle.clickableSin
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
-import com.jusiCool.presentation.communityList.component.CommunityMainList
 
-const val communityMainRoute = "communityRoute"
+const val communityListRoute = "communityListRoute"
 
 fun NavController.navigateToMainCommunity() {
-    this.navigate(communityMainRoute)
+    this.navigate(communityListRoute)
 }
 
-fun NavGraphBuilder.communityMainRoute(
+fun NavGraphBuilder.communityListRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunity: () -> Unit
+    navigateToCommunity: () -> Unit,
 ) {
-    composable(route = communityMainRoute) {
-        CommunityMainRoute(
+    composable(route = communityListRoute) {
+        CommunityListRoute(
             popUpBackStack = popUpBackStack,
             navigateToCommunity = navigateToCommunity
         )
@@ -35,12 +34,12 @@ fun NavGraphBuilder.communityMainRoute(
 }
 
 @Composable
-internal fun CommunityMainRoute(
+internal fun CommunityListRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunity: () -> Unit
+    navigateToCommunity: () -> Unit,
 ) {
-    CommunityMainScreen(
+    CommunityListScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
         navigateToCommunity = navigateToCommunity
@@ -48,12 +47,12 @@ internal fun CommunityMainRoute(
 }
 
 @Composable
-internal fun CommunityMainScreen(
+internal fun CommunityListScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit,
     // data: TemList
-    ) {
+) {
     JusiCoolAndroidTheme { colors, _ ->
         Box(
             modifier = modifier
@@ -81,7 +80,7 @@ internal fun CommunityMainScreen(
 @Preview
 @Composable
 private fun CommunityMainScreenPre() {
-    CommunityMainRoute(popUpBackStack = { /*TODO*/ }) {
-        
+    CommunityListRoute(popUpBackStack = { /*TODO*/ }) {
+
     }
 }
