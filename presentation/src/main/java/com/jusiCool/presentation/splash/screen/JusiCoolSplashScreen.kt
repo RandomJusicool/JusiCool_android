@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,17 +63,13 @@ fun JusiCoolSplashScreen(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.width(2.dp))
             CardsImage(
-                modifier = Modifier
-                    .width(62.dp)
-                    .height(62.dp)
+                modifier = Modifier.size(62.dp)
             )
         }
         Spacer(modifier = Modifier.fillMaxSize(0.0221f))
         Row {
             GraphImage(
-                modifier = Modifier
-                    .width(62.dp)
-                    .height(62.dp)
+                modifier = Modifier.size(62.dp)
             )
             Spacer(modifier = Modifier.width(2.dp))
             Text(
@@ -85,15 +82,13 @@ fun JusiCoolSplashScreen(modifier: Modifier = Modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             LogoImage(
                 Modifier
-                    .padding(0.dp)
                     .width(220.dp)
                     .height(32.dp)
             )
             Spacer(modifier = Modifier.width(2.dp))
             CloudImage(
                 modifier = Modifier
-                    .width(56.dp)
-                    .height(56.dp)
+                    .size(56.dp)
             )
         }
     }
