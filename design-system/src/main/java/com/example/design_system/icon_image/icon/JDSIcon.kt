@@ -124,3 +124,16 @@ fun PencilIcon(
         tint = tint
     )
 }
+
+@Composable
+fun GraphIcon(
+    modifier: Modifier = Modifier,
+    tint: Color = Color.Unspecified
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.graph_icon),
+        contentDescription = null,
+        modifier = modifier.size(24.dp),
+        tint = tint
+    )
+}
