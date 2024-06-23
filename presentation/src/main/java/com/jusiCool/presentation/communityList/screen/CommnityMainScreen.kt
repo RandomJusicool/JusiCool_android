@@ -68,10 +68,19 @@ internal fun CommunityListScreen(
                     },
                     betweenText = "커뮤니티 목록"
                 )
-                CommunityMainList(
-                    // data = data,
-                    navigateToCommunity = navigateToCommunity
-                )
+//                LazyColumn(
+//                    modifier = modifier
+//                        .fillMaxSize()
+//                        .background(color = colors.GRAY50)
+//                        .padding(horizontal = 24.dp)
+//                ) {
+//                    itemsIndexed(data) { _, item ->
+//                        CommunityMainListItem(
+//                            data = item,
+//                            onClick = navigateToCommunity
+//                        )
+//                    }
+//                }
             }
         }
     }
