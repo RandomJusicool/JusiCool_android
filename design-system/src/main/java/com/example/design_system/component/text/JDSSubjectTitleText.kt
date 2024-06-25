@@ -21,7 +21,6 @@ fun JDSSubjectTitleText(
                 color = colors.Black,
                 style = typography.subTitle,
             )
-            Spacer(modifier = modifier.height(8.dp))
         }
     }
 }
