@@ -22,7 +22,7 @@ data class MyStocksData(
     val share: Int,
     val myStockPrice: Int,
     val myStockRevenue: Int,
-    val myStockRevenuePercent: Float
+    val myStockRevenuePercent: Float,
 )
 
 @Composable
@@ -31,10 +31,9 @@ fun Stocks(
     myStocksData: MyStocksData,
     navigateToStockDetail: () -> Unit,
 ) {
-    val formmatedMyShare = "%,d".format(myStocksData.share)
-    val formattedMyStockPrice = "%,d".format(myStocksData.myStockPrice)
-    val formattedMyStockRevenue = if (myStocksData.myStockRevenue > 0) "+%,d".format(myStocksData.myStockRevenue)
-    else "%,d".format(myStocksData.myStockRevenue)
+    val formattedMyStockRevenue =
+        if (myStocksData.myStockRevenue > 0) "+%,d".format(myStocksData.myStockRevenue)
+        else "%,d".format(myStocksData.myStockRevenue)
 
     Row(
         modifier = modifier
@@ -51,7 +50,7 @@ fun Stocks(
             )
 
             Text(
-                text = "$formmatedMyShare 주",
+                text = "${"%,d".format(myStocksData.share)} 주",
                 style = JDSTypography.label,
                 color = JDSColor.GRAY400
             )
@@ -62,7 +61,7 @@ fun Stocks(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "$formattedMyStockPrice P",
+                text = "${"%,d".format(myStocksData.myStockPrice)} P",
                 style = JDSTypography.bodySmall,
                 color = JDSColor.Black
             )

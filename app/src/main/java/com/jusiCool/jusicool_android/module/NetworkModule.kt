@@ -29,41 +29,36 @@ object NetworkModule {
     @Singleton
     fun provideOkhttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(httpLoggingInterceptor)
-            .addInterceptor(authInterceptor)
-            .build()
-    }
+        authInterceptor: AuthInterceptor,
+    ) = OkHttpClient.Builder()
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+        .addInterceptor(httpLoggingInterceptor)
+        .addInterceptor(authInterceptor)
+        .build()
 
     @Provides
     @Singleton
-    fun provideMoshiInstance(): Moshi {
-        return Moshi.Builder().build()
-    }
+    fun provideMoshiInstance(): Moshi =
+        Moshi.Builder().build()
+
 
     @Provides
     @Singleton
-    fun provideConverterFactory(moshi: Moshi): MoshiConverterFactory {
-        return MoshiConverterFactory.create(moshi)
-    }
+    fun provideConverterFactory(moshi: Moshi): MoshiConverterFactory =
+        MoshiConverterFactory.create(moshi)
 
     @Provides
     @Singleton
     fun provideRetrofitInstance(
         okHttpClient: OkHttpClient,
-        moshiConverterFactory: MoshiConverterFactory
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("") // Todo : Add BuildConfig
-            .client(okHttpClient)
-            .addConverterFactory(moshiConverterFactory)
-            .build()
-    }
+        moshiConverterFactory: MoshiConverterFactory,
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl("") // Todo : Add BuildConfig
+        .client(okHttpClient)
+        .addConverterFactory(moshiConverterFactory)
+        .build()
 
     // Todo : Add Other API Provide
 }

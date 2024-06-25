@@ -82,6 +82,7 @@ fun RectangleIcon(
     Icon(
         painterResource(id = R.drawable.rectangle),
         contentDescription = null,
+        modifier = modifier.size(24.dp),
         tint = tint
     )
 }
@@ -120,7 +121,7 @@ fun PencilIcon(
     Icon(
         painter = painterResource(id = R.drawable.pencil),
         contentDescription = null,
-        modifier = modifier.size(20.dp),
+        modifier = modifier.size(24.dp),
         tint = tint
     )
 }

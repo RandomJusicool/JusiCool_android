@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.jusiCool.presentation.community.screen.communityRoute
-import com.jusiCool.presentation.communityList.screen.communityMainRoute
+import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityWriting.screen.communityWritingRoute
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.login.screen.loginRoute
@@ -31,19 +31,17 @@ fun JusiCool_Android_NavHost(
         popExitTransition = { ExitTransition.None },
         startDestination = startDestination,
     ) {
-        splashRoute()
-
-        loginRoute(
-            navigateToFindPassword = { TODO() },
-            navigateToLogin = { TODO() },
-            navigateToJoin = { TODO() },
+        communityListRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToCommunity = { TODO() }
         )
 
-        stockDetailRoute(
+        communityWritingRoute(popUpBackStack = navController::popBackStack)
+
+        communityRoute(
             popUpBackStack = navController::popBackStack,
-            navigateToStockBuying = { TODO() },
-            navigateToStockSell = { TODO() },
-            navigateToCommunity = { TODO() },
+            navigateToDetailCommunity = { TODO() },
+            navigateToCommunityWriting = { TODO() }
         )
 
         joinRoute(
@@ -51,15 +49,10 @@ fun JusiCool_Android_NavHost(
             navigateToMain = { /* TODO: */ },
         )
 
-        communityMainRoute(
-            popUpBackStack = navController::popBackStack,
-            navigateToCommunity = { TODO() }
-        )
-
-        communityRoute(
-            popUpBackStack = navController::popBackStack,
-            navigateToDetailCommunity = { TODO() },
-            navigateToCommunityWriting = { TODO() }
+        loginRoute(
+            navigateToFindPassword = { TODO() },
+            navigateToLogin = { TODO() },
+            navigateToJoin = { TODO() },
         )
 
         mainRoute(
@@ -69,6 +62,13 @@ fun JusiCool_Android_NavHost(
             navigateToOrderHistory = { /*TODO*/ },
         )
 
-        communityWritingRoute(popUpBackStack = navController::popBackStack)
+        splashRoute()
+
+        stockDetailRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToStockBuying = { TODO() },
+            navigateToStockSell = { TODO() },
+            navigateToCommunity = { TODO() },
+        )
     }
 }

@@ -22,17 +22,17 @@ data class MyAccountData(
     val point: Int,
     val revenue: Int,
     val revenuePercent: Float,
-    val orderesStockHistory: Int
+    val orderesStockHistory: Int,
 )
 
 @Composable
 fun MyAccount(
     modifier: Modifier = Modifier,
-    myAccountData: MyAccountData
+    myAccountData: MyAccountData,
 ) {
-    val formattedPoint = "%,d".format(myAccountData.point)
-    val formattedRevenue = if (myAccountData.revenue > 0) "+%,d".format(myAccountData.revenue)
-    else "%,d".format(myAccountData.revenue)
+    val formattedRevenue =
+        if (myAccountData.revenue > 0) "+%,d".format(myAccountData.revenue)
+        else "%,d".format(myAccountData.revenue)
 
     Column(
         modifier = modifier
@@ -53,7 +53,7 @@ fun MyAccount(
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
-                text = formattedPoint,
+                text = "%,d".format(myAccountData.point),
                 color = JDSColor.Black,
                 style = JDSTypography.titleMedium
             )
@@ -84,19 +84,19 @@ fun MyAccountPreview() {
         MyAccount(
             modifier = Modifier
                 .width(312.dp),
-            myAccountData = MyAccountData(137871,-5778,4.0f,6)
+            myAccountData = MyAccountData(137871, -5778, 4.0f, 6)
         )
 
         MyAccount(
             modifier = Modifier
                 .width(312.dp),
-            myAccountData = MyAccountData(137871,5778,4.0f,6)
+            myAccountData = MyAccountData(137871, 5778, 4.0f, 6)
         )
 
         MyAccount(
             modifier = Modifier
                 .width(312.dp),
-            myAccountData = MyAccountData(137871,0,0.0f,6)
+            myAccountData = MyAccountData(137871, 0, 0.0f, 6)
         )
     }
 }

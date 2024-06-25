@@ -99,7 +99,7 @@ fun PopularNews(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(26.dp)
-                .padding(start = 4.dp, end = 4.dp),
+                .padding(horizontal = 4.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(

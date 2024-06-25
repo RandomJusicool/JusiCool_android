@@ -48,7 +48,7 @@ fun NavGraphBuilder.communityWritingRoute(popUpBackStack: () -> Unit) {
 @Composable
 internal fun CommunityWritingRoute(
     modifier: Modifier = Modifier,
-    popUpBackStack: () -> Unit
+    popUpBackStack: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -63,10 +63,10 @@ internal fun CommunityWritingRoute(
 internal fun CommunityWritingScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    focusManager: FocusManager
+    focusManager: FocusManager,
 ) {
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
-        JusiCoolAndroidTheme { colors, typography ->
+        JusiCoolAndroidTheme { colors, _ ->
             val (titleTextState, setTitleText) = remember { mutableStateOf("") }
             val (contentTextState, setContentText) = remember { mutableStateOf("") }
 
@@ -125,7 +125,12 @@ internal fun CommunityWritingScreen(
                                 .height(54.dp),
                             text = "올리기",
                             onClick = popUpBackStack, // 후에 세부 코드 추가할 에정
-                            state = if (titleTextState.isNotEmpty() && contentTextState.isNotEmpty()) ButtonState.Enable else ButtonState.Disable
+                            state =
+                            if (
+                                titleTextState.isNotEmpty()
+                                && contentTextState.isNotEmpty()
+                            ) ButtonState.Enable
+                            else ButtonState.Disable
                         )
                     }
                 }
