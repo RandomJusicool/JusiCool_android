@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.text.JDSSubjectTitleText
+import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 
 @Composable
@@ -37,4 +39,13 @@ fun JDSArrowTopBar(
             endIcon()
         }
     }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFF)
+@Composable
+fun JDSArrowTopBarPreview() {
+    JDSArrowTopBar(
+        startIcon = { LeftArrowIcon() },
+        betweenText = "주문내역"
+    )
 }
