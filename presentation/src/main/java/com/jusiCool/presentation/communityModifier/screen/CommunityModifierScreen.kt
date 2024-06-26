@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityWriting.screen
+package com.jusiCool.presentation.communityModifier.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
@@ -29,52 +29,61 @@ import com.example.design_system.component.modifier.padding.paddingHorizontal
 import com.example.design_system.component.textfield.JDSNoOutLinedTextField
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
-import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.JusiCoolAndroidTheme
-import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.presentation.community.component.CommunityListItemTemData
 
-const val communityWritingRoute = "communityWritingRoute"
+const val communityModifierRoute = "communityModifierRoute"
 
-fun NavController.communityWritingRoute() {
-    this.navigate(communityWritingRoute)
+fun NavController.communityModifierRoute() {
+    this.navigate(communityModifierRoute)
 }
 
-fun NavGraphBuilder.communityWritingRoute(popUpBackStack: () -> Unit) {
-    composable(route = communityWritingRoute) {
-        CommunityWritingRoute(popUpBackStack = popUpBackStack)
+fun NavGraphBuilder.communityModifierRoute(popUpBackStack: () -> Unit) {
+    composable(route = communityModifierRoute) {
+        CommunityModifierRoute(popUpBackStack = popUpBackStack)
     }
 }
 
 @Composable
-internal fun CommunityWritingRoute(
+internal fun CommunityModifierRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-) {
+    ) {
     val focusManager = LocalFocusManager.current
 
-    CommunityWritingScreen(
+    CommunityModifierScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        focusManager = focusManager
+        focusManager = focusManager,
+        initialData = CommunityListItemTemData(
+            title = "커뮤니티는공통의관심사목표가치혹은지리적커뮤니",
+            content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인",
+            name = "이명훈",
+            started_date = "06.20",
+            started_time = "17:06",
+            heart_count = 12,
+            comment_count = 13
+        )
     )
 }
 
 @Composable
-internal fun CommunityWritingScreen(
+internal fun CommunityModifierScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
     focusManager: FocusManager,
+    initialData: CommunityListItemTemData
 ) {
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         JusiCoolAndroidTheme { colors, typography ->
-            val (titleTextState, setTitleText) = remember { mutableStateOf("") }
-            val (contentTextState, setContentText) = remember { mutableStateOf("") }
+            val (titleTextState, setTitleText) = remember { mutableStateOf(initialData.title) }
+            val (contentTextState, setContentText) = remember { mutableStateOf(initialData.content) }
 
             Surface(modifier = modifier) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(colors.GRAY50)
+                        .background(color = colors.GRAY50)
                         .pointerInput(Unit) {
                             detectTapGestures {
                                 focusManager.clearFocus()
@@ -82,37 +91,25 @@ internal fun CommunityWritingScreen(
                         }
                 ) {
                     JDSArrowTopBar(
-                        startIcon = {
-                            LeftArrowIcon(
-                                modifier = Modifier.clickableSingle { popUpBackStack() }
-                            )
-                        },
-                        betweenText = "글 작성"
+                        startIcon = { LeftArrowIcon(modifier = modifier.clickableSingle { popUpBackStack() }) },
+                        betweenText = "글 수정"
                     )
-                    JDSNoOutLinedTextField(
-                        textState = titleTextState,
-                        placeHolder = {
-                            Text(
-                                text = "제목을 입력하세요",
-                                style = JDSTypography.titleSmall,
-                                color = JDSColor.GRAY200,
-                            )
-                        },
-                        onTextChange = setTitleText,
-                        textStyle = typography.titleSmall
-                    )
-                    JDSNoOutLinedTextField(
-                        textState = contentTextState,
-                        placeHolder = {
-                            Text(
-                                text = "내용을 입력하세요",
-                                style = JDSTypography.bodyMedium,
-                                color = JDSColor.GRAY200,
-                            )
-                        },
-                        onTextChange = setContentText,
-                        textStyle = typography.bodySmall
-                    )
+                    Column(
+                        modifier = Modifier.padding(horizontal = 24.dp)
+                    ) {
+                        JDSNoOutLinedTextField(
+                            textState = titleTextState,
+                            placeHolder = { },
+                            onTextChange = setTitleText,
+                            textStyle = typography.titleSmall
+                        )
+                        JDSNoOutLinedTextField(
+                            textState = contentTextState,
+                            placeHolder = { },
+                            onTextChange = setContentText,
+                            textStyle = typography.bodySmall
+                        )
+                    }
                     Spacer(modifier = Modifier.weight(1f))
                     Column(
                         modifier = Modifier
@@ -125,10 +122,9 @@ internal fun CommunityWritingScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(54.dp),
-                            text = "올리기",
-                            onClick = popUpBackStack, // 후에 세부 코드 추가할 에정
-                            state =
-                            if (
+                            text = "수정하기",
+                            onClick = popUpBackStack,
+                            state = if (
                                 titleTextState.isNotEmpty()
                                 && contentTextState.isNotEmpty()
                             ) ButtonState.Enable
@@ -143,6 +139,6 @@ internal fun CommunityWritingScreen(
 
 @Preview
 @Composable
-private fun CommunityWritingScreen() {
-    CommunityWritingRoute {}
+private fun CommunityModifierPre() {
+    CommunityModifierRoute(popUpBackStack = { /*TODO*/ })
 }

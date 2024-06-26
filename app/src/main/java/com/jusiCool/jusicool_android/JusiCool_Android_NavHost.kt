@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.jusiCool.presentation.community.screen.communityRoute
 import com.jusiCool.presentation.communityList.screen.communityListRoute
+import com.jusiCool.presentation.communityModifier.screen.communityModifierRoute
 import com.jusiCool.presentation.communityWriting.screen.communityWritingRoute
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.login.screen.loginRoute
@@ -43,6 +44,8 @@ fun JusiCool_Android_NavHost(
             navigateToDetailCommunity = { TODO() },
             navigateToCommunityWriting = { TODO() }
         )
+
+        communityModifierRoute(popUpBackStack = navController::popBackStack)
 
         joinRoute(
             popUpBackStack = navController::popBackStack,
