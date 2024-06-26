@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,8 +36,9 @@ fun JDSNoOutLinedTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     onTextChange: (String) -> Unit,
+    textStyle: TextStyle = TextStyle.Default
 ) {
-    JusiCoolAndroidTheme { colors, typography ->
+    JusiCoolAndroidTheme { colors, _ ->
 
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
@@ -59,6 +61,7 @@ fun JDSNoOutLinedTextField(
                 visualTransformation = visualTransformation,
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions,
+                textStyle = textStyle,
                 decorationBox = { innerTextField ->
                     Column(verticalArrangement = Arrangement.Center) {
                         if (textState.isEmpty()) {
@@ -88,7 +91,8 @@ fun JDSNoOutLinedTextFieldPreview() {
                 )
             },
             textState = textState,
-            onTextChange = onTextChange
+            onTextChange = onTextChange,
+            textStyle = TextStyle()
         )
 
         JDSNoOutLinedTextField(
@@ -101,7 +105,8 @@ fun JDSNoOutLinedTextFieldPreview() {
                 )
             },
             textState = textState,
-            onTextChange = onTextChange
+            onTextChange = onTextChange,
+            textStyle = TextStyle()
         )
     }
 }
