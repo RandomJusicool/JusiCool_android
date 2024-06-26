@@ -14,6 +14,7 @@ import com.jusiCool.presentation.communityWriting.screen.communityWritingRoute
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.login.screen.loginRoute
 import com.jusiCool.presentation.main.screen.mainRoute
+import com.jusiCool.presentation.orderHistory.screen.orderHistoryRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
 import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
 
@@ -72,6 +73,8 @@ fun JusiCool_Android_NavHost(
             navigateToStockBuying = { TODO() },
             navigateToStockSell = { TODO() },
             navigateToCommunity = { TODO() },
-        )   
+        )
+
+        orderHistoryRoute(popUpBackStack = navController::popBackStack)
     }
 }
