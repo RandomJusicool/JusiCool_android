@@ -45,10 +45,7 @@ fun JusiCool_Android_NavHost(
             navigateToCommunityWriting = { TODO() }
         )
 
-        communityModifierRoute(
-            popUpBackStack = navController::popBackStack,
-            navigateToDetailCommunity = { TODO() }
-        )
+        communityModifierRoute(popUpBackStack = navController::popBackStack,)
 
         joinRoute(
             popUpBackStack = navController::popBackStack,
