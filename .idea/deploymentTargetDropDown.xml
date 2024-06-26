@@ -2,23 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CommunityModifierPre">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="$USER_HOME$/.android/avd/Pixel_3a_API_34_extension_level_7_arm64-v8a.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-06-26T00:43:20.441959Z" />
-        </State>
+      <entry key="MainScreenPriview">
+        <State />
       </entry>
-      <entry key="JDSNoOutLinedTextFieldPreview">
+      <entry key="NewsScreenPreview">
+        <State />
+      </entry>
+      <entry key="OrderHistoryScreenPreview">
+        <State />
+      </entry>
+      <entry key="SummaryNewsPreview">
         <State />
       </entry>
       <entry key="app">
