@@ -38,15 +38,9 @@ fun NavController.communityModifierRoute() {
     this.navigate(communityModifierRoute)
 }
 
-fun NavGraphBuilder.communityModifierRoute(
-    popUpBackStack: () -> Unit,
-    navigateToDetailCommunity: () -> Unit,
-) {
+fun NavGraphBuilder.communityModifierRoute(popUpBackStack: () -> Unit) {
     composable(route = communityModifierRoute) {
-        CommunityModifierRoute(
-            popUpBackStack = popUpBackStack,
-            navigateToDetailCommunity = navigateToDetailCommunity,
-        )
+        CommunityModifierRoute(popUpBackStack = popUpBackStack)
     }
 }
 
@@ -54,14 +48,12 @@ fun NavGraphBuilder.communityModifierRoute(
 internal fun CommunityModifierRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToDetailCommunity: () -> Unit,
     ) {
     val focusManager = LocalFocusManager.current
 
     CommunityModifierScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        navigateToDetailCommunity = navigateToDetailCommunity,
         focusManager = focusManager,
         initialData = CommunityListItemTemData(
             title = "커뮤니티는공통의관심사목표가치혹은지리적커뮤니",
@@ -79,7 +71,6 @@ internal fun CommunityModifierRoute(
 internal fun CommunityModifierScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToDetailCommunity: () -> Unit,
     focusManager: FocusManager,
     initialData: CommunityListItemTemData
 ) {
@@ -132,7 +123,7 @@ internal fun CommunityModifierScreen(
                                 .fillMaxWidth()
                                 .height(54.dp),
                             text = "수정하기",
-                            onClick = navigateToDetailCommunity,
+                            onClick = popUpBackStack,
                             state = if (
                                 titleTextState.isNotEmpty()
                                 && contentTextState.isNotEmpty()
@@ -149,8 +140,5 @@ internal fun CommunityModifierScreen(
 @Preview
 @Composable
 private fun CommunityModifierPre() {
-    CommunityModifierRoute(
-        popUpBackStack = { /*TODO*/ },
-        navigateToDetailCommunity = { /*TODO*/ }
-    )
+    CommunityModifierRoute(popUpBackStack = { /*TODO*/ })
 }
