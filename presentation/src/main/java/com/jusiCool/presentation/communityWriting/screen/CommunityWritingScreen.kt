@@ -66,7 +66,7 @@ internal fun CommunityWritingScreen(
     focusManager: FocusManager,
 ) {
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
-        JusiCoolAndroidTheme { colors, _ ->
+        JusiCoolAndroidTheme { colors, typography ->
             val (titleTextState, setTitleText) = remember { mutableStateOf("") }
             val (contentTextState, setContentText) = remember { mutableStateOf("") }
 
@@ -99,6 +99,7 @@ internal fun CommunityWritingScreen(
                             )
                         },
                         onTextChange = setTitleText,
+                        textStyle = typography.titleSmall
                     )
                     JDSNoOutLinedTextField(
                         textState = contentTextState,
@@ -109,7 +110,8 @@ internal fun CommunityWritingScreen(
                                 color = JDSColor.GRAY200,
                             )
                         },
-                        onTextChange = setContentText
+                        onTextChange = setContentText,
+                        textStyle = typography.bodySmall
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Column(
