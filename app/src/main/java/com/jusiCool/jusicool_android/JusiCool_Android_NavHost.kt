@@ -72,6 +72,6 @@ fun JusiCool_Android_NavHost(
             navigateToStockBuying = { TODO() },
             navigateToStockSell = { TODO() },
             navigateToCommunity = { TODO() },
-        )
+        )   
     }
 }
