@@ -19,6 +19,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -31,6 +32,7 @@ import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.presentation.community.component.CommunityListItemTemData
+import com.jusiCool.presentation.communityModifier.component.CommunityModifierDialog
 
 const val communityModifierRoute = "communityModifierRoute"
 
@@ -48,7 +50,7 @@ fun NavGraphBuilder.communityModifierRoute(popUpBackStack: () -> Unit) {
 internal fun CommunityModifierRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    ) {
+) {
     val focusManager = LocalFocusManager.current
 
     CommunityModifierScreen(
@@ -78,6 +80,7 @@ internal fun CommunityModifierScreen(
         JusiCoolAndroidTheme { colors, typography ->
             val (titleTextState, setTitleText) = remember { mutableStateOf(initialData.title) }
             val (contentTextState, setContentText) = remember { mutableStateOf(initialData.content) }
+            val (writingModifierDialogIsVisible, setWritingModifierDialogIsVisible) = remember { mutableStateOf(false) }
 
             Surface(modifier = modifier) {
                 Column(
@@ -90,8 +93,25 @@ internal fun CommunityModifierScreen(
                             }
                         }
                 ) {
+                    if (writingModifierDialogIsVisible) {
+                        Dialog(onDismissRequest = { setWritingModifierDialogIsVisible(false) }) {
+                            CommunityModifierDialog(
+                                checkOnClick = {
+                                    setWritingModifierDialogIsVisible(false)
+                                    // 통신 로직 작성 후 수정
+                                },
+                                cancelOnClick = { setWritingModifierDialogIsVisible(false) }
+                            )
+                        }
+                    }
                     JDSArrowTopBar(
-                        startIcon = { LeftArrowIcon(modifier = modifier.clickableSingle { popUpBackStack() }) },
+                        startIcon = {
+                            LeftArrowIcon(
+                                modifier = modifier.clickableSingle {
+                                    popUpBackStack()
+                                    setWritingModifierDialogIsVisible(true)
+                                }
+                            ) },
                         betweenText = "글 수정"
                     )
                     Column(
