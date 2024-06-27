@@ -69,7 +69,7 @@ fun MainRoute(
     )
 }
 
-val TempMyStockData = persistentListOf(
+val tempMyStockData = persistentListOf(
     MyStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
     MyStocksData("마이크로소프트", 1231, 11131, -8160, 7.9f),
     MyStocksData("마이크로소프트", 1231, 11131, 0, 7.9f),
@@ -80,9 +80,9 @@ val TempMyStockData = persistentListOf(
     MyStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
 )
 
-val TempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
+val tempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
 
-val TempSummaryNewsData = SummaryNewsData(
+val tempSummaryNewsData = SummaryNewsData(
     "https://newsimg.sedaily.com/2023/04/19/29OD2TUOJ3_1.jpg",
     "\"고마워요 엔비디아\"...삼성전자, 간만의 '불기둥' 지속될까",
     "파이낸셜뉴스",
@@ -127,17 +127,17 @@ fun MainScreen(
                 .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(3.dp)
         ) {
-            MyAccount(myAccountData = TempMyAccountData)
+            MyAccount(myAccountData = tempMyAccountData)
 
             MyStocks(
-                myStocksData = TempMyStockData,
-                myAccountData = TempMyAccountData,
+                myStocksData = tempMyStockData,
+                myAccountData = tempMyAccountData,
                 navigateToStockDetail = navigateToStockDetail,
                 navigateToOrderHistory = navigateToOrderHistory,
             )
 
             PopularNews(
-                summaryNewsData = TempSummaryNewsData,
+                summaryNewsData = tempSummaryNewsData,
                 navigateToNews = navigateToNews,
             )
 

@@ -27,7 +27,7 @@ import com.example.design_system.icon_image.icon.RightChevronIcon
 import com.example.design_system.icon_image.image.EllipseImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.main.screen.TempSummaryNewsData
+import com.jusiCool.presentation.main.screen.tempSummaryNewsData
 
 data class SummaryNewsData(
     val imageUrl: String,
@@ -119,7 +119,7 @@ fun PopularNews(
 fun PopularNewsPreview() {
     PopularNews(
         modifier = Modifier.width(312.dp),
-        summaryNewsData = TempSummaryNewsData,
+        summaryNewsData = tempSummaryNewsData,
         navigateToNews = { /*TODO*/ }
     )
 }
