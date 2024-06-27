@@ -138,3 +138,16 @@ fun GraphIcon(
         tint = tint
     )
 }
+
+@Composable
+fun SendIcon(
+    modifier: Modifier = Modifier,
+    tint: Color = Color.Unspecified
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.send_icon),
+        contentDescription = null,
+        modifier = modifier.size(24.dp),
+        tint = tint
+    )
+}
