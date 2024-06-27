@@ -16,7 +16,7 @@ import com.example.design_system.theme.color.JDSColor
 data class MyStocksOrderHistoryData(
     val stockName: String,
     val price: Int,
-    val sell: Boolean,
+    val isSell: Boolean,
 )
 
 @Composable
@@ -36,7 +36,7 @@ fun MyStocksOrderHistory(
             color = JDSColor.Black
         )
 
-        if(myStocksOrderHistoryData.sell) {
+        if(myStocksOrderHistoryData.isSell) {
             Text(
                 text = "${formmatedMyPrice}원 구매완료",
                 style = JDSTypography.label,

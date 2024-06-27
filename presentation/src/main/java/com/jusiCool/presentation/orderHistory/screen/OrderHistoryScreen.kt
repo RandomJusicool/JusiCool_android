@@ -36,7 +36,6 @@ import com.jusiCool.presentation.orderHistory.component.MyStocksOrderHistoryData
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderReservation
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderReservationData
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
 const val orderHistoryRoute = "orderHistoryRoute"
@@ -47,7 +46,7 @@ fun NavController.orderHistoryRoute() {
 
 fun NavGraphBuilder.orderHistoryRoute(popUpBackStack: () -> Unit) {
     composable(route = orderHistoryRoute) {
-        orderHistoryRoute(popUpBackStack = popUpBackStack)
+        OrderHistoryRoute(popUpBackStack = popUpBackStack)
     }
 }
 
