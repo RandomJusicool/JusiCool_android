@@ -27,7 +27,7 @@ import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.component.MyStocks
 import com.jusiCool.presentation.main.component.MyStocksData
 import com.jusiCool.presentation.main.component.PopularNews
-import com.jusiCool.presentation.main.component.SummaryNewsData
+import com.jusiCool.presentation.main.component.PopularSummaryNewsData
 import kotlinx.collections.immutable.persistentListOf
 
 const val mainRoute = "mainRoute"
@@ -69,7 +69,7 @@ fun MainRoute(
     )
 }
 
-val tempMyStockData = persistentListOf(
+val TempMyStockData = persistentListOf(
     MyStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
     MyStocksData("마이크로소프트", 1231, 11131, -8160, 7.9f),
     MyStocksData("마이크로소프트", 1231, 11131, 0, 7.9f),
@@ -80,9 +80,9 @@ val tempMyStockData = persistentListOf(
     MyStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
 )
 
-val tempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
+val TempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
 
-val tempSummaryNewsData = SummaryNewsData(
+val TempPopularSummaryNewsData = PopularSummaryNewsData(
     "https://newsimg.sedaily.com/2023/04/19/29OD2TUOJ3_1.jpg",
     "\"고마워요 엔비디아\"...삼성전자, 간만의 '불기둥' 지속될까",
     "파이낸셜뉴스",
@@ -127,17 +127,17 @@ fun MainScreen(
                 .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(3.dp)
         ) {
-            MyAccount(myAccountData = tempMyAccountData)
+            MyAccount(myAccountData = TempMyAccountData)
 
             MyStocks(
-                myStocksData = tempMyStockData,
-                myAccountData = tempMyAccountData,
+                myStocksData = TempMyStockData,
+                myAccountData = TempMyAccountData,
                 navigateToStockDetail = navigateToStockDetail,
                 navigateToOrderHistory = navigateToOrderHistory,
             )
 
             PopularNews(
-                summaryNewsData = tempSummaryNewsData,
+                popularSummaryNewsData = TempPopularSummaryNewsData,
                 navigateToNews = navigateToNews,
             )
 
