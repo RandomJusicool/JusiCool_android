@@ -35,6 +35,7 @@ import com.jusiCool.presentation.orderHistory.component.MyStocksOrderHistory
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderHistoryData
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderReservation
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderReservationData
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -76,13 +77,26 @@ val tempMyStocksOrderReservationData = persistentListOf(
 )
 
 @Composable
-fun OrderHistoryScreen(
+internal fun OrderHistoryRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    orderHistoryData: PersistentList<MyStocksOrderHistoryData>,
-    orderReservationData: PersistentList<MyStocksOrderReservationData>,
 ) {
-    val orderState = remember { mutableStateOf(true) }
+    OrderHistoryScreen(
+        popUpBackStack = popUpBackStack,
+        orderHistoryData = tempMyStocksOrderHistoryData,
+        orderReservationData = tempMyStocksOrderReservationData
+    )
+}
+
+
+@Composable
+internal fun OrderHistoryScreen(
+    modifier: Modifier = Modifier,
+    popUpBackStack: () -> Unit,
+    orderHistoryData: ImmutableList<MyStocksOrderHistoryData>,
+    orderReservationData: ImmutableList<MyStocksOrderReservationData>,
+) {
+    val (orderState, setOrderState) = remember { mutableStateOf(true) }
 
     Column(
         modifier = modifier
@@ -90,7 +104,7 @@ fun OrderHistoryScreen(
             .background(color = JDSColor.GRAY50)
     ) {
         JDSArrowTopBar(
-            startIcon = { LeftArrowIcon() },
+            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack }) },
             betweenText = "주문내역"
         )
 
@@ -100,19 +114,22 @@ fun OrderHistoryScreen(
                     .fillMaxWidth(0.5f)
                     .drawBehind {
                         drawRect(
-                            if (orderState.value) JDSColor.Black else JDSColor.GRAY400,
+                            if (orderState) JDSColor.Black else JDSColor.GRAY400,
                             Offset(0f, size.height - 1.dp.toPx()),
                             Size(size.width, 1.dp.toPx())
                         )
                     }
-                    .padding(start = 10.dp, top = 8.dp, end = 10.dp, bottom = 8.dp)
-                    .clickableSingle { orderState.value = true },
+                    .padding(
+                        horizontal = 10.dp,
+                        vertical = 8.dp
+                    )
+                    .clickableSingle { setOrderState(true) },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "완료된 주문",
                     style = JDSTypography.subTitle,
-                    color = if (orderState.value) JDSColor.Black else JDSColor.GRAY200,
+                    color = if (orderState) JDSColor.Black else JDSColor.GRAY200,
                 )
             }
 
@@ -121,19 +138,22 @@ fun OrderHistoryScreen(
                     .fillMaxWidth()
                     .drawBehind {
                         drawRect(
-                            if (orderState.value) JDSColor.GRAY400 else JDSColor.Black,
+                            if (orderState) JDSColor.GRAY400 else JDSColor.Black,
                             Offset(0f, size.height - 1.dp.toPx()),
                             Size(size.width, 1.dp.toPx())
                         )
                     }
-                    .padding(start = 10.dp, top = 8.dp, end = 10.dp, bottom = 8.dp)
-                    .clickableSingle { orderState.value = false },
+                    .padding(
+                        horizontal = 10.dp,
+                        vertical = 8.dp
+                    )
+                    .clickableSingle { setOrderState(false) },
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "주문 예약",
                     style = JDSTypography.subTitle,
-                    color = if (orderState.value) JDSColor.GRAY200 else JDSColor.Black,
+                    color = if (orderState) JDSColor.GRAY200 else JDSColor.Black,
                 )
             }
         }
@@ -145,7 +165,7 @@ fun OrderHistoryScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
-            if (orderState.value) {
+            if (orderState) {
                 items(orderHistoryData.size) { item ->
                     MyStocksOrderHistory(
                         myStocksOrderHistoryData = orderHistoryData[item]
