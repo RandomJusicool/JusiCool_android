@@ -107,8 +107,7 @@ fun StockDetailScreen(
         ModalBottomSheetValue.Hidden,
         skipHalfExpanded = true
     )
-    val (whichTimeSegmentSelected, setWhichTimeSegmentSelected)
-            = remember { mutableStateOf(TimeSegment.ONE_MINUTE) }
+    val (whichTimeSegmentSelected, setWhichTimeSegmentSelected) = remember { mutableStateOf(TimeSegment.ONE_MINUTE) }
     val (isSellBottomSheet, setIsSellBottomSheet) = remember { mutableStateOf(false) }
 
     ModalBottomSheetLayout(
@@ -194,7 +193,7 @@ fun StockDetailScreen(
                 .background(JDSColor.GRAY50),
             topBar = {
                 JDSArrowTopBar(
-                    modifier = Modifier.background(JDSColor.WHITE),
+                    modifier = Modifier.background(JDSColor.GRAY50),
                     startIcon = {
                         LeftArrowIcon(modifier = Modifier.clickableSingle {
                             popUpBackStack()
