@@ -41,7 +41,9 @@ fun SummaryNews(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = JDSColor.WHITE, shape = RoundedCornerShape(size = 12.dp))
+            .background(
+                color = JDSColor.WHITE,
+                shape = RoundedCornerShape(size = 12.dp))
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically

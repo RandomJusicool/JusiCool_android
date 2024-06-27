@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -30,7 +31,6 @@ import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.communityModifier.screen.CommunityModifierRoute
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderHistory
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderHistoryData
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderReservation
@@ -81,6 +81,7 @@ internal fun OrderHistoryRoute(
     popUpBackStack: () -> Unit,
 ) {
     OrderHistoryScreen(
+        modifier = modifier,
         popUpBackStack = popUpBackStack,
         orderHistoryData = tempMyStocksOrderHistoryData,
         orderReservationData = tempMyStocksOrderReservationData
@@ -103,7 +104,7 @@ internal fun OrderHistoryScreen(
             .background(color = JDSColor.GRAY50)
     ) {
         JDSArrowTopBar(
-            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack }) },
+            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack() }) },
             betweenText = "주문내역"
         )
 
@@ -165,15 +166,15 @@ internal fun OrderHistoryScreen(
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
             if (orderState) {
-                items(orderHistoryData.size) { item ->
+                items(orderHistoryData) { item ->
                     MyStocksOrderHistory(
-                        myStocksOrderHistoryData = orderHistoryData[item]
+                        myStocksOrderHistoryData = item
                     )
                 }
             } else {
-                items(orderReservationData.size) { item ->
+                items(orderReservationData) { item ->
                     MyStocksOrderReservation(
-                        myStocksOrderReservationData = orderReservationData[item]
+                        myStocksOrderReservationData = item
                     )
                 }
             }

@@ -22,8 +22,8 @@ import com.example.design_system.icon_image.icon.RightChevronIcon
 import com.example.design_system.icon_image.image.GraphSkeletonImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.main.screen.tempMyAccountData
-import com.jusiCool.presentation.main.screen.tempMyStockData
+import com.jusiCool.presentation.main.screen.TempMyAccountData
+import com.jusiCool.presentation.main.screen.TempMyStockData
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -157,8 +157,8 @@ fun MyStocksPreview() {
     Row {
         MyStocks(
             modifier = Modifier.width(280.dp),
-            myStocksData =  tempMyStockData,
-            myAccountData = tempMyAccountData,
+            myStocksData =  TempMyStockData,
+            myAccountData = TempMyAccountData,
             navigateToStockDetail = { /*TODO*/ },
             navigateToOrderHistory = { /*TODO*/ },
         )
