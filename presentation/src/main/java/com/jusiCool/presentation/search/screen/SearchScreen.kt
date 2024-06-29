@@ -90,7 +90,7 @@ internal fun SearchScreen(
             )
 
             Column {
-                for(item in popularStocksSearchData) {
+                popularStocksSearchData.forEach { item ->
                     PopularStocksSearch(popularStocksSearchData = item)
                 }
             }

@@ -49,7 +49,7 @@ fun PopularStocksSearch(
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(50.dp)) {
             Text(
-                text = "${popularStocksSearchData.number}",
+                text = popularStocksSearchData.number.toString(),
                 style = JDSTypography.bodyMedium,
                 color = JDSColor.Black
             )
