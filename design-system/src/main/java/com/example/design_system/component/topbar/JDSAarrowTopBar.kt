@@ -31,7 +31,7 @@ fun JDSArrowTopBar(
                 .fillMaxWidth()
                 .padding(
                     horizontal = 24.dp,
-                    vertical = 16.dp
+                    vertical = 15.dp
                 )
         ) {
             startIcon()
