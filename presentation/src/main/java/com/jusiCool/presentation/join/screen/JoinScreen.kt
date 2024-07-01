@@ -42,13 +42,9 @@ fun NavController.navigationToJoin() {
 // navHost에 화면을 등록할 수 있게 하는 확장 함수
 fun NavGraphBuilder.joinRoute(
     popUpBackStack: () -> Unit,
-    navigateToMain: () -> Unit,
 ) {
     composable(joinRoute) {
-        JoinRoute(
-            popUpBackStack = popUpBackStack,
-            navigateToMain = navigateToMain
-        )
+        JoinRoute(popUpBackStack = popUpBackStack)
     }
 }
 
@@ -57,12 +53,10 @@ fun NavGraphBuilder.joinRoute(
 fun JoinRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToMain: () -> Unit,
 ) {
     JoinScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        navigateToMain = navigateToMain,
     )
 }
 
@@ -71,7 +65,6 @@ fun JoinRoute(
 fun JoinScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToMain: () -> Unit,
 ) {
     val (authenticationCodeIsSent, setAuthenticationCodeIsSent) = remember { mutableStateOf(false) }
     val (nameTextState, setNameTextState) = remember { mutableStateOf("") }
@@ -143,7 +136,6 @@ fun JoinScreen(
                 }
 
                 1 -> {
-
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -231,8 +223,9 @@ fun JoinScreen(
                                 .fillMaxWidth()
                                 .height(53.dp),
                             text = "시작하기",
-                            state = if (nameTextState.isNotEmpty()) ButtonState.Enable else ButtonState.Disable,
-                            onClick = { if (passWordTextState == rePassWordTextState) navigateToMain() },
+                            state = if (nameTextState.isNotEmpty()) ButtonState.Enable
+                            else ButtonState.Disable,
+                            onClick = { if (passWordTextState == rePassWordTextState) popUpBackStack() },
                         )
                     }
                 }
@@ -246,6 +239,5 @@ fun JoinScreen(
 fun JoinScreenPreview() {
     JoinScreen(
         popUpBackStack = {},
-        navigateToMain = {}
     )
 }
