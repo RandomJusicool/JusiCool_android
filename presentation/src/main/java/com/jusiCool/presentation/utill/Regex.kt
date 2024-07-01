@@ -1,11 +1,7 @@
 package com.jusiCool.presentation.utill
 
-fun String.checkEmailRegex(): Boolean {
-    val emailRegex = ".*@.*"
-    return this.matches(emailRegex.toRegex())
-}
+fun String.checkEmailRegex() =
+    this.matches(".*@.*".toRegex())
 
-fun String.checkPasswordRegex(): Boolean {
-    val passwordRegex = "\"\"^(?=.*[A-Za-z])(?=.*\\d|(?=.*[!@#\\\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?])).{8,}\$\"\""
-    return this.matches(passwordRegex.toRegex())
-}
+fun String.checkPasswordRegex() =
+    this.matches("^(?=.[A-Za-z])(?=.[0-9])|(?=.[A-Za-z])(?=.[^A-Za-z0-9])|(?=.[0-9])(?=.[^A-Za-z0-9]).{8,}$".toRegex())
