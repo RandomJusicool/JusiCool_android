@@ -1,8 +1,7 @@
 package com.jusiCool.data.remote.datesource.board
 
 import com.jusiCool.data.remote.dto.board.request.WritingCommunityBoardRequest
-import com.jusiCool.data.remote.dto.board.response.GetCommunityBoardDetailResponse
-import com.jusiCool.data.remote.dto.board.response.GetCommunityBoardListResponse
+import com.jusiCool.data.remote.dto.board.response.*
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteBoardDataSource {
