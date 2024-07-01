@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,7 +67,7 @@ internal fun HoldShareScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = JDSColor.GRAY50),
+            .background(color = JDSColor.GRAY50,),
         verticalArrangement = Arrangement.spacedBy(13.dp)
     ) {
         JDSArrowTopBar(
@@ -82,7 +83,10 @@ internal fun HoldShareScreen(
             items(myStocksData) { item ->
                 Stocks(
                     modifier = Modifier
-                        .background(color = JDSColor.WHITE)
+                        .background(
+                            color = JDSColor.WHITE,
+                            shape = RoundedCornerShape(size = 12.dp)
+                        )
                         .padding(16.dp),
                     myStocksData = item,
                     navigateToStockDetail = navigateToStockDetail
