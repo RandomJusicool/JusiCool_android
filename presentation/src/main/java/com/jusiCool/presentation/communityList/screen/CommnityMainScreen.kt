@@ -25,7 +25,7 @@ fun NavGraphBuilder.communityListRoute(
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit,
 ) {
-    composable(route = communityListRoute) {
+    composable(communityListRoute) {
         CommunityListRoute(
             popUpBackStack = popUpBackStack,
             navigateToCommunity = navigateToCommunity

@@ -32,6 +32,7 @@ import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
+import kotlin.reflect.KFunction0
 
 const val communityWritingRoute = "communityWritingRoute"
 
@@ -39,8 +40,10 @@ fun NavController.communityWritingRoute() {
     this.navigate(communityWritingRoute)
 }
 
-fun NavGraphBuilder.communityWritingRoute(popUpBackStack: () -> Unit) {
-    composable(route = communityWritingRoute) {
+fun NavGraphBuilder.communityWritingRoute(
+    popUpBackStack: () -> Unit,
+) {
+    composable(communityWritingRoute) {
         CommunityWritingRoute(popUpBackStack = popUpBackStack)
     }
 }
@@ -54,16 +57,16 @@ internal fun CommunityWritingRoute(
 
     CommunityWritingScreen(
         modifier = modifier,
+        focusManager = focusManager,
         popUpBackStack = popUpBackStack,
-        focusManager = focusManager
     )
 }
 
 @Composable
 internal fun CommunityWritingScreen(
     modifier: Modifier = Modifier,
-    popUpBackStack: () -> Unit,
     focusManager: FocusManager,
+    popUpBackStack: () -> Unit,
 ) {
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         JusiCoolAndroidTheme { colors, typography ->

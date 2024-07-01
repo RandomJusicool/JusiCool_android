@@ -33,7 +33,7 @@ fun NavController.newsRoute() {
 }
 
 fun NavGraphBuilder.newsRoute(popUpBackStack: () -> Unit) {
-    composable(route = newsRoute) {
+    composable(newsRoute) {
         NewsRoute(popUpBackStack = popUpBackStack)
     }
 }

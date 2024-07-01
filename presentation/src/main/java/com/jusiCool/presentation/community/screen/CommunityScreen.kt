@@ -27,12 +27,12 @@ fun NavController.navigateToCommunity() {
 
 fun NavGraphBuilder.communityRoute(
     navigateToCommunityWriting: () -> Unit,
-    navigateToDetailCommunity: () -> Unit,
+    navigateToCommunityDetail: () -> Unit,
     popUpBackStack: () -> Unit,
 ) {
-    composable(route = communityRoute) {
+    composable(communityRoute) {
         CommunityRoute(
-            navigateToDetailCommunity = navigateToDetailCommunity,
+            navigateToDetailCommunity = navigateToCommunityDetail,
             navigateToCommunityWriting = navigateToCommunityWriting,
             popUpBackStack = popUpBackStack,
         )
