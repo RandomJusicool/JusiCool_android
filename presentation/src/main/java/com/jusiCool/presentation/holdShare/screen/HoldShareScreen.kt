@@ -100,8 +100,8 @@ internal fun HoldShareScreen(
 @Composable
 fun HoldShareScreenPreview() {
     HoldShareScreen(
-        navigateToStockDetail = { /*TODO*/},
-        popUpBackStack = { /*TODO*/ },
+        navigateToStockDetail = {},
+        popUpBackStack = {},
         myStocksData = tempMyStockData
     )
 }
