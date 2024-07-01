@@ -12,6 +12,7 @@ import com.jusiCool.presentation.community.screen.communityRoute
 import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityModifier.screen.communityModifierRoute
 import com.jusiCool.presentation.communityWriting.screen.communityWritingRoute
+import com.jusiCool.presentation.holdShare.screen.holdShareRoute
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.login.screen.loginRoute
 import com.jusiCool.presentation.main.screen.mainRoute
@@ -87,6 +88,11 @@ fun JusiCool_Android_NavHost(
         checkEntireStockListRoute(
             navigateToSearch = { /*TODO*/ },
             navigateToMain = { /*TODO*/ }
+        )
+
+        holdShareRoute(
+            navigateToStockDetail = { /*TODO*/ },
+            popUpBackStack = navController::popBackStack
         )
     }
 }
