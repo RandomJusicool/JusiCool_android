@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +25,7 @@ import com.example.design_system.icon_image.image.GraphImage
 import com.example.design_system.icon_image.image.LogoImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import kotlinx.coroutines.delay
 
 const val splashRoute = "splashRoute"
 
@@ -33,21 +35,31 @@ fun NavController.navigationToSplash() {
 }
 
 // navHost에 화면을 등록할 수 있게 하는 확장 함수
-fun NavGraphBuilder.splashRoute() {
+fun NavGraphBuilder.splashRoute(navigateToMain: () -> Unit) {
     composable(splashRoute) {
-        JusiCoolSplashRoute()
+        JusiCoolSplashRoute(navigateToMain = navigateToMain)
     }
 }
 
 // Route
 @Composable
-fun JusiCoolSplashRoute(modifier: Modifier = Modifier) {
-    JusiCoolSplashScreen(modifier = modifier)
+fun JusiCoolSplashRoute(
+    modifier: Modifier = Modifier,
+    navigateToMain: () -> Unit,
+) {
+    JusiCoolSplashScreen(modifier = modifier, navigateToMain = navigateToMain)
 }
 
 // Screen
 @Composable
-fun JusiCoolSplashScreen(modifier: Modifier = Modifier) {
+fun JusiCoolSplashScreen(
+    modifier: Modifier = Modifier,
+    navigateToMain: () -> Unit,
+) {
+    LaunchedEffect(Unit) {
+        delay(300)
+        navigateToMain()
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -97,5 +109,5 @@ fun JusiCoolSplashScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun JusiCoolSplashScreenPreview() {
-    JusiCoolSplashScreen()
+    JusiCoolSplashScreen(navigateToMain = {})
 }
