@@ -2,6 +2,7 @@ package com.jusiCool.jusicool_android.module
 
 import android.util.Log
 import com.jusiCool.data.remote.api.BoardAPI
+import com.jusiCool.data.remote.api.CommentAPI
 import com.jusiCool.data.remote.api.ReservationAPI
 import com.jusiCool.data.utill.AuthInterceptor
 import com.squareup.moshi.Moshi
@@ -11,6 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.w3c.dom.Comment
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -71,5 +73,11 @@ object NetworkModule {
     @Singleton
     fun ReservationAPI(retrofit: Retrofit): ReservationAPI {
         return retrofit.create(ReservationAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun CommentAPI(retrofit: Retrofit): CommentAPI {
+        return retrofit.create(CommentAPI::class.java)
     }
 }
