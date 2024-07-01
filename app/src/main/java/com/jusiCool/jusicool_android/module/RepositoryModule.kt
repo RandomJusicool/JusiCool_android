@@ -4,6 +4,7 @@ import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSour
 import com.jusiCool.data.repository.BoardRepositoryImpl
 import com.jusiCool.data.repository.CommentRepositoryImpl
 import com.jusiCool.data.repository.EmailRepositoryImpl
+import com.jusiCool.data.repository.ReservationRepositoryImpl
 import com.jusiCool.domain.repository.BoardRepository
 import com.jusiCool.domain.repository.CommentRepository
 import com.jusiCool.domain.repository.EmailRepository
@@ -34,6 +35,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideReservationRepository(
-        reservationDataSourceImpl: RemoteReservationDataSourceImpl
+        reservationRepositoryImpl: ReservationRepositoryImpl
     ) : ReservationRepository
 }
