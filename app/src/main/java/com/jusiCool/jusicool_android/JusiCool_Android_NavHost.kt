@@ -7,25 +7,29 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.jusiCool.presentation.checkEntireStock.screen.checkEntireStockListRoute
 import com.jusiCool.presentation.community.screen.communityRoute
+import com.jusiCool.presentation.community.screen.navigateToCommunity
 import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityModifier.screen.communityModifierRoute
 import com.jusiCool.presentation.communityWriting.screen.communityWritingRoute
 import com.jusiCool.presentation.join.screen.joinRoute
+import com.jusiCool.presentation.join.screen.navigationToJoin
 import com.jusiCool.presentation.login.screen.loginRoute
+import com.jusiCool.presentation.login.screen.navigationToLogin
 import com.jusiCool.presentation.main.screen.mainRoute
+import com.jusiCool.presentation.main.screen.navigationToMain
 import com.jusiCool.presentation.orderHistory.screen.orderHistoryRoute
 import com.jusiCool.presentation.news.screen.newsRoute
 import com.jusiCool.presentation.search.screen.searchRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
+import com.jusiCool.presentation.stockDetail.screen.navigationToStockDetail
 import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
 
 @Composable
 fun JusiCool_Android_NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "splashRoute",
+    startDestination: String = splashRoute,
 ) {
     NavHost(
         modifier = modifier,
@@ -36,57 +40,55 @@ fun JusiCool_Android_NavHost(
         popExitTransition = { ExitTransition.None },
         startDestination = startDestination,
     ) {
-        communityListRoute(
-            popUpBackStack = navController::popBackStack,
-            navigateToCommunity = { TODO() }
-        )
-
-        communityWritingRoute(popUpBackStack = navController::popBackStack)
-
-        communityRoute(
-            popUpBackStack = navController::popBackStack,
-            navigateToDetailCommunity = { TODO() },
-            navigateToCommunityWriting = { TODO() }
-        )
-
-        communityModifierRoute(popUpBackStack = navController::popBackStack)
-
-        joinRoute(
-            popUpBackStack = navController::popBackStack,
-            navigateToMain = { /* TODO: */ },
-        )
+        splashRoute()
 
         loginRoute(
             navigateToFindPassword = { TODO() },
-            navigateToLogin = { TODO() },
-            navigateToJoin = { TODO() },
+            navigateToMain = navController::navigationToMain,
+            navigateToJoin = navController::navigationToJoin,
+        )
+
+        joinRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToMain = navController::navigationToMain,
         )
 
         mainRoute(
-            navigateToSearch = { /*TODO*/ },
-            navigateToStockDetail = { /*TODO*/ },
-            navigateToNews = { /*TODO*/ },
-            navigateToOrderHistory = { /*TODO*/ },
+            navigateToSearch = navController::searchRoute,
+            navigateToStockDetail = navController::navigationToStockDetail,
+            navigateToNews = navController::newsRoute,
+            navigateToOrderHistory = navController::orderHistoryRoute,
         )
 
-        splashRoute()
-
-        stockDetailRoute(
+        searchRoute(
             popUpBackStack = navController::popBackStack,
-            navigateToStockBuying = { TODO() },
-            navigateToStockSell = { TODO() },
-            navigateToCommunity = { TODO() },
+            navigateToStockDetail = navController::navigationToStockDetail,
         )
 
         orderHistoryRoute(popUpBackStack = navController::popBackStack)
 
         newsRoute(popUpBackStack = navController::popBackStack)
 
-        searchRoute(popUpBackStack = navController::popBackStack)
-
-        checkEntireStockListRoute(
-            navigateToSearch = { /*TODO*/ },
-            navigateToMain = { /*TODO*/ }
+        stockDetailRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToStockBuying = { TODO() },
+            navigateToStockSell = { TODO() },
+            navigateToCommunity = navController::navigateToCommunity,
         )
+
+        communityRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToCommunityDetail = { TODO() },
+            navigateToCommunityWriting = navController::navigationToLogin
+        )
+
+        communityWritingRoute(popUpBackStack = navController::popBackStack)
+
+        communityListRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToCommunity = navController::navigateToCommunity,
+        )
+
+        communityModifierRoute(popUpBackStack = navController::popBackStack)
     }
 }
