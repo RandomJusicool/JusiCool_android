@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.jusiCool.presentation.checkEntireStock.screen.checkEntireStockListRoute
 import com.jusiCool.presentation.community.screen.communityRoute
 import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityModifier.screen.communityModifierRoute
@@ -83,5 +84,9 @@ fun JusiCool_Android_NavHost(
 
         searchRoute(popUpBackStack = navController::popBackStack)
 
+        checkEntireStockListRoute(
+            navigateToSearch = { /*TODO*/ },
+            navigateToMain = { /*TODO*/ }
+        )
     }
 }

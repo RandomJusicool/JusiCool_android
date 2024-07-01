@@ -34,7 +34,7 @@ fun MyStocks(
     navigateToStockDetail: () -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
-    val visibleItems = myStocksData.size.coerceAtMost(6)
+    val visibleItems = myStocksData.size
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
