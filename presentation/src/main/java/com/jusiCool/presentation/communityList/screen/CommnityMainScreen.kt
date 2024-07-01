@@ -17,7 +17,7 @@ import com.example.design_system.theme.JusiCoolAndroidTheme
 
 const val communityListRoute = "communityListRoute"
 
-fun NavController.navigateToMainCommunity() {
+fun NavController.navigateToCommunityList() {
     this.navigate(communityListRoute)
 }
 
