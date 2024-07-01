@@ -2,6 +2,7 @@ package com.jusiCool.jusicool_android.module
 
 import android.util.Log
 import com.jusiCool.data.remote.api.BoardAPI
+import com.jusiCool.data.remote.api.ReservationAPI
 import com.jusiCool.data.utill.AuthInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -65,5 +66,11 @@ object NetworkModule {
     @Singleton
     fun BoardAPI(retrofit: Retrofit): BoardAPI {
         return retrofit.create(BoardAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun ReservationAPI(retrofit: Retrofit): ReservationAPI {
+        return retrofit.create(ReservationAPI::class.java)
     }
 }
