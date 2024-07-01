@@ -60,6 +60,7 @@ internal fun LoginRoute(
     modifier: Modifier = Modifier,
     navigateToJoin: () -> Unit,
     navigateToFindPassword: () -> Unit, // 디자인 적용후 사용예정
+    navigateToMain: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -69,6 +70,7 @@ internal fun LoginRoute(
         loginOnClick = { email, password -> }, // 추후 viewmodel 개발후 통신 예정
         navigateToJoin = navigateToJoin,
         navigateToFindPassword = navigateToFindPassword,
+        navigateToMain = navigateToMain,
     )
 }
 
@@ -79,6 +81,7 @@ internal fun LoginScreen(
     loginOnClick: (String, String) -> Unit,
     navigateToJoin: () -> Unit,
     navigateToFindPassword: () -> Unit,
+    navigateToMain: () -> Unit,
 ) {
     val (emailTextState, onChangeEmail) = remember { mutableStateOf("") }
     val (passwordTextState, onChangePassword) = remember { mutableStateOf("") }
@@ -138,8 +141,13 @@ internal fun LoginScreen(
                             .fillMaxWidth()
                             .height(54.dp),
                         text = "확인",
-                        state = if (emailTextState.checkEmailRegex() && passwordTextState.checkPasswordRegex()) ButtonState.Enable else ButtonState.Disable,
-                        onClick = { navigateToLogin(emailTextState, passwordTextState) }
+                        state =
+                        if (emailTextState.checkEmailRegex() && passwordTextState.checkPasswordRegex()) ButtonState.Enable
+                        else ButtonState.Disable,
+                        onClick = {
+                            loginOnClick(emailTextState, passwordTextState)
+                            navigateToMain()
+                        }
                     )
                     Text(
                         modifier = Modifier.fillMaxWidth(),
