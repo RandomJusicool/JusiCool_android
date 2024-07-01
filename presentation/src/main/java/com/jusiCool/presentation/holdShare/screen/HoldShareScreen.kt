@@ -60,14 +60,14 @@ internal fun HoldShareRoute(
 @Composable
 internal fun HoldShareScreen(
     modifier: Modifier = Modifier,
+    myStocksData: ImmutableList<MyStocksData>,
     navigateToStockDetail: () -> Unit,
     popUpBackStack: () -> Unit,
-    myStocksData: ImmutableList<MyStocksData>,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = JDSColor.GRAY50,),
+            .background(color = JDSColor.GRAY50),
         verticalArrangement = Arrangement.spacedBy(13.dp)
     ) {
         JDSArrowTopBar(
