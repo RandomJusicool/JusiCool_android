@@ -18,7 +18,7 @@ import com.example.design_system.component.modifier.clickableSingle.clickableSin
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 
-data class EntireStocksListData(
+data class EntireStocksData(
     val stockName: String,
     val share: Int,
     val myStockPrice: Int,
@@ -27,13 +27,13 @@ data class EntireStocksListData(
 )
 
 @Composable
-fun EntireStocksList(
+fun EntireStocksItem(
     modifier: Modifier = Modifier,
-    entireStocksListData: EntireStocksListData
+    entireStocksData: EntireStocksData
 ) {
     val formattedMyStockRevenue =
-        if (entireStocksListData.myStockRevenue > 0) "+%,d".format(entireStocksListData.myStockRevenue)
-        else "%,d".format(entireStocksListData.myStockRevenue)
+        if (entireStocksData.myStockRevenue > 0) "+%,d".format(entireStocksData.myStockRevenue)
+        else "%,d".format(entireStocksData.myStockRevenue)
 
     Row(
         modifier = modifier
@@ -48,14 +48,14 @@ fun EntireStocksList(
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(
-                text = entireStocksListData.stockName,
+                text = entireStocksData.stockName,
                 style = JDSTypography.bodySmall,
                 color = JDSColor.Black
             )
 
             Text(
                 text =
-                if(entireStocksListData.share != 0)"${"%,d".format(entireStocksListData.share)} 주 보유"
+                if(entireStocksData.share != 0)"${"%,d".format(entireStocksData.share)} 주 보유"
                 else "보유 주식 없음",
                 style = JDSTypography.label,
                 color = JDSColor.GRAY400
@@ -67,16 +67,16 @@ fun EntireStocksList(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "${"%,d".format(entireStocksListData.myStockPrice)} P",
+                text = "${"%,d".format(entireStocksData.myStockPrice)} P",
                 style = JDSTypography.bodySmall,
                 color = JDSColor.Black
             )
 
             Text(
-                text = "$formattedMyStockRevenue (${entireStocksListData.myStockRevenuePercent}%)",
+                text = "$formattedMyStockRevenue (${entireStocksData.myStockRevenuePercent}%)",
                 style = JDSTypography.label,
-                color = if (entireStocksListData.myStockRevenue < 0) JDSColor.MAIN
-                else if (entireStocksListData.myStockRevenue > 0) JDSColor.ERROR
+                color = if (entireStocksData.myStockRevenue < 0) JDSColor.MAIN
+                else if (entireStocksData.myStockRevenue > 0) JDSColor.ERROR
                 else JDSColor.GRAY600,
             )
         }
@@ -87,9 +87,9 @@ fun EntireStocksList(
 @Composable
 fun EntireStocksPreview() {
     Column {
-        EntireStocksList(
+        EntireStocksItem(
             modifier = Modifier.width(312.dp),
-            entireStocksListData = EntireStocksListData(
+            entireStocksData = EntireStocksData(
                 stockName = "마이크로소프트",
                 share = 1231,
                 myStockPrice = 11131,
@@ -98,9 +98,9 @@ fun EntireStocksPreview() {
             )
         )
 
-        EntireStocksList(
+        EntireStocksItem(
             modifier = Modifier.width(312.dp),
-            entireStocksListData = EntireStocksListData(
+            entireStocksData = EntireStocksData(
                 stockName = "마이크로소프트",
                 share = 0,
                 myStockPrice = 11131,

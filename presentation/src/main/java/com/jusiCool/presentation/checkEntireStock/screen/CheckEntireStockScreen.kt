@@ -21,8 +21,8 @@ import com.example.design_system.icon_image.icon.GraphIcon
 import com.example.design_system.icon_image.icon.SearchIcon
 import com.example.design_system.icon_image.image.LogoImage
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.checkEntireStock.component.EntireStocksList
-import com.jusiCool.presentation.checkEntireStock.component.EntireStocksListData
+import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
+import com.jusiCool.presentation.checkEntireStock.component.EntireStocksItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -58,25 +58,25 @@ fun CheckEntireStockListRoute(
 }
 
 
-val tempEntireStocksListData = persistentListOf(
-    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, -8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, 0, 7.9f),
-    EntireStocksListData("마이크로소프트", 1, 11131, 8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+val tempEntireStocksData = persistentListOf(
+    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, -8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, 0, 7.9f),
+    EntireStocksData("마이크로소프트", 1, 11131, 8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
 )
 
 @Composable
 fun CheckEntireStockListScreen(
     modifier: Modifier = Modifier,
-    entireStocksListData: ImmutableList<EntireStocksListData>,
+    entireStocksData: ImmutableList<EntireStocksData>,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
 ) {
@@ -109,9 +109,9 @@ fun CheckEntireStockListScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(bottom = 8.dp)
         ) {
-            items(entireStocksListData) { item ->
-                EntireStocksList(
-                    entireStocksListData = item
+            items(entireStocksData) { item ->
+                EntireStocksItem(
+                    entireStocksData = item
                 )
             }
         }
@@ -122,7 +122,7 @@ fun CheckEntireStockListScreen(
 @Composable
 fun CheckEntireStockListScreenPreview() {
     CheckEntireStockListScreen(
-        entireStocksListData = tempEntireStocksListData,
+        entireStocksData = tempEntireStocksData,
         navigateToSearch = { /*TODO*/ },
         navigateToMain = { /*TODO*/ }
     )
