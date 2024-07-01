@@ -1,7 +1,7 @@
 package com.jusiCool.presentation.utill
 
 fun String.checkEmailRegex() =
-    this.matches("dd".toRegex() /* 임시 -> 후에 정규화식 작성?*/)
+    this.matches(".*@.*".toRegex())
 
 fun String.checkPasswordRegex() =
-    this.matches("dd".toRegex() /* 임시 -> 후에 정규화식 작성?*/)
+    this.matches("^(?=.[A-Za-z])(?=.[0-9])|(?=.[A-Za-z])(?=.[^A-Za-z0-9])|(?=.[0-9])(?=.[^A-Za-z0-9]).{8,}$".toRegex())
