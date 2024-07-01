@@ -3,6 +3,7 @@ package com.jusiCool.jusicool_android.module
 import android.util.Log
 import com.jusiCool.data.remote.api.BoardAPI
 import com.jusiCool.data.remote.api.CommentAPI
+import com.jusiCool.data.remote.api.EmailAPI
 import com.jusiCool.data.remote.api.ReservationAPI
 import com.jusiCool.data.utill.AuthInterceptor
 import com.squareup.moshi.Moshi
@@ -78,5 +79,11 @@ object NetworkModule {
     @Singleton
     fun CommentAPI(retrofit: Retrofit): CommentAPI {
         return retrofit.create(CommentAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun EmailAPI(retrofit: Retrofit): EmailAPI {
+        return retrofit.create(EmailAPI::class.java)
     }
 }
