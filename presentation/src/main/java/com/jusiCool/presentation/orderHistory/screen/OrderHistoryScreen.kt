@@ -45,7 +45,7 @@ fun NavController.orderHistoryRoute() {
 }
 
 fun NavGraphBuilder.orderHistoryRoute(popUpBackStack: () -> Unit) {
-    composable(route = orderHistoryRoute) {
+    composable(orderHistoryRoute) {
         OrderHistoryRoute(popUpBackStack = popUpBackStack)
     }
 }
@@ -186,7 +186,7 @@ internal fun OrderHistoryScreen(
 @Composable
 fun OrderHistoryScreenPreview() {
     OrderHistoryScreen(
-        popUpBackStack = { /*TODO*/ },
+        popUpBackStack = { },
         orderHistoryData = tempMyStocksOrderHistoryData,
         orderReservationData = tempMyStocksOrderReservationData
     )
