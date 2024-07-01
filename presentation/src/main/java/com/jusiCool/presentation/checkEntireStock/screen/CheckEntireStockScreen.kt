@@ -21,23 +21,23 @@ import com.example.design_system.icon_image.icon.GraphIcon
 import com.example.design_system.icon_image.icon.SearchIcon
 import com.example.design_system.icon_image.image.LogoImage
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.checkEntireStock.component.EntireStocks
-import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
+import com.jusiCool.presentation.checkEntireStock.component.EntireStocksList
+import com.jusiCool.presentation.checkEntireStock.component.EntireStocksListData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-const val checkEntireStockRoute = "checkEntireStockRoute"
+const val checkEntireStockListRoute = "checkEntireStockListRoute"
 
 fun NavController.navigationToMain() {
-    this.navigate(checkEntireStockRoute)
+    this.navigate(checkEntireStockListRoute)
 }
 
-fun NavGraphBuilder.checkEntireStockRoute(
+fun NavGraphBuilder.checkEntireStockListRoute(
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
 ) {
-    composable(route = checkEntireStockRoute) {
-        CheckEntireStockRoute(
+    composable(route = checkEntireStockListRoute) {
+        CheckEntireStockListRoute(
             navigateToSearch = navigateToSearch,
             navigateToMain = navigateToMain
         )
@@ -45,12 +45,12 @@ fun NavGraphBuilder.checkEntireStockRoute(
 }
 
 @Composable
-fun CheckEntireStockRoute(
+fun CheckEntireStockListRoute(
     modifier: Modifier = Modifier,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
 ) {
-    CheckEntireStockRoute(
+    CheckEntireStockListRoute(
         modifier = modifier,
         navigateToSearch = navigateToSearch,
         navigateToMain = navigateToMain
@@ -58,25 +58,25 @@ fun CheckEntireStockRoute(
 }
 
 
-val tempEntireStocksData = persistentListOf(
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, -8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 0, 7.9f),
-    EntireStocksData("마이크로소프트", 1, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+val tempEntireStocksListData = persistentListOf(
+    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, -8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, 0, 7.9f),
+    EntireStocksListData("마이크로소프트", 1, 11131, 8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksListData("마이크로소프트", 1231, 11131, 8160, 7.9f),
 )
 
 @Composable
-fun CheckEntireStockScreen(
+fun CheckEntireStockListScreen(
     modifier: Modifier = Modifier,
-    entireStocksData: ImmutableList<EntireStocksData>,
+    entireStocksListData: ImmutableList<EntireStocksListData>,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
 ) {
@@ -109,9 +109,9 @@ fun CheckEntireStockScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(bottom = 8.dp)
         ) {
-            items(entireStocksData) { item ->
-                EntireStocks(
-                    entireStocksData = item
+            items(entireStocksListData) { item ->
+                EntireStocksList(
+                    entireStocksListData = item
                 )
             }
         }
@@ -120,9 +120,9 @@ fun CheckEntireStockScreen(
 
 @Preview
 @Composable
-fun CheckEntireStockScreenPreview() {
-    CheckEntireStockScreen(
-        entireStocksData = tempEntireStocksData,
+fun CheckEntireStockListScreenPreview() {
+    CheckEntireStockListScreen(
+        entireStocksListData = tempEntireStocksListData,
         navigateToSearch = { /*TODO*/ },
         navigateToMain = { /*TODO*/ }
     )
