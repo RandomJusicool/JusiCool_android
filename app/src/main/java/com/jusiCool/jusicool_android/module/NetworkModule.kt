@@ -1,6 +1,7 @@
 package com.jusiCool.jusicool_android.module
 
 import android.util.Log
+import com.jusiCool.data.remote.api.BoardAPI
 import com.jusiCool.data.utill.AuthInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -60,5 +61,9 @@ object NetworkModule {
         .addConverterFactory(moshiConverterFactory)
         .build()
 
-    // Todo : Add Other API Provide
+    @Provides
+    @Singleton
+    fun BoardAPI(retrofit: Retrofit): BoardAPI {
+        return retrofit.create(BoardAPI::class.java)
+    }
 }
