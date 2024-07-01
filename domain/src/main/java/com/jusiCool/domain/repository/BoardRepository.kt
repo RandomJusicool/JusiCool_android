@@ -1,8 +1,7 @@
 package com.jusiCool.domain.repository
 
 import com.jusiCool.domain.model.board.request.WritingCommunityBoardRequestModel
-import com.jusiCool.domain.model.board.response.GetCommunityBoardDetailResponseModel
-import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
+import com.jusiCool.domain.model.board.response.*
 import kotlinx.coroutines.flow.Flow
 
 interface BoardRepository {
