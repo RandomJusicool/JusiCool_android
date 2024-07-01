@@ -13,6 +13,7 @@ import com.jusiCool.presentation.community.screen.communityRoute
 import com.jusiCool.presentation.community.screen.navigateToCommunity
 import com.jusiCool.presentation.communityDetail.screen.communityDetailRoute
 import com.jusiCool.presentation.communityList.screen.communityListRoute
+import com.jusiCool.presentation.communityList.screen.navigateToCommunityList
 import com.jusiCool.presentation.communityModifier.screen.communityModifierRoute
 import com.jusiCool.presentation.communityWriting.screen.communityWritingRoute
 import com.jusiCool.presentation.holdShare.screen.holdShareRoute
@@ -60,7 +61,7 @@ fun JusiCool_Android_NavHost(
             navigateToNews = navController::newsRoute,
             navigateToOrderHistory = navController::orderHistoryRoute,
             navigateToCheckEntireStockList = navController::navigationToCheckEntireStockList,
-            navigateToCommunity = navController::navigateToCommunity,
+            navigateToCommunityList = navController::navigateToCommunityList,
             navigateToHoldShareRoute = navController::navigationToHoldShare,
         )
 
@@ -83,7 +84,7 @@ fun JusiCool_Android_NavHost(
             popUpBackStack = navController::popBackStack,
             navigateToStockBuying = { TODO() },
             navigateToStockSell = { TODO() },
-            navigateToCommunity = navController::navigateToCommunity,
+            navigateToCommunityList = navController::navigateToCommunityList,
         )
 
         communityRoute(

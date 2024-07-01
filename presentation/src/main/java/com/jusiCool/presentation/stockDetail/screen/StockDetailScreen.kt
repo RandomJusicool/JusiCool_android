@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.design_system.component.button.JDSButton
 import com.example.design_system.component.button.JDSCustomButton
 import com.example.design_system.component.button.JDSOutlinedButton
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
@@ -59,14 +58,14 @@ fun NavGraphBuilder.stockDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
-    navigateToCommunity: () -> Unit,
+    navigateToCommunityList: () -> Unit,
 ) {
     composable(stockDetail) {
         StockDetailRoute(
             popUpBackStack = popUpBackStack,
             navigateToStockBuying = navigateToStockBuying,
             navigateToStockSell = navigateToStockSell,
-            navigateToCommunity = navigateToCommunity,
+            navigateToCommunityList = navigateToCommunityList,
         )
     }
 }
@@ -79,14 +78,14 @@ fun StockDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
-    navigateToCommunity: () -> Unit,
+    navigateToCommunityList: () -> Unit,
 ) {
     StockDetailScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
         navigateToStockBuying = navigateToStockBuying,
         navigateToStockSell = navigateToStockSell,
-        navigateToCommunity = navigateToCommunity,
+        navigateToCommunityList = navigateToCommunityList,
     )
 }
 
@@ -101,7 +100,7 @@ fun StockDetailScreen(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
-    navigateToCommunity: () -> Unit,
+    navigateToCommunityList: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden,
@@ -255,7 +254,7 @@ fun StockDetailScreen(
                     toggleOnClick = { /* TODO: 통신 로직 추가 */ }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                CommunityCard(navigateToCommunity = navigateToCommunity)
+                CommunityCard(navigateToCommunity = navigateToCommunityList)
                 Spacer(modifier = Modifier.height(6.dp))
                 StockQuotesCard() // TODO: viewModel에서 데이터 받아오기
             }
@@ -270,6 +269,6 @@ fun StockDetailScreenPreView() {
         popUpBackStack = {},
         navigateToStockBuying = {},
         navigateToStockSell = {},
-        navigateToCommunity = {},
+        navigateToCommunityList = {},
     )
 }

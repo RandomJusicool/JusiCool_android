@@ -42,7 +42,7 @@ fun NavGraphBuilder.mainRoute(
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
     navigateToCheckEntireStockList: () -> Unit,
-    navigateToCommunity: () -> Unit,
+    navigateToCommunityList: () -> Unit,
     navigateToHoldShareRoute: () -> Unit,
 ) {
     composable(mainRoute) {
@@ -52,7 +52,7 @@ fun NavGraphBuilder.mainRoute(
             navigateToNews = navigateToNews,
             navigateToOrderHistory = navigateToOrderHistory,
             navigateToCheckEntireStockList = navigateToCheckEntireStockList,
-            navigateToCommunity = navigateToCommunity,
+            navigateToCommunity = navigateToCommunityList,
             navigateToHoldShareRoute = navigateToHoldShareRoute,
         )
     }
