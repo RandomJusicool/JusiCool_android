@@ -2,8 +2,7 @@ package com.jusiCool.data.remote.datesource.board
 
 import com.jusiCool.data.remote.api.BoardAPI
 import com.jusiCool.data.remote.dto.board.request.WritingCommunityBoardRequest
-import com.jusiCool.data.remote.dto.board.response.GetCommunityBoardDetailResponse
-import com.jusiCool.data.remote.dto.board.response.GetCommunityBoardListResponse
+import com.jusiCool.data.remote.dto.board.response.*
 import com.jusiCool.data.utill.performApiRequest
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

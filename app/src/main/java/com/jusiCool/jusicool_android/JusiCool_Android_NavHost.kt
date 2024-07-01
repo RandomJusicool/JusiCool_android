@@ -12,6 +12,7 @@ import com.jusiCool.presentation.community.screen.navigateToCommunity
 import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityModifier.screen.communityModifierRoute
 import com.jusiCool.presentation.communityWriting.screen.communityWritingRoute
+import com.jusiCool.presentation.holdShare.screen.holdShareRoute
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.join.screen.navigationToJoin
 import com.jusiCool.presentation.login.screen.loginRoute
@@ -89,6 +90,15 @@ fun JusiCool_Android_NavHost(
             navigateToCommunity = navController::navigateToCommunity,
         )
 
+        checkEntireStockListRoute(
+            navigateToSearch = { /*TODO*/ },
+            navigateToMain = { /*TODO*/ }
+        )
+
+        holdShareRoute(
+            navigateToStockDetail = { /*TODO*/ },
+            popUpBackStack = navController::popBackStack
+        )
         communityModifierRoute(popUpBackStack = navController::popBackStack)
     }
 }
