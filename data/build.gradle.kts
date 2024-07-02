@@ -18,7 +18,7 @@ android {
         testInstrumentationRunner = ProjectProperties.Test.TEST_RUNNER
         consumerProguardFiles(ProjectProperties.Files.CONSUMER_PROGUARD_FILES)
 
-        buildConfigField("String", "base_url", getApiKey("base_url"))
+        buildConfigField("String", "BASE_URL", getApiKey("BASE_URL"))
     }
 
     buildTypes {
