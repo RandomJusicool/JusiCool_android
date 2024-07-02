@@ -32,28 +32,28 @@ import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.presentation.community.component.CommunityListItemTemData
-import com.jusiCool.presentation.communityModifier.component.CommunityModifierDialog
+import com.jusiCool.presentation.communityModify.component.CommunityModifierDialog
 
-const val communityModifierRoute = "communityModifierRoute"
+const val communityModifyRoute = "communityModifyRoute"
 
-fun NavController.communityModifierRoute() {
-    this.navigate(communityModifierRoute)
+fun NavController.navigateToCommunityModify() {
+    this.navigate(communityModifyRoute)
 }
 
-fun NavGraphBuilder.communityModifierRoute(popUpBackStack: () -> Unit) {
-    composable(route = communityModifierRoute) {
-        CommunityModifierRoute(popUpBackStack = popUpBackStack)
+fun NavGraphBuilder.communityModifyRoute(popUpBackStack: () -> Unit) {
+    composable(communityModifyRoute) {
+        CommunityModifyRoute(popUpBackStack = popUpBackStack)
     }
 }
 
 @Composable
-internal fun CommunityModifierRoute(
+internal fun CommunityModifyRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
 
-    CommunityModifierScreen(
+    CommunityModifyScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
         focusManager = focusManager,
@@ -70,7 +70,7 @@ internal fun CommunityModifierRoute(
 }
 
 @Composable
-internal fun CommunityModifierScreen(
+internal fun CommunityModifyScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
     focusManager: FocusManager,
@@ -160,5 +160,5 @@ internal fun CommunityModifierScreen(
 @Preview
 @Composable
 private fun CommunityModifierPre() {
-    CommunityModifierRoute(popUpBackStack = { /*TODO*/ })
+    CommunityModifyRoute(popUpBackStack = { /*TODO*/ })
 }

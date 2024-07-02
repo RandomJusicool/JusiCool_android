@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 const val stockDetail = "stockDetail"
 
 // 화면이동을 구현하는 NavController확장함수
-fun NavController.navigationToStockDetail() {
+fun NavController.navigateToStockDetail() {
     this.navigate(stockDetail)
 }
 

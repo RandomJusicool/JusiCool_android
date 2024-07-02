@@ -27,7 +27,7 @@ import kotlinx.collections.immutable.ImmutableList
 
 const val holdShareRoute = "holdShareRoute"
 
-fun NavController.navigationToHoldShare() {
+fun NavController.navigateToHoldShare() {
     this.navigate(holdShareRoute)
 }
 

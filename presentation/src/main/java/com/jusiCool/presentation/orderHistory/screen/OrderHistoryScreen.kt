@@ -40,7 +40,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val orderHistoryRoute = "orderHistoryRoute"
 
-fun NavController.orderHistoryRoute() {
+fun NavController.navigateToOrderHistory() {
     this.navigate(orderHistoryRoute)
 }
 

@@ -28,7 +28,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val checkEntireStockListRoute = "checkEntireStockListRoute"
 
-fun NavController.navigationToCheckEntireStockList() {
+fun NavController.navigateToCheckEntireStockList() {
     this.navigate(checkEntireStockListRoute)
 }
 

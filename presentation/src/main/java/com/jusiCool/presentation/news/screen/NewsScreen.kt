@@ -28,7 +28,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val newsRoute = "newsRoute"
 
-fun NavController.newsRoute() {
+fun NavController.navigateToNews() {
     this.navigate(newsRoute)
 }
 

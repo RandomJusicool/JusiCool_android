@@ -30,7 +30,7 @@ import kotlinx.coroutines.delay
 const val splashRoute = "splashRoute"
 
 // 화면이동을 구현하는 NavController확장함수
-fun NavController.navigationToSplash() {
+fun NavController.navigateToSplash() {
     this.navigate(splashRoute)
 }
 

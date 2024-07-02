@@ -32,15 +32,14 @@ import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
-import kotlin.reflect.KFunction0
 
 const val communityWritingRoute = "communityWritingRoute"
 
-fun NavController.communityWritingRoute() {
+fun NavController.naviagteToCommunityWriting() {
     this.navigate(communityWritingRoute)
 }
 
-fun NavGraphBuilder.communityWritingRoute(
+fun NavGraphBuilder.naviagteToCommunityWriting(
     popUpBackStack: () -> Unit,
 ) {
     composable(communityWritingRoute) {

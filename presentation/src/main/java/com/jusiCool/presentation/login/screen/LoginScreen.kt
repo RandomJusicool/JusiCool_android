@@ -37,7 +37,7 @@ import com.jusiCool.presentation.utill.checkPasswordRegex
 const val loginRoute = "loginRoute"
 
 
-fun NavController.navigationToLogin() {
+fun NavController.navigateToLogin() {
     this.navigate(loginRoute)
 }
 

@@ -32,7 +32,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val mainRoute = "mainRoute"
 
-fun NavController.navigationToMain() {
+fun NavController.navigateToMain() {
     this.navigate(mainRoute)
 }
 

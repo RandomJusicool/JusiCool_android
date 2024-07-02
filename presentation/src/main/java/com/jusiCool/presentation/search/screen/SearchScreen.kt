@@ -33,7 +33,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val searchRoute = "searchRoute"
 
-fun NavController.searchRoute() {
+fun NavController.navigateToSearch() {
     this.navigate(searchRoute)
 }
 

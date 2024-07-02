@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 const val joinRoute = "joinRoute"
 
 // 화면이동을 구현하는 NavController확장함수
-fun NavController.navigationToJoin() {
+fun NavController.navigateToJoin() {
     this.navigate(joinRoute)
 }
 
