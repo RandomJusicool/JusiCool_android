@@ -1,6 +1,7 @@
 package com.jusiCool.jusicool_android.module
 
 import android.util.Log
+import com.jusiCool.data.remote.api.AuthAPI
 import com.jusiCool.data.remote.api.BoardAPI
 import com.jusiCool.data.remote.api.CommentAPI
 import com.jusiCool.data.remote.api.EmailAPI
@@ -65,6 +66,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun AuthAPI(retrofit: Retrofit): AuthAPI {
+        return retrofit.create(AuthAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun EmailAPI(retrofit: Retrofit): EmailAPI {
+        return retrofit.create(EmailAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun BoardAPI(retrofit: Retrofit): BoardAPI {
         return retrofit.create(BoardAPI::class.java)
     }
@@ -79,11 +92,5 @@ object NetworkModule {
     @Singleton
     fun CommentAPI(retrofit: Retrofit): CommentAPI {
         return retrofit.create(CommentAPI::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun EmailAPI(retrofit: Retrofit): EmailAPI {
-        return retrofit.create(EmailAPI::class.java)
     }
 }

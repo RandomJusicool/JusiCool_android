@@ -1,5 +1,7 @@
 package com.jusiCool.jusicool_android.module
 
+import com.jusiCool.data.remote.datesource.auth.RemoteAuthDataSource
+import com.jusiCool.data.remote.datesource.auth.RemoteAuthDataSourceImpl
 import com.jusiCool.data.remote.datesource.board.RemoteBoardDataSource
 import com.jusiCool.data.remote.datesource.board.RemoteBoardDataSourceImpl
 import com.jusiCool.data.remote.datesource.comment.RemoteCommentDataSource
@@ -17,6 +19,11 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RemoteDataSourceModule {
+    @Binds
+    abstract fun provideRemoteAuthDataSource(
+        remoteAuthDataSourceImpl: RemoteAuthDataSourceImpl
+    ) : RemoteAuthDataSource
+
     @Binds
     abstract fun provideRemoteBoardDataSource(
         remoteBoardDataSourceImpl: RemoteBoardDataSourceImpl

@@ -5,6 +5,7 @@ plugins {
     id(Dependency.Gradle.LIBRARY)
     id(Dependency.Gradle.KOTLIN)
     id(Dependency.Gradle.KSP)
+    id("com.google.protobuf")
 }
 
 android {
@@ -40,6 +41,24 @@ android {
     }
 }
 
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.21.12"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                register("java") {
+                    option("lite")
+                }
+                register("kotlin") {
+                    option("lite")
+                }
+            }
+        }
+    }
+}
+
 dependencies {
     implementation(project(":domain"))
 
@@ -62,5 +81,7 @@ dependencies {
 
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation ("com.squareup.moshi:moshi-kotlin:1.12.0")
-    //ksp("com.squareup.retrofit2:moshi-kotlin-codegen:1.12.0")
+
+    implementation ("androidx.datastore:datastore-core:1.0.0")
+    implementation ("com.google.protobuf:protobuf-kotlin-lite:3.21.12")
 }
