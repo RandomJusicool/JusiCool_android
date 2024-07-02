@@ -8,26 +8,31 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.jusiCool.presentation.checkEntireStock.screen.checkEntireStockListRoute
-import com.jusiCool.presentation.checkEntireStock.screen.navigationToCheckEntireStockList
+import com.jusiCool.presentation.checkEntireStock.screen.navigateToCheckEntireStockList
 import com.jusiCool.presentation.community.screen.communityRoute
 import com.jusiCool.presentation.community.screen.navigateToCommunity
 import com.jusiCool.presentation.communityDetail.screen.communityDetailRoute
+import com.jusiCool.presentation.communityDetail.screen.navigateToCommunityDetail
 import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityList.screen.navigateToCommunityList
-import com.jusiCool.presentation.communityModifier.screen.communityModifierRoute
-import com.jusiCool.presentation.communityWriting.screen.communityWritingRoute
+import com.jusiCool.presentation.communityModify.screen.communityModifyRoute
+import com.jusiCool.presentation.communityModify.screen.navigateToCommunityModify
+import com.jusiCool.presentation.communityWriting.screen.naviagteToCommunityWriting
 import com.jusiCool.presentation.holdShare.screen.holdShareRoute
-import com.jusiCool.presentation.holdShare.screen.navigationToHoldShare
+import com.jusiCool.presentation.holdShare.screen.navigateToHoldShare
 import com.jusiCool.presentation.join.screen.joinRoute
-import com.jusiCool.presentation.join.screen.navigationToJoin
+import com.jusiCool.presentation.join.screen.navigateToJoin
 import com.jusiCool.presentation.login.screen.loginRoute
 import com.jusiCool.presentation.main.screen.mainRoute
-import com.jusiCool.presentation.main.screen.navigationToMain
+import com.jusiCool.presentation.main.screen.navigateToMain
+import com.jusiCool.presentation.news.screen.navigateToNews
 import com.jusiCool.presentation.news.screen.newsRoute
+import com.jusiCool.presentation.orderHistory.screen.navigateToOrderHistory
 import com.jusiCool.presentation.orderHistory.screen.orderHistoryRoute
+import com.jusiCool.presentation.search.screen.navigateToSearch
 import com.jusiCool.presentation.search.screen.searchRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
-import com.jusiCool.presentation.stockDetail.screen.navigationToStockDetail
+import com.jusiCool.presentation.stockDetail.screen.navigateToStockDetail
 import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
 
 @Composable
@@ -45,35 +50,35 @@ fun JusiCool_Android_NavHost(
         popExitTransition = { ExitTransition.None },
         startDestination = startDestination,
     ) {
-        splashRoute(navigateToMain = navController::navigationToCheckEntireStockList)
+        splashRoute(navigateToMain = navController::navigateToCheckEntireStockList)
 
         loginRoute(
             navigateToFindPassword = { TODO() },
-            navigateToMain = navController::navigationToMain,
-            navigateToJoin = navController::navigationToJoin,
+            navigateToMain = navController::navigateToMain,
+            navigateToJoin = navController::navigateToJoin,
         )
 
         joinRoute(popUpBackStack = navController::popBackStack)
 
         mainRoute(
-            navigateToSearch = navController::searchRoute,
-            navigateToStockDetail = navController::navigationToStockDetail,
-            navigateToNews = navController::newsRoute,
-            navigateToOrderHistory = navController::orderHistoryRoute,
-            navigateToCheckEntireStockList = navController::navigationToCheckEntireStockList,
+            navigateToSearch = navController::navigateToSearch,
+            navigateToStockDetail = navController::navigateToStockDetail,
+            navigateToNews = navController::navigateToNews,
+            navigateToOrderHistory = navController::navigateToOrderHistory,
+            navigateToCheckEntireStockList = navController::navigateToCheckEntireStockList,
             navigateToCommunityList = navController::navigateToCommunityList,
-            navigateToHoldShareRoute = navController::navigationToHoldShare,
+            navigateToHoldShareRoute = navController::navigateToHoldShare,
         )
 
         searchRoute(
             popUpBackStack = navController::popBackStack,
-            navigateToStockDetail = navController::navigationToStockDetail,
+            navigateToStockDetail = navController::navigateToStockDetail,
         )
 
         checkEntireStockListRoute(
-            navigateToMain = navController::navigationToMain,
-            navigateToSearch = navController::searchRoute,
-            navigateToStockDetail = navController::navigationToStockDetail
+            navigateToMain = navController::navigateToMain,
+            navigateToSearch = navController::navigateToSearch,
+            navigateToStockDetail = navController::navigateToStockDetail
         )
 
         orderHistoryRoute(popUpBackStack = navController::popBackStack)
@@ -87,13 +92,18 @@ fun JusiCool_Android_NavHost(
             navigateToCommunityList = navController::navigateToCommunityList,
         )
 
+        communityDetailRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToCommunityModify = navController::navigateToCommunityModify
+        )
+        
         communityRoute(
             popUpBackStack = navController::popBackStack,
-            navigateToCommunityDetail = navController::communityDetailRoute,
-            navigateToCommunityWriting = navController::communityWritingRoute,
+            navigateToCommunityDetail = navController::navigateToCommunityDetail,
+            navigateToCommunityWriting = navController::naviagteToCommunityWriting,
         )
 
-        communityWritingRoute(popUpBackStack = navController::popBackStack)
+        naviagteToCommunityWriting(popUpBackStack = navController::popBackStack)
 
         communityListRoute(
             popUpBackStack = navController::popBackStack,
@@ -101,15 +111,15 @@ fun JusiCool_Android_NavHost(
         )
 
         checkEntireStockListRoute(
-            navigateToSearch = navController::searchRoute,
-            navigateToMain = navController::navigationToMain,
-            navigateToStockDetail = navController::navigationToStockDetail
+            navigateToSearch = navController::navigateToSearch,
+            navigateToMain = navController::navigateToMain,
+            navigateToStockDetail = navController::navigateToStockDetail
         )
 
         holdShareRoute(
-            navigateToStockDetail = navController::navigationToStockDetail,
+            navigateToStockDetail = navController::navigateToStockDetail,
             popUpBackStack = navController::popBackStack
         )
-        communityModifierRoute(popUpBackStack = navController::popBackStack)
+        communityModifyRoute(popUpBackStack = navController::popBackStack)
     }
 }
