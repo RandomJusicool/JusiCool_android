@@ -3,11 +3,13 @@ package com.jusiCool.jusicool_android.module
 import com.jusiCool.data.repository.AuthRepositoryImpl
 import com.jusiCool.data.repository.BoardRepositoryImpl
 import com.jusiCool.data.repository.CommentRepositoryImpl
+import com.jusiCool.data.repository.CommunityRepositoryImpl
 import com.jusiCool.data.repository.EmailRepositoryImpl
 import com.jusiCool.data.repository.ReservationRepositoryImpl
 import com.jusiCool.domain.repository.AuthRepository
 import com.jusiCool.domain.repository.BoardRepository
 import com.jusiCool.domain.repository.CommentRepository
+import com.jusiCool.domain.repository.CommunityRepository
 import com.jusiCool.domain.repository.EmailRepository
 import com.jusiCool.domain.repository.ReservationRepository
 import dagger.Binds
@@ -42,4 +44,9 @@ abstract class RepositoryModule {
     abstract fun provideReservationRepository(
         reservationRepositoryImpl: ReservationRepositoryImpl
     ) : ReservationRepository
+
+    @Binds
+    abstract fun provideCommunityRepository(
+        communityRepositoryImpl: CommunityRepositoryImpl
+    ) : CommunityRepository
 }

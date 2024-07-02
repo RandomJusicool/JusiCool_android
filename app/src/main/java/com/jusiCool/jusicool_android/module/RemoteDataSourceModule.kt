@@ -6,6 +6,8 @@ import com.jusiCool.data.remote.datesource.board.RemoteBoardDataSource
 import com.jusiCool.data.remote.datesource.board.RemoteBoardDataSourceImpl
 import com.jusiCool.data.remote.datesource.comment.RemoteCommentDataSource
 import com.jusiCool.data.remote.datesource.comment.RemoteCommentDataSourceImpl
+import com.jusiCool.data.remote.datesource.community.RemoteCommunityDataSource
+import com.jusiCool.data.remote.datesource.community.RemoteCommunityDataSourceImpl
 import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSource
 import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSourceImpl
 import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSource
@@ -43,4 +45,9 @@ abstract class RemoteDataSourceModule {
     abstract fun provideReservationDataSource(
         remoteReservationDataSourceImpl: RemoteReservationDataSourceImpl
     ) : RemoteReservationDataSource
+
+    @Binds
+    abstract fun provideCommunityDataSource(
+        remoteCommunityDataSourceImpl: RemoteCommunityDataSourceImpl
+    ) : RemoteCommunityDataSource
 }
