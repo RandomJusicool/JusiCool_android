@@ -113,3 +113,13 @@ fun EllipseImage(modifier: Modifier = Modifier) {
         modifier = modifier,
     )
 }
+
+@Composable
+fun CostImage(modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.cost_image),
+        contentDescription = null,
+        modifier = modifier,
+    )
+}
+
