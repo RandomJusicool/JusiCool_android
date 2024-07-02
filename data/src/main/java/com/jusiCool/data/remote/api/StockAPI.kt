@@ -6,6 +6,7 @@ import com.jusiCool.data.remote.dto.stock.response.GetStockDetailResponse
 import com.jusiCool.data.remote.dto.stock.response.GetStockListResponse
 import com.jusiCool.domain.model.stock.request.StockRequestModel
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -34,5 +35,10 @@ interface StockAPI {
     suspend fun buyStockReserve(
         @Path("stock_id") stockId: Long,
         @Body body: BuyStockRequest
+    )
+
+    @DELETE("/api/v1/stock")
+    suspend fun deleteStock(
+        @Path("stock_id") stockId: Long
     )
 }
