@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityModifier.screen
+package com.jusiCool.presentation.communityModify.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
