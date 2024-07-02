@@ -93,4 +93,10 @@ object NetworkModule {
     fun CommentAPI(retrofit: Retrofit): CommentAPI {
         return retrofit.create(CommentAPI::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun CommunityAPI(retrofit: Retrofit): CommentAPI {
+        return retrofit.create(CommentAPI::class.java)
+    }
 }
