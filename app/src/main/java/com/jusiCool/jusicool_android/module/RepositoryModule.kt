@@ -6,12 +6,14 @@ import com.jusiCool.data.repository.CommentRepositoryImpl
 import com.jusiCool.data.repository.CommunityRepositoryImpl
 import com.jusiCool.data.repository.EmailRepositoryImpl
 import com.jusiCool.data.repository.ReservationRepositoryImpl
+import com.jusiCool.data.repository.StockRepositoryImpl
 import com.jusiCool.domain.repository.AuthRepository
 import com.jusiCool.domain.repository.BoardRepository
 import com.jusiCool.domain.repository.CommentRepository
 import com.jusiCool.domain.repository.CommunityRepository
 import com.jusiCool.domain.repository.EmailRepository
 import com.jusiCool.domain.repository.ReservationRepository
+import com.jusiCool.domain.repository.StockRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -49,4 +51,9 @@ abstract class RepositoryModule {
     abstract fun provideCommunityRepository(
         communityRepositoryImpl: CommunityRepositoryImpl
     ) : CommunityRepository
+
+    @Binds
+    abstract fun provideStockRepository(
+        stockRepositoryImpl: StockRepositoryImpl
+    ) : StockRepository
 }
