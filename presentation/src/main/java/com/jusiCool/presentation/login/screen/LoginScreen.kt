@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -31,6 +32,8 @@ import com.example.design_system.component.modifier.padding.paddingHorizontal
 import com.example.design_system.component.textfield.JDSTextField
 import com.example.design_system.icon_image.image.LogoImage
 import com.example.design_system.theme.JusiCoolAndroidTheme
+import com.jusiCool.domain.model.auth.request.PostAuthSignInRequestModel
+import com.jusiCool.presentation.login.viewModel.LoginViewModel
 import com.jusiCool.presentation.utill.checkEmailRegex
 import com.jusiCool.presentation.utill.checkPasswordRegex
 
@@ -58,6 +61,7 @@ fun NavGraphBuilder.loginRoute(
 @Composable
 internal fun LoginRoute(
     modifier: Modifier = Modifier,
+    loginViewModel: LoginViewModel = hiltViewModel(),
     navigateToJoin: () -> Unit,
     navigateToFindPassword: () -> Unit, // 디자인 적용후 사용예정
     navigateToMain: () -> Unit,
@@ -67,7 +71,7 @@ internal fun LoginRoute(
     LoginScreen(
         modifier = modifier,
         focusManager = focusManager,
-        loginOnClick = { email, password -> }, // 추후 viewmodel 개발후 통신 예정
+        loginOnClick = loginViewModel::loginFunc, // 추후 viewmodel 개발후 통신 예정
         navigateToJoin = navigateToJoin,
         navigateToFindPassword = navigateToFindPassword,
         navigateToMain = navigateToMain,
@@ -78,7 +82,7 @@ internal fun LoginRoute(
 internal fun LoginScreen(
     modifier: Modifier = Modifier,
     focusManager: FocusManager,
-    loginOnClick: (String, String) -> Unit,
+    loginOnClick: (PostAuthSignInRequestModel) -> Unit,
     navigateToJoin: () -> Unit,
     navigateToFindPassword: () -> Unit,
     navigateToMain: () -> Unit,
@@ -145,7 +149,12 @@ internal fun LoginScreen(
                         if (emailTextState.checkEmailRegex() && passwordTextState.checkPasswordRegex()) ButtonState.Enable
                         else ButtonState.Disable,
                         onClick = {
-                            loginOnClick(emailTextState, passwordTextState)
+                            loginOnClick(
+                                PostAuthSignInRequestModel(
+                                    email = emailTextState,
+                                    password = passwordTextState
+                                )
+                            )
                             navigateToMain()
                         }
                     )
