@@ -18,6 +18,7 @@ android {
         testInstrumentationRunner = ProjectProperties.Test.TEST_RUNNER
         consumerProguardFiles(ProjectProperties.Files.CONSUMER_PROGUARD_FILES)
 
+        buildConfigField("String", "base_url", getApiKey("base_url"))
     }
 
     buildTypes {
@@ -84,4 +85,11 @@ dependencies {
 
     implementation ("androidx.datastore:datastore-core:1.0.0")
     implementation ("com.google.protobuf:protobuf-kotlin-lite:3.21.12")
+}
+
+fun getApiKey(propertyKey: String): String {
+    val propFile = rootProject.file("./local.properties")
+    val properties = Properties()
+    properties.load(FileInputStream(propFile))
+    return properties.getProperty(propertyKey)
 }
