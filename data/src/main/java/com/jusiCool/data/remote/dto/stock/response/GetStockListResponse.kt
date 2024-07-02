@@ -12,7 +12,7 @@ data class GetStockListResponse(
     @Json(name = "fluctuationcomparedpreviousday") val fluctuationComparedPreviousDay: Int
 )
 
-fun GetStockListResponseModel.toModel() = GetStockListResponse(
+fun GetStockListResponse.toModel() = GetStockListResponseModel(
     id = id,
     name = name,
     presentPrice = presentPrice,
