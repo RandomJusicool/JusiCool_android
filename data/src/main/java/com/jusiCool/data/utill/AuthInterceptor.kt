@@ -1,6 +1,7 @@
 package com.jusiCool.data.utill
 
 import android.util.Log
+import com.jusiCool.data.BuildConfig
 import com.jusiCool.data.local.datasource.AuthTokenDataSource
 import com.jusiCool.data.remote.dto.auth.response.AuthTokenResponse
 import com.jusiCool.domain.util.exception.NeedLoginException
@@ -23,7 +24,7 @@ class AuthInterceptor @Inject constructor(
         val request = chain.request()
         val builder = request.newBuilder()
         val currentTime = System.currentTimeMillis().toJusiCoolDate()
-        val ignorePath = listOf("/auth", "/email")
+        val ignorePath = listOf("api/v1/auth", "api/v1/email")
         val path = request.url.encodedPath
         val method = request.method
 
@@ -44,7 +45,7 @@ class AuthInterceptor @Inject constructor(
             if (currentTime.after(accessTime.toDate())) {
                 val client = OkHttpClient()
                 val refreshRequest = Request.Builder()
-                    .url("adfasdfasdfasdfa" + "/api/v1/auth") // BaseUrl 추후 작성
+                    .url(BuildConfig.base_url + "/api/v1/auth")
                     .patch(chain.request().body ?: RequestBody.Companion.create(null, byteArrayOf()))
                     .addHeader("refreshToken", "Bearer $refreshToken")
                     .build()
