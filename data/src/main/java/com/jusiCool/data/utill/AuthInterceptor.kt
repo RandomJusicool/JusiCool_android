@@ -45,7 +45,7 @@ class AuthInterceptor @Inject constructor(
             if (currentTime.after(accessTime.toDate())) {
                 val client = OkHttpClient()
                 val refreshRequest = Request.Builder()
-                    .url(BuildConfig.base_url + "/api/v1/auth")
+                    .url(BuildConfig.BASE_URL + "/api/v1/auth")
                     .patch(chain.request().body ?: RequestBody.Companion.create(null, byteArrayOf()))
                     .addHeader("refreshToken", "Bearer $refreshToken")
                     .build()
