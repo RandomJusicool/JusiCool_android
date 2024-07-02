@@ -31,6 +31,7 @@ fun MyStocks(
     modifier: Modifier = Modifier,
     myStocksData: ImmutableList<MyStocksData>,
     myAccountData: MyAccountData,
+    navigateToHoldShareRoute: () -> Unit,
     navigateToStockDetail: () -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
@@ -54,30 +55,18 @@ fun MyStocks(
                 color = JDSColor.Black
             )
 
-            if (visibleItems > 6) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clickableSingle { /*TODO*/ },
-                ) {
-                    Text(
-                        text = "더보기",
-                        style = JDSTypography.label,
-                        color = JDSColor.GRAY400,
-                    )
-                    RightChevronIcon(tint = JDSColor.GRAY400,)
-                }
-            } else if(visibleItems == 0){
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clickableSingle { /*TODO*/ },
-                ) {
-                    Text(
-                        text = "주식 보러가기",
-                        style = JDSTypography.label,
-                        color = JDSColor.GRAY400,
-                    )
-                    RightChevronIcon(tint = JDSColor.GRAY400,)
-                }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickableSingle { navigateToHoldShareRoute() },
+            ) {
+                Text(
+                    text = if (visibleItems > 6) "더보기"
+                    else "주식 보러가기",
+                    style = JDSTypography.label,
+                    color = JDSColor.GRAY400,
+                )
+
+                RightChevronIcon(tint = JDSColor.GRAY400)
             }
         }
 
@@ -102,7 +91,6 @@ fun MyStocks(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 GraphSkeletonImage(modifier = Modifier.size(64.dp))
-
                 Text(
                     text = "현재 보유중인 주식이 없어요",
                     style = JDSTypography.bodySmall,
@@ -125,9 +113,7 @@ fun MyStocks(
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(26.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "주문내역",
@@ -145,11 +131,12 @@ fun MyStocks(
                     color = JDSColor.GRAY600
                 )
 
-                RightChevronIcon(tint = JDSColor.GRAY400,)
+                RightChevronIcon(tint = JDSColor.GRAY400)
             }
         }
     }
 }
+
 
 @Preview
 @Composable
@@ -157,10 +144,11 @@ fun MyStocksPreview() {
     Row {
         MyStocks(
             modifier = Modifier.width(280.dp),
-            myStocksData =  tempMyStockData,
+            myStocksData = tempMyStockData,
             myAccountData = tempMyAccountData,
-            navigateToStockDetail = { /*TODO*/ },
-            navigateToOrderHistory = { /*TODO*/ },
+            navigateToStockDetail = { },
+            navigateToOrderHistory = { },
+            navigateToHoldShareRoute = { },
         )
     }
 }

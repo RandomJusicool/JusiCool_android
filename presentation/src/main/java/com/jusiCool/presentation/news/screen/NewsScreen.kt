@@ -28,12 +28,12 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val newsRoute = "newsRoute"
 
-fun NavController.newsRoute() {
+fun NavController.navigateToNews() {
     this.navigate(newsRoute)
 }
 
 fun NavGraphBuilder.newsRoute(popUpBackStack: () -> Unit) {
-    composable(route = newsRoute) {
+    composable(newsRoute) {
         NewsRoute(popUpBackStack = popUpBackStack)
     }
 }

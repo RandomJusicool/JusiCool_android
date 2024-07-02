@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityModifier.component
+package com.jusiCool.presentation.communityModify.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

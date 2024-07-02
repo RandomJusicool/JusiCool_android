@@ -28,18 +28,20 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val checkEntireStockListRoute = "checkEntireStockListRoute"
 
-fun NavController.navigationToMain() {
+fun NavController.navigateToCheckEntireStockList() {
     this.navigate(checkEntireStockListRoute)
 }
 
 fun NavGraphBuilder.checkEntireStockListRoute(
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
+    navigateToStockDetail: () -> Unit,
 ) {
-    composable(route = checkEntireStockListRoute) {
+    composable(checkEntireStockListRoute) {
         CheckEntireStockListRoute(
             navigateToSearch = navigateToSearch,
-            navigateToMain = navigateToMain
+            navigateToMain = navigateToMain,
+            navigateToStockDetail = navigateToStockDetail,
         )
     }
 }
@@ -49,11 +51,13 @@ fun CheckEntireStockListRoute(
     modifier: Modifier = Modifier,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
+    navigateToStockDetail: () -> Unit,
 ) {
     CheckEntireStockListRoute(
         modifier = modifier,
         navigateToSearch = navigateToSearch,
-        navigateToMain = navigateToMain
+        navigateToMain = navigateToMain,
+        navigateToStockDetail = navigateToStockDetail,
     )
 }
 
@@ -79,6 +83,7 @@ fun CheckEntireStockListScreen(
     entireStocksData: ImmutableList<EntireStocksData>,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
+    navigateToStockDetail: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -88,19 +93,13 @@ fun CheckEntireStockListScreen(
     ) {
         JDSMainTopBar(
             startIcon = {
-                LogoImage(
-                    modifier = Modifier.clickableSingle { navigateToMain() }
-                )
+                LogoImage(modifier = Modifier.clickableSingle { navigateToMain() })
             },
             betweenIcon = {
-                SearchIcon(
-                    modifier = Modifier.clickableSingle { navigateToSearch() }
-                )
+                SearchIcon(modifier = Modifier.clickableSingle { navigateToSearch() })
             },
             endIcon = {
-                GraphIcon(
-                    tint = JDSColor.MAIN
-                )
+                GraphIcon(tint = JDSColor.MAIN)
             }
         )
 
@@ -111,6 +110,7 @@ fun CheckEntireStockListScreen(
         ) {
             items(entireStocksData) { item ->
                 EntireStocksItem(
+                    modifier = Modifier.clickableSingle { navigateToStockDetail() },
                     entireStocksData = item
                 )
             }
@@ -123,7 +123,8 @@ fun CheckEntireStockListScreen(
 fun CheckEntireStockListScreenPreview() {
     CheckEntireStockListScreen(
         entireStocksData = tempEntireStocksData,
-        navigateToSearch = { /*TODO*/ },
-        navigateToMain = { /*TODO*/ }
+        navigateToSearch = { },
+        navigateToMain = { },
+        navigateToStockDetail = { },
     )
 }

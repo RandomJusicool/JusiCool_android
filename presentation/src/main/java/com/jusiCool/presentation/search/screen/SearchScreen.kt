@@ -33,13 +33,19 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val searchRoute = "searchRoute"
 
-fun NavController.searchRoute() {
+fun NavController.navigateToSearch() {
     this.navigate(searchRoute)
 }
 
-fun NavGraphBuilder.searchRoute(popUpBackStack: () -> Unit) {
+fun NavGraphBuilder.searchRoute(
+    popUpBackStack: () -> Unit,
+    navigateToStockDetail: () -> Unit,
+) {
     composable(route = searchRoute) {
-        SearchRoute(popUpBackStack = popUpBackStack)
+        SearchRoute(
+            popUpBackStack = popUpBackStack,
+            navigateToStockDetail = navigateToStockDetail
+        )
     }
 }
 
@@ -55,20 +61,22 @@ val tempPopularStocksSearchData = persistentListOf(
 internal fun SearchRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
+    navigateToStockDetail: () -> Unit,
 ) {
     SearchScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
+        navigateToStockDetail = navigateToStockDetail,
         popularStocksSearchData = tempPopularStocksSearchData
     )
 }
-
 
 
 @Composable
 internal fun SearchScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
+    navigateToStockDetail: () -> Unit,
     popularStocksSearchData: ImmutableList<PopularStocksSearchData>
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
@@ -95,7 +103,7 @@ internal fun SearchScreen(
                     vertical = 16.dp
                 )
         ) {
-            LeftArrowIcon( modifier = Modifier.clickableSingle { popUpBackStack() })
+            LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack() })
 
             SearchTextField(
                 textState = stockTextState,
@@ -103,7 +111,7 @@ internal fun SearchScreen(
             )
         }
 
-        if(stockTextState.isEmpty()) {
+        if (stockTextState.isEmpty()) {
             Text(
                 modifier = Modifier.padding(start = 24.dp, top = 10.dp, end = 12.dp),
                 text = "인기 검색어",
@@ -113,7 +121,10 @@ internal fun SearchScreen(
 
             Column {
                 popularStocksSearchData.forEach { item ->
-                    PopularStocksSearch(popularStocksSearchData = item)
+                    PopularStocksSearch(
+                        modifier = Modifier.clickableSingle { navigateToStockDetail() },
+                        popularStocksSearchData = item
+                    )
                 }
             }
         }
@@ -125,7 +136,8 @@ internal fun SearchScreen(
 @Composable
 fun SearchScreenPreview() {
     SearchScreen(
-        popUpBackStack = { /*TODO*/},
-        popularStocksSearchData = tempPopularStocksSearchData
+        popUpBackStack = { },
+        popularStocksSearchData = tempPopularStocksSearchData,
+        navigateToStockDetail = { },
     )
 }

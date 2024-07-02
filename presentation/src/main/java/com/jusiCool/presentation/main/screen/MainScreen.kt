@@ -32,7 +32,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val mainRoute = "mainRoute"
 
-fun NavController.navigationToMain() {
+fun NavController.navigateToMain() {
     this.navigate(mainRoute)
 }
 
@@ -41,13 +41,19 @@ fun NavGraphBuilder.mainRoute(
     navigateToStockDetail: () -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
+    navigateToCheckEntireStockList: () -> Unit,
+    navigateToCommunityList: () -> Unit,
+    navigateToHoldShareRoute: () -> Unit,
 ) {
-    composable(route = mainRoute) {
+    composable(mainRoute) {
         MainRoute(
             navigateToSearch = navigateToSearch,
             navigateToStockDetail = navigateToStockDetail,
             navigateToNews = navigateToNews,
             navigateToOrderHistory = navigateToOrderHistory,
+            navigateToCheckEntireStockList = navigateToCheckEntireStockList,
+            navigateToCommunity = navigateToCommunityList,
+            navigateToHoldShareRoute = navigateToHoldShareRoute,
         )
     }
 }
@@ -59,6 +65,9 @@ fun MainRoute(
     navigateToStockDetail: () -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
+    navigateToCheckEntireStockList: () -> Unit,
+    navigateToCommunity: () -> Unit,
+    navigateToHoldShareRoute: () -> Unit,
 ) {
     MainScreen(
         modifier = modifier,
@@ -66,6 +75,9 @@ fun MainRoute(
         navigateToStockDetail = navigateToStockDetail,
         navigateToNews = navigateToNews,
         navigateToOrderHistory = navigateToOrderHistory,
+        navigateToCheckEntireStockList = navigateToCheckEntireStockList,
+        navigateToCommunity = navigateToCommunity,
+        navigateToHoldShareRoute = navigateToHoldShareRoute,
     )
 }
 
@@ -95,7 +107,10 @@ fun MainScreen(
     navigateToSearch: () -> Unit,
     navigateToStockDetail: () -> Unit,
     navigateToNews: () -> Unit,
-    navigateToOrderHistory: () -> Unit
+    navigateToOrderHistory: () -> Unit,
+    navigateToCheckEntireStockList: () -> Unit,
+    navigateToCommunity: () -> Unit,
+    navigateToHoldShareRoute: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -107,13 +122,11 @@ fun MainScreen(
         JDSMainTopBar(
             startIcon = { LogoImage() },
             betweenIcon = {
-                SearchIcon(
-                    modifier = Modifier.clickableSingle { navigateToSearch() }
-                )
+                SearchIcon(modifier = Modifier.clickableSingle { navigateToSearch() })
             },
             endIcon = {
                 GraphIcon(
-                    modifier = Modifier.clickableSingle { /*TODO*/ },
+                    modifier = Modifier.clickableSingle { navigateToCheckEntireStockList() },
                     tint = JDSColor.GRAY400
                 )
             }
@@ -132,6 +145,7 @@ fun MainScreen(
             MyStocks(
                 myStocksData = tempMyStockData,
                 myAccountData = tempMyAccountData,
+                navigateToHoldShareRoute = navigateToHoldShareRoute,
                 navigateToStockDetail = navigateToStockDetail,
                 navigateToOrderHistory = navigateToOrderHistory,
             )
@@ -142,7 +156,6 @@ fun MainScreen(
             )
 
             Spacer(modifier = Modifier.height(13.dp))
-
         }
     }
 }
@@ -151,9 +164,12 @@ fun MainScreen(
 @Composable
 fun MainScreenPriview() {
     MainScreen(
-        navigateToSearch = { /*TODO*/ },
-        navigateToStockDetail = { /*TODO*/ },
-        navigateToNews = { /*TODO*/ },
-        navigateToOrderHistory = { /*TODO*/ },
+        navigateToSearch = { },
+        navigateToStockDetail = { },
+        navigateToNews = { },
+        navigateToOrderHistory = { },
+        navigateToCheckEntireStockList = { },
+        navigateToCommunity = { },
+        navigateToHoldShareRoute = { },
     )
 }

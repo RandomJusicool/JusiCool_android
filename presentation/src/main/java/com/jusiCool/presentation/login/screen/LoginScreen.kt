@@ -2,6 +2,7 @@ package com.jusiCool.presentation.login.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -35,20 +37,20 @@ import com.jusiCool.presentation.utill.checkPasswordRegex
 const val loginRoute = "loginRoute"
 
 
-fun NavController.navigationToLogin() {
+fun NavController.navigateToLogin() {
     this.navigate(loginRoute)
 }
 
 fun NavGraphBuilder.loginRoute(
     navigateToJoin: () -> Unit,
-    navigateToLogin: () -> Unit,
     navigateToFindPassword: () -> Unit,
+    navigateToMain: () -> Unit,
 ) {
-    composable(route = loginRoute) {
+    composable(loginRoute) {
         LoginRoute(
             navigateToJoin = navigateToJoin,
-            navigateToLogin = navigateToLogin,
-            navigateToFindPassword = navigateToFindPassword
+            navigateToFindPassword = navigateToFindPassword,
+            navigateToMain = navigateToMain,
         )
     }
 }
@@ -57,17 +59,18 @@ fun NavGraphBuilder.loginRoute(
 internal fun LoginRoute(
     modifier: Modifier = Modifier,
     navigateToJoin: () -> Unit,
-    navigateToLogin: () -> Unit,
     navigateToFindPassword: () -> Unit, // 디자인 적용후 사용예정
+    navigateToMain: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
 
     LoginScreen(
         modifier = modifier,
         focusManager = focusManager,
+        loginOnClick = { email, password -> }, // 추후 viewmodel 개발후 통신 예정
         navigateToJoin = navigateToJoin,
-        navigateToLogin = { email, password -> }, // 추후 viewmodel 개발후 통신 예정
         navigateToFindPassword = navigateToFindPassword,
+        navigateToMain = navigateToMain,
     )
 }
 
@@ -75,15 +78,16 @@ internal fun LoginRoute(
 internal fun LoginScreen(
     modifier: Modifier = Modifier,
     focusManager: FocusManager,
+    loginOnClick: (String, String) -> Unit,
     navigateToJoin: () -> Unit,
-    navigateToLogin: (String, String) -> Unit,
     navigateToFindPassword: () -> Unit,
+    navigateToMain: () -> Unit,
 ) {
+    val (emailTextState, onChangeEmail) = remember { mutableStateOf("") }
+    val (passwordTextState, onChangePassword) = remember { mutableStateOf("") }
+
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         JusiCoolAndroidTheme { colors, typography ->
-            val (emailTextState, onChangeEmail) = remember { mutableStateOf("") }
-            val (passwordTextState, onChangePassword) = remember { mutableStateOf("") }
-
             Column(
                 modifier = modifier
                     .fillMaxSize()
@@ -129,24 +133,29 @@ internal fun LoginScreen(
                         .paddingHorizontal(
                             horizontal = 24.dp,
                             bottom = 82.dp
-                        )
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     JDSButton(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(54.dp),
                         text = "확인",
-                        state = if (emailTextState.checkEmailRegex() && passwordTextState.checkPasswordRegex()) ButtonState.Enable else ButtonState.Disable,
-                        onClick = { navigateToLogin(emailTextState, passwordTextState) }
+                        state =
+                        if (emailTextState.checkEmailRegex() && passwordTextState.checkPasswordRegex()) ButtonState.Enable
+                        else ButtonState.Disable,
+                        onClick = {
+                            loginOnClick(emailTextState, passwordTextState)
+                            navigateToMain()
+                        }
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "아직 계정이 없으신가요?",
                         style = typography.Regular,
                         color = colors.GRAY1,
+                        textAlign = TextAlign.Center,
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -154,6 +163,7 @@ internal fun LoginScreen(
                         text = "회원가입",
                         style = typography.RegularM,
                         color = colors.MAIN,
+                        textAlign = TextAlign.Center,
                     )
                 }
             }
@@ -166,6 +176,7 @@ internal fun LoginScreen(
 private fun LoginScreenPre() {
     LoginRoute(
         navigateToJoin = { /*TODO*/ },
-        navigateToLogin = { /*TODO*/ }
-    ) {}
+        navigateToMain = { },
+        navigateToFindPassword = { }
+    )
 }

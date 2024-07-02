@@ -18,10 +18,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -53,18 +51,18 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val communityDetailRoute = "communityDetailRoute"
 
-fun NavController.communityDetailRoute() {
+fun NavController.navigateToCommunityDetail() {
     this.navigate(communityDetailRoute)
 }
 
 fun NavGraphBuilder.communityDetailRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunityDetail: () -> Unit
+    navigateToCommunityModify: () -> Unit
 ) {
-    composable(route = communityDetailRoute) {
+    composable( communityDetailRoute) {
         communityDetailRoute(
             popUpBackStack = popUpBackStack,
-            navigateToCommunityDetail = navigateToCommunityDetail
+            navigateToCommunityModify = navigateToCommunityModify
         )
     }
 }
@@ -73,14 +71,14 @@ fun NavGraphBuilder.communityDetailRoute(
 internal fun CommunityDetailRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunityDetail: () -> Unit
+    navigateToCommunityModify: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
     CommunityDetailScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        navigateToCommunityDetail = navigateToCommunityDetail,
+        navigateToCommunityModify = navigateToCommunityModify,
         focusManager = focusManager,
         data1 = TemList(
             company = "마이크로소프트 커뮤니티",
@@ -136,14 +134,14 @@ internal fun CommunityDetailRoute(
 internal fun CommunityDetailScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunityDetail: () -> Unit,
+    navigateToCommunityModify: () -> Unit,
     focusManager: FocusManager,
     scrollState: ScrollState = rememberScrollState(),
     data1: TemList,
     data2: CommunityListItemTemData,
     data3: ImmutableList<TemCommentData>
 ) {
-    var isHeartClicked by remember { mutableStateOf(false) }
+    val (isHeartClicked,setIsHeartClicked) = remember { mutableStateOf(false) }
     val (commentTextState, onCommentTextChange) = remember { mutableStateOf("") }
     val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember { mutableStateOf(false)
     }
@@ -185,7 +183,7 @@ internal fun CommunityDetailScreen(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            modifier = Modifier.clickableSingle { navigateToCommunityDetail() },
+                            modifier = Modifier.clickableSingle { navigateToCommunityModify() },
                             text = "수정하기",
                             style = typography.RegularM,
                             color = colors.MAIN,
@@ -213,7 +211,7 @@ internal fun CommunityDetailScreen(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         text = data2.heart_count.toString(),
                         startIcon = { HeartIcon(tint = if (isHeartClicked) colors.WHITE else colors.GRAY400) },
-                        onClick = { isHeartClicked = !isHeartClicked }, // 후에 통신 로직 작성
+                        onClick = { setIsHeartClicked(!isHeartClicked) }, // 후에 통신 로직 작성
                         textColor = if (isHeartClicked) colors.WHITE else colors.GRAY400,
                         backgroundColor = if (isHeartClicked) colors.MAIN else Color.Unspecified,
                         outLineColor = if (isHeartClicked) colors.MAIN else colors.GRAY400
