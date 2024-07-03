@@ -123,6 +123,7 @@ fun JoinScreen(
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
             state = pagerState,
+            userScrollEnabled = false,
         ) {
             when (it) {
                 0 -> {
