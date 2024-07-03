@@ -77,7 +77,7 @@ internal fun StockBuyingScreen(
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
-    val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(false) }
+    val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(true) }
     val formattedPoint = "%,d".format(myAccountData.point)
     val formattedStock =
         if (stockTextState.isNotEmpty()) "%,d".format(stockTextState.toInt()) else "0"
@@ -95,7 +95,7 @@ internal fun StockBuyingScreen(
             betweenText = "주식 구매"
         )
 
-        if (!isBuyingSuccessful) {
+        if (isBuyingSuccessful) {
             Spacer(modifier = Modifier.height(40.dp))
 
             JDSTextField(
@@ -116,7 +116,7 @@ internal fun StockBuyingScreen(
                     .padding(horizontal = 20.dp, vertical = 32.dp),
                 state = if (stockTextState.isEmpty()) ButtonState.Disable else ButtonState.Enable,
                 text = "구매 하기",
-                onClick = { setIsBuyingSuccessful(true) }
+                onClick = { setIsBuyingSuccessful(false) }
             )
         } else {
             Column(

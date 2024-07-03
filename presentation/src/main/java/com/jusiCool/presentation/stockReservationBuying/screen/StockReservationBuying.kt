@@ -79,7 +79,7 @@ internal fun StockReservationBuyingScreen(
 ) {
     val (stockReservationTextState, setStockReservationTextState) = remember { mutableStateOf("") }
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
-    val (pagerState, setPagerState) = remember { mutableStateOf(1) }
+    val (pager, setPager) = remember { mutableStateOf(1) }
     val formattedStockPrice = "%,d".format(entireStocksData.myStockPrice)
     val formattedPoint = "%,d".format(myAccountData.point)
     val formattedStock =
@@ -96,14 +96,14 @@ internal fun StockReservationBuyingScreen(
         JDSArrowTopBar(
             startIcon = {
                 LeftArrowIcon(modifier = Modifier.clickableSingle {
-                    if (pagerState == 2) setPagerState(1)
+                    if (pager == 2) setPager(1)
                     else navigateToStockDetail()
                 })
             },
             betweenText = "주식 구매"
         )
 
-        when (pagerState) {
+        when (pager) {
             1 -> {
                 Spacer(modifier = Modifier.height(40.dp))
 
@@ -124,7 +124,7 @@ internal fun StockReservationBuyingScreen(
                         .padding(horizontal = 20.dp, vertical = 32.dp),
                     state = if (stockReservationTextState.isEmpty()) ButtonState.Disable else ButtonState.Enable,
                     text = "다음",
-                    onClick = { setPagerState(2) }
+                    onClick = { setPager(2) }
                 )
             }
 
@@ -149,7 +149,7 @@ internal fun StockReservationBuyingScreen(
                         .padding(horizontal = 20.dp, vertical = 32.dp),
                     state = if (stockTextState.isEmpty()) ButtonState.Disable else ButtonState.Enable,
                     text = "구매 하기",
-                    onClick = { setPagerState(3) }
+                    onClick = { setPager(3) }
                 )
             }
 
