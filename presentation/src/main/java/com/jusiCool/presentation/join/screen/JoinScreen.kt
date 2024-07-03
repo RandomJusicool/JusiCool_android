@@ -52,10 +52,21 @@ fun NavGraphBuilder.joinRoute(
 @Composable
 fun JoinRoute(
     modifier: Modifier = Modifier,
+    joinViewModel: JoinViewModel = hiltViewModel(),
     popUpBackStack: () -> Unit,
 ) {
+    val emailSendState by joinViewModel.emailSendState.collectAsStateWithLifecycle()
+    val emailVerifyState by joinViewModel.emailVerifyState.collectAsStateWithLifecycle()
+    val signUpState by joinViewModel.signUpState.collectAsStateWithLifecycle()
+
     JoinScreen(
         modifier = modifier,
+        emailSendState = emailSendState,
+        emailVerifyState = emailVerifyState,
+        signUpState = signUpState,
+        postEmail = joinViewModel::postEmail,
+        getVerifyEmail = joinViewModel::getVerifyEmail,
+        postAuthSignUp = joinViewModel::postSignUp,
         popUpBackStack = popUpBackStack,
     )
 }
@@ -64,6 +75,12 @@ fun JoinRoute(
 @Composable
 fun JoinScreen(
     modifier: Modifier = Modifier,
+    emailSendState: Event<Unit>,
+    emailVerifyState: Event<Unit>,
+    signUpState: Event<Unit>,
+    postEmail: (PostEmailRequestModel) -> Unit,
+    getVerifyEmail: (GetEmailVerifyRequestModel) -> Unit,
+    postAuthSignUp: (PostAuthSignUpRequestModel) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     val (authenticationCodeIsSent, setAuthenticationCodeIsSent) = remember { mutableStateOf(false) }
