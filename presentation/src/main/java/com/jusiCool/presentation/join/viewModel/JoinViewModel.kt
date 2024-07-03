@@ -3,7 +3,6 @@ package com.jusiCool.presentation.join.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jusiCool.domain.model.auth.request.PostAuthSignUpRequestModel
-import com.jusiCool.domain.model.email.request.GetEmailVerifyRequestModel
 import com.jusiCool.domain.model.email.request.PostEmailRequestModel
 import com.jusiCool.domain.usecase.auth.PostAuthSignUpUseCase
 import com.jusiCool.domain.usecase.email.GetEmailVerifyUseCase
@@ -35,8 +34,8 @@ class JoinViewModel @Inject constructor(
             .onSuccess { _emailSendState.value = Event.Success() }
     }
 
-    fun getVerifyEmail(getEmailVerifyModel: GetEmailVerifyRequestModel) = viewModelScope.launch {
-        getEmailVerifyUseCase(getEmailVerifyModel)
+    fun getVerifyEmail(email: String, authCode: String) = viewModelScope.launch {
+        getEmailVerifyUseCase(email = email, authCode = authCode)
             .onSuccess { _emailVerifyState.value = Event.Success() }
     }
 
