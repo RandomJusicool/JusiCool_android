@@ -40,6 +40,7 @@ fun JDSTextField(
     isEnabled: Boolean = true,
     isError: Boolean = false,
     isEnabledHelperTextClick: Boolean = false,
+    placerHolderShare: Boolean = false,
     singleLine: Boolean = false,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     minLines: Int = 1,
@@ -102,7 +103,14 @@ fun JDSTextField(
                         if (textState.isEmpty()) {
                             Text(
                                 text = placeHolder,
-                                color = if (textState.isEmpty()) colors.GRAY2 else colors.Black,
+                                color = colors.GRAY2,
+                                style = typography.bodySmall,
+                            )
+                        } else if (placerHolderShare) {
+                            Text(
+                                modifier = Modifier.align(alignment = Alignment.End),
+                                text = "주",
+                                color = colors.GRAY2,
                                 style = typography.bodySmall,
                             )
                         }

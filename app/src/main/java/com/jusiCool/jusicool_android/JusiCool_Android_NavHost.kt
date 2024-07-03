@@ -34,6 +34,10 @@ import com.jusiCool.presentation.search.screen.searchRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
 import com.jusiCool.presentation.stockDetail.screen.navigateToStockDetail
 import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
+import com.jusiCool.presentation.stockBuying.screen.stockBuyingRoute
+import com.jusiCool.presentation.stockReservationBuying.screen.stockReservationBuyingRoute
+import com.jusiCool.presentation.stockReservationSelling.screen.stockReservationSellingRoute
+import com.jusiCool.presentation.stockSelling.screen.stockSellingRoute
 
 @Composable
 fun JusiCool_Android_NavHost(
@@ -92,11 +96,31 @@ fun JusiCool_Android_NavHost(
             navigateToCommunityList = navController::navigateToCommunityList,
         )
 
+        stockBuyingRoute(
+            navigateToStockDetail = navController::navigateToStockDetail,
+            navigateToOrderHistory = navController::navigateToOrderHistory,
+        )
+
+        stockReservationBuyingRoute(
+            navigateToStockDetail = navController::navigateToStockDetail,
+            navigateToOrderHistory = navController::navigateToOrderHistory,
+        )
+
+        stockSellingRoute(
+            navigateToStockDetail = navController::navigateToStockDetail,
+            navigateToOrderHistory = navController::navigateToOrderHistory,
+        )
+
+        stockReservationSellingRoute(
+            navigateToStockDetail = navController::navigateToStockDetail,
+            navigateToOrderHistory = navController::navigateToOrderHistory,
+        )
+
         communityDetailRoute(
             popUpBackStack = navController::popBackStack,
             navigateToCommunityModify = navController::navigateToCommunityModify
         )
-        
+
         communityRoute(
             popUpBackStack = navController::popBackStack,
             navigateToCommunityDetail = navController::navigateToCommunityDetail,
@@ -120,6 +144,8 @@ fun JusiCool_Android_NavHost(
             navigateToStockDetail = navController::navigateToStockDetail,
             popUpBackStack = navController::popBackStack
         )
+
         communityModifyRoute(popUpBackStack = navController::popBackStack)
+
     }
 }

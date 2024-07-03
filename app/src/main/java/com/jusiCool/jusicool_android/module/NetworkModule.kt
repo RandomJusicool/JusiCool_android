@@ -6,7 +6,9 @@ import com.jusiCool.data.remote.api.BoardAPI
 import com.jusiCool.data.remote.api.CommentAPI
 import com.jusiCool.data.remote.api.EmailAPI
 import com.jusiCool.data.remote.api.ReservationAPI
+import com.jusiCool.data.remote.api.StockAPI
 import com.jusiCool.data.utill.AuthInterceptor
+import com.jusiCool.jusicool_android.BuildConfig
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -59,7 +61,7 @@ object NetworkModule {
         okHttpClient: OkHttpClient,
         moshiConverterFactory: MoshiConverterFactory,
     ): Retrofit = Retrofit.Builder()
-        .baseUrl("") // Todo : Add BuildConfig
+        .baseUrl(BuildConfig.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(moshiConverterFactory)
         .build()
@@ -98,5 +100,11 @@ object NetworkModule {
     @Singleton
     fun CommunityAPI(retrofit: Retrofit): CommentAPI {
         return retrofit.create(CommentAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun StockAPI(retrofit: Retrofit): StockAPI {
+        return retrofit.create(StockAPI::class.java)
     }
 }
