@@ -96,6 +96,26 @@ fun JusiCool_Android_NavHost(
             navigateToCommunityList = navController::navigateToCommunityList,
         )
 
+        stockBuyingRoute(
+            navigateToStockDetail = navController::navigateToStockDetail,
+            navigateToOrderHistory = navController::navigateToOrderHistory,
+        )
+
+        stockReservationBuyingRoute(
+            navigateToStockDetail = navController::navigateToStockDetail,
+            navigateToOrderHistory = navController::navigateToOrderHistory,
+        )
+
+        stockSellingRoute(
+            navigateToStockDetail = navController::navigateToStockDetail,
+            navigateToOrderHistory = navController::navigateToOrderHistory,
+        )
+
+        stockReservationSellingRoute(
+            navigateToStockDetail = navController::navigateToStockDetail,
+            navigateToOrderHistory = navController::navigateToOrderHistory,
+        )
+
         communityDetailRoute(
             popUpBackStack = navController::popBackStack,
             navigateToCommunityModify = navController::navigateToCommunityModify
@@ -127,24 +147,5 @@ fun JusiCool_Android_NavHost(
 
         communityModifyRoute(popUpBackStack = navController::popBackStack)
 
-        stockBuyingRoute(
-            navigateToStockDetail = navController::navigateToStockDetail,
-            navigateToOrderHistory = navController::navigateToOrderHistory,
-        )
-
-        stockSellingRoute(
-            navigateToStockDetail = navController::navigateToStockDetail,
-            navigateToOrderHistory = navController::navigateToOrderHistory,
-        )
-
-        stockReservationBuyingRoute(
-            navigateToStockDetail = navController::navigateToStockDetail,
-            navigateToOrderHistory = navController::navigateToOrderHistory,
-        )
-
-        stockReservationSellingRoute(
-            navigateToStockDetail = navController::navigateToStockDetail,
-            navigateToOrderHistory = navController::navigateToOrderHistory,
-        )
     }
 }
