@@ -12,6 +12,8 @@ import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSource
 import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSourceImpl
 import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSource
 import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSourceImpl
+import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSource
+import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -50,4 +52,9 @@ abstract class RemoteDataSourceModule {
     abstract fun provideCommunityDataSource(
         remoteCommunityDataSourceImpl: RemoteCommunityDataSourceImpl
     ) : RemoteCommunityDataSource
+
+    @Binds
+    abstract fun provideStockDataSource(
+        remoteStockDataSourceImpl: RemoteStockDataSourceImpl
+    ) : RemoteStockDataSource
 }
