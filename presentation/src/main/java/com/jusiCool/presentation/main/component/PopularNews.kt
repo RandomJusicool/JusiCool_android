@@ -98,6 +98,7 @@ fun PopularNews(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickableSingle { navigateToNews() }
                 .height(26.dp)
                 .padding(horizontal = 4.dp),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -108,8 +109,7 @@ fun PopularNews(
                 color = JDSColor.Black
             )
 
-            RightChevronIcon(modifier = Modifier.clickableSingle { navigateToNews() }
-            )
+            RightChevronIcon()
         }
     }
 }
