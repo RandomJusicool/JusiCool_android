@@ -12,12 +12,16 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -30,6 +34,11 @@ import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.auth.request.PostAuthSignUpRequestModel
+import com.jusiCool.domain.model.email.request.GetEmailVerifyRequestModel
+import com.jusiCool.domain.model.email.request.PostEmailRequestModel
+import com.jusiCool.presentation.join.viewModel.JoinViewModel
+import com.jusiCool.presentation.utill.Event
 import kotlinx.coroutines.launch
 
 const val joinRoute = "joinRoute"
@@ -91,6 +100,10 @@ fun JoinScreen(
     val coroutine = rememberCoroutineScope()
     val pagerState = rememberPagerState { 3 }
 
+    LaunchedEffect(signUpState is Event.Success) {
+        popUpBackStack()
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -141,7 +154,8 @@ fun JoinScreen(
                                 .fillMaxWidth()
                                 .height(53.dp),
                             text = "다음",
-                            state = if (nameTextState.isNotEmpty()) ButtonState.Enable else ButtonState.Disable,
+                            state = if (nameTextState.isNotEmpty()) ButtonState.Enable
+                            else ButtonState.Disable,
                             onClick = {
                                 coroutine.launch {
                                     pagerState.animateScrollToPage(1)
@@ -171,6 +185,7 @@ fun JoinScreen(
                             JDSTextField(
                                 label = "이메일",
                                 placeHolder = "이메일을 적어주세요",
+                                isEnabled = emailSendState is Event.Loading,
                                 textState = emailTextState,
                                 onTextChange = setEmailTextState,
                             )
@@ -188,17 +203,24 @@ fun JoinScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(53.dp),
-                            text = "다음",
-                            state = if (nameTextState.isNotEmpty()) ButtonState.Enable else ButtonState.Disable,
+                            text = if (emailSendState !is Event.Success) "코드 받기"
+                            else if (emailVerifyState !is Event.Success) "확인"
+                            else "다음",
+                            state = if (nameTextState.isNotEmpty()) ButtonState.Enable
+                            else ButtonState.Disable,
                             onClick = {
-                                if (!authenticationCodeIsSent) {
-                                    setAuthenticationCodeIsSent(true)
-                                } else {
-                                    coroutine.launch {
-                                        pagerState.animateScrollToPage(2)
-                                    }
                                 if (emailSendState !is Event.Success) postEmail(
                                     PostEmailRequestModel(email = emailTextState)
+                                )
+                                else if (emailVerifyState !is Event.Success)
+                                    getVerifyEmail(
+                                        GetEmailVerifyRequestModel(
+                                            email = emailTextState,
+                                            authCode = authenticationCodeTextState
+                                        )
+                                    )
+                                else coroutine.launch {
+                                    pagerState.animateScrollToPage(2)
                                 }
                             },
                         )
@@ -243,7 +265,17 @@ fun JoinScreen(
                             text = "시작하기",
                             state = if (nameTextState.isNotEmpty()) ButtonState.Enable
                             else ButtonState.Disable,
-                            onClick = { if (passWordTextState == rePassWordTextState) popUpBackStack() },
+                            onClick = {
+                                if (passWordTextState == rePassWordTextState) {
+                                    postAuthSignUp(
+                                        PostAuthSignUpRequestModel(
+                                            email = emailTextState,
+                                            name = nameTextState,
+                                            password = passWordTextState,
+                                        )
+                                    )
+                                }
+                            },
                         )
                     }
                 }
@@ -256,6 +288,12 @@ fun JoinScreen(
 @Composable
 fun JoinScreenPreview() {
     JoinScreen(
-        popUpBackStack = {},
+        emailSendState = Event.Success(),
+        emailVerifyState = Event.Success(),
+        signUpState = Event.Success(),
+        popUpBackStack = { },
+        postEmail = { },
+        getVerifyEmail = { },
+        postAuthSignUp = { },
     )
 }
