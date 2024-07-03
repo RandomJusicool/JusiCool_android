@@ -35,7 +35,6 @@ import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.domain.model.auth.request.PostAuthSignUpRequestModel
-import com.jusiCool.domain.model.email.request.GetEmailVerifyRequestModel
 import com.jusiCool.domain.model.email.request.PostEmailRequestModel
 import com.jusiCool.presentation.join.viewModel.JoinViewModel
 import com.jusiCool.presentation.utill.Event
@@ -88,7 +87,7 @@ fun JoinScreen(
     emailVerifyState: Event<Unit>,
     signUpState: Event<Unit>,
     postEmail: (PostEmailRequestModel) -> Unit,
-    getVerifyEmail: (GetEmailVerifyRequestModel) -> Unit,
+    getVerifyEmail: (String, String) -> Unit,
     postAuthSignUp: (PostAuthSignUpRequestModel) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
@@ -214,10 +213,8 @@ fun JoinScreen(
                                 )
                                 else if (emailVerifyState !is Event.Success)
                                     getVerifyEmail(
-                                        GetEmailVerifyRequestModel(
-                                            email = emailTextState,
-                                            authCode = authenticationCodeTextState
-                                        )
+                                        emailTextState,
+                                        authenticationCodeTextState
                                     )
                                 else coroutine.launch {
                                     pagerState.animateScrollToPage(2)
@@ -293,7 +290,7 @@ fun JoinScreenPreview() {
         signUpState = Event.Success(),
         popUpBackStack = { },
         postEmail = { },
-        getVerifyEmail = { },
+        getVerifyEmail = { _, _ -> },
         postAuthSignUp = { },
     )
 }
