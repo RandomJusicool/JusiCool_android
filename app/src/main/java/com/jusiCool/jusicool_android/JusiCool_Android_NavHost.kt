@@ -34,7 +34,9 @@ import com.jusiCool.presentation.search.screen.searchRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
 import com.jusiCool.presentation.stockDetail.screen.navigateToStockDetail
 import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
-import com.jusiCool.presentation.stocksBuying.screen.stockBuyingRoute
+import com.jusiCool.presentation.stockBuying.screen.stockBuyingRoute
+import com.jusiCool.presentation.stockReservationBuying.screen.stockReservationBuyingRoute
+import com.jusiCool.presentation.stockSelling.screen.stockSellingRoute
 
 @Composable
 fun JusiCool_Android_NavHost(
@@ -125,6 +127,16 @@ fun JusiCool_Android_NavHost(
         communityModifyRoute(popUpBackStack = navController::popBackStack)
 
         stockBuyingRoute(
+            navigateToStockDetail = { /*TODO*/ },
+            navigateToOrderHistory = { /*TODO*/ }
+        )
+
+        stockSellingRoute(
+            navigateToStockDetail = { /*TODO*/ },
+            navigateToOrderHistory = { /*TODO*/ }
+        )
+
+        stockReservationBuyingRoute(
             navigateToStockDetail = { /*TODO*/ },
             navigateToOrderHistory = { /*TODO*/ }
         )

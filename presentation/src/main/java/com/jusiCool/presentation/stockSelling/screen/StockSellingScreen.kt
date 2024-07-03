@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.stocksBuying.screen
+package com.jusiCool.presentation.stockSelling.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,22 +32,20 @@ import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
-import com.jusiCool.presentation.join.screen.JoinScreen
-import com.jusiCool.presentation.main.component.MyAccountData
-import com.jusiCool.presentation.main.screen.tempMyAccountData
+import com.jusiCool.presentation.main.component.MyStocksData
 
-const val stockBuyingRoute = "stockBuyingRoute"
+const val stockSellingRoute = "stockSellingRoute"
 
-fun NavController.navigationToJoin() {
-    this.navigate(stockBuyingRoute)
+fun NavController.navigationToStockSelling() {
+    this.navigate(stockSellingRoute)
 }
 
-fun NavGraphBuilder.stockBuyingRoute(
+fun NavGraphBuilder.stockSellingRoute(
     navigateToStockDetail: () -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
-    composable(stockBuyingRoute) {
-        StockBuyingRoute(
+    composable(stockSellingRoute) {
+        StockSellingRoute(
             navigateToStockDetail = navigateToStockDetail,
             navigateToOrderHistory = navigateToOrderHistory
         )
@@ -55,14 +53,14 @@ fun NavGraphBuilder.stockBuyingRoute(
 }
 
 @Composable
-fun StockBuyingRoute(
+internal fun StockSellingRoute(
     modifier: Modifier = Modifier,
     navigateToStockDetail: () -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
-    StockBuyingScreen(
+    StockSellingScreen(
         modifier = modifier,
-        myAccountData = tempMyAccountData,
+        myStocksData = MyStocksData("마이크로소프트", 1231, 11131, 0, 0.0f),
         entireStocksData = EntireStocksData("마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
@@ -70,19 +68,18 @@ fun StockBuyingRoute(
 }
 
 @Composable
-internal fun StockBuyingScreen(
+internal fun StockSellingScreen(
     modifier: Modifier = Modifier,
-    myAccountData: MyAccountData,
+    myStocksData: MyStocksData,
     entireStocksData: EntireStocksData,
     navigateToStockDetail: () -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
     val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(false) }
-    val formattedPoint = "%,d".format(myAccountData.point)
     val formattedStock =
         if (stockTextState.isNotEmpty()) "%,d".format(stockTextState.toInt()) else "0"
-    val formattedBuyingPoint =
+    val formattedSellingPoint =
         if (stockTextState.isNotEmpty()) "%,d".format(stockTextState.toInt() * entireStocksData.myStockPrice) else "0"
 
     Column(
@@ -93,7 +90,7 @@ internal fun StockBuyingScreen(
     ) {
         JDSArrowTopBar(
             startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail() }) },
-            betweenText = "주식 구매"
+            betweenText = "주식 판매"
         )
 
         if (!isBuyingSuccessful) {
@@ -102,9 +99,9 @@ internal fun StockBuyingScreen(
             JDSTextField(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 textState = stockTextState,
-                placeHolder = "최대 N주 구매 가능",
-                label = "몇 주 구매할까요?",
-                helperText = "보유 포인트 $formattedPoint P",
+                placeHolder = "최대 N주 판매 가능",
+                label = "몇 주 판매할까요?",
+                helperText = "보유 주 ${myStocksData.share}주",
                 placerHolderShare = true,
                 onTextChange = setStockTextState
             )
@@ -116,7 +113,7 @@ internal fun StockBuyingScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 32.dp),
                 state = if (stockTextState.isEmpty()) ButtonState.Disable else ButtonState.Enable,
-                text = "구매 하기",
+                text = "판매 하기",
                 onClick = { setIsBuyingSuccessful(true) }
             )
         } else {
@@ -129,7 +126,7 @@ internal fun StockBuyingScreen(
                 CostImage(modifier = Modifier.size(177.dp))
 
                 Text(
-                    text = "${entireStocksData.stockName} ${formattedStock}주\n ${formattedBuyingPoint}P 구매 성공",
+                    text = "${entireStocksData.stockName} ${formattedStock}주\n ${formattedSellingPoint}P 판매 성공",
                     style = JDSTypography.subTitle,
                     color = JDSColor.Black
                 )
@@ -156,9 +153,9 @@ internal fun StockBuyingScreen(
 
 @Preview
 @Composable
-fun StockBuyingScreenPreview() {
-    StockBuyingScreen(
-        myAccountData = tempMyAccountData,
+fun StockSellingScreenPreview() {
+    StockSellingScreen(
+        myStocksData = MyStocksData("마이크로소프트", 1231, 11131, 0, 0.0f),
         entireStocksData = EntireStocksData("마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
         navigateToOrderHistory = {}
