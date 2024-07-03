@@ -32,8 +32,10 @@ import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
+import com.jusiCool.presentation.join.screen.JoinScreen
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.screen.tempMyAccountData
+import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockBuyingRoute = "stockBuyingRoute"
 
@@ -54,7 +56,7 @@ fun NavGraphBuilder.stockBuyingRoute(
 }
 
 @Composable
-internal fun StockBuyingRoute(
+fun StockBuyingRoute(
     modifier: Modifier = Modifier,
     navigateToStockDetail: () -> Unit,
     navigateToOrderHistory: () -> Unit,
@@ -77,12 +79,7 @@ internal fun StockBuyingScreen(
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
-    val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(true) }
-    val formattedPoint = "%,d".format(myAccountData.point)
-    val formattedStock =
-        if (stockTextState.isNotEmpty()) "%,d".format(stockTextState.toInt()) else "0"
-    val formattedBuyingPoint =
-        if (stockTextState.isNotEmpty()) "%,d".format(stockTextState.toInt() * entireStocksData.myStockPrice) else "0"
+    val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -95,7 +92,7 @@ internal fun StockBuyingScreen(
             betweenText = "주식 구매"
         )
 
-        if (isBuyingSuccessful) {
+        if (!isBuyingSuccessful) {
             Spacer(modifier = Modifier.height(40.dp))
 
             JDSTextField(
@@ -103,7 +100,7 @@ internal fun StockBuyingScreen(
                 textState = stockTextState,
                 placeHolder = "최대 N주 구매 가능",
                 label = "몇 주 구매할까요?",
-                helperText = "보유 포인트 $formattedPoint P",
+                helperText = "보유 포인트 ${myAccountData.point.formatStockPrice()} P",
                 placerHolderShare = true,
                 onTextChange = setStockTextState
             )
@@ -116,7 +113,7 @@ internal fun StockBuyingScreen(
                     .padding(horizontal = 20.dp, vertical = 32.dp),
                 state = if (stockTextState.isEmpty()) ButtonState.Disable else ButtonState.Enable,
                 text = "구매 하기",
-                onClick = { setIsBuyingSuccessful(false) }
+                onClick = { setIsBuyingSuccessful(true) }
             )
         } else {
             Column(
@@ -128,7 +125,8 @@ internal fun StockBuyingScreen(
                 CostImage(modifier = Modifier.size(177.dp))
 
                 Text(
-                    text = "${entireStocksData.stockName} ${formattedStock}주\n ${formattedBuyingPoint}P 구매 성공",
+                    text = "${entireStocksData.stockName} ${stockTextState.formatStockPrice()}주\n" +
+                            " ${(stockTextState.toInt() * entireStocksData.myStockPrice).formatStockPrice()}P 구매 성공",
                     style = JDSTypography.subTitle,
                     color = JDSColor.Black
                 )

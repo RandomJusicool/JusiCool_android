@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.presentation.utill.formatStockPriceSign
 
 data class MyAccountData(
     val point: Int,
@@ -30,10 +31,6 @@ fun MyAccount(
     modifier: Modifier = Modifier,
     myAccountData: MyAccountData,
 ) {
-    val formattedRevenue =
-        if (myAccountData.revenue > 0) "+%,d".format(myAccountData.revenue)
-        else "%,d".format(myAccountData.revenue)
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -68,7 +65,7 @@ fun MyAccount(
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "$formattedRevenue 원 (${myAccountData.revenuePercent}%)",
+            text = "${myAccountData.revenue.formatStockPriceSign()} 원 (${myAccountData.revenuePercent}%)",
             color = if (myAccountData.revenue < 0) JDSColor.MAIN
             else if (myAccountData.revenue > 0) JDSColor.ERROR
             else JDSColor.GRAY600,

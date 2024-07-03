@@ -34,6 +34,7 @@ import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyStocksData
+import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockReservationSellingRoute = "stockReservationSellingRoute"
 
@@ -79,10 +80,6 @@ internal fun StockReservationSellingScreen(
     val (stockReservationTextState, setStockReservationTextState) = remember { mutableStateOf("") }
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
     val (pager, setPager) = remember { mutableStateOf(1) }
-    val formattedStock =
-        if (stockTextState.isNotEmpty()) "%,d".format(stockTextState.toInt()) else "0"
-    val formattedBuyingPoint =
-        if (stockTextState.isNotEmpty()) "%,d".format(stockTextState.toInt() * stockReservationTextState.toInt()) else "0"
 
     Column(
         modifier = modifier
@@ -109,7 +106,7 @@ internal fun StockReservationSellingScreen(
                     textState = stockReservationTextState,
                     placeHolder = "예약 금액을 달성했을 때 주식을 판매해요",
                     label = "예약 금액을 입력하세요",
-                    helperText = "지금 주식 가격: ${entireStocksData.myStockPrice} P",
+                    helperText = "지금 주식 가격: ${entireStocksData.myStockPrice.formatStockPrice()} P",
                     onTextChange = setStockReservationTextState
                 )
 
@@ -133,7 +130,7 @@ internal fun StockReservationSellingScreen(
                     textState = stockTextState,
                     placeHolder = "최대 N주 판매 가능",
                     label = "몇 주 판매할까요?",
-                    helperText = "보유 주 ${myStocksData.share}주",
+                    helperText = "보유 주 ${myStocksData.share.formatStockPrice()}주",
                     placerHolderShare = true,
                     onTextChange = setStockTextState
                 )
@@ -160,7 +157,8 @@ internal fun StockReservationSellingScreen(
                     CostImage(modifier = Modifier.size(177.dp))
 
                     Text(
-                        text = "${entireStocksData.stockName} ${formattedStock}주\n ${formattedBuyingPoint}P 판매 예약 성공",
+                        text = "${entireStocksData.stockName} ${stockTextState.formatStockPrice()}주\n" +
+                                "${(stockTextState.toInt() * stockReservationTextState.toInt()).formatStockPrice()}P 판매 예약 성공",
                         style = JDSTypography.subTitle,
                         color = JDSColor.Black,
                         textAlign = TextAlign.Center

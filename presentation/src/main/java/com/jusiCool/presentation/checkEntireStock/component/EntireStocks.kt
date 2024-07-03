@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.presentation.utill.formatStockPrice
+import com.jusiCool.presentation.utill.formatStockPriceSign
 
 data class EntireStocksData(
     val stockName: String,
@@ -55,7 +57,7 @@ fun EntireStocksItem(
 
             Text(
                 text =
-                if(entireStocksData.share != 0)"${"%,d".format(entireStocksData.share)} 주 보유"
+                if(entireStocksData.share != 0)"${entireStocksData.share.formatStockPrice()} 주 보유"
                 else "보유 주식 없음",
                 style = JDSTypography.label,
                 color = JDSColor.GRAY400
@@ -73,7 +75,7 @@ fun EntireStocksItem(
             )
 
             Text(
-                text = "$formattedMyStockRevenue (${entireStocksData.myStockRevenuePercent}%)",
+                text = "${entireStocksData.myStockRevenue.formatStockPriceSign()} (${entireStocksData.myStockRevenuePercent}%)",
                 style = JDSTypography.label,
                 color = if (entireStocksData.myStockRevenue < 0) JDSColor.MAIN
                 else if (entireStocksData.myStockRevenue > 0) JDSColor.ERROR

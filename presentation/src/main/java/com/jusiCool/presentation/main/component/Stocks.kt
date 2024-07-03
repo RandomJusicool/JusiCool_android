@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.presentation.utill.formatStockPriceSign
 
 data class MyStocksData(
     val stockName: String,
@@ -31,10 +31,6 @@ fun Stocks(
     myStocksData: MyStocksData,
     navigateToStockDetail: () -> Unit,
 ) {
-    val formattedMyStockRevenue =
-        if (myStocksData.myStockRevenue > 0) "+%,d".format(myStocksData.myStockRevenue)
-        else "%,d".format(myStocksData.myStockRevenue)
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -67,7 +63,7 @@ fun Stocks(
             )
 
             Text(
-                text = "$formattedMyStockRevenue (${myStocksData.myStockRevenuePercent}%)",
+                text = "${myStocksData.myStockRevenue.formatStockPriceSign()} (${myStocksData.myStockRevenuePercent}%)",
                 style = JDSTypography.label,
                 color = if (myStocksData.myStockRevenue < 0) JDSColor.MAIN
                 else if (myStocksData.myStockRevenue > 0) JDSColor.ERROR
