@@ -83,7 +83,6 @@ fun JoinScreen(
     postAuthSignUp: (PostAuthSignUpRequestModel) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
-    val (authenticationCodeIsSent, setAuthenticationCodeIsSent) = remember { mutableStateOf(false) }
     val (nameTextState, setNameTextState) = remember { mutableStateOf("") }
     val (emailTextState, setEmailTextState) = remember { mutableStateOf("") }
     val (authenticationCodeTextState, setAuthenticationCodeTextState) = remember { mutableStateOf("") }
@@ -175,7 +174,7 @@ fun JoinScreen(
                                 textState = emailTextState,
                                 onTextChange = setEmailTextState,
                             )
-                            if (authenticationCodeIsSent) {
+                            if (emailSendState is Event.Success) {
                                 JDSTextField(
                                     label = "인증번호",
                                     placeHolder = "인증번호를 입력해주세요",
@@ -198,6 +197,8 @@ fun JoinScreen(
                                     coroutine.launch {
                                         pagerState.animateScrollToPage(2)
                                     }
+                                if (emailSendState !is Event.Success) postEmail(
+                                    PostEmailRequestModel(email = emailTextState)
                                 }
                             },
                         )
