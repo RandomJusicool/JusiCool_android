@@ -2,7 +2,6 @@ package com.jusiCool.data.repository
 
 import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSource
 import com.jusiCool.data.remote.dto.email.request.toDto
-import com.jusiCool.domain.model.email.request.GetEmailVerifyRequestModel
 import com.jusiCool.domain.model.email.request.PostEmailRequestModel
 import com.jusiCool.domain.repository.EmailRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +14,10 @@ class EmailRepositoryImpl @Inject constructor(
         return dataSource.postEmail(body = body.toDto())
     }
 
-    override suspend fun getEmailVerify(body: GetEmailVerifyRequestModel): Flow<Unit> {
-        return dataSource.getEmailVerify(body = body.toDto())
+    override suspend fun getEmailVerify(email: String, authCode: String): Flow<Unit> {
+        return dataSource.getEmailVerify(
+            email = email,
+            authCode = authCode
+        )
     }
 }
