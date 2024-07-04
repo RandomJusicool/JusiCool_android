@@ -13,8 +13,8 @@ import javax.inject.Inject
 class BoardRepositoryImpl @Inject constructor(
     private val dataSource: RemoteBoardDataSource
 ) : BoardRepository {
-    override suspend fun getCommunityList(communityId: Long): Flow<List<GetCommunityBoardListResponseModel>> {
-        return dataSource.getCommunityList(communityId = communityId).map { list -> list.map { it.toModel() } }
+    override suspend fun getCommunityBoardList(communityId: Long): Flow<List<GetCommunityBoardListResponseModel>> {
+        return dataSource.getCommunityBoardList(communityId = communityId).map { list -> list.map { it.toModel() } }
     }
 
     override suspend fun getCommunityDetail(boardId: Long): Flow<GetCommunityBoardDetailResponseModel> {
