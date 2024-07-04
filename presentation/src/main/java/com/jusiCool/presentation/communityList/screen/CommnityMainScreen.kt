@@ -49,9 +49,9 @@ fun NavGraphBuilder.communityListRoute(
 @Composable
 internal fun CommunityListRoute(
     modifier: Modifier = Modifier,
+    viewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit,
-    viewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
