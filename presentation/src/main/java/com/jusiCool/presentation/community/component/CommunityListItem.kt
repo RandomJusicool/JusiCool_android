@@ -21,6 +21,7 @@ import com.example.design_system.icon_image.icon.CommentIcon
 import com.example.design_system.icon_image.icon.HeartIcon
 import com.example.design_system.icon_image.icon.RectangleIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
+import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
 import com.jusiCool.presentation.R
 
 data class CommunityListItemTemData(
@@ -36,15 +37,15 @@ data class CommunityListItemTemData(
 @Composable
 internal fun CommunityListItem(
     modifier: Modifier = Modifier,
-    data: CommunityListItemTemData,
-    onClick: () -> Unit
+    data: GetCommunityBoardListResponseModel,
+    onClick: (Long) -> Unit
     ) {
     JusiCoolAndroidTheme { colors, typography ->
         Spacer(modifier = Modifier.height(12.dp))
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .clickableSingle { onClick() },
+                .clickableSingle { onClick(data.id) },
             shape = RoundedCornerShape(12.dp),
             color = colors.WHITE
         ) {
@@ -75,7 +76,7 @@ internal fun CommunityListItem(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = data.name,
+                        text = "",
                         style = typography.label,
                         color = colors.Black
                     )
@@ -85,14 +86,8 @@ internal fun CommunityListItem(
                     Text(
                         text = stringResource(
                             id = R.string.community_data,
-                            data.started_date
+                            data.createdAt
                         ),
-                        style = typography.label,
-                        color = colors.GRAY400
-                    )
-                    Spacer(modifier = Modifier.padding(start = 4.dp))
-                    Text(
-                        text = data.started_time,
                         style = typography.label,
                         color = colors.GRAY400
                     )
@@ -103,7 +98,7 @@ internal fun CommunityListItem(
                         HeartIcon()
                         Spacer(modifier = Modifier.padding(start = 4.dp))
                         Text(
-                            text = data.heart_count.toString(),
+                            text = data.likes.toString(),
                             style = typography.label,
                             color = colors.GRAY400
                         )
@@ -111,7 +106,7 @@ internal fun CommunityListItem(
                         CommentIcon()
                         Spacer(modifier = Modifier.padding(start = 3.dp))
                         Text(
-                            text = data.comment_count.toString(),
+                            text = data.commentNum.toString(),
                             style = typography.label,
                             color = colors.GRAY400
                         )
@@ -125,17 +120,13 @@ internal fun CommunityListItem(
 @Preview
 @Composable
 private fun CommunityListItemPre() {
-    CommunityListItem(
-        data = CommunityListItemTemData(
-            title = "커뮤니티는공통의관심사목표가치혹은지리적커뮤니티는공통의관심사목표가치혹은지리적",
-            content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인",
-            name = "이명훈",
-            started_date = "06.20",
-            started_time = "17:06",
-            heart_count = 12,
-            comment_count = 13
-        )
-    ) {
-        
+    CommunityListItem(data = GetCommunityBoardListResponseModel(
+        id = 0,
+        title = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
+        content = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니커뮤니티티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
+        likes = 12,
+        commentNum = 12,
+        createdAt = ""
+    )) {
     }
 }
