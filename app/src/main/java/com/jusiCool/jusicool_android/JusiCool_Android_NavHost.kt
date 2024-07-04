@@ -54,7 +54,7 @@ fun JusiCool_Android_NavHost(
         popExitTransition = { ExitTransition.None },
         startDestination = startDestination,
     ) {
-        splashRoute(navigateToMain = navController::navigateToCheckEntireStockList)
+        splashRoute(navigateToMain = navController::navigateToMain)
 
         loginRoute(
             navigateToFindPassword = { TODO() },

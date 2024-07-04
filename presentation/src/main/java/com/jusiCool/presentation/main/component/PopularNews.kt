@@ -55,7 +55,7 @@ fun PopularNews(
             color = JDSColor.Black
         )
 
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)){
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Image(
                 modifier = Modifier
                     .height(120.dp)
@@ -98,12 +98,12 @@ fun PopularNews(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickableSingle { navigateToNews() }
                 .height(26.dp)
                 .padding(horizontal = 4.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                modifier = Modifier.clickableSingle { navigateToNews() },
                 text = "뉴스 더보기",
                 style = JDSTypography.bodySmall,
                 color = JDSColor.Black
