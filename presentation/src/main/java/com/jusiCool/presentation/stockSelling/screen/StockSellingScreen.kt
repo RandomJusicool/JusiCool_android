@@ -33,6 +33,7 @@ import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyStocksData
+import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockSellingRoute = "stockSellingRoute"
 
@@ -77,10 +78,6 @@ internal fun StockSellingScreen(
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
     val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(true) }
-    val formattedStock =
-        if (stockTextState.isNotEmpty()) "%,d".format(stockTextState.toInt()) else "0"
-    val formattedSellingPoint =
-        if (stockTextState.isNotEmpty()) "%,d".format(stockTextState.toInt() * entireStocksData.myStockPrice) else "0"
 
     Column(
         modifier = modifier
@@ -126,7 +123,8 @@ internal fun StockSellingScreen(
                 CostImage(modifier = Modifier.size(177.dp))
 
                 Text(
-                    text = "${entireStocksData.stockName} ${formattedStock}주\n ${formattedSellingPoint}P 판매 성공",
+                    text = "${entireStocksData.stockName} ${stockTextState.formatStockPrice()}주\n" +
+                            "${(stockTextState.toInt() * entireStocksData.myStockPrice).formatStockPrice()}P 판매 성공",
                     style = JDSTypography.subTitle,
                     color = JDSColor.Black
                 )
