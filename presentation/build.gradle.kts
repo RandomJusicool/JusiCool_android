@@ -17,10 +17,6 @@ android {
 
         testInstrumentationRunner = ProjectProperties.Test.TEST_RUNNER
         consumerProguardFiles(ProjectProperties.Files.CONSUMER_PROGUARD_FILES)
-
-        //buildConfigField("String","CLIENT_ID", getApiKey("CLIENT_ID"))
-
-        //buildConfigField("String", "REDIRECT_URI", getApiKey("REDIRECT_URI"))
     }
 
     buildTypes {

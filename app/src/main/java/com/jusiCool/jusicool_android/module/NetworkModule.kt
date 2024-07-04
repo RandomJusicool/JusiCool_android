@@ -4,6 +4,7 @@ import android.util.Log
 import com.jusiCool.data.remote.api.AuthAPI
 import com.jusiCool.data.remote.api.BoardAPI
 import com.jusiCool.data.remote.api.CommentAPI
+import com.jusiCool.data.remote.api.CommunityAPI
 import com.jusiCool.data.remote.api.EmailAPI
 import com.jusiCool.data.remote.api.ReservationAPI
 import com.jusiCool.data.remote.api.StockAPI
@@ -98,8 +99,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun CommunityAPI(retrofit: Retrofit): CommentAPI {
-        return retrofit.create(CommentAPI::class.java)
+    fun CommunityAPI(retrofit: Retrofit): CommunityAPI {
+        return retrofit.create(CommunityAPI::class.java)
     }
 
     @Provides

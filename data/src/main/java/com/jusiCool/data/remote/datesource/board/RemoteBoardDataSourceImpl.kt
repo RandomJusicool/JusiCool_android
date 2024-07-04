@@ -10,8 +10,8 @@ import javax.inject.Inject
 class RemoteBoardDataSourceImpl @Inject constructor(
     private val boardService: BoardAPI
 ) : RemoteBoardDataSource {
-    override suspend fun getCommunityList(communityId: Long): Flow<List<GetCommunityBoardListResponse>> =
-        performApiRequest { boardService.getCommunityList(communityId = communityId) }
+    override suspend fun getCommunityBoardList(communityId: Long): Flow<List<GetCommunityBoardListResponse>> =
+        performApiRequest { boardService.getCommunityBoardList(communityId = communityId) }
 
     override suspend fun getCommunityDetail(boardId: Long): Flow<GetCommunityBoardDetailResponse> =
         performApiRequest { boardService.getCommunityDetail(boardId = boardId) }
