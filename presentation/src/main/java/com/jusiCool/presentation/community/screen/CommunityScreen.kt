@@ -27,7 +27,6 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
-import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 import com.jusiCool.presentation.community.component.CommunityList
 import com.jusiCool.presentation.community.component.WritingCommunityButton
 import com.jusiCool.presentation.community.viewModel.CommunityViewModel
@@ -123,7 +122,7 @@ internal fun CommunityScreen(
     loadStuff: () -> Unit,
     swipeRefreshState: SwipeRefreshState,
     getCommunityListBoard: () -> Unit
-    ) {
+) {
     JusiCoolAndroidTheme { colors, _ ->
         SwipeRefresh(
             state = swipeRefreshState,
@@ -169,9 +168,9 @@ internal fun CommunityScreen(
 @Composable
 private fun CommunityScreenPre() {
     CommunityScreen(
-        navigateToDetailCommunity = {  },
-        navigateToCommunityWriting = {  },
-        popUpBackStack = {  },
+        navigateToDetailCommunity = { },
+        navigateToCommunityWriting = { },
+        popUpBackStack = { },
         topBarTitleData = { "o0뀨0oo0뀨0oo0뀨0o" },
         data = listOf(),
         loadStuff = { /*TODO*/ },

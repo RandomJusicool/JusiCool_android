@@ -75,7 +75,7 @@ internal fun CommunityListItem(
                     modifier = Modifier,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(
+                    Text( // todo -> name
                         text = "",
                         style = typography.label,
                         color = colors.Black
@@ -83,7 +83,7 @@ internal fun CommunityListItem(
                     Spacer(modifier = Modifier.padding(start = 4.dp))
                     RectangleIcon(tint = colors.GRAY100)
                     Spacer(modifier = Modifier.padding(start = 4.dp))
-                    Text(
+                    Text( // todo -> 날짜 및 시간 서버에서 오는 방식으로 수정
                         text = stringResource(
                             id = R.string.community_data,
                             data.createdAt
