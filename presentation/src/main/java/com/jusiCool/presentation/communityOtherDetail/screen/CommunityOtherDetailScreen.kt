@@ -37,13 +37,14 @@ import com.example.design_system.icon_image.icon.HeartIcon
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.community.component.CommunityListItemTemData
+import com.jusiCool.domain.model.board.response.GetCommunityBoardDetailResponseModel
+import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
+import com.jusiCool.domain.model.comment.response.GetCommunityCommentResponseModel
+import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 import com.jusiCool.presentation.communityDetail.component.CommentCardList
 import com.jusiCool.presentation.communityDetail.component.CommentTextField
 import com.jusiCool.presentation.communityDetail.component.CommunityDeleteDialog
 import com.jusiCool.presentation.communityDetail.component.HeartOutlinedButton
-import com.jusiCool.presentation.communityDetail.component.TemCommentData
-import com.jusiCool.presentation.communityList.component.TemList
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -57,7 +58,7 @@ fun NavGraphBuilder.communityOtherDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: () -> Unit
 ) {
-    composable( communityOtherDetailRoute) {
+    composable(communityOtherDetailRoute) {
         communityOtherDetailRoute(
             popUpBackStack = popUpBackStack,
             navigateToCommunityModify = navigateToCommunityModify
@@ -78,51 +79,27 @@ internal fun CommunityOtherDetailRoute(
         popUpBackStack = popUpBackStack,
         navigateToCommunityModify = navigateToCommunityModify,
         focusManager = focusManager,
-        data1 = TemList(
-            company = "마이크로소프트 커뮤니티",
-            count = 1
-        ),
-        data2 = CommunityListItemTemData(
+        getCommunityListResponseModel = GetCommunityListResponseModel("마이크로소프트 커뮤니티", 20),
+        getCommunityBoardDetailResponseModel = GetCommunityBoardDetailResponseModel(
             title = "커뮤니티는공통의관심사목표가치혹은지리적커뮤니",
             content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인",
-            name = "이명훈",
-            started_date = "06.20",
-            started_time = "17:06",
-            heart_count = 12,
-            comment_count = 13
         ),
-        data3 = persistentListOf(
-            TemCommentData(
-                name = "o0뀨0o",
-                comment = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인들이소속감을느끼고상호작용하며협력하는장소로서중요한역할을합니다커뮤니티는온라인과오프라인에서모두존재할"
+        getCommunityBoardListResponseModel = GetCommunityBoardListResponseModel(
+            id = 1,
+            title = "마이크로소프트 커뮤니티",
+            content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인",
+            createdAt = "2002-12-11",
+            likes = 12,
+            commentNum = 200,
+        ),
+        getCommunityCommentResponseModel = persistentListOf(
+            GetCommunityCommentResponseModel(
+                name = "뀨",
+                content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인"
             ),
-            TemCommentData(
-                name = "o0뀨0o",
-                comment = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인들이소속감을느끼고상호작용하며협력하는장소로서중요한역할을합니다커뮤니티는온라인과오프라인에서모두존재할"
-            ),
-            TemCommentData(
-                name = "o0뀨0o",
-                comment = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인들이소속감을느끼고상호작용하며협력하는장소로서중요한역할을합니다커뮤니티는온라인과오프라인에서모두존재할"
-            ),
-            TemCommentData(
-                name = "o0뀨0o",
-                comment = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인들이소속감을느끼고상호작용하며협력하는장소로서중요한역할을합니다커뮤니티는온라인과오프라인에서모두존재할"
-            ),
-            TemCommentData(
-                name = "o0뀨0o",
-                comment = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인들이소속감을느끼고상호작용하며협력하는장소로서중요한역할을합니다커뮤니티는온라인과오프라인에서모두존재할"
-            ),
-            TemCommentData(
-                name = "o0뀨0o",
-                comment = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인들이소속감을느끼고상호작용하며협력하는장소로서중요한역할을합니다커뮤니티는온라인과오프라인에서모두존재할"
-            ),
-            TemCommentData(
-                name = "o0뀨0o",
-                comment = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인들이소속감을느끼고상호작용하며협력하는장소로서중요한역할을합니다커뮤니티는온라인과오프라인에서모두존재할"
-            ),
-            TemCommentData(
-                name = "o0뀨0o",
-                comment = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인들이소속감을느끼고상호작용하며협력하는장소로서중요한역할을합니다커뮤니티는온라인과오프라인에서모두존재할"
+            GetCommunityCommentResponseModel(
+                name = "뀨",
+                content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인"
             )
         )
     )
@@ -135,13 +112,15 @@ internal fun CommunityOtherDetailScreen(
     navigateToCommunityModify: () -> Unit,
     focusManager: FocusManager,
     scrollState: ScrollState = rememberScrollState(),
-    data1: TemList,
-    data2: CommunityListItemTemData,
-    data3: ImmutableList<TemCommentData>
+    getCommunityListResponseModel: GetCommunityListResponseModel,
+    getCommunityBoardDetailResponseModel: GetCommunityBoardDetailResponseModel,
+    getCommunityBoardListResponseModel: GetCommunityBoardListResponseModel,
+    getCommunityCommentResponseModel: ImmutableList<GetCommunityCommentResponseModel>
 ) {
-    val (isHeartClicked,setIsHeartClicked) = remember { mutableStateOf(false) }
+    val (isHeartClicked, setIsHeartClicked) = remember { mutableStateOf(false) }
     val (commentTextState, onCommentTextChange) = remember { mutableStateOf("") }
-    val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember { mutableStateOf(false)
+    val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember {
+        mutableStateOf(false)
     }
 
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
@@ -170,23 +149,23 @@ internal fun CommunityOtherDetailScreen(
                     }
                     JDSArrowTopBar(
                         startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack() }) },
-                        betweenText = data1.company
+                        betweenText = getCommunityListResponseModel.name
                     )
                     Spacer(modifier = Modifier.padding(top = 27.dp))
                     Text(
                         modifier = Modifier.padding(horizontal = 24.dp),
-                        text = data2.title,
+                        text = getCommunityBoardDetailResponseModel.title,
                         style = typography.titleSmall
                     )
                     Text(
                         modifier = Modifier.paddingHorizontal(horizontal = 24.dp, top = 24.dp),
-                        text = data2.content,
+                        text = getCommunityBoardDetailResponseModel.content,
                         style = typography.bodySmall
                     )
                     Spacer(modifier = Modifier.padding(top = 20.dp))
                     HeartOutlinedButton(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
-                        text = data2.heart_count.toString(),
+                        text = getCommunityBoardListResponseModel.likes.toString(),
                         startIcon = { HeartIcon(tint = if (isHeartClicked) colors.WHITE else colors.GRAY400) },
                         onClick = { setIsHeartClicked(!isHeartClicked) }, // 후에 통신 로직 작성
                         textColor = if (isHeartClicked) colors.WHITE else colors.GRAY400,
@@ -217,7 +196,7 @@ internal fun CommunityOtherDetailScreen(
                         singleLine = false,
                         onButtonClicked = { } // 후에 통신 로직 작성
                     )
-                    CommentCardList(data = data3)
+                    CommentCardList(data = getCommunityCommentResponseModel)
                 }
             }
         }
