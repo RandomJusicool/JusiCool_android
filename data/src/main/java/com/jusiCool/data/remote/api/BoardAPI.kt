@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface BoardAPI {
     @GET("/api/v1/board/list")
-    suspend fun getCommunityList(
+    suspend fun getCommunityBoardList(
         @Path("community_id") communityId: Long
     ) : List<GetCommunityBoardListResponse>
 

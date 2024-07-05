@@ -53,8 +53,9 @@ fun CheckEntireStockListRoute(
     navigateToMain: () -> Unit,
     navigateToStockDetail: () -> Unit,
 ) {
-    CheckEntireStockListRoute(
+    CheckEntireStockListScreen(
         modifier = modifier,
+        entireStocksData = tempEntireStocksData,
         navigateToSearch = navigateToSearch,
         navigateToMain = navigateToMain,
         navigateToStockDetail = navigateToStockDetail,

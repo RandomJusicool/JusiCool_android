@@ -16,17 +16,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.theme.JusiCoolAndroidTheme
+import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 import com.jusiCool.presentation.R
-
-data class TemList(
-    val company: String,
-    val count: Int
-)
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun CommunityMainListItem(
     modifier: Modifier = Modifier,
-    data: TemList,
+    data: GetCommunityListResponseModel,
     onClick: () -> Unit
 ) {
     JusiCoolAndroidTheme { colors, typography ->
@@ -45,13 +42,13 @@ fun CommunityMainListItem(
                     .padding(all = 16.dp)
             ) {
                 Text(
-                    text = data.company,
+                    text = data.name,
                     style = typography.bodySmall,
                 )
                 Text(
                     text = stringResource(
                         id = R.string.community_count,
-                        data.count
+                        data.board_num
                     ),
                     style = typography.label,
                     color = colors.GRAY400
@@ -65,9 +62,9 @@ fun CommunityMainListItem(
 @Composable
 private fun Pre() {
     CommunityMainListItem(
-        data = TemList(
-            company = "마이크로소프트 커뮤니티",
-            count = 123,
+        data = GetCommunityListResponseModel(
+            name = "마이크로소프트 커뮤니",
+            board_num = 123,
         ),
         onClick = {}
     )

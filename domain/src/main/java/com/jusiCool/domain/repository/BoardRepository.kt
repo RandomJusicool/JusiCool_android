@@ -5,7 +5,7 @@ import com.jusiCool.domain.model.board.response.*
 import kotlinx.coroutines.flow.Flow
 
 interface BoardRepository {
-    suspend fun getCommunityList(communityId: Long) : Flow<List<GetCommunityBoardListResponseModel>>
+    suspend fun getCommunityBoardList(communityId: Long) : Flow<List<GetCommunityBoardListResponseModel>>
     suspend fun getCommunityDetail(boardId: Long) : Flow<GetCommunityBoardDetailResponseModel>
     suspend fun postCommunityBoard(communityId: Long ,body: WritingCommunityBoardRequestModel) : Flow<Unit>
     suspend fun patchCommunityBoard(boardId: Long, body: WritingCommunityBoardRequestModel) : Flow<Unit>
