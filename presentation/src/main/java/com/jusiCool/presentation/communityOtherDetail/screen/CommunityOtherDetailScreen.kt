@@ -70,7 +70,11 @@ fun NavGraphBuilder.communityOtherDetailRoute(
 internal fun CommunityOtherDetailRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit
+    navigateToCommunityModify: () -> Unit,
+    getCommunityListResponseModel: GetCommunityListResponseModel,
+    getCommunityBoardDetailResponseModel: GetCommunityBoardDetailResponseModel,
+    getCommunityBoardListResponseModel: GetCommunityBoardListResponseModel,
+    getCommunityCommentResponseModel: ImmutableList<GetCommunityCommentResponseModel>
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -79,29 +83,10 @@ internal fun CommunityOtherDetailRoute(
         popUpBackStack = popUpBackStack,
         navigateToCommunityModify = navigateToCommunityModify,
         focusManager = focusManager,
-        getCommunityListResponseModel = GetCommunityListResponseModel("마이크로소프트 커뮤니티", 20),
-        getCommunityBoardDetailResponseModel = GetCommunityBoardDetailResponseModel(
-            title = "커뮤니티는공통의관심사목표가치혹은지리적커뮤니",
-            content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인",
-        ),
-        getCommunityBoardListResponseModel = GetCommunityBoardListResponseModel(
-            id = 1,
-            title = "마이크로소프트 커뮤니티",
-            content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인",
-            createdAt = "2002-12-11",
-            likes = 12,
-            commentNum = 200,
-        ),
-        getCommunityCommentResponseModel = persistentListOf(
-            GetCommunityCommentResponseModel(
-                name = "뀨",
-                content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인"
-            ),
-            GetCommunityCommentResponseModel(
-                name = "뀨",
-                content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인"
-            )
-        )
+        getCommunityListResponseModel = getCommunityListResponseModel,
+        getCommunityBoardDetailResponseModel = getCommunityBoardDetailResponseModel,
+        getCommunityBoardListResponseModel = getCommunityBoardListResponseModel,
+        getCommunityCommentResponseModel = getCommunityCommentResponseModel
     )
 }
 
@@ -206,7 +191,31 @@ internal fun CommunityOtherDetailScreen(
 @Preview
 @Composable
 private fun CommunityDetailPre() {
-    CommunityOtherDetailRoute(popUpBackStack = { /*TODO*/ }) {
-
-    }
+    CommunityOtherDetailRoute(
+        popUpBackStack = { /*TODO*/ },
+        navigateToCommunityModify = { /*TODO*/ },
+        getCommunityListResponseModel = GetCommunityListResponseModel("마이크로소프트 커뮤니티", 20),
+        getCommunityBoardDetailResponseModel = GetCommunityBoardDetailResponseModel(
+            title = "커뮤니티는공통의관심사목표가치혹은지리적커뮤니",
+            content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인",
+        ),
+        getCommunityBoardListResponseModel = GetCommunityBoardListResponseModel(
+            id = 1,
+            title = "마이크로소프트 커뮤니티",
+            content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인",
+            createdAt = "2002-12-11",
+            likes = 12,
+            commentNum = 200,
+        ),
+        getCommunityCommentResponseModel = persistentListOf(
+            GetCommunityCommentResponseModel(
+                name = "뀨",
+                content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인"
+            ),
+            GetCommunityCommentResponseModel(
+                name = "뀨",
+                content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인"
+            )
+        )
+    )
 }
