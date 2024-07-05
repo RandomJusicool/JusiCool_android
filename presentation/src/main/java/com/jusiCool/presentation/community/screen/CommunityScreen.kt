@@ -99,7 +99,7 @@ private suspend fun getCommunityListBoard(
     onSuccess: (data: List<GetCommunityBoardListResponseModel>) -> Unit,
     onFailure: () -> Unit
 ) {
-    viewModel.geCommunityListBoardResponse.collect { response ->
+    viewModel.getCommunityListBoardResponse.collect { response ->
         when (response) {
             is Event.Success -> {
                 onSuccess(response.data!!)
@@ -115,14 +115,14 @@ private suspend fun getCommunityListBoard(
 internal fun CommunityScreen(
     modifier: Modifier = Modifier,
     navigateToDetailCommunity: (Long) -> Unit,
-    navigateToCommunityWriting: () -> Unit,
     popUpBackStack: () -> Unit,
     topBarTitleData: () -> String,
     data: List<GetCommunityBoardListResponseModel>,
     loadStuff: () -> Unit,
     swipeRefreshState: SwipeRefreshState,
-    getCommunityListBoard: () -> Unit
-) {
+    getCommunityListBoard: () -> Unit,
+    navigateToCommunityWriting: () -> Unit,
+    ) {
     JusiCoolAndroidTheme { colors, _ ->
         SwipeRefresh(
             state = swipeRefreshState,
@@ -168,12 +168,12 @@ internal fun CommunityScreen(
 @Composable
 private fun CommunityScreenPre() {
     CommunityScreen(
-        navigateToDetailCommunity = { },
-        navigateToCommunityWriting = { },
-        popUpBackStack = { },
-        topBarTitleData = { "o0뀨0oo0뀨0oo0뀨0o" },
+        navigateToDetailCommunity = {  },
+        popUpBackStack = {  },
+        topBarTitleData = { "" },
         data = listOf(),
-        loadStuff = { /*TODO*/ },
-        swipeRefreshState = SwipeRefreshState(false)
+        loadStuff = {  },
+        swipeRefreshState = SwipeRefreshState(false),
+        getCommunityListBoard = {  }
     ) {}
 }

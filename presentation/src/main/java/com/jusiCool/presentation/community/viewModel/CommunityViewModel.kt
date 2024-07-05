@@ -9,6 +9,7 @@ import com.jusiCool.domain.usecase.board.GetCommunityBoardListUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +25,7 @@ class CommunityViewModel @Inject constructor(
     val swipeRefreshLoading = _swipeRefreshLoading.asStateFlow()
 
     private val _getCommunityListBoardResponse = MutableStateFlow<Event<List<GetCommunityBoardListResponseModel>>>(Event.Loading)
-    val geCommunityListBoardResponse = _getCommunityListBoardResponse.asStateFlow()
+    val getCommunityListBoardResponse = _getCommunityListBoardResponse.asStateFlow()
 
     init {
         loadStuff()
