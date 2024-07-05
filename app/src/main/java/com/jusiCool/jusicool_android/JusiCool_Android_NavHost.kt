@@ -23,6 +23,7 @@ import com.jusiCool.presentation.holdShare.screen.navigateToHoldShare
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.join.screen.navigateToJoin
 import com.jusiCool.presentation.login.screen.loginRoute
+import com.jusiCool.presentation.login.screen.navigateToLogin
 import com.jusiCool.presentation.main.screen.mainRoute
 import com.jusiCool.presentation.main.screen.navigateToMain
 import com.jusiCool.presentation.news.screen.navigateToNews
@@ -54,7 +55,7 @@ fun JusiCool_Android_NavHost(
         popExitTransition = { ExitTransition.None },
         startDestination = startDestination,
     ) {
-        splashRoute(navigateToMain = navController::navigateToMain)
+        splashRoute(navigateToLogin = navController::navigateToLogin)
 
         loginRoute(
             navigateToFindPassword = { TODO() },
