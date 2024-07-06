@@ -51,4 +51,12 @@ class CommunityListViewModel @Inject constructor(
             _getCommunityListResponse.value = error.errorHandling()
         }
     }
+
+    fun getCommunityListName(): String {
+        return if (communityList.isNotEmpty()) {
+            communityList[0].name
+        } else {
+            "커뮤니티 이름 없음"
+        }
+    }
 }

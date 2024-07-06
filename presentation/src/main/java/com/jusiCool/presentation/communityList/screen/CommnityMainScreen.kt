@@ -69,6 +69,7 @@ internal fun CommunityListRoute(
         getCommunityList(
             viewModel = viewModel,
             onSuccess = {
+                viewModel.communityList.removeRange(0, viewModel.communityList.size)
                 viewModel.communityList.addAll(it)
             },
             onFailure = {

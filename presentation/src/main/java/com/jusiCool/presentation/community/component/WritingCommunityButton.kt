@@ -22,7 +22,7 @@ fun WritingCommunityButton(
             modifier = modifier
                 .background(
                     color = colors.MAIN,
-                    shape = RoundedCornerShape(25.dp)
+                    shape = RoundedCornerShape(30.dp)
                 )
                 .padding(all = 24.dp)
                 .clickableSingle { onClick() }
