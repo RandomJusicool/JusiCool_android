@@ -45,6 +45,7 @@ fun JusiCool_Android_NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = splashRoute,
+    secondNavigation: String,
 ) {
     NavHost(
         modifier = modifier,
@@ -55,7 +56,10 @@ fun JusiCool_Android_NavHost(
         popExitTransition = { ExitTransition.None },
         startDestination = startDestination,
     ) {
-        splashRoute(navigateToLogin = navController::navigateToLogin)
+        splashRoute(
+            navigateRoute = if (secondNavigation == mainRoute) navController::navigateToMain
+            else navController::navigateToLogin
+        )
 
         loginRoute(
             navigateToFindPassword = { TODO() },

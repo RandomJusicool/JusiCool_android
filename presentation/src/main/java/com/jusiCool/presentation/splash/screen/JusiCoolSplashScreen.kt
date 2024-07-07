@@ -35,9 +35,9 @@ fun NavController.navigateToSplash() {
 }
 
 // navHost에 화면을 등록할 수 있게 하는 확장 함수
-fun NavGraphBuilder.splashRoute(navigateToLogin: () -> Unit) {
+fun NavGraphBuilder.splashRoute(navigateRoute: () -> Unit) {
     composable(splashRoute) {
-        JusiCoolSplashRoute(navigateToLogin = navigateToLogin)
+        JusiCoolSplashRoute(navigateRoute = navigateRoute)
     }
 }
 
@@ -45,20 +45,20 @@ fun NavGraphBuilder.splashRoute(navigateToLogin: () -> Unit) {
 @Composable
 fun JusiCoolSplashRoute(
     modifier: Modifier = Modifier,
-    navigateToLogin: () -> Unit,
+    navigateRoute: () -> Unit,
 ) {
-    JusiCoolSplashScreen(modifier = modifier, navigateToLogin = navigateToLogin)
+    JusiCoolSplashScreen(modifier = modifier, navigateRoute = navigateRoute)
 }
 
 // Screen
 @Composable
 fun JusiCoolSplashScreen(
     modifier: Modifier = Modifier,
-    navigateToLogin: () -> Unit,
+    navigateRoute: () -> Unit,
 ) {
     LaunchedEffect(Unit) {
         delay(300)
-        navigateToLogin()
+        navigateRoute()
     }
     Column(
         modifier = modifier
@@ -109,5 +109,5 @@ fun JusiCoolSplashScreen(
 @Preview
 @Composable
 fun JusiCoolSplashScreenPreview() {
-    JusiCoolSplashScreen(navigateToLogin = {})
+    JusiCoolSplashScreen(navigateRoute = {})
 }
