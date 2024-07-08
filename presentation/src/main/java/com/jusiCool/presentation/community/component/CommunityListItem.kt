@@ -22,7 +22,7 @@ import com.example.design_system.icon_image.icon.HeartIcon
 import com.example.design_system.icon_image.icon.RectangleIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
-import com.jusiCool.presentation.R
+import com.jusiCool.presentation.utill.formatCommunityDate
 
 data class CommunityListItemTemData(
     val title: String,
@@ -75,19 +75,16 @@ internal fun CommunityListItem(
                     modifier = Modifier,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text( // todo -> name
-                        text = "",
+                    Text(
+                        text = data.name,
                         style = typography.label,
                         color = colors.Black
                     )
                     Spacer(modifier = Modifier.padding(start = 4.dp))
                     RectangleIcon(tint = colors.GRAY100)
                     Spacer(modifier = Modifier.padding(start = 4.dp))
-                    Text( // todo -> 날짜 및 시간 서버에서 오는 방식으로 수정
-                        text = stringResource(
-                            id = R.string.community_data,
-                            data.createdAt
-                        ),
+                    Text(
+                        text = formatCommunityDate(data.createdAt),
                         style = typography.label,
                         color = colors.GRAY400
                     )
@@ -126,7 +123,8 @@ private fun CommunityListItemPre() {
         content = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니커뮤니티티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
         likes = 12,
         commentNum = 12,
-        createdAt = ""
+        createdAt = "12.12 12:20",
+        name = "뀨뀨뀨"
     )) {
     }
 }
