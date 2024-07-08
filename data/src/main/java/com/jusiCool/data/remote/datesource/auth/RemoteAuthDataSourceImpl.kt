@@ -17,8 +17,8 @@ class RemoteAuthDataSourceImpl @Inject constructor(
     override suspend fun authSignIn(body: PostAuthSignInRequest): Flow<AuthTokenResponse> =
         performApiRequest { serviceAuth.postAuthSignIn(body = body) }
 
-    override suspend fun patchAuthTokenRefresh(): Flow<AuthTokenResponse> =
-        performApiRequest { serviceAuth.patchAuthTokenRefresh() }
+    override suspend fun patchAuthTokenRefresh(refreshToken: String): Flow<AuthTokenResponse> =
+        performApiRequest { serviceAuth.patchAuthTokenRefresh(refreshToken = refreshToken) }
 
     override suspend fun deleteAuth(): Flow<Unit> =
         performApiRequest { serviceAuth.deleteAuth() }

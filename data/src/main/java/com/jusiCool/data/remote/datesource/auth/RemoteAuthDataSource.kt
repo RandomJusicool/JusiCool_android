@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface RemoteAuthDataSource {
     suspend fun authSignUp(body: PostAuthSignUpRequest) : Flow<Unit>
     suspend fun authSignIn(body: PostAuthSignInRequest) : Flow<AuthTokenResponse>
-    suspend fun patchAuthTokenRefresh() : Flow<AuthTokenResponse>
+    suspend fun patchAuthTokenRefresh(refreshToken: String) : Flow<AuthTokenResponse>
     suspend fun deleteAuth() : Flow<Unit>
 }

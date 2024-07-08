@@ -6,7 +6,7 @@ import javax.inject.Inject
 class PatchAuthTokenRefreshUseCase @Inject constructor(
     private val repository: AuthRepository
 ) {
-    suspend operator fun invoke() = runCatching {
-        repository.patchAuthTokenRefresh()
+    suspend operator fun invoke(refreshToken: String) = runCatching {
+        repository.patchAuthTokenRefresh(refreshToken = refreshToken)
     }
 }
