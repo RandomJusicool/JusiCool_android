@@ -108,7 +108,7 @@ fun CommentIcon(
     Icon(
         painter = painterResource(id = R.drawable.jusicool_comment),
         contentDescription = null,
-        modifier = modifier.size(24.dp),
+        modifier = modifier.size(22.dp),
         tint = tint
     )
 }

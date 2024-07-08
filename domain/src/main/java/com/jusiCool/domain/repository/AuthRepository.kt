@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface AuthRepository {
     suspend fun authSignUp(body: PostAuthSignUpRequestModel) : Flow<Unit>
     suspend fun authSignIn(body: PostAuthSignInRequestModel) : Flow<AuthTokenResponseModel>
-    suspend fun patchAuthTokenRefresh() : Flow<AuthTokenResponseModel>
+    suspend fun patchAuthTokenRefresh(refreshToken: String) : Flow<AuthTokenResponseModel>
     suspend fun deleteAuth() : Flow<Unit>
+    fun getToken() : Flow<String>
 }

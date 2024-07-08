@@ -1,5 +1,6 @@
 package com.jusiCool.data.repository
 
+import com.jusiCool.data.local.datasource.AuthTokenDataSource
 import com.jusiCool.data.remote.datesource.auth.RemoteAuthDataSource
 import com.jusiCool.data.remote.dto.auth.request.toDto
 import com.jusiCool.data.remote.dto.auth.response.toModel
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val dataSource: RemoteAuthDataSource
+    private val dataSource: RemoteAuthDataSource,
+    private val localDataSource: AuthTokenDataSource
 ) : AuthRepository {
     override suspend fun authSignUp(body: PostAuthSignUpRequestModel): Flow<Unit> {
         return dataSource.authSignUp(body = body.toDto())
@@ -22,11 +24,15 @@ class AuthRepositoryImpl @Inject constructor(
         return dataSource.authSignIn(body = body.toDto()).map { it.toModel() }
     }
 
-    override suspend fun patchAuthTokenRefresh(): Flow<AuthTokenResponseModel> {
-        return dataSource.patchAuthTokenRefresh().map { it.toModel() }
+    override suspend fun patchAuthTokenRefresh(refreshToken: String): Flow<AuthTokenResponseModel> {
+        return dataSource.patchAuthTokenRefresh(refreshToken = refreshToken).map { it.toModel() }
     }
 
     override suspend fun deleteAuth(): Flow<Unit> {
         return dataSource.deleteAuth()
+    }
+
+    override fun getToken(): Flow<String> {
+        return localDataSource.getRefreshToken()
     }
 }

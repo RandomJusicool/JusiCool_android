@@ -7,6 +7,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class GetCommunityBoardListResponse(
     @Json(name = "id") val id: Long,
+    @Json(name = "name") val name: String,
     @Json(name = "title") val title: String,
     @Json(name = "content") val content: String,
     @Json(name = "createdAt") val createdAt: String,
@@ -16,6 +17,7 @@ data class GetCommunityBoardListResponse(
 
 fun GetCommunityBoardListResponse.toModel() = GetCommunityBoardListResponseModel(
     id = id,
+    name = name,
     title = title,
     content = content,
     createdAt = createdAt,

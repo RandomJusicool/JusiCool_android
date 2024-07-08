@@ -5,6 +5,7 @@ import com.jusiCool.data.remote.dto.auth.request.PostAuthSignUpRequest
 import com.jusiCool.data.remote.dto.auth.response.AuthTokenResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.Header
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 
@@ -20,7 +21,9 @@ interface AuthAPI {
     ) : AuthTokenResponse
 
     @PATCH("/api/v1/auth")
-    suspend fun patchAuthTokenRefresh() : AuthTokenResponse
+    suspend fun patchAuthTokenRefresh(
+        @Header("refreshToken") refreshToken: String
+    ) : AuthTokenResponse
 
     @DELETE("/api/v1/auth")
     suspend fun deleteAuth()
