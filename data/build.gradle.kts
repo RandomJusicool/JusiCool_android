@@ -85,6 +85,8 @@ dependencies {
 
     implementation ("androidx.datastore:datastore-core:1.0.0")
     implementation ("com.google.protobuf:protobuf-kotlin-lite:3.21.12")
+
+    implementation ("androidx.security:security-crypto:1.1.0-alpha03")
 }
 
 fun getApiKey(propertyKey: String): String {
