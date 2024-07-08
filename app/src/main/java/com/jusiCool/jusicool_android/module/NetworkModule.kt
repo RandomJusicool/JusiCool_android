@@ -10,6 +10,7 @@ import com.jusiCool.data.remote.api.ReservationAPI
 import com.jusiCool.data.remote.api.StockAPI
 import com.jusiCool.data.utill.AuthInterceptor
 import com.jusiCool.jusicool_android.BuildConfig
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -49,6 +50,11 @@ object NetworkModule {
     @Singleton
     fun provideMoshiInstance(): Moshi =
         Moshi.Builder().build()
+
+    @Provides
+    @Singleton
+    fun provideMoshiJsonAdapterInstance(moshi: Moshi): JsonAdapter<String> =
+        moshi.adapter(String::class.java)
 
 
     @Provides
