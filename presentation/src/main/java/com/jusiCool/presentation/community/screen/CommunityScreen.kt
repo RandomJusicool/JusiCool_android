@@ -27,6 +27,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
+import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 import com.jusiCool.presentation.community.component.CommunityList
 import com.jusiCool.presentation.community.component.WritingCommunityButton
 import com.jusiCool.presentation.community.viewModel.CommunityViewModel
@@ -35,31 +36,36 @@ import com.jusiCool.presentation.utill.Event
 
 const val communityRoute = "communityRoute"
 
-fun NavController.navigateToCommunity() {
-    this.navigate(communityRoute)
+fun NavController.navigateToCommunity(id: Long) {
+    this.navigate("${communityRoute}/${id}")
 }
 
 fun NavGraphBuilder.communityRoute(
-    navigateToCommunityWriting: () -> Unit,
-    navigateToCommunityDetail: () -> Unit,
+    navigateToCommunityWriting: (Long) -> Unit,
+    navigateToCommunityDetail: (Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
-    composable(communityRoute) {
-        CommunityRoute(
-            navigateToDetailCommunity = navigateToCommunityDetail,
-            navigateToCommunityWriting = navigateToCommunityWriting,
-            popUpBackStack = popUpBackStack,
-        )
+    composable("${communityRoute}/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        if (id != null) {
+            CommunityRoute(
+                id = id,
+                navigateToDetailCommunity = navigateToCommunityDetail,
+                navigateToCommunityWriting = navigateToCommunityWriting,
+                popUpBackStack = popUpBackStack,
+            )
+        }
     }
 }
 
 @Composable
 internal fun CommunityRoute(
     modifier: Modifier = Modifier,
+    id: Long,
     viewModel: CommunityViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    topBarViewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    navigateToDetailCommunity: () -> Unit,
-    navigateToCommunityWriting: () -> Unit,
+    communityViewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    navigateToDetailCommunity: (Long) -> Unit,
+    navigateToCommunityWriting: (Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
@@ -67,17 +73,16 @@ internal fun CommunityRoute(
 
     CommunityScreen(
         modifier = modifier,
-        navigateToDetailCommunity = {
-            viewModel.communityId.longValue = it
-            navigateToDetailCommunity()
-        },
+        navigateToDetailCommunity =  navigateToDetailCommunity,
         navigateToCommunityWriting = navigateToCommunityWriting,
         popUpBackStack = popUpBackStack,
-        topBarTitleData = topBarViewModel::getCommunityListName,
-        data = viewModel.communityListBoard,
+        topBarTitleData = communityViewModel::getCommunityListName,
+        boardData = viewModel.communityListBoard,
         loadStuff = viewModel::loadStuff,
         swipeRefreshState = swipeRefreshState,
-        getCommunityListBoard = viewModel::getListBoard
+        getCommunityListBoard = viewModel::getListBoard,
+        id = id,
+        communityData = communityViewModel.communityData.value
     )
 
     LaunchedEffect(Unit) {
@@ -114,21 +119,27 @@ private suspend fun getCommunityListBoard(
 @Composable
 internal fun CommunityScreen(
     modifier: Modifier = Modifier,
+    id: Long,
     navigateToDetailCommunity: (Long) -> Unit,
     popUpBackStack: () -> Unit,
     topBarTitleData: () -> String,
-    data: List<GetCommunityBoardListResponseModel>,
+    boardData: List<GetCommunityBoardListResponseModel>,
+    communityData: GetCommunityListResponseModel,
     loadStuff: () -> Unit,
     swipeRefreshState: SwipeRefreshState,
-    getCommunityListBoard: () -> Unit,
-    navigateToCommunityWriting: () -> Unit,
+    getCommunityListBoard: (Long) -> Unit,
+    navigateToCommunityWriting: (Long) -> Unit,
     ) {
+    LaunchedEffect(Unit) {
+        getCommunityListBoard(id)
+    }
+
     JusiCoolAndroidTheme { colors, _ ->
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = {
                 loadStuff()
-                getCommunityListBoard()
+                getCommunityListBoard(id)
             }
         ) {
             Box(
@@ -146,8 +157,8 @@ internal fun CommunityScreen(
                         betweenText = topBarTitleData()
                     )
                     CommunityList(
-                        data = data,
-                        navigateToDetailCommunity = { navigateToDetailCommunity(it) }
+                        data = boardData,
+                        navigateToDetailCommunity = navigateToDetailCommunity
                     )
                 }
                 WritingCommunityButton(
@@ -157,7 +168,8 @@ internal fun CommunityScreen(
                             end = 24.dp,
                             bottom = 24.dp
                         ),
-                    onClick = navigateToCommunityWriting
+                    navigateToCommunityWriting = navigateToCommunityWriting,
+                    data = communityData
                 )
             }
         }
@@ -170,10 +182,16 @@ private fun CommunityScreenPre() {
     CommunityScreen(
         navigateToDetailCommunity = {  },
         popUpBackStack = {  },
-        topBarTitleData = { "" },
-        data = listOf(),
+        topBarTitleData = { "자바보단 코틀린" },
+        boardData = listOf(),
         loadStuff = {  },
         swipeRefreshState = SwipeRefreshState(false),
-        getCommunityListBoard = {  }
+        getCommunityListBoard = {  },
+        id = 0,
+        communityData = GetCommunityListResponseModel(
+            id = 0,
+            board_num = 0,
+            name = ""
+        )
     ) {}
 }
