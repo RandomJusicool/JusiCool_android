@@ -35,7 +35,7 @@ fun NavController.navigateToCommunityList() {
 
 fun NavGraphBuilder.communityListRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunity: () -> Unit,
+    navigateToCommunity: (Long) -> Unit,
 ) {
     composable(communityListRoute) {
         CommunityListRoute(
@@ -50,7 +50,7 @@ internal fun CommunityListRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     popUpBackStack: () -> Unit,
-    navigateToCommunity: () -> Unit,
+    navigateToCommunity: (Long) -> Unit,
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
@@ -58,7 +58,7 @@ internal fun CommunityListRoute(
     CommunityListScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        navigateToCommunity = navigateToCommunity,
+        navigateToCommunity = { navigateToCommunity(it) },
         data = viewModel.communityList,
         loadStuff = viewModel::loadStuff,
         swipeRefreshState = swipeRefreshState,
@@ -100,7 +100,7 @@ private suspend fun getCommunityList(
 internal fun CommunityListScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunity: () -> Unit,
+    navigateToCommunity: (Long) -> Unit,
     data: List<GetCommunityListResponseModel>,
     loadStuff: () -> Unit,
     swipeRefreshState: SwipeRefreshState,
