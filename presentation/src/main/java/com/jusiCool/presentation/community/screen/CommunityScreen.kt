@@ -23,6 +23,7 @@ import com.example.design_system.component.modifier.clickableSingle.clickableSin
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
+import com.example.design_system.theme.color.JDSColor
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -104,6 +105,7 @@ private suspend fun getCommunityListBoard(
             is Event.Success -> {
                 onSuccess(response.data!!)
             }
+
             else -> {
                 onFailure()
             }
@@ -122,44 +124,42 @@ internal fun CommunityScreen(
     swipeRefreshState: SwipeRefreshState,
     getCommunityListBoard: () -> Unit,
     navigateToCommunityWriting: () -> Unit,
+) {
+    SwipeRefresh(
+        state = swipeRefreshState,
+        onRefresh = {
+            loadStuff()
+            getCommunityListBoard()
+        }
     ) {
-    JusiCoolAndroidTheme { colors, _ ->
-        SwipeRefresh(
-            state = swipeRefreshState,
-            onRefresh = {
-                loadStuff()
-                getCommunityListBoard()
-            }
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(color = JDSColor.GRAY50)
         ) {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-                    .background(color = colors.GRAY50)
-            ) {
-                Column {
-                    JDSArrowTopBar(
-                        startIcon = {
-                            LeftArrowIcon(
-                                modifier = Modifier.clickableSingle { popUpBackStack() }
-                            )
-                        },
-                        betweenText = topBarTitleData()
-                    )
-                    CommunityList(
-                        data = data,
-                        navigateToDetailCommunity = { navigateToDetailCommunity(it) }
-                    )
-                }
-                WritingCommunityButton(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(
-                            end = 24.dp,
-                            bottom = 24.dp
-                        ),
-                    onClick = navigateToCommunityWriting
+            Column {
+                JDSArrowTopBar(
+                    startIcon = {
+                        LeftArrowIcon(
+                            modifier = Modifier.clickableSingle { popUpBackStack() }
+                        )
+                    },
+                    betweenText = topBarTitleData()
+                )
+                CommunityList(
+                    data = data,
+                    navigateToDetailCommunity = { navigateToDetailCommunity(it) }
                 )
             }
+            WritingCommunityButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(
+                        end = 24.dp,
+                        bottom = 24.dp
+                    ),
+                onClick = navigateToCommunityWriting
+            )
         }
     }
 }
@@ -168,12 +168,12 @@ internal fun CommunityScreen(
 @Composable
 private fun CommunityScreenPre() {
     CommunityScreen(
-        navigateToDetailCommunity = {  },
-        popUpBackStack = {  },
+        navigateToDetailCommunity = { },
+        popUpBackStack = { },
         topBarTitleData = { "" },
         data = listOf(),
-        loadStuff = {  },
+        loadStuff = { },
         swipeRefreshState = SwipeRefreshState(false),
-        getCommunityListBoard = {  }
+        getCommunityListBoard = { }
     ) {}
 }
