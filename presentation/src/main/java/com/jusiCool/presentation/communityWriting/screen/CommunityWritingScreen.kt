@@ -1,5 +1,6 @@
 package com.jusiCool.presentation.communityWriting.screen
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
@@ -11,14 +12,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -32,25 +36,37 @@ import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.presentation.communityWriting.viewModel.CommunityWritingViewModel
 
 const val communityWritingRoute = "communityWritingRoute"
 
-fun NavController.naviagteToCommunityWriting() {
-    this.navigate(communityWritingRoute)
+fun NavController.navigateToCommunityWriting(id: Long) {
+    this.navigate("${communityWritingRoute}/${id}")
 }
 
-fun NavGraphBuilder.naviagteToCommunityWriting(
+fun NavGraphBuilder.navigateToCommunityWriting(
     popUpBackStack: () -> Unit,
+    navigateToCommunity: () -> Unit
 ) {
-    composable(communityWritingRoute) {
-        CommunityWritingRoute(popUpBackStack = popUpBackStack)
+    composable("${communityWritingRoute}/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        if (id != null) {
+            CommunityWritingRoute(
+                id = id,
+                popUpBackStack = popUpBackStack,
+                navigateToCommunity = navigateToCommunity
+            )
+        }
     }
 }
 
 @Composable
 internal fun CommunityWritingRoute(
     modifier: Modifier = Modifier,
+    id: Long,
+    viewModel: CommunityWritingViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     popUpBackStack: () -> Unit,
+    navigateToCommunity: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -58,20 +74,42 @@ internal fun CommunityWritingRoute(
         modifier = modifier,
         focusManager = focusManager,
         popUpBackStack = popUpBackStack,
+        navigateToCommunity = { title, content ->
+            viewModel.postWritingCommunity(
+                communityId = id,
+                title = title,
+                content = content,
+            )
+            viewModel.title.value = ""
+            viewModel.content.value = ""
+            navigateToCommunity()
+        },
+        content = viewModel.content.value,
+        title = viewModel.title.value,
+        id = id
     )
 }
 
 @Composable
 internal fun CommunityWritingScreen(
     modifier: Modifier = Modifier,
+    id: Long,
     focusManager: FocusManager,
     popUpBackStack: () -> Unit,
+    title: String,
+    content: String,
+    navigateToCommunity: (title: String, content: String) -> Unit,
 ) {
+    val (titleTextState, setTitleText) = remember { mutableStateOf(title) }
+    val (contentTextState, setContentText) = remember { mutableStateOf(content) }
+
+    LaunchedEffect(id) {
+        setTitleText(title)
+        setContentText(content)
+    }
+
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         JusiCoolAndroidTheme { colors, typography ->
-            val (titleTextState, setTitleText) = remember { mutableStateOf("") }
-            val (contentTextState, setContentText) = remember { mutableStateOf("") }
-
             Surface(modifier = modifier) {
                 Column(
                     modifier = Modifier
@@ -128,14 +166,14 @@ internal fun CommunityWritingScreen(
                                 .fillMaxWidth()
                                 .height(54.dp),
                             text = "올리기",
-                            onClick = popUpBackStack, // 후에 세부 코드 추가할 에정
-                            state =
-                            if (
+                            state = if (
                                 titleTextState.isNotEmpty()
                                 && contentTextState.isNotEmpty()
                             ) ButtonState.Enable
                             else ButtonState.Disable
-                        )
+                        ) {
+                            navigateToCommunity(titleTextState, contentTextState)
+                        }
                     }
                 }
             }
@@ -146,5 +184,5 @@ internal fun CommunityWritingScreen(
 @Preview
 @Composable
 private fun CommunityWritingScreen() {
-    CommunityWritingRoute {}
+    CommunityWritingScreen()
 }
