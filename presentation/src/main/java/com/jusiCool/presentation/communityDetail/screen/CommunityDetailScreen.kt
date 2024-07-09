@@ -175,8 +175,7 @@ internal fun CommunityDetailScreen(
 ) {
     val (isHeartClicked,setIsHeartClicked) = remember { mutableStateOf(false) }
     val (commentTextState, onCommentTextChange) = remember { mutableStateOf("") }
-    val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember { mutableStateOf(false)
-    }
+    val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember { mutableStateOf(false) }
 
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         JusiCoolAndroidTheme { colors, typography ->
@@ -295,4 +294,5 @@ internal fun CommunityDetailScreen(
 @Preview
 @Composable
 private fun CommunityDetailPre() {
+
 }
