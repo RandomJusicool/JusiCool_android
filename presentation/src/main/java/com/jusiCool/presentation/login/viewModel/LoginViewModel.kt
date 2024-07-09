@@ -16,6 +16,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             postAuthSignInUseCase(signInModel)
                 .onSuccess {
+        onSuccess: () -> Unit, // 성공 시 실행할 콜백 함수
 
                 }
                 .onFailure {
