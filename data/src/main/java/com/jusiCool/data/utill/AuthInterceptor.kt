@@ -15,7 +15,8 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
-    private val encryptedSharedPreferencesDataSource: EncryptedSharedPreferencesDataSource
+    private val encryptedSharedPreferencesDataSource: EncryptedSharedPreferencesDataSource,
+    private val moshi: Moshi,
 ): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
@@ -42,7 +43,6 @@ class AuthInterceptor @Inject constructor(
                     .addHeader("refreshToken", "Bearer $refreshToken")
                     .build()
 
-                val moshi = Moshi.Builder().build()
                 val adapter: JsonAdapter<AuthTokenResponse> = moshi.adapter(AuthTokenResponse::class.java)
                 val response = client.newCall(refreshRequest).execute()
                 if (response.isSuccessful) {
