@@ -10,6 +10,8 @@ import com.jusiCool.data.remote.datesource.community.RemoteCommunityDataSource
 import com.jusiCool.data.remote.datesource.community.RemoteCommunityDataSourceImpl
 import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSource
 import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSourceImpl
+import com.jusiCool.data.remote.datesource.like.RemoteLikeDataSource
+import com.jusiCool.data.remote.datesource.like.RemoteLikeDataSourceImpl
 import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSource
 import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSourceImpl
 import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSource
@@ -57,4 +59,9 @@ abstract class RemoteDataSourceModule {
     abstract fun provideStockDataSource(
         remoteStockDataSourceImpl: RemoteStockDataSourceImpl
     ) : RemoteStockDataSource
+
+    @Binds
+    abstract fun provideLikeDataSource(
+        remoteLikeDataSourceImpl: RemoteLikeDataSourceImpl
+    ) : RemoteLikeDataSource
 }
