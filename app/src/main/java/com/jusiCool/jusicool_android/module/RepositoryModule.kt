@@ -5,6 +5,7 @@ import com.jusiCool.data.repository.BoardRepositoryImpl
 import com.jusiCool.data.repository.CommentRepositoryImpl
 import com.jusiCool.data.repository.CommunityRepositoryImpl
 import com.jusiCool.data.repository.EmailRepositoryImpl
+import com.jusiCool.data.repository.LikeRepositoryImpl
 import com.jusiCool.data.repository.ReservationRepositoryImpl
 import com.jusiCool.data.repository.StockRepositoryImpl
 import com.jusiCool.data.repository.TokenRepositoryImpl
@@ -13,6 +14,7 @@ import com.jusiCool.domain.repository.BoardRepository
 import com.jusiCool.domain.repository.CommentRepository
 import com.jusiCool.domain.repository.CommunityRepository
 import com.jusiCool.domain.repository.EmailRepository
+import com.jusiCool.domain.repository.LikeRepository
 import com.jusiCool.domain.repository.ReservationRepository
 import com.jusiCool.domain.repository.StockRepository
 import com.jusiCool.domain.repository.TokenRepository
@@ -63,4 +65,9 @@ abstract class RepositoryModule {
     abstract fun provideTokenRepository(
         tokenRepositoryImpl: TokenRepositoryImpl
     ) : TokenRepository
+
+    @Binds
+    abstract fun provideLikeRepository(
+        likeRepositoryImpl: LikeRepositoryImpl
+    ) : LikeRepository
 }

@@ -65,7 +65,7 @@ class MainActivityViewModel @Inject constructor(
         }
 
         // 토큰 유효성에 따라 네비게이션 경로 업데이트
-        if (_refreshToken.isEmpty()) {
+        if (_refreshToken.isEmpty()||_refreshToken == "") {
             _navigateRoute = loginRoute
         } else {
             _navigateRoute = mainRoute

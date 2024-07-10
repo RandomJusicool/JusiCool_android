@@ -76,13 +76,13 @@ internal fun CommunityRoute(
         navigateToDetailCommunity =  navigateToDetailCommunity,
         navigateToCommunityWriting = navigateToCommunityWriting,
         popUpBackStack = popUpBackStack,
-        topBarTitleData = communityViewModel::getCommunityListName,
         boardData = viewModel.communityListBoard,
         loadStuff = viewModel::loadStuff,
         swipeRefreshState = swipeRefreshState,
         getCommunityListBoard = viewModel::getListBoard,
         id = id,
-        communityData = communityViewModel.communityData.value
+        communityData = communityViewModel.communityData.value,
+        topBarNameData = viewModel.getTopBarNameData.value
     )
 
     LaunchedEffect(Unit) {
@@ -123,12 +123,12 @@ internal fun CommunityScreen(
     navigateToCommunityWriting: (Long) -> Unit,
     navigateToDetailCommunity: (Long) -> Unit,
     id: Long,
-    popUpBackStack: () -> Unit,
-    topBarTitleData: () -> String,
     boardData: List<GetCommunityBoardListResponseModel>,
     communityData: GetCommunityListResponseModel,
+    topBarNameData: GetCommunityBoardListResponseModel,
     swipeRefreshState: SwipeRefreshState,
     loadStuff: () -> Unit,
+    popUpBackStack: () -> Unit,
     ) {
     LaunchedEffect(Unit) {
         getCommunityListBoard(id)
@@ -154,7 +154,7 @@ internal fun CommunityScreen(
                                 modifier = Modifier.clickableSingle { popUpBackStack() }
                             )
                         },
-                        betweenText = topBarTitleData()
+                        betweenText = topBarNameData.community_name
                     )
                     CommunityList(
                         data = boardData,
@@ -183,7 +183,6 @@ private fun CommunityScreenPre() {
         navigateToDetailCommunity = {  },
         navigateToCommunityWriting = {  },
         popUpBackStack = {  },
-        topBarTitleData = { "자바보단 코틀린" },
         boardData = listOf(),
         loadStuff = {  },
         swipeRefreshState = SwipeRefreshState(false),
@@ -193,6 +192,16 @@ private fun CommunityScreenPre() {
             id = 0,
             board_num = 0,
             name = ""
+        ),
+        topBarNameData = GetCommunityBoardListResponseModel(
+            id = 0,
+            title = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
+            content = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니커뮤니티티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
+            likes = 12,
+            commentNum = 12,
+            createdAt = "12.12 12:20",
+            name = "뀨뀨뀨",
+            community_name = "자바보단 코틀린"
         )
     )
 }
