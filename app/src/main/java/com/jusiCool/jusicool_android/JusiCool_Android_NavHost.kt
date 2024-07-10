@@ -17,7 +17,7 @@ import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityList.screen.navigateToCommunityList
 import com.jusiCool.presentation.communityModify.screen.communityModifyRoute
 import com.jusiCool.presentation.communityModify.screen.navigateToCommunityModify
-import com.jusiCool.presentation.communityWriting.screen.naviagteToCommunityWriting
+import com.jusiCool.presentation.communityWriting.screen.navigateToCommunityWriting
 import com.jusiCool.presentation.holdShare.screen.holdShareRoute
 import com.jusiCool.presentation.holdShare.screen.navigateToHoldShare
 import com.jusiCool.presentation.join.screen.joinRoute
@@ -129,10 +129,13 @@ fun JusiCool_Android_NavHost(
         communityRoute(
             popUpBackStack = navController::popBackStack,
             navigateToCommunityDetail = navController::navigateToCommunityDetail,
-            navigateToCommunityWriting = navController::naviagteToCommunityWriting,
+            navigateToCommunityWriting = navController::navigateToCommunityWriting,
         )
 
-        naviagteToCommunityWriting(popUpBackStack = navController::popBackStack)
+        navigateToCommunityWriting(
+            popUpBackStack = navController::popBackStack,
+            navigateToCommunity = navController::popBackStack
+        )
 
         communityListRoute(
             popUpBackStack = navController::popBackStack,

@@ -7,7 +7,7 @@ object ProjectProperties {
     }
 
     object Id {
-        const val APPLICATION_ID = "com.chobo.jusiCool"
+        const val APPLICATION_ID = "com.jusiCool.jusiCool_android"
     }
 
     object Files {

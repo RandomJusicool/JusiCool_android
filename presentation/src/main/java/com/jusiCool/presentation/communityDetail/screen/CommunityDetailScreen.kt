@@ -51,19 +51,22 @@ import kotlinx.collections.immutable.persistentListOf
 
 const val communityDetailRoute = "communityDetailRoute"
 
-fun NavController.navigateToCommunityDetail() {
-    this.navigate(communityDetailRoute)
+fun NavController.navigateToCommunityDetail(id: Long) {
+    this.navigate("${communityDetailRoute}/${id}")
 }
 
 fun NavGraphBuilder.communityDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: () -> Unit
 ) {
-    composable( communityDetailRoute) {
-        communityDetailRoute(
-            popUpBackStack = popUpBackStack,
-            navigateToCommunityModify = navigateToCommunityModify
-        )
+    composable("${communityDetailRoute}/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        if(id != null) {
+            communityDetailRoute(
+                popUpBackStack = popUpBackStack,
+                navigateToCommunityModify = navigateToCommunityModify
+            )
+        }
     }
 }
 
