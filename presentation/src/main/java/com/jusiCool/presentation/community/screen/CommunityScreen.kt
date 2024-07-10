@@ -123,12 +123,12 @@ internal fun CommunityScreen(
     navigateToCommunityWriting: (Long) -> Unit,
     navigateToDetailCommunity: (Long) -> Unit,
     id: Long,
-    popUpBackStack: () -> Unit,
     boardData: List<GetCommunityBoardListResponseModel>,
     communityData: GetCommunityListResponseModel,
     topBarNameData: GetCommunityBoardListResponseModel,
     swipeRefreshState: SwipeRefreshState,
     loadStuff: () -> Unit,
+    popUpBackStack: () -> Unit,
     ) {
     LaunchedEffect(Unit) {
         getCommunityListBoard(id)
