@@ -82,7 +82,7 @@ internal fun LoginRoute(
 internal fun LoginScreen(
     modifier: Modifier = Modifier,
     focusManager: FocusManager,
-    loginOnClick: (PostAuthSignInRequestModel) -> Unit,
+    loginOnClick: (PostAuthSignInRequestModel, () -> Unit) -> Unit,
     navigateToJoin: () -> Unit,
     navigateToFindPassword: () -> Unit,
     navigateToMain: () -> Unit,
@@ -152,10 +152,11 @@ internal fun LoginScreen(
                             loginOnClick(
                                 PostAuthSignInRequestModel(
                                     email = emailTextState,
-                                    password = passwordTextState
+                                    password = passwordTextState,
                                 )
-                            )
-                            navigateToMain()
+                            ) {
+                                navigateToMain()
+                            }
                         }
                     )
                     Text(
