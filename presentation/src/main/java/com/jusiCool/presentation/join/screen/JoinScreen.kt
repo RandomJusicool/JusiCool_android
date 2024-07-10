@@ -84,8 +84,7 @@ fun JoinRoute(
 fun JoinScreen(
     modifier: Modifier = Modifier,
     emailSendState: Event<Unit>,
-    emailVerifyState: Event<Unit>,
-    signUpState: Event<Unit>,
+    emailCheckProcess: Int,
     postEmail: (PostEmailRequestModel) -> Unit,
     getVerifyEmail: (String, String) -> Unit,
     postAuthSignUp: (PostAuthSignUpRequestModel) -> Unit,
@@ -209,16 +208,11 @@ fun JoinScreen(
                             state = if (nameTextState.isNotEmpty()) ButtonState.Enable
                             else ButtonState.Disable,
                             onClick = {
-                                if (emailSendState !is Event.Success) postEmail(
-                                    PostEmailRequestModel(email = emailTextState)
-                                )
-                                else if (emailVerifyState !is Event.Success)
-                                    getVerifyEmail(
-                                        emailTextState,
-                                        authenticationCodeTextState
-                                    )
-                                else coroutine.launch {
-                                    pagerState.animateScrollToPage(2)
+                                when (emailCheckProcess) {
+                                    0 -> {
+
+                                    1 -> {
+                                    }
                                 }
                             },
                         )
