@@ -2,6 +2,7 @@ package com.jusiCool.presentation.communityList.viewModel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,7 +41,7 @@ class CommunityListViewModel @Inject constructor(
     fun loadStuff() {
         viewModelScope.launch {
             _swipeRefreshLoading.value = true
-            delay(1000L)
+            delay(700L)
             _swipeRefreshLoading.value = false
         }
     }
