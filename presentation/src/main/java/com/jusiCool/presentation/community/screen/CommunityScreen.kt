@@ -61,9 +61,9 @@ fun NavGraphBuilder.communityRoute(
 @Composable
 internal fun CommunityRoute(
     modifier: Modifier = Modifier,
-    id: Long,
     viewModel: CommunityViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     communityViewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    id: Long,
     navigateToDetailCommunity: (Long) -> Unit,
     navigateToCommunityWriting: (Long) -> Unit,
     popUpBackStack: () -> Unit,
@@ -119,10 +119,10 @@ private suspend fun getCommunityListBoard(
 @Composable
 internal fun CommunityScreen(
     modifier: Modifier = Modifier,
-    id: Long,
     getCommunityListBoard: (Long) -> Unit,
     navigateToCommunityWriting: (Long) -> Unit,
     navigateToDetailCommunity: (Long) -> Unit,
+    id: Long,
     popUpBackStack: () -> Unit,
     topBarTitleData: () -> String,
     boardData: List<GetCommunityBoardListResponseModel>,
