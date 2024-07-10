@@ -23,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -44,7 +45,6 @@ import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.HeartIcon
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
-import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
@@ -57,8 +57,6 @@ import com.jusiCool.presentation.communityDetail.component.CommunityDeleteDialog
 import com.jusiCool.presentation.communityDetail.component.HeartOutlinedButton
 import com.jusiCool.presentation.communityDetail.viewModel.CommunityDetailViewModel
 import com.jusiCool.presentation.utill.Event
-import kotlinx.coroutines.Job
-import kotlin.reflect.KFunction1
 
 const val communityDetailRoute = "communityDetailRoute"
 
@@ -145,7 +143,6 @@ private suspend fun getCommunityDetail(
             is Event.Success -> {
                 onSuccess(response.data!!)
             }
-
             else -> {
                 onFailure()
             }
@@ -163,7 +160,6 @@ private suspend fun getCommunityComment(
             is Event.Success -> {
                 onSuccess(response.data!!)
             }
-
             else -> {
                 onFailure()
             }
@@ -174,23 +170,21 @@ private suspend fun getCommunityComment(
 @Composable
 internal fun CommunityDetailScreen(
     modifier: Modifier = Modifier,
-    popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit,
     focusManager: FocusManager,
     scrollState: ScrollState = rememberScrollState(),
     detailData: GetCommunityBoardDetailResponseModel,
-    commentData: List<GetCommunityCommentResponseModel>,
-    onRefresh: () -> Unit,
+    commentData: SnapshotStateList<GetCommunityCommentResponseModel>,
     swipeRefreshState: SwipeRefreshState,
     deleteCommunityDetail: (Long) -> Unit,
-    boardId: Long
+    boardId: Long,
+    onRefresh: () -> Unit,
+    popUpBackStack: () -> Unit,
+    navigateToCommunityModify: () -> Unit,
 ) {
     val (isHeartClicked, setIsHeartClicked) = remember { mutableStateOf(false) }
     val (commentTextState, onCommentTextChange) = remember { mutableStateOf("") }
     val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember {
-        mutableStateOf(
-            false
-        )
+        mutableStateOf(false)
     }
 
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
@@ -216,7 +210,7 @@ internal fun CommunityDetailScreen(
                             CommunityDeleteDialog(
                                 checkOnClick = {
                                     setWritingDeleteDialogIsVisible(false)
-                                    // 통신 로직 작성 후 수정
+                                    deleteCommunityDetail(boardId)
                                 },
                                 cancelOnClick = { setWritingDeleteDialogIsVisible(false) }
                             )
@@ -242,11 +236,8 @@ internal fun CommunityDetailScreen(
                         )
                         Text(
                             modifier = Modifier.clickableSingle {
-                                setWritingDeleteDialogIsVisible(
-                                    true
-                                )
-                                deleteCommunityDetail(boardId)
-                            }, // 후에 통신 로직 작성
+                                setWritingDeleteDialogIsVisible(true)
+                            },
                             text = "삭제하기",
                             style = JDSTypography.RegularM,
                             color = JDSColor.ERROR,
@@ -295,7 +286,7 @@ internal fun CommunityDetailScreen(
                         onValueChange = onCommentTextChange,
                         value = commentTextState,
                         singleLine = false,
-                        onButtonClicked = { } // 후에 통신 로직 작성
+                        onButtonClicked = {  } // 후에 통신 로직 작성
                     )
                     CommentCardList(data = commentData)
                 }

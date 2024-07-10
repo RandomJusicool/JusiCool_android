@@ -15,7 +15,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun CommentCardList(
     modifier: Modifier = Modifier,
-    data: List<GetCommunityCommentResponseModel> = persistentListOf()
+    data: List<GetCommunityCommentResponseModel>
 ) {
     JusiCoolAndroidTheme { _, _ ->
         LazyColumn(
