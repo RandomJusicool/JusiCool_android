@@ -124,7 +124,8 @@ private fun CommunityListItemPre() {
         likes = 12,
         commentNum = 12,
         createdAt = "12.12 12:20",
-        name = "뀨뀨뀨"
+        name = "뀨뀨뀨",
+        community_name = "자바보단 코틀린"
     )) {
     }
 }
