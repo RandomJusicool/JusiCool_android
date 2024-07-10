@@ -21,7 +21,7 @@ data class TemList(
 fun CommunityMainList(
     modifier: Modifier = Modifier,
     data: List<GetCommunityListResponseModel> = listOf(),
-    navigateToCommunity: () -> Unit
+    navigateToCommunity: (Long) -> Unit
 ) {
     JusiCoolAndroidTheme { colors, _ ->
         LazyColumn(
@@ -36,7 +36,7 @@ fun CommunityMainList(
             itemsIndexed(data) {_, item ->
                 CommunityMainListItem(
                     data = item,
-                    onClick = navigateToCommunity
+                    navigateToCommunity = navigateToCommunity
                 )
             }
         }

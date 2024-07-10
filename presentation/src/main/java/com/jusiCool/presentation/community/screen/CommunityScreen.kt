@@ -23,11 +23,11 @@ import com.example.design_system.component.modifier.clickableSingle.clickableSin
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
-import com.example.design_system.theme.color.JDSColor
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
+import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 import com.jusiCool.presentation.community.component.CommunityList
 import com.jusiCool.presentation.community.component.WritingCommunityButton
 import com.jusiCool.presentation.community.viewModel.CommunityViewModel
@@ -36,21 +36,25 @@ import com.jusiCool.presentation.utill.Event
 
 const val communityRoute = "communityRoute"
 
-fun NavController.navigateToCommunity() {
-    this.navigate(communityRoute)
+fun NavController.navigateToCommunity(id: Long) {
+    this.navigate("${communityRoute}/${id}")
 }
 
 fun NavGraphBuilder.communityRoute(
-    navigateToCommunityWriting: () -> Unit,
-    navigateToCommunityDetail: () -> Unit,
+    navigateToCommunityWriting: (Long) -> Unit,
+    navigateToCommunityDetail: (Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
-    composable(communityRoute) {
-        CommunityRoute(
-            navigateToDetailCommunity = navigateToCommunityDetail,
-            navigateToCommunityWriting = navigateToCommunityWriting,
-            popUpBackStack = popUpBackStack,
-        )
+    composable("${communityRoute}/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        if (id != null) {
+            CommunityRoute(
+                id = id,
+                navigateToDetailCommunity = navigateToCommunityDetail,
+                navigateToCommunityWriting = navigateToCommunityWriting,
+                popUpBackStack = popUpBackStack,
+            )
+        }
     }
 }
 
@@ -58,9 +62,10 @@ fun NavGraphBuilder.communityRoute(
 internal fun CommunityRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    topBarViewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    navigateToDetailCommunity: () -> Unit,
-    navigateToCommunityWriting: () -> Unit,
+    communityViewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    id: Long,
+    navigateToDetailCommunity: (Long) -> Unit,
+    navigateToCommunityWriting: (Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
@@ -68,17 +73,16 @@ internal fun CommunityRoute(
 
     CommunityScreen(
         modifier = modifier,
-        navigateToDetailCommunity = {
-            viewModel.communityId.longValue = it
-            navigateToDetailCommunity()
-        },
+        navigateToDetailCommunity =  navigateToDetailCommunity,
         navigateToCommunityWriting = navigateToCommunityWriting,
         popUpBackStack = popUpBackStack,
-        topBarTitleData = topBarViewModel::getCommunityListName,
-        data = viewModel.communityListBoard,
+        topBarTitleData = communityViewModel::getCommunityListName,
+        boardData = viewModel.communityListBoard,
         loadStuff = viewModel::loadStuff,
         swipeRefreshState = swipeRefreshState,
-        getCommunityListBoard = viewModel::getListBoard
+        getCommunityListBoard = viewModel::getListBoard,
+        id = id,
+        communityData = communityViewModel.communityData.value
     )
 
     LaunchedEffect(Unit) {
@@ -105,7 +109,6 @@ private suspend fun getCommunityListBoard(
             is Event.Success -> {
                 onSuccess(response.data!!)
             }
-
             else -> {
                 onFailure()
             }
@@ -116,50 +119,59 @@ private suspend fun getCommunityListBoard(
 @Composable
 internal fun CommunityScreen(
     modifier: Modifier = Modifier,
+    getCommunityListBoard: (Long) -> Unit,
+    navigateToCommunityWriting: (Long) -> Unit,
     navigateToDetailCommunity: (Long) -> Unit,
+    id: Long,
     popUpBackStack: () -> Unit,
     topBarTitleData: () -> String,
-    data: List<GetCommunityBoardListResponseModel>,
-    loadStuff: () -> Unit,
+    boardData: List<GetCommunityBoardListResponseModel>,
+    communityData: GetCommunityListResponseModel,
     swipeRefreshState: SwipeRefreshState,
-    getCommunityListBoard: () -> Unit,
-    navigateToCommunityWriting: () -> Unit,
-) {
-    SwipeRefresh(
-        state = swipeRefreshState,
-        onRefresh = {
-            loadStuff()
-            getCommunityListBoard()
-        }
+    loadStuff: () -> Unit,
     ) {
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .background(color = JDSColor.GRAY50)
+    LaunchedEffect(Unit) {
+        getCommunityListBoard(id)
+    }
+
+    JusiCoolAndroidTheme { colors, _ ->
+        SwipeRefresh(
+            state = swipeRefreshState,
+            onRefresh = {
+                loadStuff()
+                getCommunityListBoard(id)
+            }
         ) {
-            Column {
-                JDSArrowTopBar(
-                    startIcon = {
-                        LeftArrowIcon(
-                            modifier = Modifier.clickableSingle { popUpBackStack() }
-                        )
-                    },
-                    betweenText = topBarTitleData()
-                )
-                CommunityList(
-                    data = data,
-                    navigateToDetailCommunity = { navigateToDetailCommunity(it) }
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(color = colors.GRAY50)
+            ) {
+                Column {
+                    JDSArrowTopBar(
+                        startIcon = {
+                            LeftArrowIcon(
+                                modifier = Modifier.clickableSingle { popUpBackStack() }
+                            )
+                        },
+                        betweenText = topBarTitleData()
+                    )
+                    CommunityList(
+                        data = boardData,
+                        navigateToDetailCommunity = navigateToDetailCommunity
+                    )
+                }
+                WritingCommunityButton(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(
+                            end = 24.dp,
+                            bottom = 24.dp
+                        ),
+                    navigateToCommunityWriting = navigateToCommunityWriting,
+                    data = communityData
                 )
             }
-            WritingCommunityButton(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(
-                        end = 24.dp,
-                        bottom = 24.dp
-                    ),
-                onClick = navigateToCommunityWriting
-            )
         }
     }
 }
@@ -168,12 +180,19 @@ internal fun CommunityScreen(
 @Composable
 private fun CommunityScreenPre() {
     CommunityScreen(
-        navigateToDetailCommunity = { },
-        popUpBackStack = { },
-        topBarTitleData = { "" },
-        data = listOf(),
-        loadStuff = { },
+        navigateToDetailCommunity = {  },
+        navigateToCommunityWriting = {  },
+        popUpBackStack = {  },
+        topBarTitleData = { "자바보단 코틀린" },
+        boardData = listOf(),
+        loadStuff = {  },
         swipeRefreshState = SwipeRefreshState(false),
-        getCommunityListBoard = { }
-    ) {}
+        getCommunityListBoard = {  },
+        id = 0,
+        communityData = GetCommunityListResponseModel(
+            id = 0,
+            board_num = 0,
+            name = ""
+        )
+    )
 }
