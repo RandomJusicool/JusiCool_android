@@ -15,8 +15,9 @@ import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseMod
 @Composable
 fun CommunityList(
     modifier: Modifier = Modifier,
+    id: Long,
     data: List<GetCommunityBoardListResponseModel> = listOf(),
-    navigateToDetailCommunity: (Long) -> Unit
+    navigateToDetailCommunity: (Long, Long) -> Unit
 ) {
     JusiCoolAndroidTheme { colors, _ ->
         LazyColumn(
@@ -28,7 +29,8 @@ fun CommunityList(
             itemsIndexed(data) {_, item ->
                 CommunityListItem(
                     data = item,
-                    onClick = navigateToDetailCommunity
+                    onClick = navigateToDetailCommunity,
+                    id = id
                 )
             }
         }
@@ -38,7 +40,5 @@ fun CommunityList(
 @Preview
 @Composable
 private fun CommunityListPre() {
-    CommunityList {
 
-    }
 }

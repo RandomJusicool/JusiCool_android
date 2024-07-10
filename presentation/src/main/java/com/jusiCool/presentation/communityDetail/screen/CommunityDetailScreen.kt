@@ -57,27 +57,29 @@ import com.jusiCool.presentation.communityDetail.component.CommunityDeleteDialog
 import com.jusiCool.presentation.communityDetail.component.HeartOutlinedButton
 import com.jusiCool.presentation.communityDetail.viewModel.CommunityDetailViewModel
 import com.jusiCool.presentation.utill.Event
+import kotlinx.coroutines.Job
+import kotlin.reflect.KFunction2
 
 const val communityDetailRoute = "communityDetailRoute"
 
-fun NavController.navigateToCommunityDetail(boardId: Long) {
-    this.navigate("${communityDetailRoute}/${boardId}")
+fun NavController.navigateToCommunityDetail(communityId: Long, boardId: Long) {
+    this.navigate("${communityDetailRoute}/${boardId}/${communityId}")
 }
 
 fun NavGraphBuilder.communityDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: () -> Unit
 ) {
-    composable("${communityDetailRoute}/{boardId}") { backStackEntry ->
-        val boardId = backStackEntry.arguments?.getLong("board")
+    composable("${communityDetailRoute}/{boardId}/{communityId}") { backStackEntry ->
+        val boardId = backStackEntry.arguments?.getLong("boardId") ?: 0L
+        val communityId = backStackEntry.arguments?.getLong("communityId") ?: 0L
 
-        if (boardId != null) {
-            CommunityDetailRoute(
-                boardId = boardId,
-                popUpBackStack = popUpBackStack,
-                navigateToCommunityModify = navigateToCommunityModify
-            )
-        }
+        CommunityDetailRoute(
+            boardId = boardId,
+            communityId = communityId,
+            popUpBackStack = popUpBackStack,
+            navigateToCommunityModify = navigateToCommunityModify
+        )
     }
 }
 
@@ -85,6 +87,7 @@ fun NavGraphBuilder.communityDetailRoute(
 internal fun CommunityDetailRoute(
     modifier: Modifier = Modifier,
     boardId: Long,
+    communityId: Long,
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: () -> Unit,
     viewModel: CommunityDetailViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
@@ -108,7 +111,8 @@ internal fun CommunityDetailRoute(
         },
         swipeRefreshState = swipeRefreshState,
         deleteCommunityDetail = viewModel::deleteCommunityDetail,
-        boardId = boardId
+        boardId = boardId,
+        communityId = communityId
     )
 
 
@@ -118,7 +122,7 @@ internal fun CommunityDetailRoute(
             onSuccess = {
                 viewModel.communityDetail.value = it
             },
-            onFailure = {  }
+            onFailure = { }
         )
         getCommunityComment(
             viewModel = viewModel,
@@ -143,6 +147,7 @@ private suspend fun getCommunityDetail(
             is Event.Success -> {
                 onSuccess(response.data!!)
             }
+
             else -> {
                 onFailure()
             }
@@ -160,6 +165,7 @@ private suspend fun getCommunityComment(
             is Event.Success -> {
                 onSuccess(response.data!!)
             }
+
             else -> {
                 onFailure()
             }
@@ -175,7 +181,8 @@ internal fun CommunityDetailScreen(
     detailData: GetCommunityBoardDetailResponseModel,
     commentData: SnapshotStateList<GetCommunityCommentResponseModel>,
     swipeRefreshState: SwipeRefreshState,
-    deleteCommunityDetail: (Long) -> Unit,
+    deleteCommunityDetail: (Long, Long) -> Unit,
+    communityId: Long,
     boardId: Long,
     onRefresh: () -> Unit,
     popUpBackStack: () -> Unit,
@@ -210,7 +217,7 @@ internal fun CommunityDetailScreen(
                             CommunityDeleteDialog(
                                 checkOnClick = {
                                     setWritingDeleteDialogIsVisible(false)
-                                    deleteCommunityDetail(boardId)
+                                    deleteCommunityDetail(communityId, boardId)
                                 },
                                 cancelOnClick = { setWritingDeleteDialogIsVisible(false) }
                             )
@@ -286,7 +293,7 @@ internal fun CommunityDetailScreen(
                         onValueChange = onCommentTextChange,
                         value = commentTextState,
                         singleLine = false,
-                        onButtonClicked = {  } // 후에 통신 로직 작성
+                        onButtonClicked = { } // 후에 통신 로직 작성
                     )
                     CommentCardList(data = commentData)
                 }

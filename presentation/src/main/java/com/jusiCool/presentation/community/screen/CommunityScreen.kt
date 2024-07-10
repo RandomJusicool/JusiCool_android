@@ -42,7 +42,7 @@ fun NavController.navigateToCommunity(id: Long) {
 
 fun NavGraphBuilder.communityRoute(
     navigateToCommunityWriting: (Long) -> Unit,
-    navigateToCommunityDetail: (Long) -> Unit,
+    navigateToCommunityDetail: (Long, Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     composable("${communityRoute}/{id}") { backStackEntry ->
@@ -64,7 +64,7 @@ internal fun CommunityRoute(
     viewModel: CommunityViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     communityViewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     id: Long,
-    navigateToDetailCommunity: (Long) -> Unit,
+    navigateToDetailCommunity: (Long, Long) -> Unit,
     navigateToCommunityWriting: (Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
@@ -121,7 +121,7 @@ internal fun CommunityScreen(
     modifier: Modifier = Modifier,
     getCommunityListBoard: (Long) -> Unit,
     navigateToCommunityWriting: (Long) -> Unit,
-    navigateToDetailCommunity: (Long) -> Unit,
+    navigateToDetailCommunity: (Long, Long) -> Unit,
     id: Long,
     boardData: List<GetCommunityBoardListResponseModel>,
     communityData: GetCommunityListResponseModel,
@@ -158,7 +158,8 @@ internal fun CommunityScreen(
                     )
                     CommunityList(
                         data = boardData,
-                        navigateToDetailCommunity = navigateToDetailCommunity
+                        navigateToDetailCommunity = navigateToDetailCommunity,
+                        id = id
                     )
                 }
                 WritingCommunityButton(
@@ -179,29 +180,5 @@ internal fun CommunityScreen(
 @Preview
 @Composable
 private fun CommunityScreenPre() {
-    CommunityScreen(
-        navigateToDetailCommunity = {  },
-        navigateToCommunityWriting = {  },
-        popUpBackStack = {  },
-        boardData = listOf(),
-        loadStuff = {  },
-        swipeRefreshState = SwipeRefreshState(false),
-        getCommunityListBoard = {  },
-        id = 0,
-        communityData = GetCommunityListResponseModel(
-            id = 0,
-            board_num = 0,
-            name = ""
-        ),
-        topBarNameData = GetCommunityBoardListResponseModel(
-            id = 0,
-            title = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
-            content = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니커뮤니티티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
-            likes = 12,
-            commentNum = 12,
-            createdAt = "12.12 12:20",
-            name = "뀨뀨뀨",
-            community_name = "자바보단 코틀린"
-        )
-    )
+
 }

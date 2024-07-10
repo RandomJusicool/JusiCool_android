@@ -37,15 +37,16 @@ data class CommunityListItemTemData(
 @Composable
 internal fun CommunityListItem(
     modifier: Modifier = Modifier,
+    id: Long,
     data: GetCommunityBoardListResponseModel,
-    onClick: (Long) -> Unit
+    onClick: (Long, Long) -> Unit
     ) {
     JusiCoolAndroidTheme { colors, typography ->
         Spacer(modifier = Modifier.height(12.dp))
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .clickableSingle { onClick(data.id) },
+                .clickableSingle { onClick(data.id, id) },
             shape = RoundedCornerShape(12.dp),
             color = colors.WHITE
         ) {
@@ -117,15 +118,5 @@ internal fun CommunityListItem(
 @Preview
 @Composable
 private fun CommunityListItemPre() {
-    CommunityListItem(data = GetCommunityBoardListResponseModel(
-        id = 0,
-        title = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
-        content = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니커뮤니티티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
-        likes = 12,
-        commentNum = 12,
-        createdAt = "12.12 12:20",
-        name = "뀨뀨뀨",
-        community_name = "자바보단 코틀린"
-    )) {
-    }
+
 }

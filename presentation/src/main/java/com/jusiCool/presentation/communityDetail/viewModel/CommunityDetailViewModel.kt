@@ -72,8 +72,8 @@ class CommunityDetailViewModel @Inject constructor(
         }
     }
 
-    internal fun deleteCommunityDetail(boardId: Long)= viewModelScope.launch {
-        deleteCommunityBoardUseCase(boardId = boardId).onSuccess {
+    internal fun deleteCommunityDetail(communityId: Long,boardId: Long)= viewModelScope.launch {
+        deleteCommunityBoardUseCase(communityId = communityId, boardId = boardId).onSuccess {
             it.catch {remoteError ->
                 _deleteCommunityBoardDetailResponse.value = remoteError.errorHandling()
             }.collect { response ->

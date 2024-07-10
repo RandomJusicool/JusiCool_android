@@ -29,6 +29,7 @@ interface BoardAPI {
 
     @DELETE("/api/v1/board")
     suspend fun deleteBoardCommunity(
+        @Path("community_id") communityId: Long,
         @Path("board_id") boardId: Long
     )
 }
