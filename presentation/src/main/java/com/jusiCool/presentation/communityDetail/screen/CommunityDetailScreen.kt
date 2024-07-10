@@ -118,7 +118,7 @@ internal fun CommunityDetailRoute(
             onSuccess = {
                 viewModel.communityDetail.value = it
             },
-            onFailure = { TODO() }
+            onFailure = {  }
         )
         getCommunityComment(
             viewModel = viewModel,

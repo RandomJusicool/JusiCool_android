@@ -18,7 +18,6 @@ import com.jusiCool.presentation.communityList.screen.navigateToCommunityList
 import com.jusiCool.presentation.communityModify.screen.communityModifyRoute
 import com.jusiCool.presentation.communityModify.screen.navigateToCommunityModify
 import com.jusiCool.presentation.communityOtherDetail.screen.communityOtherDetailRoute
-import com.jusiCool.presentation.communityWriting.screen.naviagteToCommunityWriting
 import com.jusiCool.presentation.communityWriting.screen.navigateToCommunityWriting
 import com.jusiCool.presentation.holdShare.screen.holdShareRoute
 import com.jusiCool.presentation.holdShare.screen.navigateToHoldShare

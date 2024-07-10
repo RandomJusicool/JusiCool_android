@@ -77,7 +77,7 @@ class CommunityDetailViewModel @Inject constructor(
             it.catch {remoteError ->
                 _deleteCommunityBoardDetailResponse.value = remoteError.errorHandling()
             }.collect { response ->
-                _deleteCommunityBoardDetailResponse.value = Event.Success(data = response)
+                _deleteCommunityBoardDetailResponse.value = Event.Success(Unit)
             }
         }.onFailure {error ->
             _deleteCommunityBoardDetailResponse.value = error.errorHandling()
