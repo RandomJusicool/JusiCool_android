@@ -31,16 +31,47 @@ class JoinViewModel @Inject constructor(
 
     fun postEmail(postEmailModel: PostEmailRequestModel) = viewModelScope.launch {
         postEmailUseCase(postEmailModel)
-            .onSuccess { _emailSendState.value = Event.Success() }
+            .onSuccess {
+                it.catch {
+
+                    _emailCheckProcess.value = 1
+                    _emailSendState.value = Event.Success()
+
+                }.collect {
+                    _emailCheckProcess.value = 1
+                    _emailSendState.value = Event.Success()
+                }
+            }
     }
 
-    fun getVerifyEmail(email: String, authCode: String) = viewModelScope.launch {
-        getEmailVerifyUseCase(email = email, authCode = authCode)
-            .onSuccess { _emailVerifyState.value = Event.Success() }
-    }
+    fun getVerifyEmail(
+        email: String,
+        authCode: String,
+        onSuccess: () -> Unit
+    ) =
+        viewModelScope.launch {
+            getEmailVerifyUseCase(email = email, authCode = authCode)
+                .onSuccess {
+                    it.catch {
+                        _emailCheckProcess.value = 2
+                    }.collect {
+                        onSuccess()
+                        _emailCheckProcess.value = 2
+                    }
+                }
+        }
 
-    fun postSignUp(postAuthSignUpModel: PostAuthSignUpRequestModel) = viewModelScope.launch {
+    fun postSignUp(
+        postAuthSignUpModel: PostAuthSignUpRequestModel,
+        onSuccess: () -> Unit
+    ) = viewModelScope.launch {
         postAuthSignUpUseCase(postAuthSignUpModel)
-            .onSuccess { _signUpState.value = Event.Success() }
+            .onSuccess {
+                it.catch {
+
+                }.collect {
+                    onSuccess()
+                }
+            }
     }
 }
