@@ -64,6 +64,9 @@ internal fun CommunityListRoute(
         swipeRefreshState = swipeRefreshState,
         getCommunityList = viewModel::getCommunityList
     )
+    LaunchedEffect(Unit) {
+        viewModel.getCommunityList()
+    }
 
     LaunchedEffect(Unit) {
         getCommunityList(
