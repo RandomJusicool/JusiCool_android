@@ -120,15 +120,15 @@ private suspend fun getCommunityListBoard(
 internal fun CommunityScreen(
     modifier: Modifier = Modifier,
     id: Long,
+    getCommunityListBoard: (Long) -> Unit,
+    navigateToCommunityWriting: (Long) -> Unit,
     navigateToDetailCommunity: (Long) -> Unit,
     popUpBackStack: () -> Unit,
     topBarTitleData: () -> String,
     boardData: List<GetCommunityBoardListResponseModel>,
     communityData: GetCommunityListResponseModel,
-    loadStuff: () -> Unit,
     swipeRefreshState: SwipeRefreshState,
-    getCommunityListBoard: (Long) -> Unit,
-    navigateToCommunityWriting: (Long) -> Unit,
+    loadStuff: () -> Unit,
     ) {
     LaunchedEffect(Unit) {
         getCommunityListBoard(id)
@@ -181,6 +181,7 @@ internal fun CommunityScreen(
 private fun CommunityScreenPre() {
     CommunityScreen(
         navigateToDetailCommunity = {  },
+        navigateToCommunityWriting = {  },
         popUpBackStack = {  },
         topBarTitleData = { "자바보단 코틀린" },
         boardData = listOf(),
@@ -193,5 +194,5 @@ private fun CommunityScreenPre() {
             board_num = 0,
             name = ""
         )
-    ) {}
+    )
 }
