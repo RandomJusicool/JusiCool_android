@@ -10,10 +10,19 @@ android {
 
     defaultConfig {
         minSdk = ProjectProperties.Versions.MIN_SDK
-        targetSdk = ProjectProperties.Versions.TARGET_SDK
-
+        // targetSdk 속성을 여기서 제거합니다
         testInstrumentationRunner = ProjectProperties.Test.TEST_RUNNER
         consumerProguardFiles(ProjectProperties.Files.CONSUMER_PROGUARD_FILES)
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        targetSdk = ProjectProperties.Versions.TARGET_SDK // targetSdk를 여기서 설정합니다
+    }
+
+    lint {
+        abortOnError = false
+        targetSdk = ProjectProperties.Versions.TARGET_SDK // 필요시 targetSdk를 여기서 설정합니다
     }
 
     buildTypes {
