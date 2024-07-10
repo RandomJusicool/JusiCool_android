@@ -11,13 +11,16 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.icon_image.icon.PencilIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
+import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
+import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 
 @Composable
 fun WritingCommunityButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    navigateToCommunityWriting: (Long) -> Unit,
+    data: GetCommunityListResponseModel
 ) {
-    JusiCoolAndroidTheme { colors, typography ->
+    JusiCoolAndroidTheme { colors, _ ->
         Box(
             modifier = modifier
                 .background(
@@ -25,7 +28,7 @@ fun WritingCommunityButton(
                     shape = RoundedCornerShape(30.dp)
                 )
                 .padding(all = 24.dp)
-                .clickableSingle { onClick() }
+                .clickableSingle { navigateToCommunityWriting(data.id) }
         ) {
             PencilIcon()
         }
@@ -35,7 +38,12 @@ fun WritingCommunityButton(
 @Preview
 @Composable
 private fun pre() {
-    WritingCommunityButton {
-
-    }
+    WritingCommunityButton(
+        navigateToCommunityWriting = {},
+        data = GetCommunityListResponseModel(
+            id = 0,
+            name = "",
+            board_num = 0
+        )
+    )
 }

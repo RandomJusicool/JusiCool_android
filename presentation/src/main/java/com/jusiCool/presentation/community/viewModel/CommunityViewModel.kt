@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
+import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 import com.jusiCool.domain.usecase.board.GetCommunityBoardListUseCase
+import com.jusiCool.domain.usecase.community.GetCommunityListUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommunityViewModel @Inject constructor(
-    private val getCommunityBoardListUseCase: GetCommunityBoardListUseCase
+    private val getCommunityBoardListUseCase: GetCommunityBoardListUseCase,
 ): ViewModel() {
     private val _swipeRefreshLoading = MutableStateFlow(false)
     val swipeRefreshLoading = _swipeRefreshLoading.asStateFlow()
@@ -42,15 +44,12 @@ class CommunityViewModel @Inject constructor(
     var communityListBoard = mutableStateListOf<GetCommunityBoardListResponseModel>()
         private set
 
-    var communityId = mutableLongStateOf(0)
-        private set
-
-    internal fun getListBoard() = viewModelScope.launch {
-        getCommunityBoardListUseCase(communityId = communityId.longValue).onSuccess {
+    internal fun getListBoard(communityId: Long) = viewModelScope.launch {
+        getCommunityBoardListUseCase(communityId = communityId).onSuccess {
             it.catch { remoteError ->
                 _getCommunityListBoardResponse.value = remoteError.errorHandling()
-            }.collect { reponse ->
-                _getCommunityListBoardResponse.value = Event.Success(data = reponse)
+            }.collect { response ->
+                _getCommunityListBoardResponse.value = Event.Success(data = response)
             }
         }.onFailure { error ->
             _getCommunityListBoardResponse.value = error.errorHandling()
