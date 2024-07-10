@@ -27,7 +27,7 @@ fun CommunityMainListItem(
     navigateToCommunity: (Long) -> Unit
 ) {
     JusiCoolAndroidTheme { colors, typography ->
-        Spacer(modifier = modifier.height(30.dp))
+        Spacer(modifier = modifier.height(8.dp))
         Surface(
             modifier = modifier
                 .fillMaxWidth()
