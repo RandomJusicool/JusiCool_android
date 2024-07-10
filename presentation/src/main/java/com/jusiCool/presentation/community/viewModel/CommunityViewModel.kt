@@ -1,5 +1,6 @@
 package com.jusiCool.presentation.community.viewModel
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,10 @@ class CommunityViewModel @Inject constructor(
 
     private val _getCommunityListBoardResponse = MutableStateFlow<Event<List<GetCommunityBoardListResponseModel>>>(Event.Loading)
     val getCommunityListBoardResponse = _getCommunityListBoardResponse.asStateFlow()
+
+    private lateinit var _getTopBarNameData : MutableState<GetCommunityBoardListResponseModel>
+    val getTopBarNameData: MutableState<GetCommunityBoardListResponseModel>
+        get() = _getTopBarNameData
 
     init {
         loadStuff()
