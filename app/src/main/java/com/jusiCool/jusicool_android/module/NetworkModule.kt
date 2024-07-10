@@ -6,6 +6,7 @@ import com.jusiCool.data.remote.api.BoardAPI
 import com.jusiCool.data.remote.api.CommentAPI
 import com.jusiCool.data.remote.api.CommunityAPI
 import com.jusiCool.data.remote.api.EmailAPI
+import com.jusiCool.data.remote.api.LikeAPI
 import com.jusiCool.data.remote.api.ReservationAPI
 import com.jusiCool.data.remote.api.StockAPI
 import com.jusiCool.data.utill.AuthInterceptor
@@ -117,5 +118,11 @@ object NetworkModule {
     @Singleton
     fun StockAPI(retrofit: Retrofit): StockAPI {
         return retrofit.create(StockAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun LikeAPI(retrofit: Retrofit): LikeAPI {
+        return retrofit.create(LikeAPI::class.java)
     }
 }
