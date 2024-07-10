@@ -184,5 +184,13 @@ internal fun CommunityWritingScreen(
 @Preview
 @Composable
 private fun CommunityWritingScreen() {
-    CommunityWritingScreen()
+    CommunityWritingScreen(
+        id = 123L,
+        focusManager = LocalFocusManager.current,
+        popUpBackStack = { /*TODO*/ },
+        title = "Sample Title",
+        content = "Sample Content",
+    ) { title, content ->
+        // Handle the navigateToCommunity action
+    }
 }
