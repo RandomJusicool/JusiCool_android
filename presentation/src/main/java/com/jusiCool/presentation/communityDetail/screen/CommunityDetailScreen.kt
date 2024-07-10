@@ -103,11 +103,13 @@ internal fun CommunityDetailRoute(
         focusManager = focusManager,
         detailData = viewModel.communityDetail.value,
         commentData = viewModel.communityComment,
-        loadStuff = viewModel::loadStuff,
+        onRefresh = {
+            viewModel.loadStuff()
+            viewModel.getCommunityDetail(boardId)
+            viewModel.getCommunityComment(boardId)
+        },
         swipeRefreshState = swipeRefreshState,
-        getCommunityDetail = viewModel::getCommunityDetail,
         deleteCommunityDetail = viewModel::deleteCommunityDetail,
-        getCommunityComment = viewModel::getCommunityComment,
         boardId = boardId
     )
 
@@ -178,11 +180,9 @@ internal fun CommunityDetailScreen(
     scrollState: ScrollState = rememberScrollState(),
     detailData: GetCommunityBoardDetailResponseModel,
     commentData: List<GetCommunityCommentResponseModel>,
-    loadStuff: () -> Unit,
+    onRefresh: () -> Unit,
     swipeRefreshState: SwipeRefreshState,
-    getCommunityDetail: (Long) -> Unit,
     deleteCommunityDetail: (Long) -> Unit,
-    getCommunityComment: (Long) -> Unit,
     boardId: Long
 ) {
     val (isHeartClicked, setIsHeartClicked) = remember { mutableStateOf(false) }
@@ -197,10 +197,7 @@ internal fun CommunityDetailScreen(
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = {
-                loadStuff()
-                getCommunityDetail(boardId)
-                deleteCommunityDetail(boardId)
-                getCommunityComment(boardId)
+                onRefresh()
             }
         ) {
             Box(modifier = modifier.background(color = JDSColor.GRAY50)) {
@@ -248,6 +245,7 @@ internal fun CommunityDetailScreen(
                                 setWritingDeleteDialogIsVisible(
                                     true
                                 )
+                                deleteCommunityDetail(boardId)
                             }, // 후에 통신 로직 작성
                             text = "삭제하기",
                             style = JDSTypography.RegularM,
