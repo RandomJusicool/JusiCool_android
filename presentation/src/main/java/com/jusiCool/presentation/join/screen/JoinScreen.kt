@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -254,12 +255,14 @@ fun JoinScreen(
                                 placeHolder = "비밀번호를 입력해주세요",
                                 textState = passWordTextState,
                                 onTextChange = setPassWordTextState,
+                                visualTransformation = PasswordVisualTransformation(),
                             )
                             JDSTextField(
                                 label = "비밀번호 재입력",
                                 placeHolder = "비밀번호를 다시 입력해주세요",
                                 textState = rePassWordTextState,
                                 onTextChange = setRePassWordTextState,
+                                visualTransformation = PasswordVisualTransformation(),
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
