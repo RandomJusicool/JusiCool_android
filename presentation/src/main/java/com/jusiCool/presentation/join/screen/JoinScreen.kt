@@ -12,12 +12,12 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,6 +38,7 @@ import com.jusiCool.domain.model.auth.request.PostAuthSignUpRequestModel
 import com.jusiCool.domain.model.email.request.PostEmailRequestModel
 import com.jusiCool.presentation.join.viewModel.JoinViewModel
 import com.jusiCool.presentation.utill.Event
+import com.jusiCool.presentation.utill.checkEmailRegex
 import kotlinx.coroutines.launch
 
 const val joinRoute = "joinRoute"
@@ -64,14 +65,12 @@ fun JoinRoute(
     popUpBackStack: () -> Unit,
 ) {
     val emailSendState by joinViewModel.emailSendState.collectAsStateWithLifecycle()
-    val emailVerifyState by joinViewModel.emailVerifyState.collectAsStateWithLifecycle()
-    val signUpState by joinViewModel.signUpState.collectAsStateWithLifecycle()
+    val emailCheckProcess by joinViewModel.emailCheckProcess.collectAsStateWithLifecycle()
 
     JoinScreen(
         modifier = modifier,
         emailSendState = emailSendState,
-        emailVerifyState = emailVerifyState,
-        signUpState = signUpState,
+        emailCheckProcess = emailCheckProcess,
         postEmail = joinViewModel::postEmail,
         getVerifyEmail = joinViewModel::getVerifyEmail,
         postAuthSignUp = joinViewModel::postSignUp,
@@ -86,8 +85,8 @@ fun JoinScreen(
     emailSendState: Event<Unit>,
     emailCheckProcess: Int,
     postEmail: (PostEmailRequestModel) -> Unit,
-    getVerifyEmail: (String, String) -> Unit,
-    postAuthSignUp: (PostAuthSignUpRequestModel) -> Unit,
+    getVerifyEmail: (String, String, () -> Unit) -> Unit,
+    postAuthSignUp: (PostAuthSignUpRequestModel, () -> Unit) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     val (nameTextState, setNameTextState) = remember { mutableStateOf("") }
@@ -95,17 +94,16 @@ fun JoinScreen(
     val (authenticationCodeTextState, setAuthenticationCodeTextState) = remember { mutableStateOf("") }
     val (passWordTextState, setPassWordTextState) = remember { mutableStateOf("") }
     val (rePassWordTextState, setRePassWordTextState) = remember { mutableStateOf("") }
+    val (isEmailTextError, setIsEmailTextError) = remember { mutableStateOf(false) }
     val coroutine = rememberCoroutineScope()
     val pagerState = rememberPagerState { 3 }
-
-    LaunchedEffect(signUpState is Event.Success) {
-        popUpBackStack()
-    }
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(JDSColor.WHITE)
+            .clickableSingle { focusManager.clearFocus() } // Add this line
     ) {
         JDSArrowTopBar(
             startIcon = {
@@ -185,8 +183,12 @@ fun JoinScreen(
                                 label = "이메일",
                                 placeHolder = "이메일을 적어주세요",
                                 isEnabled = emailSendState is Event.Loading,
+                                isError = isEmailTextError,
                                 textState = emailTextState,
-                                onTextChange = setEmailTextState,
+                                onTextChange = { state ->
+                                    setEmailTextState(state)
+                                    setIsEmailTextError(false)
+                                },
                             )
                             if (emailSendState is Event.Success) {
                                 JDSTextField(
@@ -202,16 +204,27 @@ fun JoinScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(53.dp),
-                            text = if (emailSendState !is Event.Success) "코드 받기"
-                            else if (emailVerifyState !is Event.Success) "확인"
-                            else "다음",
+                            text = "다음",
                             state = if (nameTextState.isNotEmpty()) ButtonState.Enable
                             else ButtonState.Disable,
                             onClick = {
                                 when (emailCheckProcess) {
                                     0 -> {
+                                        setIsEmailTextError(!emailTextState.checkEmailRegex())
+                                        if (emailTextState.checkEmailRegex()) {
+                                            postEmail(PostEmailRequestModel(email = emailTextState))
+                                        }
+                                    }
 
                                     1 -> {
+                                        getVerifyEmail(
+                                            emailTextState,
+                                            authenticationCodeTextState,
+                                        ) {
+                                            coroutine.launch {
+                                                pagerState.animateScrollToPage(2)
+                                            }
+                                        }
                                     }
                                 }
                             },
@@ -265,7 +278,7 @@ fun JoinScreen(
                                             name = nameTextState,
                                             password = passWordTextState,
                                         )
-                                    )
+                                    ) { popUpBackStack() }
                                 }
                             },
                         )
@@ -281,11 +294,10 @@ fun JoinScreen(
 fun JoinScreenPreview() {
     JoinScreen(
         emailSendState = Event.Success(),
-        emailVerifyState = Event.Success(),
-        signUpState = Event.Success(),
         popUpBackStack = { },
         postEmail = { },
-        getVerifyEmail = { _, _ -> },
-        postAuthSignUp = { },
+        getVerifyEmail = { _, _, _ -> },
+        postAuthSignUp = { _, _ -> },
+        emailCheckProcess = 0,
     )
 }
