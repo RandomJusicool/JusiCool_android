@@ -29,8 +29,6 @@ class MainActivityViewModel @Inject constructor(
         _refreshToken = encryptedSharedPreferencesDataSource.getRefreshToken() ?: ""
         _refreshTokenTime = encryptedSharedPreferencesDataSource.getRefreshTime() ?: ""
         checkExpireTime()
-        Log.d("_refreshToken", _refreshToken)
-        Log.d("_refreshTokenTime", _refreshTokenTime)
     }
 
     private fun login() = viewModelScope.launch {
