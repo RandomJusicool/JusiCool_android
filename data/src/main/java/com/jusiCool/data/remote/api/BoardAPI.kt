@@ -21,13 +21,13 @@ interface BoardAPI {
         @Body body: WritingCommunityBoardRequest
     )
 
-    @PATCH("/api/v1/board")
+    @PATCH("/api/v1/board/{board_id}")
     suspend fun patchBoardCommunity(
         @Path("board_id") boardId: Long,
         @Body body: WritingCommunityBoardRequest
     )
 
-    @DELETE("/api/v1/board")
+    @DELETE("/api/v1/board/{board_id}")
     suspend fun deleteBoardCommunity(
         @Path("board_id") boardId: Long
     )
