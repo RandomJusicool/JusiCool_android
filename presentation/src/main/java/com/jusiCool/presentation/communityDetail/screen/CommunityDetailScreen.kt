@@ -50,6 +50,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.board.response.GetCommunityBoardDetailResponseModel
+import com.jusiCool.domain.model.comment.request.PostWritingCommunityCommentRequestModel
 import com.jusiCool.domain.model.comment.response.GetCommunityCommentResponseModel
 import com.jusiCool.presentation.communityDetail.component.CommentCardList
 import com.jusiCool.presentation.communityDetail.component.CommentTextField
@@ -57,8 +58,6 @@ import com.jusiCool.presentation.communityDetail.component.CommunityDeleteDialog
 import com.jusiCool.presentation.communityDetail.component.HeartOutlinedButton
 import com.jusiCool.presentation.communityDetail.viewModel.CommunityDetailViewModel
 import com.jusiCool.presentation.utill.Event
-import kotlinx.coroutines.Job
-import kotlin.reflect.KFunction2
 
 const val communityDetailRoute = "communityDetailRoute"
 
@@ -103,6 +102,7 @@ internal fun CommunityDetailRoute(
         navigateToCommunityModify = navigateToCommunityModify,
         focusManager = focusManager,
         detailData = viewModel.communityDetail.value,
+        writingCommentData = viewModel.writingCommunityDetail.value,
         commentData = viewModel.communityComment,
         onRefresh = {
             viewModel.loadStuff()
@@ -111,6 +111,9 @@ internal fun CommunityDetailRoute(
         },
         swipeRefreshState = swipeRefreshState,
         deleteCommunityDetail = viewModel::deleteCommunityDetail,
+        postLike = viewModel::postLike,
+        deleteLike = viewModel::postLike,
+        postWritingCommunityComment = viewModel::postWritingCommunityComment,
         boardId = boardId,
         communityId = communityId
     )
@@ -179,11 +182,15 @@ internal fun CommunityDetailScreen(
     focusManager: FocusManager,
     scrollState: ScrollState = rememberScrollState(),
     detailData: GetCommunityBoardDetailResponseModel,
+    writingCommentData: PostWritingCommunityCommentRequestModel,
     commentData: SnapshotStateList<GetCommunityCommentResponseModel>,
     swipeRefreshState: SwipeRefreshState,
     deleteCommunityDetail: (Long, Long) -> Unit,
-    communityId: Long,
+    postLike: (Long) -> Unit,
+    deleteLike: (Long) -> Unit,
+    postWritingCommunityComment: (Long, PostWritingCommunityCommentRequestModel) -> Unit,
     boardId: Long,
+    communityId: Long,
     onRefresh: () -> Unit,
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: () -> Unit,
@@ -266,7 +273,15 @@ internal fun CommunityDetailScreen(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         text = detailData.likes.toString(),
                         startIcon = { HeartIcon(tint = if (isHeartClicked) JDSColor.WHITE else JDSColor.GRAY400) },
-                        onClick = { setIsHeartClicked(!isHeartClicked) }, // 후에 통신 로직 작성
+                        onClick = {
+                            if(isHeartClicked) {
+                                setIsHeartClicked(false)
+                                deleteLike(boardId)
+                            } else {
+                                setIsHeartClicked(true)
+                                postLike(boardId)
+                            }
+                        },
                         textColor = if (isHeartClicked) JDSColor.WHITE else JDSColor.GRAY400,
                         backgroundColor = if (isHeartClicked) JDSColor.MAIN else Color.Unspecified,
                         outLineColor = if (isHeartClicked) JDSColor.MAIN else JDSColor.GRAY400
@@ -293,7 +308,9 @@ internal fun CommunityDetailScreen(
                         onValueChange = onCommentTextChange,
                         value = commentTextState,
                         singleLine = false,
-                        onButtonClicked = { } // 후에 통신 로직 작성
+                        onButtonClicked = {
+                            postWritingCommunityComment(boardId,writingCommentData)
+                        }
                     )
                     CommentCardList(data = commentData)
                 }
