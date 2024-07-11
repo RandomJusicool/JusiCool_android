@@ -37,32 +37,38 @@ import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockSellingRoute = "stockSellingRoute"
 
-fun NavController.navigationToStockSelling() {
-    this.navigate(stockSellingRoute)
+fun NavController.navigationToStockSelling(id: Long) {
+    this.navigate("$stockSellingRoute/$id")
 }
 
 fun NavGraphBuilder.stockSellingRoute(
     navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
-    composable(stockSellingRoute) {
-        StockSellingRoute(
-            navigateToStockDetail = navigateToStockDetail,
-            navigateToOrderHistory = navigateToOrderHistory
-        )
+    composable("$stockSellingRoute/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        if (id != null) {
+            StockSellingRoute(
+                id = id,
+                navigateToStockDetail = navigateToStockDetail,
+                navigateToOrderHistory = navigateToOrderHistory
+            )
+        }
     }
 }
 
 @Composable
 internal fun StockSellingRoute(
     modifier: Modifier = Modifier,
+    id: Long,
     navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockSellingScreen(
         modifier = modifier,
-        myStocksData = MyStocksData("마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData("마이크로소프트", 1231, 10000, 8160, 7.9f),
+        id = id,
+        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
+        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
     )
@@ -71,6 +77,7 @@ internal fun StockSellingRoute(
 @Composable
 internal fun StockSellingScreen(
     modifier: Modifier = Modifier,
+    id: Long,
     myStocksData: MyStocksData,
     entireStocksData: EntireStocksData,
     navigateToStockDetail: (Long) -> Unit,
@@ -86,7 +93,7 @@ internal fun StockSellingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         JDSArrowTopBar(
-            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail() }) },
+            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail(id) }) },
             betweenText = "주식 판매"
         )
 
@@ -153,9 +160,10 @@ internal fun StockSellingScreen(
 @Composable
 fun StockSellingScreenPreview() {
     StockSellingScreen(
-        myStocksData = MyStocksData("마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData("마이크로소프트", 1231, 10000, 8160, 7.9f),
+        myStocksData = MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, 0, 0.0f),
+        entireStocksData = EntireStocksData(id = 1L,"마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
-        navigateToOrderHistory = {}
+        navigateToOrderHistory = {},
+        id = 1L
     )
 }

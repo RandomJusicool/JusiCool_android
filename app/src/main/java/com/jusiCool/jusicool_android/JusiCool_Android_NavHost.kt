@@ -149,8 +149,8 @@ fun JusiCool_Android_NavHost(
         )
 
         holdShareRoute(
+            popUpBackStack = navController::popBackStack,
             navigateToStockDetail = navController::navigateToStockDetail,
-            popUpBackStack = navController::popBackStack
         )
 
         communityModifyRoute(popUpBackStack = navController::popBackStack)
