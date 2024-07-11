@@ -8,12 +8,14 @@ import com.jusiCool.domain.model.board.request.WritingCommunityBoardRequestModel
 import com.jusiCool.domain.usecase.board.PostWritingCommunityUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CommunityWritingViewModel @Inject constructor(
     private val postWritingCommunityUseCase: PostWritingCommunityUseCase
 ) : ViewModel() {
