@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityModify.screen
+package com.jusiCool.presentation.communityCU.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -32,7 +32,7 @@ import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.presentation.community.component.CommunityListItemTemData
-import com.jusiCool.presentation.communityModify.component.CommunityModifierDialog
+import com.jusiCool.presentation.communityCU.component.CommunityModifierDialog
 
 const val communityModifyRoute = "communityModifyRoute"
 

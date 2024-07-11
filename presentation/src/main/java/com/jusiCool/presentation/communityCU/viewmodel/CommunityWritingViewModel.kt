@@ -1,10 +1,10 @@
-package com.jusiCool.presentation.communityWriting.viewModel
+package com.jusiCool.presentation.communityCU.viewmodel
 
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jusiCool.domain.model.board.request.WritingCommunityBoardRequestModel
+import com.jusiCool.domain.usecase.board.PatchCommunityBoardUseCase
 import com.jusiCool.domain.usecase.board.PostWritingCommunityUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
@@ -17,10 +17,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommunityWritingViewModel @Inject constructor(
-    private val postWritingCommunityUseCase: PostWritingCommunityUseCase
+    private val postWritingCommunityUseCase: PostWritingCommunityUseCase,
+    private val patchCommunityBoardUseCase: PatchCommunityBoardUseCase
 ) : ViewModel() {
     private val _postWritingCommunityResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
     val postWritingCommunityResponse = _postWritingCommunityResponse.asStateFlow()
+
+    private val _patchCommunityBoardResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val patchCommunityBoardResponse = _patchCommunityBoardResponse.asStateFlow()
 
     var title = mutableStateOf("")
         private set
@@ -47,6 +51,28 @@ class CommunityWritingViewModel @Inject constructor(
             }
         }.onFailure { error ->
             _postWritingCommunityResponse.value = error.errorHandling()
+        }
+    }
+
+    internal fun patchCommunityBoard(
+        boardId: Long,
+        title: String,
+        content: String
+    ) = viewModelScope.launch {
+        patchCommunityBoardUseCase(
+            boardId = boardId,
+            body = WritingCommunityBoardRequestModel(
+                title = title,
+                content = content
+            )
+        ).onSuccess {
+            it.catch { remoteError ->
+                _patchCommunityBoardResponse.value = remoteError.errorHandling()
+            }.collect {
+                _patchCommunityBoardResponse.value = Event.Success()
+            }
+        }.onFailure { error ->
+            _patchCommunityBoardResponse.value = error.errorHandling()
         }
     }
 }

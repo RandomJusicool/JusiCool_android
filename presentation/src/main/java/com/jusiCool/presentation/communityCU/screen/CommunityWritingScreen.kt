@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityWriting.screen
+package com.jusiCool.presentation.communityCU.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
@@ -36,19 +36,19 @@ import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.communityWriting.viewModel.CommunityWritingViewModel
+import com.jusiCool.presentation.communityCU.viewmodel.CommunityWritingViewModel
 
 const val communityWritingRoute = "communityWritingRoute"
 
 fun NavController.navigateToCommunityWriting(id: Long) {
-    this.navigate("${communityWritingRoute}/${id}")
+    this.navigate("$communityWritingRoute/${id}")
 }
 
 fun NavGraphBuilder.navigateToCommunityWriting(
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit
 ) {
-    composable("${communityWritingRoute}/{id}") { backStackEntry ->
+    composable("$communityWritingRoute/{id}") { backStackEntry ->
         val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
         if (id != null) {
             CommunityWritingRoute(

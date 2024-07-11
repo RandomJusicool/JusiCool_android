@@ -15,9 +15,9 @@ import com.jusiCool.presentation.communityDetail.screen.communityDetailRoute
 import com.jusiCool.presentation.communityDetail.screen.navigateToCommunityDetail
 import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityList.screen.navigateToCommunityList
-import com.jusiCool.presentation.communityModify.screen.communityModifyRoute
-import com.jusiCool.presentation.communityModify.screen.navigateToCommunityModify
-import com.jusiCool.presentation.communityWriting.screen.navigateToCommunityWriting
+import com.jusiCool.presentation.communityCU.screen.communityModifyRoute
+import com.jusiCool.presentation.communityCU.screen.navigateToCommunityModify
+import com.jusiCool.presentation.communityCU.screen.navigateToCommunityWriting
 import com.jusiCool.presentation.holdShare.screen.holdShareRoute
 import com.jusiCool.presentation.holdShare.screen.navigateToHoldShare
 import com.jusiCool.presentation.join.screen.joinRoute
