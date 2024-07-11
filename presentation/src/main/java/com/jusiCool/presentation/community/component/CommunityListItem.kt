@@ -85,7 +85,7 @@ internal fun CommunityListItem(
                     RectangleIcon(tint = colors.GRAY100)
                     Spacer(modifier = Modifier.padding(start = 4.dp))
                     Text(
-                        text = formatCommunityDate(data.createdAt),
+                        text = formatCommunityDate(data.created_at),
                         style = typography.label,
                         color = colors.GRAY400
                     )
@@ -104,7 +104,7 @@ internal fun CommunityListItem(
                         CommentIcon()
                         Spacer(modifier = Modifier.padding(start = 3.dp))
                         Text(
-                            text = data.commentNum.toString(),
+                            text = data.comment_num.toString(),
                             style = typography.label,
                             color = colors.GRAY400
                         )

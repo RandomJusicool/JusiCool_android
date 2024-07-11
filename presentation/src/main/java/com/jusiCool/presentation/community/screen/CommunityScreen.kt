@@ -36,8 +36,8 @@ import com.jusiCool.presentation.utill.Event
 
 const val communityRoute = "communityRoute"
 
-fun NavController.navigateToCommunity(id: Long) {
-    this.navigate("${communityRoute}/${id}")
+fun NavController.navigateToCommunity(id: Long, name: String) {
+    this.navigate("${communityRoute}/${id}/${name}")
 }
 
 fun NavGraphBuilder.communityRoute(
@@ -45,11 +45,13 @@ fun NavGraphBuilder.communityRoute(
     navigateToCommunityDetail: (Long, Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
-    composable("${communityRoute}/{id}") { backStackEntry ->
+    composable("${communityRoute}/{id}/{name}") { backStackEntry ->
         val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
+        val name = backStackEntry.arguments?.getString("name")?: ""
+        if(id != null) {
             CommunityRoute(
                 id = id,
+                name = name,
                 navigateToDetailCommunity = navigateToCommunityDetail,
                 navigateToCommunityWriting = navigateToCommunityWriting,
                 popUpBackStack = popUpBackStack,
@@ -65,11 +67,17 @@ internal fun CommunityRoute(
     communityViewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     id: Long,
     navigateToDetailCommunity: (Long, Long) -> Unit,
+    name: String,
+    navigateToDetailCommunity: (Long) -> Unit,
     navigateToCommunityWriting: (Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
+
+    LaunchedEffect(id) {
+        viewModel.getListBoard(id)
+    }
 
     CommunityScreen(
         modifier = modifier,
@@ -81,8 +89,7 @@ internal fun CommunityRoute(
         swipeRefreshState = swipeRefreshState,
         getCommunityListBoard = viewModel::getListBoard,
         id = id,
-        communityData = communityViewModel.communityData.value,
-        topBarNameData = viewModel.getTopBarNameData.value
+        name = name,
     )
 
     LaunchedEffect(Unit) {
@@ -129,11 +136,8 @@ internal fun CommunityScreen(
     swipeRefreshState: SwipeRefreshState,
     loadStuff: () -> Unit,
     popUpBackStack: () -> Unit,
-    ) {
-    LaunchedEffect(Unit) {
-        getCommunityListBoard(id)
-    }
-
+    )
+{
     JusiCoolAndroidTheme { colors, _ ->
         SwipeRefresh(
             state = swipeRefreshState,
@@ -154,7 +158,7 @@ internal fun CommunityScreen(
                                 modifier = Modifier.clickableSingle { popUpBackStack() }
                             )
                         },
-                        betweenText = topBarNameData.community_name
+                        betweenText = name
                     )
                     CommunityList(
                         data = boardData,
@@ -170,7 +174,7 @@ internal fun CommunityScreen(
                             bottom = 24.dp
                         ),
                     navigateToCommunityWriting = navigateToCommunityWriting,
-                    data = communityData
+                    data = id
                 )
             }
         }
