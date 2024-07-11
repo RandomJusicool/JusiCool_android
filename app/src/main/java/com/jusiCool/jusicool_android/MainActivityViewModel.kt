@@ -8,6 +8,7 @@ import com.jusiCool.data.utill.isDateExpired
 import com.jusiCool.domain.usecase.auth.PatchAuthTokenRefreshUseCase
 import com.jusiCool.presentation.login.screen.loginRoute
 import com.jusiCool.presentation.main.screen.mainRoute
+import com.jusiCool.presentation.utill.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -48,8 +49,8 @@ class MainActivityViewModel @Inject constructor(
                 _navigateRoute = mainRoute
 
             }
-        }.onFailure {
-            Log.d("onFailure",it.message.toString())
+        }.onFailure { error ->
+            Log.d("onFailure",error.message.toString())
         }
     }
 
