@@ -1,10 +1,13 @@
 package com.jusiCool.presentation.community.viewModel
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
+import com.jusiCool.domain.repository.CommunityRepository
 import com.jusiCool.domain.usecase.board.GetCommunityBoardListUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
@@ -19,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommunityViewModel @Inject constructor(
     private val getCommunityBoardListUseCase: GetCommunityBoardListUseCase,
+    private val repository: CommunityRepository
 ): ViewModel() {
     private val _swipeRefreshLoading = MutableStateFlow(false)
     val swipeRefreshLoading = _swipeRefreshLoading.asStateFlow()
@@ -26,8 +30,8 @@ class CommunityViewModel @Inject constructor(
     private val _getCommunityListBoardResponse = MutableStateFlow<Event<List<GetCommunityBoardListResponseModel>>>(Event.Loading)
     val getCommunityListBoardResponse = _getCommunityListBoardResponse.asStateFlow()
 
-    private lateinit var _getTopBarNameData : MutableState<GetCommunityBoardListResponseModel>
-    val getTopBarNameData: MutableState<GetCommunityBoardListResponseModel>
+    private val _getTopBarNameData = mutableStateOf<GetCommunityBoardListResponseModel?>(null)
+    val getTopBarNameData: State<GetCommunityBoardListResponseModel?>
         get() = _getTopBarNameData
 
     init {

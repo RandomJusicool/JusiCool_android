@@ -58,7 +58,7 @@ internal fun CommunityListRoute(
     CommunityListScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        navigateToCommunity = { navigateToCommunity(it) },
+        navigateToCommunity = navigateToCommunity,
         data = viewModel.communityList,
         loadStuff = viewModel::loadStuff,
         swipeRefreshState = swipeRefreshState,

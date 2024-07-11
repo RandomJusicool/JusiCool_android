@@ -151,3 +151,16 @@ fun SendIcon(
         tint = tint
     )
 }
+
+@Composable
+fun Union(
+    modifier: Modifier = Modifier,
+    tint: Color = Color.Unspecified
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.union),
+        contentDescription = null,
+        modifier = modifier.size(24.dp),
+        tint = tint
+    )
+}

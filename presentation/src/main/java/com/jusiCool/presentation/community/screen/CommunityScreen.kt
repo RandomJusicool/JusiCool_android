@@ -81,7 +81,7 @@ internal fun CommunityRoute(
         swipeRefreshState = swipeRefreshState,
         getCommunityListBoard = viewModel::getListBoard,
         id = id,
-        communityData = communityViewModel.communityData.value,
+        communityData = communityViewModel.communityData.value ?: emptyList(),
         topBarNameData = viewModel.getTopBarNameData.value
     )
 
@@ -124,12 +124,13 @@ internal fun CommunityScreen(
     navigateToDetailCommunity: (Long) -> Unit,
     id: Long,
     boardData: List<GetCommunityBoardListResponseModel>,
-    communityData: GetCommunityListResponseModel,
-    topBarNameData: GetCommunityBoardListResponseModel,
+    communityData: List<GetCommunityListResponseModel>,
+    topBarNameData: GetCommunityBoardListResponseModel?,
     swipeRefreshState: SwipeRefreshState,
     loadStuff: () -> Unit,
     popUpBackStack: () -> Unit,
-    ) {
+    )
+{
     LaunchedEffect(Unit) {
         getCommunityListBoard(id)
     }
@@ -154,7 +155,7 @@ internal fun CommunityScreen(
                                 modifier = Modifier.clickableSingle { popUpBackStack() }
                             )
                         },
-                        betweenText = topBarNameData.community_name
+                        betweenText = topBarNameData?.community_name ?: ""
                     )
                     CommunityList(
                         data = boardData,
@@ -188,11 +189,7 @@ private fun CommunityScreenPre() {
         swipeRefreshState = SwipeRefreshState(false),
         getCommunityListBoard = {  },
         id = 0,
-        communityData = GetCommunityListResponseModel(
-            id = 0,
-            board_num = 0,
-            name = ""
-        ),
+        communityData = listOf(),
         topBarNameData = GetCommunityBoardListResponseModel(
             id = 0,
             title = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
