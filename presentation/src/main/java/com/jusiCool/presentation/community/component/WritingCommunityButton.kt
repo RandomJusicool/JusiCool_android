@@ -18,7 +18,7 @@ import com.jusiCool.domain.model.community.response.GetCommunityListResponseMode
 fun WritingCommunityButton(
     modifier: Modifier = Modifier,
     navigateToCommunityWriting: (Long) -> Unit,
-    data: List<GetCommunityListResponseModel>
+    data: Long
 ) {
     JusiCoolAndroidTheme { colors, _ ->
         Box(
@@ -29,9 +29,7 @@ fun WritingCommunityButton(
                 )
                 .padding(all = 24.dp)
                 .clickableSingle {
-                    if (data.isNotEmpty()) {
-                        navigateToCommunityWriting(data.first().id)
-                    }
+                    navigateToCommunityWriting(data)
                 }
         ) {
             PencilIcon()
@@ -42,8 +40,8 @@ fun WritingCommunityButton(
 @Preview
 @Composable
 private fun pre() {
-    WritingCommunityButton(
-        navigateToCommunityWriting = {},
-        data = listOf()
-    )
+//    WritingCommunityButton(
+//        navigateToCommunityWriting = {},
+//        data = listOf()
+//    )
 }
