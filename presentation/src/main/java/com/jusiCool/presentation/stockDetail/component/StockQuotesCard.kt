@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,15 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 
-data class StockQuotesCardData(
-    val minString: String,
-    val maxString: String,
-    val min: Float,
-    val max: Float,
-)
-
 @Composable
-fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 데이터 받아오기
+fun StockQuotesCard(
+    modifier: Modifier = Modifier,
+    transactionVolume: Long,
+    transactionPrice: Long,
+) {
     Column(
         modifier = modifier
             .background(
@@ -42,7 +38,7 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            text = "시세",
+            text = "정보",
             style = JDSTypography.subTitle,
             color = JDSColor.Black
         )
@@ -53,22 +49,6 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
             ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            PriceBoundsChart(
-                stockQuotesCardData = StockQuotesCardData(
-                    min = 596772f,
-                    max = 600449f,
-                    minString = "1일 최저가 596,772 P",
-                    maxString = "1일 최고가 600,449 P",
-                )
-            )
-            PriceBoundsChart(
-                stockQuotesCardData = StockQuotesCardData(
-                    maxString = "1년 최고가 420,236 P",
-                    min = 420236f,
-                    minString = "1년 최저가 596,772 P",
-                    max = 597240f,
-                )
-            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -79,175 +59,40 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
                 ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Column(
+                Row(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.Start,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = "시작가",
-                            style = JDSTypography.bodyMedium,
-                            color = JDSColor.Black
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = "596,772P",
-                            style = JDSTypography.label,
-                            color = JDSColor.GRAY600,
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = "종가",
-                            style = JDSTypography.bodyMedium,
-                            color = JDSColor.Black
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = "596,772P",
-                            style = JDSTypography.label,
-                            color = JDSColor.GRAY600,
-                        )
-                    }
+                    Text(
+                        text = "거래량",
+                        style = JDSTypography.bodyMedium,
+                        color = JDSColor.Black
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = "${transactionVolume}p",
+                        style = JDSTypography.label,
+                        color = JDSColor.GRAY600,
+                    )
                 }
-                Spacer(
-                    modifier = Modifier
-                        .width(1.dp)
-                        .height(70.dp)
-                        .background(
-                            color = JDSColor.GRAY100,
-                            shape = RoundedCornerShape(size = 5.dp)
-                        )
-                )
-                Column(
+                Row(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.Start,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = "거래량",
-                            style = JDSTypography.bodyMedium,
-                            color = JDSColor.Black
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = "596,772P",
-                            style = JDSTypography.label,
-                            color = JDSColor.GRAY600,
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = "거래대금",
-                            style = JDSTypography.bodyMedium,
-                            color = JDSColor.Black
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = "596,772P",
-                            style = JDSTypography.label,
-                            color = JDSColor.GRAY600,
-                        )
-                    }
+                    Text(
+                        text = "거래대금",
+                        style = JDSTypography.bodyMedium,
+                        color = JDSColor.Black
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = "${transactionPrice}p",
+                        style = JDSTypography.label,
+                        color = JDSColor.GRAY600,
+                    )
                 }
-
-            }
-        }
-    }
-}
-
-@Composable
-fun PriceBoundsChart(
-    modifier: Modifier = Modifier,
-    stockQuotesCardData: StockQuotesCardData,
-) {
-    Row(modifier = modifier.fillMaxWidth()) {
-        Spacer(
-            modifier = Modifier
-                .width(1.dp)
-                .height(70.dp)
-                .background(color = JDSColor.MAIN),
-        )
-        Column(
-            modifier = Modifier
-                .padding(vertical = 12.dp)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    4.dp,
-                    Alignment.Start
-                ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth(
-                            0.6f.times(
-                                stockQuotesCardData.min
-                                    .minus(stockQuotesCardData.min / 3)
-                                        / stockQuotesCardData.max
-                                    .minus(stockQuotesCardData.max / 3)
-                            )
-                        )
-                        .height(20.dp)
-                        .background(
-                            JDSColor.MAIN200,
-                            shape = RoundedCornerShape(
-                                topEnd = 10.dp,
-                                bottomEnd = 10.dp
-                            )
-                        )
-                )
-                Text(
-                    text = stockQuotesCardData.minString,
-                    style = JDSTypography.label,
-                    color = JDSColor.GRAY400
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    4.dp,
-                    Alignment.Start
-                ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth(0.6f)
-                        .height(20.dp)
-                        .background(
-                            JDSColor.MAIN,
-                            shape = RoundedCornerShape(
-                                topEnd = 10.dp,
-                                bottomEnd = 10.dp
-                            )
-                        )
-                )
-                Text(
-                    text = stockQuotesCardData.maxString,
-                    style = JDSTypography.label,
-                    color = JDSColor.GRAY600
-                )
             }
         }
     }
@@ -256,18 +101,8 @@ fun PriceBoundsChart(
 @Preview
 @Composable
 fun StockQuotesCardPreview() {
-    StockQuotesCard()
-}
-
-@Preview
-@Composable
-fun PriceBoundsChartPreview() {
-    PriceBoundsChart(
-        stockQuotesCardData = StockQuotesCardData(
-            min = 596772f,
-            max = 600449f,
-            minString = "1일 최저가 596,772 P",
-            maxString = "1일 최고가 600,449 P",
-        )
+    StockQuotesCard(
+        transactionVolume = 3000000, // 예시: 총 거래량 3,000,000주
+        transactionPrice = 183000000000, // 예시: 총 거래 금액 1830억원
     )
 }
