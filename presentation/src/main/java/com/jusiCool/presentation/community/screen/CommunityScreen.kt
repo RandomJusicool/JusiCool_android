@@ -95,6 +95,7 @@ internal fun CommunityRoute(
         getCommunityListBoard(
             viewModel = viewModel,
             onSuccess = {
+                viewModel.communityListBoard.removeRange(0, viewModel.communityListBoard.size)
                 viewModel.communityListBoard.addAll(it)
             },
             onFailure = {
