@@ -63,7 +63,7 @@ fun StockQuotesCard(modifier: Modifier = Modifier) { // TODO: viewModel에서 �
             )
             PriceBoundsChart(
                 stockQuotesCardData = StockQuotesCardData(
-                    maxString = "1년 최고가 600,449 P",
+                    maxString = "1년 최고가 420,236 P",
                     min = 420236f,
                     minString = "1년 최저가 596,772 P",
                     max = 597240f,
