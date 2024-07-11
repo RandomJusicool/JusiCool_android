@@ -1,23 +1,18 @@
 package com.jusiCool.presentation.communityList.viewModel
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
-import com.jusiCool.domain.repository.CommunityRepository
 import com.jusiCool.domain.usecase.community.GetCommunityListUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,10 +25,6 @@ class CommunityListViewModel @Inject constructor(
 
     private val _getCommunityListResponse = MutableStateFlow<Event<List<GetCommunityListResponseModel>>>(Event.Loading)
     val getCommunityListResponse = _getCommunityListResponse.asStateFlow()
-
-    private val _communityData = mutableStateOf<List<GetCommunityListResponseModel>?>(null)
-    val communityData: State<List<GetCommunityListResponseModel>?>
-        get() = _communityData
 
     init {
         loadStuff()
