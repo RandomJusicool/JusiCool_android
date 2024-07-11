@@ -12,7 +12,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface StockAPI {
-    @GET("/api/v1/stock")
+    @GET("/api/v1/stock/{stock_id}")
     suspend fun getStockDetail(
         @Path("stock_id") stockId: Long,
     ) : GetStockDetailResponse
@@ -20,24 +20,24 @@ interface StockAPI {
     @GET("/api/v1/stock")
     suspend fun getStockList() : GetStockListResponse
 
-    @POST("/api/v1/stock")
+    @POST("/api/v1/stock/{stock_id}")
     suspend fun buyStock(
         @Path("stock_id") stockId: Long,
         @Body body: StockRequest
     )
-    @POST("/api/v1/stock/sell")
+    @POST("/api/v1/stock/sell/{stock_id}")
     suspend fun sellStockReserve(
         @Path("stock_id") stockId: Long,
         @Body body: BuyStockRequest
     )
 
-    @POST("/api/v1/stock/buy")
+    @POST("/api/v1/stock/buy/{stock_id}")
     suspend fun buyStockReserve(
         @Path("stock_id") stockId: Long,
         @Body body: BuyStockRequest
     )
 
-    @DELETE("/api/v1/stock")
+    @DELETE("/api/v1/stock/{stock_id}")
     suspend fun deleteStock(
         @Path("stock_id") stockId: Long
     )
