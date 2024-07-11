@@ -22,17 +22,12 @@ import javax.inject.Inject
 @HiltViewModel
 class CommunityViewModel @Inject constructor(
     private val getCommunityBoardListUseCase: GetCommunityBoardListUseCase,
-    private val repository: CommunityRepository
 ): ViewModel() {
     private val _swipeRefreshLoading = MutableStateFlow(false)
     val swipeRefreshLoading = _swipeRefreshLoading.asStateFlow()
 
     private val _getCommunityListBoardResponse = MutableStateFlow<Event<List<GetCommunityBoardListResponseModel>>>(Event.Loading)
     val getCommunityListBoardResponse = _getCommunityListBoardResponse.asStateFlow()
-
-    private val _getTopBarNameData = mutableStateOf<GetCommunityBoardListResponseModel?>(null)
-    val getTopBarNameData: State<GetCommunityBoardListResponseModel?>
-        get() = _getTopBarNameData
 
     init {
         loadStuff()
