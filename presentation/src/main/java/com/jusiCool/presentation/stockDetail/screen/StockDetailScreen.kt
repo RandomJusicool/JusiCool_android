@@ -20,6 +20,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -38,11 +42,14 @@ import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.stock.response.GetStockDetailResponseModel
 import com.jusiCool.presentation.stockDetail.component.CommunityCard
 import com.jusiCool.presentation.stockDetail.component.StockGraphCard
 import com.jusiCool.presentation.stockDetail.component.StockPreviewCard
 import com.jusiCool.presentation.stockDetail.component.StockQuotesCard
 import com.jusiCool.presentation.stockDetail.component.TimeSegment
+import com.jusiCool.presentation.stockDetail.viewModel.StockDetailViewModel
+import com.jusiCool.presentation.utill.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -86,17 +93,27 @@ fun StockDetailRoute(
     navigateToStockSell: () -> Unit,
     navigateToCommunityList: () -> Unit,
 ) {
-    val stockDetail by stockDetailViewModel.stockDetail.collectAsStateWithLifecycle()
+    val stockDetailData by stockDetailViewModel.stockDetailData.collectAsStateWithLifecycle()
 
     StockDetailScreen(
         modifier = modifier,
+        stockDetailData = if (stockDetailData is Event.Success) stockDetailData.data!!
+        else GetStockDetailResponseModel(
+            name = "",
+            code = 0,
+            upDownPrice = 0,
+            upDownPercent = 0.0,
+            presentPrice = 0,
+            transactionVolume = 0,
+            transactionPrice = 0,
+        ),
         popUpBackStack = popUpBackStack,
         navigateToStockBuying = navigateToStockBuying,
         navigateToStockSell = navigateToStockSell,
         navigateToCommunityList = navigateToCommunityList,
     )
     LaunchedEffect(Unit) {
-        stockDetailViewModel.getStockDetail(id = id)
+        stockDetailViewModel.getStockDetail(stockId = 1L)
     }
 }
 
@@ -106,6 +123,7 @@ fun StockDetailRoute(
 @Composable
 fun StockDetailScreen(
     modifier: Modifier = Modifier,
+    stockDetailData: GetStockDetailResponseModel,
     popUpBackStack: () -> Unit,
     scrollState: ScrollState = rememberScrollState(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
@@ -117,7 +135,9 @@ fun StockDetailScreen(
         ModalBottomSheetValue.Hidden,
         skipHalfExpanded = true
     )
-    val (whichTimeSegmentSelected, setWhichTimeSegmentSelected) = remember { mutableStateOf(TimeSegment.ONE_MINUTE) }
+    val (whichTimeSegmentSelected, setWhichTimeSegmentSelected) = remember {
+        mutableStateOf(TimeSegment.ONE_MINUTE)
+    }
     val (isSellBottomSheet, setIsSellBottomSheet) = remember { mutableStateOf(false) }
 
     ModalBottomSheetLayout(
@@ -141,12 +161,12 @@ fun StockDetailScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "마이크로소프트",
+                        text = stockDetailData.name,
                         style = JDSTypography.subTitle,
                         color = JDSColor.Black
                     )
                     Text(
-                        text = "현재가 1주 50,000",
+                        text = "현재가 1주 ${stockDetailData.presentPrice}",
                         style = JDSTypography.bodySmall,
                         color = JDSColor.GRAY400
                     )
@@ -208,8 +228,8 @@ fun StockDetailScreen(
                             popUpBackStack()
                         })
                     },
-                    betweenText = "회사이름"
-                ) // TODO: viewModel에서 데이터 받아오기
+                    betweenText = stockDetailData.name
+                )
             },
             bottomBar = {
                 Row(
@@ -254,9 +274,9 @@ fun StockDetailScreen(
                     .padding(horizontal = 24.dp)
             ) {
                 StockPreviewCard(
-                    currentStock = "218,951",
-                    stockDiff = "-1,900P (0.8%)"
-                ) // TODO: viewModel에서 데이터 받아오기
+                    currentStock = stockDetailData.presentPrice.toString(),
+                    stockDiff = "어제보다 ${stockDetailData.upDownPrice} (${stockDetailData.upDownPercent}%)"
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 StockGraphCard(
                     whichTimeSegmentSelected = whichTimeSegmentSelected,
@@ -266,7 +286,10 @@ fun StockDetailScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 CommunityCard(navigateToCommunity = navigateToCommunityList)
                 Spacer(modifier = Modifier.height(6.dp))
-                StockQuotesCard() // TODO: viewModel에서 데이터 받아오기
+                StockQuotesCard(
+                    transactionVolume = stockDetailData.transactionVolume,
+                    transactionPrice = stockDetailData.transactionPrice,
+                )
             }
         }
     }
@@ -275,10 +298,20 @@ fun StockDetailScreen(
 @Preview
 @Composable
 fun StockDetailScreenPreView() {
-    StockDetailRoute(
+    StockDetailScreen(
         popUpBackStack = {},
         navigateToStockBuying = {},
         navigateToStockSell = {},
         navigateToCommunityList = {},
+        stockDetailData = GetStockDetailResponseModel(
+            name = "삼성전자",
+            code = 5930,
+            upDownPrice = -1500, // 예시: -1500원 하락
+            upDownPercent = -2.35, // 예시: -2.35% 하락
+            presentPrice = 61000, // 예시: 현재 거래 가격 61,000원
+            transactionVolume = 3000000, // 예시: 총 거래량 3,000,000주
+            transactionPrice = 183000000000, // 예시: 총 거래 금액 1830억원
+        )
+
     )
 }
