@@ -11,6 +11,7 @@ import com.jusiCool.presentation.utill.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,27 +21,55 @@ class JoinViewModel @Inject constructor(
     private val getEmailVerifyUseCase: GetEmailVerifyUseCase,
     private val postAuthSignUpUseCase: PostAuthSignUpUseCase,
 ) : ViewModel() {
-    private val _emailVerifyState = MutableStateFlow<Event<Unit>>(Event.Loading)
-    val emailVerifyState = _emailVerifyState.asStateFlow()
-
     private val _emailSendState = MutableStateFlow<Event<Unit>>(Event.Loading)
     val emailSendState = _emailSendState.asStateFlow()
 
-    private val _signUpState = MutableStateFlow<Event<Unit>>(Event.Loading)
-    val signUpState = _signUpState.asStateFlow()
+    private val _emailCheckProcess = MutableStateFlow(value = 0)
+    val emailCheckProcess = _emailCheckProcess.asStateFlow()
 
     fun postEmail(postEmailModel: PostEmailRequestModel) = viewModelScope.launch {
         postEmailUseCase(postEmailModel)
-            .onSuccess { _emailSendState.value = Event.Success() }
+            .onSuccess {
+                it.catch {
+
+                    _emailCheckProcess.value = 1
+                    _emailSendState.value = Event.Success()
+
+                }.collect {
+                    _emailCheckProcess.value = 1
+                    _emailSendState.value = Event.Success()
+                }
+            }
     }
 
-    fun getVerifyEmail(email: String, authCode: String) = viewModelScope.launch {
-        getEmailVerifyUseCase(email = email, authCode = authCode)
-            .onSuccess { _emailVerifyState.value = Event.Success() }
-    }
+    fun getVerifyEmail(
+        email: String,
+        authCode: String,
+        onSuccess: () -> Unit
+    ) =
+        viewModelScope.launch {
+            getEmailVerifyUseCase(email = email, authCode = authCode)
+                .onSuccess {
+                    it.catch {
+                        _emailCheckProcess.value = 2
+                    }.collect {
+                        onSuccess()
+                        _emailCheckProcess.value = 2
+                    }
+                }
+        }
 
-    fun postSignUp(postAuthSignUpModel: PostAuthSignUpRequestModel) = viewModelScope.launch {
+    fun postSignUp(
+        postAuthSignUpModel: PostAuthSignUpRequestModel,
+        onSuccess: () -> Unit
+    ) = viewModelScope.launch {
         postAuthSignUpUseCase(postAuthSignUpModel)
-            .onSuccess { _signUpState.value = Event.Success() }
+            .onSuccess {
+                it.catch {
+
+                }.collect {
+                    onSuccess()
+                }
+            }
     }
 }
