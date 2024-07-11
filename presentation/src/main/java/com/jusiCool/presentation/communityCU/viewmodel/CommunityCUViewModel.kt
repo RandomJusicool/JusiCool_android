@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CommunityWritingViewModel @Inject constructor(
+class CommunityCUViewModel @Inject constructor(
     private val postWritingCommunityUseCase: PostWritingCommunityUseCase,
     private val patchCommunityBoardUseCase: PatchCommunityBoardUseCase
 ) : ViewModel() {
