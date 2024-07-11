@@ -49,8 +49,8 @@ import kotlinx.coroutines.launch
 const val stockDetail = "stockDetail"
 
 // 화면이동을 구현하는 NavController확장함수
-fun NavController.navigateToStockDetail() {
-    this.navigate(stockDetail)
+fun NavController.navigateToStockDetail(id: Long) {
+    this.navigate("${stockDetail}/${id}")
 }
 
 // navHost에 화면을 등록할 수 있게 하는 확장 함수
@@ -60,13 +60,17 @@ fun NavGraphBuilder.stockDetailRoute(
     navigateToStockSell: () -> Unit,
     navigateToCommunityList: () -> Unit,
 ) {
-    composable(stockDetail) {
-        StockDetailRoute(
-            popUpBackStack = popUpBackStack,
-            navigateToStockBuying = navigateToStockBuying,
-            navigateToStockSell = navigateToStockSell,
-            navigateToCommunityList = navigateToCommunityList,
-        )
+    composable("$stockDetail/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        if (id != null) {
+            StockDetailRoute(
+                id = id,
+                popUpBackStack = popUpBackStack,
+                navigateToStockBuying = navigateToStockBuying,
+                navigateToStockSell = navigateToStockSell,
+                navigateToCommunityList = navigateToCommunityList,
+            )
+        }
     }
 }
 
@@ -75,11 +79,15 @@ fun NavGraphBuilder.stockDetailRoute(
 @Composable
 fun StockDetailRoute(
     modifier: Modifier = Modifier,
+    stockDetailViewModel: StockDetailViewModel = hiltViewModel(),
+    id: Long,
     popUpBackStack: () -> Unit,
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
     navigateToCommunityList: () -> Unit,
 ) {
+    val stockDetail by stockDetailViewModel.stockDetail.collectAsStateWithLifecycle()
+
     StockDetailScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
@@ -87,6 +95,9 @@ fun StockDetailRoute(
         navigateToStockSell = navigateToStockSell,
         navigateToCommunityList = navigateToCommunityList,
     )
+    LaunchedEffect(Unit) {
+        stockDetailViewModel.getStockDetail(id = id)
+    }
 }
 
 // Screen

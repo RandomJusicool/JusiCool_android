@@ -32,7 +32,7 @@ fun NavController.navigateToHoldShare() {
 }
 
 fun NavGraphBuilder.holdShareRoute(
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     popUpBackStack: () -> Unit
 ) {
     composable(route = holdShareRoute) {
@@ -46,7 +46,7 @@ fun NavGraphBuilder.holdShareRoute(
 @Composable
 internal fun HoldShareRoute(
     modifier: Modifier = Modifier,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     popUpBackStack: () -> Unit
 ) {
     HoldShareScreen(
@@ -61,7 +61,7 @@ internal fun HoldShareRoute(
 internal fun HoldShareScreen(
     modifier: Modifier = Modifier,
     myStocksData: ImmutableList<MyStocksData>,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     Column(

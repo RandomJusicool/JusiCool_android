@@ -35,7 +35,7 @@ fun NavController.navigateToCheckEntireStockList() {
 fun NavGraphBuilder.checkEntireStockListRoute(
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
 ) {
     composable(checkEntireStockListRoute) {
         CheckEntireStockListRoute(
@@ -51,7 +51,7 @@ fun CheckEntireStockListRoute(
     modifier: Modifier = Modifier,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
 ) {
     CheckEntireStockListScreen(
         modifier = modifier,
@@ -64,18 +64,18 @@ fun CheckEntireStockListRoute(
 
 
 val tempEntireStocksData = persistentListOf(
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, -8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 0, 7.9f),
-    EntireStocksData("마이크로소프트", 1, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData("마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, -8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 0, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
 )
 
 @Composable
@@ -84,7 +84,7 @@ fun CheckEntireStockListScreen(
     entireStocksData: ImmutableList<EntireStocksData>,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -111,7 +111,7 @@ fun CheckEntireStockListScreen(
         ) {
             items(entireStocksData) { item ->
                 EntireStocksItem(
-                    modifier = Modifier.clickableSingle { navigateToStockDetail() },
+                    modifier = Modifier.clickableSingle { navigateToStockDetail(item.id) },
                     entireStocksData = item
                 )
             }

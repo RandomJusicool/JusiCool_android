@@ -44,7 +44,7 @@ fun NavController.navigationToStockReservationBuying() {
 }
 
 fun NavGraphBuilder.stockReservationBuyingRoute(
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     composable(stockReservationBuyingRoute) {
@@ -58,7 +58,7 @@ fun NavGraphBuilder.stockReservationBuyingRoute(
 @Composable
 internal fun StockReservationBuyingRoute(
     modifier: Modifier = Modifier,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockReservationBuyingScreen(
@@ -75,7 +75,7 @@ internal fun StockReservationBuyingScreen(
     modifier: Modifier = Modifier,
     myAccountData: MyAccountData,
     entireStocksData: EntireStocksData,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockReservationTextState, setStockReservationTextState) = remember { mutableStateOf("") }
@@ -92,7 +92,7 @@ internal fun StockReservationBuyingScreen(
             startIcon = {
                 LeftArrowIcon(modifier = Modifier.clickableSingle {
                     if (pager == 2) setPager(1)
-                    else navigateToStockDetail()
+                    else navigateToStockDetail(id)
                 })
             },
             betweenText = "주식 구매"
@@ -194,6 +194,7 @@ fun StockReservationBuyingScreenPreview() {
         myAccountData = tempMyAccountData,
         entireStocksData = EntireStocksData("마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
-        navigateToOrderHistory = {}
+        navigateToOrderHistory = {},
+        id = 1L
     )
 }

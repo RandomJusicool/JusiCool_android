@@ -42,7 +42,7 @@ fun NavController.navigationToStockSelling() {
 }
 
 fun NavGraphBuilder.stockSellingRoute(
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     composable(stockSellingRoute) {
@@ -56,7 +56,7 @@ fun NavGraphBuilder.stockSellingRoute(
 @Composable
 internal fun StockSellingRoute(
     modifier: Modifier = Modifier,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockSellingScreen(
@@ -73,7 +73,7 @@ internal fun StockSellingScreen(
     modifier: Modifier = Modifier,
     myStocksData: MyStocksData,
     entireStocksData: EntireStocksData,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }

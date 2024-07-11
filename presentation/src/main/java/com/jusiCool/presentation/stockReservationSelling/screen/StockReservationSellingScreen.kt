@@ -43,7 +43,7 @@ fun NavController.navigationToStockReservationBuying() {
 }
 
 fun NavGraphBuilder.stockReservationSellingRoute(
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     composable(stockReservationSellingRoute) {
@@ -57,7 +57,7 @@ fun NavGraphBuilder.stockReservationSellingRoute(
 @Composable
 internal fun StockReservationSellingRoute(
     modifier: Modifier = Modifier,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockReservationSellingScreen(
@@ -74,7 +74,7 @@ internal fun StockReservationSellingScreen(
     modifier: Modifier = Modifier,
     myStocksData: MyStocksData,
     entireStocksData: EntireStocksData,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockReservationTextState, setStockReservationTextState) = remember { mutableStateOf("") }

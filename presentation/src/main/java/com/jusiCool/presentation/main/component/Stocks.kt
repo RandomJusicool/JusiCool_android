@@ -29,13 +29,13 @@ data class MyStocksData(
 fun Stocks(
     modifier: Modifier = Modifier,
     myStocksData: MyStocksData,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .background(color = JDSColor.WHITE)
-            .clickableSingle { navigateToStockDetail() },
+            .clickableSingle { navigateToStockDetail(myStocksData.id) },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -84,7 +84,8 @@ fun StocksPreview() {
                 share = 1231,
                 myStockPrice = 11131,
                 myStockRevenue = 8160,
-                myStockRevenuePercent = 7.9f
+                myStockRevenuePercent = 7.9f,
+                id = 0
             ),
             navigateToStockDetail = { /*TODO*/ }
         )
@@ -96,7 +97,8 @@ fun StocksPreview() {
                 share = 1231,
                 myStockPrice = 11131,
                 myStockRevenue = -8160,
-                myStockRevenuePercent = 7.9f
+                myStockRevenuePercent = 7.9f,
+                id = 0
             ),
             navigateToStockDetail = { /*TODO*/ }
         )
@@ -108,7 +110,8 @@ fun StocksPreview() {
                 share = 1231,
                 myStockPrice = 11131,
                 myStockRevenue = 0,
-                myStockRevenuePercent = 0.0f
+                myStockRevenuePercent = 0.0f,
+                id = 0
             ),
             navigateToStockDetail = { /*TODO*/ }
         )

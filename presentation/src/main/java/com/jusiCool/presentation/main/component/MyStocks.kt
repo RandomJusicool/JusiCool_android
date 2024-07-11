@@ -32,7 +32,7 @@ fun MyStocks(
     myStocksData: ImmutableList<MyStocksData>,
     myAccountData: MyAccountData,
     navigateToHoldShareRoute: () -> Unit,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val visibleItems = myStocksData.size
