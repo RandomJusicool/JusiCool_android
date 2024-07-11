@@ -1,5 +1,6 @@
 package com.jusiCool.presentation.communityCU.screen
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
@@ -11,15 +12,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -32,55 +36,83 @@ import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.presentation.community.component.CommunityListItemTemData
+import com.jusiCool.presentation.community.viewModel.CommunityViewModel
 import com.jusiCool.presentation.communityCU.component.CommunityModifierDialog
+import com.jusiCool.presentation.communityCU.viewmodel.CommunityWritingViewModel
 
 const val communityModifyRoute = "communityModifyRoute"
 
-fun NavController.navigateToCommunityModify() {
-    this.navigate(communityModifyRoute)
+fun NavController.navigateToCommunityModify(boardId: Long) {
+    this.navigate("${communityModifyRoute}/${boardId}")
 }
 
-fun NavGraphBuilder.communityModifyRoute(popUpBackStack: () -> Unit) {
-    composable(communityModifyRoute) {
-        CommunityModifyRoute(popUpBackStack = popUpBackStack)
+fun NavGraphBuilder.communityModifyRoute(
+    popUpBackStack: () -> Unit,
+    navigateToCommunityDetail: () -> Unit
+) {
+    composable("${communityModifyRoute}/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        if (id != null) {
+            CommunityModifyRoute(
+                id = id,
+                navigateToCommunityDetail = navigateToCommunityDetail,
+                popUpBackStack = popUpBackStack
+            )
+        }
     }
 }
 
 @Composable
 internal fun CommunityModifyRoute(
     modifier: Modifier = Modifier,
+    viewModel: CommunityWritingViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    id: Long,
     popUpBackStack: () -> Unit,
+    navigateToCommunityDetail: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
     CommunityModifyScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
+        navigateToCommunityDetail = { title, content ->
+            viewModel.patchCommunityBoard(
+                boardId = id,
+                title = title,
+                content = content
+            )
+            viewModel.title.value = ""
+            viewModel.content.value = ""
+            navigateToCommunityDetail()
+        },
+        title = viewModel.title.value,
+        content = viewModel.content.value,
+        id = id,
         focusManager = focusManager,
-        initialData = CommunityListItemTemData(
-            title = "커뮤니티는공통의관심사목표가치혹은지리적커뮤니",
-            content = "커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인커뮤니티는공통의관심사목표가치혹은지리적위치를공유하는사람들로이루어진집단입니다이러한집단은개인",
-            name = "이명훈",
-            started_date = "06.20",
-            started_time = "17:06",
-            heart_count = 12,
-            comment_count = 13
-        )
     )
 }
 
 @Composable
 internal fun CommunityModifyScreen(
     modifier: Modifier = Modifier,
+    id: Long,
+    navigateToCommunityDetail: (content: String, title: String) -> Unit,
     popUpBackStack: () -> Unit,
     focusManager: FocusManager,
-    initialData: CommunityListItemTemData
+    title: String,
+    content: String,
 ) {
+    val (titleTextState, setTitleText) = remember { mutableStateOf(title) }
+    val (contentTextState, setContentText) = remember { mutableStateOf(content) }
+    val (writingModifierDialogIsVisible, setWritingModifierDialogIsVisible) = remember { mutableStateOf(false) }
+
+    LaunchedEffect(id) {
+        setTitleText(title)
+        setContentText(content)
+    }
+
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         JusiCoolAndroidTheme { colors, typography ->
-            val (titleTextState, setTitleText) = remember { mutableStateOf(initialData.title) }
-            val (contentTextState, setContentText) = remember { mutableStateOf(initialData.content) }
-            val (writingModifierDialogIsVisible, setWritingModifierDialogIsVisible) = remember { mutableStateOf(false) }
 
             Surface(modifier = modifier) {
                 Column(
@@ -143,13 +175,14 @@ internal fun CommunityModifyScreen(
                                 .fillMaxWidth()
                                 .height(54.dp),
                             text = "수정하기",
-                            onClick = popUpBackStack,
                             state = if (
                                 titleTextState.isNotEmpty()
                                 && contentTextState.isNotEmpty()
                             ) ButtonState.Enable
                             else ButtonState.Disable
-                        )
+                        ) {
+                            navigateToCommunityDetail(titleTextState, contentTextState)
+                        }
                     }
                 }
             }
@@ -160,5 +193,9 @@ internal fun CommunityModifyScreen(
 @Preview
 @Composable
 private fun CommunityModifierPre() {
-    CommunityModifyRoute(popUpBackStack = { /*TODO*/ })
+    CommunityModifyRoute(
+        id = 0,
+        navigateToCommunityDetail = { /*TODO*/ },
+        popUpBackStack = { /*TODO*/ }
+    )
 }
