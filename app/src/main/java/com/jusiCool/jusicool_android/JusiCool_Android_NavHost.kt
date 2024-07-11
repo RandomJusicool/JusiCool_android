@@ -153,7 +153,10 @@ fun JusiCool_Android_NavHost(
             popUpBackStack = navController::popBackStack
         )
 
-        communityModifyRoute(popUpBackStack = navController::popBackStack)
+        communityModifyRoute(
+            popUpBackStack = navController::popBackStack,
+            navigateToCommunityDetail = navController::navigateToCommunityDetail
+        )
 
     }
 }
