@@ -11,9 +11,9 @@ data class GetCommunityBoardListResponse(
     @Json(name = "name") val name: String,
     @Json(name = "title") val title: String,
     @Json(name = "content") val content: String,
-    @Json(name = "createdAt") val createdAt: String,
+    @Json(name = "created_at") val created_at: String,
     @Json(name = "likes") val likes: Int,
-    @Json(name = "commentNum") val commentNum: Int,
+    @Json(name = "comment_num") val comment_num: Int,
 )
 
 fun GetCommunityBoardListResponse.toModel() = GetCommunityBoardListResponseModel(
@@ -22,7 +22,7 @@ fun GetCommunityBoardListResponse.toModel() = GetCommunityBoardListResponseModel
     name = name,
     title = title,
     content = content,
-    createdAt = createdAt,
+    created_at = created_at,
     likes = likes,
-    commentNum = commentNum
+    comment_num  = comment_num
 )

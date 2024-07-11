@@ -6,7 +6,7 @@ data class GetCommunityBoardListResponseModel(
     val name: String,
     val title: String,
     val content: String,
-    val createdAt: String,
+    val created_at: String,
     val likes: Int,
-    val commentNum: Int,
+    val comment_num: Int,
 )
