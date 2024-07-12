@@ -35,7 +35,7 @@ fun NavController.navigateToCommunityList() {
 
 fun NavGraphBuilder.communityListRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunity: (Long) -> Unit,
+    navigateToCommunity: (Long, String) -> Unit,
 ) {
     composable(communityListRoute) {
         CommunityListRoute(
@@ -50,7 +50,7 @@ internal fun CommunityListRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     popUpBackStack: () -> Unit,
-    navigateToCommunity: (Long) -> Unit,
+    navigateToCommunity: (Long, String) -> Unit,
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
@@ -58,12 +58,15 @@ internal fun CommunityListRoute(
     CommunityListScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        navigateToCommunity = { navigateToCommunity(it) },
+        navigateToCommunity = navigateToCommunity,
         data = viewModel.communityList,
         loadStuff = viewModel::loadStuff,
         swipeRefreshState = swipeRefreshState,
         getCommunityList = viewModel::getCommunityList
     )
+    LaunchedEffect(Unit) {
+        viewModel.getCommunityList()
+    }
 
     LaunchedEffect(Unit) {
         getCommunityList(
@@ -100,7 +103,7 @@ private suspend fun getCommunityList(
 internal fun CommunityListScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunity: (Long) -> Unit,
+    navigateToCommunity: (Long, String) -> Unit,
     data: List<GetCommunityListResponseModel>,
     loadStuff: () -> Unit,
     swipeRefreshState: SwipeRefreshState,
@@ -141,11 +144,11 @@ internal fun CommunityListScreen(
 @Preview
 @Composable
 private fun CommunityMainScreenPre() {
-    CommunityListScreen(
-        popUpBackStack = {  },
-        navigateToCommunity = {  },
-        data = listOf(),
-        loadStuff = {  },
-        swipeRefreshState = SwipeRefreshState(isRefreshing = false)
-    ){}
+//    CommunityListScreen(
+//        popUpBackStack = {  },
+//        navigateToCommunity = {  },
+//        data = listOf(),
+//        loadStuff = {  },
+//        swipeRefreshState = SwipeRefreshState(isRefreshing = false)
+//    ){}
 }

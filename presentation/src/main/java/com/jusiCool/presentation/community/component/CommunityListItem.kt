@@ -84,7 +84,7 @@ internal fun CommunityListItem(
                     RectangleIcon(tint = colors.GRAY100)
                     Spacer(modifier = Modifier.padding(start = 4.dp))
                     Text(
-                        text = formatCommunityDate(data.createdAt),
+                        text = formatCommunityDate(data.created_at),
                         style = typography.label,
                         color = colors.GRAY400
                     )
@@ -103,7 +103,7 @@ internal fun CommunityListItem(
                         CommentIcon()
                         Spacer(modifier = Modifier.padding(start = 3.dp))
                         Text(
-                            text = data.commentNum.toString(),
+                            text = data.comment_num.toString(),
                             style = typography.label,
                             color = colors.GRAY400
                         )
@@ -122,8 +122,8 @@ private fun CommunityListItemPre() {
         title = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
         content = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니커뮤니티티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
         likes = 12,
-        commentNum = 12,
-        createdAt = "12.12 12:20",
+        comment_num = 12,
+        created_at = "12.12 12:20",
         name = "뀨뀨뀨",
         community_name = "자바보단 코틀린"
     )) {

@@ -8,6 +8,7 @@ import com.jusiCool.data.utill.isDateExpired
 import com.jusiCool.domain.usecase.auth.PatchAuthTokenRefreshUseCase
 import com.jusiCool.presentation.login.screen.loginRoute
 import com.jusiCool.presentation.main.screen.mainRoute
+import com.jusiCool.presentation.utill.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -29,8 +30,30 @@ class MainActivityViewModel @Inject constructor(
 
     init {
         checkExpireTime()
-        Log.d("_refreshToken", _refreshToken)
-        Log.d("_refreshTokenTime", _refreshTokenTime)
+    }
+
+
+    private fun login() = viewModelScope.launch {
+        patchAuthTokenRefreshUseCase("Bearer $_refreshToken").onSuccess { result ->
+            result.collect { newToken ->
+                encryptedSharedPreferencesDataSource.apply {
+                    setAccessToken(newToken.accessToken)
+                    setAccessTime(newToken.accessTokenExpiresIn)
+                    setRefreshToken(newToken.refreshToken)
+                    setRefreshTime(newToken.refreshTokenExpiresIn)
+                }
+
+                // 새로운 토큰 값으로 상태 업데이트
+                _refreshToken = newToken.refreshToken
+                _refreshTokenTime = newToken.refreshTokenExpiresIn
+
+                // 네비게이션 경로 업데이트
+                _navigateRoute = mainRoute
+
+            }
+        }.onFailure { error ->
+            Log.d("onFailure",error.message.toString())
+        }
     }
 
     private fun checkExpireTime() {

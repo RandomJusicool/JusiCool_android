@@ -6,12 +6,12 @@ import retrofit2.http.Path
 
 interface LikeAPI {
 
-    @POST("/api/v1/like")
+    @POST("/api/v1/like/{board_id}")
     suspend fun postLike(
         @Path("board_id") boardId: Long
     )
 
-    @DELETE("/api/v1/like")
+    @DELETE("/api/v1/like/{board_id}")
     suspend fun deleteLike(
         @Path("board_id") boardId: Long
     )
