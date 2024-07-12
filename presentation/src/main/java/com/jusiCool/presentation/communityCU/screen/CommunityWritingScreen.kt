@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityWriting.screen
+package com.jusiCool.presentation.communityCU.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
@@ -36,19 +36,19 @@ import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.communityWriting.viewModel.CommunityWritingViewModel
+import com.jusiCool.presentation.communityCU.viewmodel.CommunityCUViewModel
 
 const val communityWritingRoute = "communityWritingRoute"
 
 fun NavController.navigateToCommunityWriting(id: Long) {
-    this.navigate("${communityWritingRoute}/${id}")
+    this.navigate("$communityWritingRoute/$id")
 }
 
 fun NavGraphBuilder.navigateToCommunityWriting(
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit
 ) {
-    composable("${communityWritingRoute}/{id}") { backStackEntry ->
+    composable("$communityWritingRoute/{id}") { backStackEntry ->
         val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
         if (id != null) {
             CommunityWritingRoute(
@@ -64,7 +64,7 @@ fun NavGraphBuilder.navigateToCommunityWriting(
 internal fun CommunityWritingRoute(
     modifier: Modifier = Modifier,
     id: Long,
-    viewModel: CommunityWritingViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    viewModel: CommunityCUViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit,
 ) {
@@ -95,15 +95,15 @@ internal fun CommunityWritingScreen(
     modifier: Modifier = Modifier,
     id: Long,
     focusManager: FocusManager,
-    popUpBackStack: () -> Unit,
     title: String,
     content: String,
     navigateToCommunity: (title: String, content: String) -> Unit,
-) {
+    popUpBackStack: () -> Unit,
+    ) {
     val (titleTextState, setTitleText) = remember { mutableStateOf(title) }
     val (contentTextState, setContentText) = remember { mutableStateOf(content) }
 
-    LaunchedEffect(id) {
+    LaunchedEffect(Unit) {
         setTitleText(title)
         setContentText(content)
     }
@@ -185,12 +185,10 @@ internal fun CommunityWritingScreen(
 @Composable
 private fun CommunityWritingScreen() {
     CommunityWritingScreen(
-        id = 123L,
+        id = 0,
         focusManager = LocalFocusManager.current,
-        popUpBackStack = { /*TODO*/ },
-        title = "Sample Title",
-        content = "Sample Content",
-    ) { title, content ->
-        // Handle the navigateToCommunity action
-    }
+        title = "",
+        content = "",
+        navigateToCommunity = {_, _ ->}
+    ){}
 }

@@ -57,7 +57,7 @@ fun NavController.navigateToCommunityDetail(id: Long) {
 
 fun NavGraphBuilder.communityDetailRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit
+    navigateToCommunityModify: (Long) -> Unit
 ) {
     composable("${communityDetailRoute}/{id}") { backStackEntry ->
         val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
@@ -74,7 +74,7 @@ fun NavGraphBuilder.communityDetailRoute(
 internal fun CommunityDetailRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit
+    navigateToCommunityModify: (Long) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -137,7 +137,7 @@ internal fun CommunityDetailRoute(
 internal fun CommunityDetailScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit,
+    navigateToCommunityModify: (Long) -> Unit,
     focusManager: FocusManager,
     scrollState: ScrollState = rememberScrollState(),
     data1: TemList,
@@ -186,7 +186,7 @@ internal fun CommunityDetailScreen(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            modifier = Modifier.clickableSingle { navigateToCommunityModify() },
+                            modifier = Modifier.clickableSingle { navigateToCommunityModify(0) }, // 이거 코드 다시 수정해주세요
                             text = "수정하기",
                             style = typography.RegularM,
                             color = colors.MAIN,
