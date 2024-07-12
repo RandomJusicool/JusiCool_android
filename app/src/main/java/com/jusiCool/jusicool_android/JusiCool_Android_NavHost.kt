@@ -35,7 +35,7 @@ import com.jusiCool.presentation.search.screen.searchRoute
 import com.jusiCool.presentation.splash.screen.splashRoute
 import com.jusiCool.presentation.stockDetail.screen.navigateToStockDetail
 import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
-import com.jusiCool.presentation.stockBuying.screen.stockBuyingRoute
+import com.jusiCool.presentation.stockBuy.screen.stockBuyingRoute
 import com.jusiCool.presentation.stockReservationBuying.screen.stockReservationBuyingRoute
 import com.jusiCool.presentation.stockReservationSelling.screen.stockReservationSellingRoute
 import com.jusiCool.presentation.stockSelling.screen.stockSellingRoute
