@@ -15,4 +15,8 @@ class LikeRepositoryImpl @Inject constructor(
     override suspend fun deleteLike(boardId: Long): Flow<Unit> {
         return dataSource.deleteLike(boardId)
     }
+
+    override suspend fun getLike(boardId: Long): Flow<Boolean> {
+        return dataSource.getLike(boardId)
+    }
 }
