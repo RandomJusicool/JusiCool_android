@@ -2,6 +2,7 @@ package com.jusiCool.presentation.main.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,9 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -22,6 +25,7 @@ import com.example.design_system.icon_image.icon.GraphIcon
 import com.example.design_system.icon_image.icon.SearchIcon
 import com.example.design_system.icon_image.image.LogoImage
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.presentation.main.component.CommunityButton
 import com.jusiCool.presentation.main.component.MyAccount
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.component.MyStocks
@@ -114,49 +118,58 @@ fun MainScreen(
 ) {
     val scrollState = rememberScrollState()
 
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(color = JDSColor.GRAY50)
     ) {
-        JDSMainTopBar(
-            startIcon = { LogoImage() },
-            betweenIcon = {
-                SearchIcon(modifier = Modifier.clickableSingle { navigateToSearch() })
-            },
-            endIcon = {
-                GraphIcon(
-                    modifier = Modifier.clickableSingle { navigateToCheckEntireStockList() },
-                    tint = JDSColor.GRAY400
+        Column(modifier = Modifier) {
+            JDSMainTopBar(
+                startIcon = { LogoImage() },
+                betweenIcon = {
+                    SearchIcon(modifier = Modifier.clickableSingle { navigateToSearch() })
+                },
+                endIcon = {
+                    GraphIcon(
+                        modifier = Modifier.clickableSingle { navigateToCheckEntireStockList() },
+                        tint = JDSColor.GRAY400
+                    )
+                }
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .verticalScroll(scrollState),
+                verticalArrangement = Arrangement.spacedBy(3.dp)
+            ) {
+                MyAccount(myAccountData = tempMyAccountData)
+
+                MyStocks(
+                    myStocksData = tempMyStockData,
+                    myAccountData = tempMyAccountData,
+                    navigateToHoldShareRoute = navigateToHoldShareRoute,
+                    navigateToStockDetail = navigateToStockDetail,
+                    navigateToOrderHistory = navigateToOrderHistory,
                 )
+
+                PopularNews(
+                    popularSummaryNewsData = tempPopularSummaryNewsData,
+                    navigateToNews = navigateToNews,
+                )
+
+                Spacer(modifier = Modifier.height(13.dp))
             }
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .verticalScroll(scrollState),
-            verticalArrangement = Arrangement.spacedBy(3.dp)
-        ) {
-            MyAccount(myAccountData = tempMyAccountData)
-
-            MyStocks(
-                myStocksData = tempMyStockData,
-                myAccountData = tempMyAccountData,
-                navigateToHoldShareRoute = navigateToHoldShareRoute,
-                navigateToStockDetail = navigateToStockDetail,
-                navigateToOrderHistory = navigateToOrderHistory,
-            )
-
-            PopularNews(
-                popularSummaryNewsData = tempPopularSummaryNewsData,
-                navigateToNews = navigateToNews,
-            )
-
-            Spacer(modifier = Modifier.height(13.dp))
         }
+        CommunityButton(
+            modifier = modifier
+                .align(Alignment.BottomEnd)
+                .padding(
+                    end = 24.dp,
+                    bottom = 24.dp
+                ),
+            navigateToCommunity = navigateToCommunity
+        )
     }
 }
 

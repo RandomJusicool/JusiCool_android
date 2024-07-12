@@ -1,18 +1,17 @@
 package com.jusiCool.presentation.community.viewModel
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
-import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
+import com.jusiCool.domain.repository.CommunityRepository
 import com.jusiCool.domain.usecase.board.GetCommunityBoardListUseCase
-import com.jusiCool.domain.usecase.community.GetCommunityListUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,10 +28,6 @@ class CommunityViewModel @Inject constructor(
 
     private val _getCommunityListBoardResponse = MutableStateFlow<Event<List<GetCommunityBoardListResponseModel>>>(Event.Loading)
     val getCommunityListBoardResponse = _getCommunityListBoardResponse.asStateFlow()
-
-    private lateinit var _getTopBarNameData : MutableState<GetCommunityBoardListResponseModel>
-    val getTopBarNameData: MutableState<GetCommunityBoardListResponseModel>
-        get() = _getTopBarNameData
 
     init {
         loadStuff()

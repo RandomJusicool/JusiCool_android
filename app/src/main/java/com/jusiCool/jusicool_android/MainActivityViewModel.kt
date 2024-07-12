@@ -28,26 +28,11 @@ class MainActivityViewModel @Inject constructor(
         get() = _navigateRoute
 
     init {
+        _refreshToken = encryptedSharedPreferencesDataSource.getRefreshToken() ?: ""
+        _refreshTokenTime = encryptedSharedPreferencesDataSource.getRefreshTime() ?: ""
         checkExpireTime()
         Log.d("_refreshToken", _refreshToken)
         Log.d("_refreshTokenTime", _refreshTokenTime)
-    }
-
-    private fun checkExpireTime() {
-        if (_refreshTokenTime.isDateExpired()) {
-            encryptedSharedPreferencesDataSource.apply {
-                deleteRefreshTime()
-                deleteRefreshToken()
-            }
-            _refreshToken = ""
-            _refreshTokenTime = ""
-        }
-
-        if (_refreshToken.isEmpty()) {
-            _navigateRoute = loginRoute
-        } else {
-            login()
-        }
     }
 
     private fun login() = viewModelScope.launch {
@@ -66,9 +51,26 @@ class MainActivityViewModel @Inject constructor(
                     _refreshTokenTime = newToken.refreshTokenExpiresIn
                     _navigateRoute = mainRoute
                 }
+            }.onFailure { error ->
+                Log.d("onFailure", error.message.toString())
             }
-            .onFailure {
-                Log.d("onFailure", it.message.toString())
-            }
+    }
+
+    private fun checkExpireTime() {
+        // 리프레시 토큰 만료 여부 확인 및 삭제
+        if (_refreshTokenTime.isDateExpired()) {
+            encryptedSharedPreferencesDataSource.deleteRefreshTime()
+            encryptedSharedPreferencesDataSource.deleteRefreshToken()
+            _refreshToken = ""
+            _refreshTokenTime = ""
+        }
+
+        // 토큰 유효성에 따라 네비게이션 경로 업데이트
+        if (_refreshToken.isEmpty() || _refreshToken == "") {
+            _navigateRoute = loginRoute
+        } else {
+            _navigateRoute = mainRoute
+            login()
+        }
     }
 }

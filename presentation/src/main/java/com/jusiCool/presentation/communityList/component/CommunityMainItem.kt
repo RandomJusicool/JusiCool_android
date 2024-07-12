@@ -24,14 +24,14 @@ import kotlinx.collections.immutable.ImmutableList
 fun CommunityMainListItem(
     modifier: Modifier = Modifier,
     data: GetCommunityListResponseModel,
-    navigateToCommunity: (Long) -> Unit
+    navigateToCommunity: (Long, String) -> Unit
 ) {
     JusiCoolAndroidTheme { colors, typography ->
-        Spacer(modifier = modifier.height(30.dp))
+        Spacer(modifier = modifier.height(8.dp))
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .clickableSingle { navigateToCommunity(data.id) },
+                .clickableSingle { navigateToCommunity(data.id, data.name) },
             color = colors.WHITE,
             shape = RoundedCornerShape(12.dp)
         ) {
@@ -61,12 +61,12 @@ fun CommunityMainListItem(
 @Preview
 @Composable
 private fun Pre() {
-    CommunityMainListItem(
-        data = GetCommunityListResponseModel(
-            name = "마이크로소프트 커뮤니",
-            board_num = 123,
-            id = 0
-        ),
-        navigateToCommunity = {}
-    )
+//    CommunityMainListItem(
+//        data = GetCommunityListResponseModel(
+//            name = "마이크로소프트 커뮤니",
+//            board_num = 123,
+//            id = 0
+//        ),
+//        navigateToCommunity = {}
+//    )
 }
