@@ -64,7 +64,6 @@ fun NavGraphBuilder.communityRoute(
 internal fun CommunityRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    communityViewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     id: Long,
     name: String,
     navigateToDetailCommunity: (Long) -> Unit,
