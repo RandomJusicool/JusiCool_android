@@ -11,7 +11,7 @@ data class GetStockDetailResponse(
     @Json(name = "upDownPrice") val upDownPrice: Long,
     @Json(name = "upDownPercent") val upDownPercent: Double,
     @Json(name = "presentPrice") val presentPrice: Long,
-    @Json(name = "transactionVolume") val transactionVolume: Long,
+    @Json(name = "transactionVolume") val transactionVolume: Long?=0,
     @Json(name = "transactionPrice") val transactionPrice: Long
 )
 
