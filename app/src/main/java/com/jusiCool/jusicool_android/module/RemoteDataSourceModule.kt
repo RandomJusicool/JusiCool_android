@@ -8,6 +8,8 @@ import com.jusiCool.data.remote.datesource.comment.RemoteCommentDataSource
 import com.jusiCool.data.remote.datesource.comment.RemoteCommentDataSourceImpl
 import com.jusiCool.data.remote.datesource.community.RemoteCommunityDataSource
 import com.jusiCool.data.remote.datesource.community.RemoteCommunityDataSourceImpl
+import com.jusiCool.data.remote.datesource.day.RemoteDayDataSource
+import com.jusiCool.data.remote.datesource.day.RemoteDayDataSourceImpl
 import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSource
 import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSourceImpl
 import com.jusiCool.data.remote.datesource.like.RemoteLikeDataSource
@@ -18,7 +20,6 @@ import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSource
 import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSourceImpl
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
@@ -64,4 +65,9 @@ abstract class RemoteDataSourceModule {
     abstract fun provideLikeDataSource(
         remoteLikeDataSourceImpl: RemoteLikeDataSourceImpl
     ) : RemoteLikeDataSource
+
+    @Binds
+    abstract fun provideMyDataSource(
+        remoteDayDataSourceImpl: RemoteDayDataSourceImpl
+    ) : RemoteDayDataSource
 }

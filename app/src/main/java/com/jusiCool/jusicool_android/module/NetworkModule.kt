@@ -5,6 +5,7 @@ import com.jusiCool.data.remote.api.AuthAPI
 import com.jusiCool.data.remote.api.BoardAPI
 import com.jusiCool.data.remote.api.CommentAPI
 import com.jusiCool.data.remote.api.CommunityAPI
+import com.jusiCool.data.remote.api.DayAPI
 import com.jusiCool.data.remote.api.EmailAPI
 import com.jusiCool.data.remote.api.LikeAPI
 import com.jusiCool.data.remote.api.ReservationAPI
@@ -124,5 +125,11 @@ object NetworkModule {
     @Singleton
     fun LikeAPI(retrofit: Retrofit): LikeAPI {
         return retrofit.create(LikeAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun dayAPI(retrofit: Retrofit): DayAPI {
+        return retrofit.create(DayAPI::class.java)
     }
 }

@@ -32,39 +32,44 @@ import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
-import com.jusiCool.presentation.join.screen.JoinScreen
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.screen.tempMyAccountData
 import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockBuyingRoute = "stockBuyingRoute"
 
-fun NavController.navigationToStockBuying() {
-    this.navigate(stockBuyingRoute)
+fun NavController.navigationToStockBuying(id: Long) {
+    this.navigate("$stockBuyingRoute/$id")
 }
 
 fun NavGraphBuilder.stockBuyingRoute(
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
-    composable(stockBuyingRoute) {
-        StockBuyingRoute(
-            navigateToStockDetail = navigateToStockDetail,
-            navigateToOrderHistory = navigateToOrderHistory
-        )
+    composable("$stockBuyingRoute/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        if (id != null) {
+            StockBuyingRoute(
+                id = id,
+                navigateToStockDetail = navigateToStockDetail,
+                navigateToOrderHistory = navigateToOrderHistory
+            )
+        }
     }
 }
 
 @Composable
 fun StockBuyingRoute(
     modifier: Modifier = Modifier,
-    navigateToStockDetail: () -> Unit,
+    id: Long,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockBuyingScreen(
         modifier = modifier,
+        id = id,
         myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData("마이크로소프트", 1231, 10000, 8160, 7.9f),
+        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
     )
@@ -73,9 +78,10 @@ fun StockBuyingRoute(
 @Composable
 internal fun StockBuyingScreen(
     modifier: Modifier = Modifier,
+    id: Long,
     myAccountData: MyAccountData,
     entireStocksData: EntireStocksData,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
@@ -88,7 +94,9 @@ internal fun StockBuyingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         JDSArrowTopBar(
-            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail() }) },
+            startIcon = {
+                LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail(id) })
+            },
             betweenText = "주식 구매"
         )
 
@@ -156,8 +164,9 @@ internal fun StockBuyingScreen(
 fun StockBuyingScreenPreview() {
     StockBuyingScreen(
         myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData("마이크로소프트", 1231, 10000, 8160, 7.9f),
+        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
-        navigateToOrderHistory = {}
+        navigateToOrderHistory = {},
+        id = 1L
     )
 }

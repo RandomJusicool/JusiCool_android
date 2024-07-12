@@ -13,6 +13,7 @@ import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 
 data class PopularStocksSearchData(
+    val id: Long,
     val number: Int,
     val stockName: String,
     val revenuePercent: Float
@@ -24,14 +25,18 @@ fun PopularStocksSearch(
     popularStocksSearchData: PopularStocksSearchData
 ) {
     val formattedRevenuePercent = when {
-        popularStocksSearchData.revenuePercent == popularStocksSearchData.revenuePercent.toInt().toFloat() -> {
+        popularStocksSearchData.revenuePercent == popularStocksSearchData.revenuePercent.toInt()
+            .toFloat() -> {
             if (popularStocksSearchData.revenuePercent > 0) "+%.1f%%".format(popularStocksSearchData.revenuePercent)
             else "%.1f%%".format(popularStocksSearchData.revenuePercent)
         }
-        popularStocksSearchData.revenuePercent * 10 == (popularStocksSearchData.revenuePercent * 10).toInt().toFloat() -> {
+
+        popularStocksSearchData.revenuePercent * 10 == (popularStocksSearchData.revenuePercent * 10).toInt()
+            .toFloat() -> {
             if (popularStocksSearchData.revenuePercent > 0) "+%.1f%%".format(popularStocksSearchData.revenuePercent)
             else "%.1f%%".format(popularStocksSearchData.revenuePercent)
         }
+
         else -> {
             if (popularStocksSearchData.revenuePercent > 0) "+%.2f%%".format(popularStocksSearchData.revenuePercent)
             else "%.2f%%".format(popularStocksSearchData.revenuePercent)
@@ -74,5 +79,5 @@ fun PopularStocksSearch(
 @Preview
 @Composable
 fun PopularStocksSearchPreview() {
-    PopularStocksSearch(popularStocksSearchData = PopularStocksSearchData(2, "게임스탑", +2.9f))
+    PopularStocksSearch(popularStocksSearchData = PopularStocksSearchData(id = 2, number = 2, stockName = "dqw",+2.9f,))
 }

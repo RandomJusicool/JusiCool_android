@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,32 +39,38 @@ import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockReservationSellingRoute = "stockReservationSellingRoute"
 
-fun NavController.navigationToStockReservationBuying() {
-    this.navigate(stockReservationSellingRoute)
+fun NavController.navigationToStockReservationBuying(id: Long) {
+    this.navigate("$stockReservationSellingRoute/$id")
 }
 
 fun NavGraphBuilder.stockReservationSellingRoute(
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
-    composable(stockReservationSellingRoute) {
-        StockReservationSellingRoute(
-            navigateToStockDetail = navigateToStockDetail,
-            navigateToOrderHistory = navigateToOrderHistory
-        )
+    composable("$stockReservationSellingRoute/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        if (id != null) {
+            StockReservationSellingRoute(
+                id = id,
+                navigateToStockDetail = navigateToStockDetail,
+                navigateToOrderHistory = navigateToOrderHistory
+            )
+        }
     }
 }
 
 @Composable
 internal fun StockReservationSellingRoute(
     modifier: Modifier = Modifier,
-    navigateToStockDetail: () -> Unit,
+    id: Long,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockReservationSellingScreen(
         modifier = modifier,
-        myStocksData = MyStocksData("마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData("마이크로소프트", 1231, 10000, 8160, 7.9f),
+        id = id,
+        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
+        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
     )
@@ -72,14 +79,15 @@ internal fun StockReservationSellingRoute(
 @Composable
 internal fun StockReservationSellingScreen(
     modifier: Modifier = Modifier,
+    id: Long,
     myStocksData: MyStocksData,
     entireStocksData: EntireStocksData,
-    navigateToStockDetail: () -> Unit,
+    navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockReservationTextState, setStockReservationTextState) = remember { mutableStateOf("") }
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
-    val (pager, setPager) = remember { mutableStateOf(1) }
+    val (pager, setPager) = remember { mutableIntStateOf(1) }
 
     Column(
         modifier = modifier
@@ -91,7 +99,7 @@ internal fun StockReservationSellingScreen(
             startIcon = {
                 LeftArrowIcon(modifier = Modifier.clickableSingle {
                     if (pager == 2) setPager(1)
-                    else navigateToStockDetail()
+                    else navigateToStockDetail(id)
                 })
             },
             betweenText = "주식 판매"
@@ -191,9 +199,10 @@ internal fun StockReservationSellingScreen(
 @Composable
 fun StockReservationSellingScreenPreview() {
     StockReservationSellingScreen(
-        myStocksData = MyStocksData("마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData("마이크로소프트", 1231, 10000, 8160, 7.9f),
+        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
+        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
-        navigateToOrderHistory = {}
+        navigateToOrderHistory = {},
+        id = 1L,
     )
 }
