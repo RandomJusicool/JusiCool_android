@@ -1,12 +1,11 @@
 package com.jusiCool.presentation.stockDetail.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jusiCool.domain.model.stock.response.GetStockDetailResponseModel
 import com.jusiCool.domain.usecase.day.GetDayUseCase
 import com.jusiCool.domain.usecase.stock.GetStockDetailUseCase
-import com.jusiCool.presentation.utill.Event
-import com.jusiCool.presentation.utill.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,21 +18,31 @@ class StockDetailViewModel @Inject constructor(
     private val getStockDetailUseCase: GetStockDetailUseCase,
     private val getDayUseCase: GetDayUseCase
 ) : ViewModel() {
-    private val _stockDetail: MutableStateFlow<Event<GetStockDetailResponseModel>> =
-        MutableStateFlow(Event.Loading)
-    val stockDetailData = _stockDetail.asStateFlow()
+    private val _stockDetail: MutableStateFlow<GetStockDetailResponseModel> = MutableStateFlow(
+        GetStockDetailResponseModel(
+            name = "",
+            code = 0,
+            upDownPrice = 0,
+            upDownPercent = 0.0,
+            presentPrice = 0,
+            transactionVolume = 0,
+            transactionPrice = 0,
+        )
+    )
+    val stockDetail = _stockDetail.asStateFlow()
 
     fun getStockDetail(stockId: Long) = viewModelScope.launch {
         getStockDetailUseCase(stockId)
             .onSuccess {
                 it.catch { remoteError ->
-                    _stockDetail.value = remoteError.errorHandling()
+                    Log.e("Error", "Error collecting data", remoteError)
                 }.collect { data ->
-                    _stockDetail.value = Event.Success(data)
+                    Log.d("data", data.name)
+                    _stockDetail.value = data
                 }
             }
             .onFailure { error ->
-                _stockDetail.value = error.errorHandling()
+                Log.e("Error", "Error fetching data", error)
             }
     }
 
