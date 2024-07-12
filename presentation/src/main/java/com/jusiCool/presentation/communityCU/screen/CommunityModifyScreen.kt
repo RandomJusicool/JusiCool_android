@@ -104,7 +104,7 @@ internal fun CommunityModifyScreen(
     val (contentTextState, setContentText) = remember { mutableStateOf(content) }
     val (writingModifierDialogIsVisible, setWritingModifierDialogIsVisible) = remember { mutableStateOf(false) }
 
-    LaunchedEffect(id) {
+    LaunchedEffect(Unit) {
         setTitleText(title)
         setContentText(content)
     }
