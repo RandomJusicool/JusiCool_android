@@ -49,7 +49,6 @@ import com.jusiCool.presentation.stockDetail.component.StockPreviewCard
 import com.jusiCool.presentation.stockDetail.component.StockQuotesCard
 import com.jusiCool.presentation.stockDetail.component.TimeSegment
 import com.jusiCool.presentation.stockDetail.viewModel.StockDetailViewModel
-import com.jusiCool.presentation.utill.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -93,27 +92,20 @@ fun StockDetailRoute(
     navigateToStockSell: () -> Unit,
     navigateToCommunityList: () -> Unit,
 ) {
-    val stockDetailData by stockDetailViewModel.stockDetailData.collectAsStateWithLifecycle()
+    val stockDetail by stockDetailViewModel.stockDetail.collectAsStateWithLifecycle()
 
     StockDetailScreen(
         modifier = modifier,
-        stockDetailData = if (stockDetailData is Event.Success) stockDetailData.data!!
-        else GetStockDetailResponseModel(
-            name = "",
-            code = 0,
-            upDownPrice = 0,
-            upDownPercent = 0.0,
-            presentPrice = 0,
-            transactionVolume = 0,
-            transactionPrice = 0,
-        ),
+        stockDetailData = stockDetail,
         popUpBackStack = popUpBackStack,
         navigateToStockBuying = navigateToStockBuying,
         navigateToStockSell = navigateToStockSell,
         navigateToCommunityList = navigateToCommunityList,
     )
+
     LaunchedEffect(Unit) {
-        stockDetailViewModel.getStockDetail(stockId = 1L)
+        stockDetailViewModel.getStockDetail(id)
+
     }
 }
 
@@ -287,7 +279,7 @@ fun StockDetailScreen(
                 CommunityCard(navigateToCommunity = navigateToCommunityList)
                 Spacer(modifier = Modifier.height(6.dp))
                 StockQuotesCard(
-                    transactionVolume = stockDetailData.transactionVolume,
+                    transactionVolume = stockDetailData.transactionVolume?:0L,
                     transactionPrice = stockDetailData.transactionPrice,
                 )
             }
