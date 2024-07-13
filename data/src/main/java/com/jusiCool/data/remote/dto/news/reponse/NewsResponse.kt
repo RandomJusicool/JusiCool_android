@@ -1,5 +1,6 @@
 package com.jusiCool.data.remote.dto.news.reponse
 
+import com.jusiCool.domain.model.news.response.ApiResponseModel
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -46,4 +47,40 @@ data class ApiResponse(
     )
 }
 
-fun Api
+fun ApiResponse.toModel() = ApiResponseModel(
+    detail = detail.toModel(),
+    totalItems = totalItems,
+    totalPages = totalPages,
+    page = page,
+    pageSize = pageSize,
+    data = data.map { it.toModel() }
+)
+
+fun ApiResponse.Detail.toModel() = ApiResponseModel.Detail(
+    message = message,
+    code = code,
+    ok = ok
+)
+
+fun ApiResponse.Article.toModel() = ApiResponseModel.Article(
+    sections = sections,
+    title = title,
+    titleKo = titleKo,
+    summary = summary,
+    summaryKo = summaryKo,
+    body = body,
+    bodyKo = bodyKo,
+    imageUrl = imageUrl,
+    contentUrl = contentUrl,
+    companies = companies.map { it.toModel() },
+    publishedAt = publishedAt
+)
+
+fun ApiResponse.Company.toModel() = ApiResponseModel.Company(
+    name = name,
+    symbol = symbol,
+    exchange = exchange,
+    importance = importance,
+    sentiment = sentiment,
+    reason = reason
+)
