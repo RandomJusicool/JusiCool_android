@@ -56,12 +56,10 @@ fun NavController.navigateToCommunityDetail() {
 
 fun NavGraphBuilder.communityOtherDetailRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit
 ) {
     composable(communityOtherDetailRoute) {
         communityOtherDetailRoute(
             popUpBackStack = popUpBackStack,
-            navigateToCommunityModify = navigateToCommunityModify
         )
     }
 }
@@ -70,7 +68,6 @@ fun NavGraphBuilder.communityOtherDetailRoute(
 internal fun CommunityOtherDetailRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit,
     getCommunityListResponseModel: GetCommunityListResponseModel,
     getCommunityBoardDetailResponseModel: GetCommunityBoardDetailResponseModel,
     getCommunityBoardListResponseModel: GetCommunityBoardListResponseModel,
@@ -81,7 +78,6 @@ internal fun CommunityOtherDetailRoute(
     CommunityOtherDetailScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        navigateToCommunityModify = navigateToCommunityModify,
         focusManager = focusManager,
         getCommunityListResponseModel = getCommunityListResponseModel,
         getCommunityBoardDetailResponseModel = getCommunityBoardDetailResponseModel,
@@ -94,7 +90,6 @@ internal fun CommunityOtherDetailRoute(
 internal fun CommunityOtherDetailScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit,
     focusManager: FocusManager,
     scrollState: ScrollState = rememberScrollState(),
     getCommunityListResponseModel: GetCommunityListResponseModel,
