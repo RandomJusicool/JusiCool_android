@@ -21,9 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -50,7 +51,6 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.board.response.GetCommunityBoardDetailResponseModel
-import com.jusiCool.domain.model.comment.request.PostWritingCommunityCommentRequestModel
 import com.jusiCool.domain.model.comment.response.GetCommunityCommentResponseModel
 import com.jusiCool.presentation.communityDetail.component.CommentCardList
 import com.jusiCool.presentation.communityDetail.component.CommentTextField
@@ -58,33 +58,41 @@ import com.jusiCool.presentation.communityDetail.component.CommunityDeleteDialog
 import com.jusiCool.presentation.communityDetail.component.HeartOutlinedButton
 import com.jusiCool.presentation.communityDetail.viewModel.CommunityDetailViewModel
 import com.jusiCool.presentation.utill.Event
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 const val communityDetailRoute = "communityDetailRoute"
 
-fun NavController.navigateToCommunityDetail(communityId: Long, boardId: Long) {
-    this.navigate("${communityDetailRoute}/${boardId}/${communityId}")
+fun NavController.navigateToCommunityDetail(boardId: Long, communityId: Long, name: String) {
+    this.navigate("${communityDetailRoute}/${communityId}/${boardId}/${name}")
 }
 
 fun NavGraphBuilder.communityDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: () -> Unit
 ) {
-    composable("${communityDetailRoute}/{boardId}/{communityId}") { backStackEntry ->
-        val boardId = backStackEntry.arguments?.getLong("boardId") ?: 0L
-        val communityId = backStackEntry.arguments?.getLong("communityId") ?: 0L
+    composable("${communityDetailRoute}/{communityId}/{boardId}/{name}") { backStackEntry ->
+        val boardId = backStackEntry.arguments?.getString("boardId")?.toLongOrNull()
+        val communityId = backStackEntry.arguments?.getString("communityId")?.toLongOrNull()
+        val name = backStackEntry.arguments?.getString("name") ?: ""
 
-        CommunityDetailRoute(
-            boardId = boardId,
-            communityId = communityId,
-            popUpBackStack = popUpBackStack,
-            navigateToCommunityModify = navigateToCommunityModify
-        )
+        if (boardId != null && communityId != null) {
+            CommunityDetailRoute(
+                name = name,
+                boardId = boardId,
+                communityId = communityId,
+                popUpBackStack = popUpBackStack,
+                navigateToCommunityModify = navigateToCommunityModify
+            )
+        }
     }
 }
 
 @Composable
 internal fun CommunityDetailRoute(
     modifier: Modifier = Modifier,
+    name: String,
     boardId: Long,
     communityId: Long,
     popUpBackStack: () -> Unit,
@@ -95,6 +103,7 @@ internal fun CommunityDetailRoute(
 
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
+    val likeState = viewModel.like.value
 
     CommunityDetailScreen(
         modifier = modifier,
@@ -102,31 +111,30 @@ internal fun CommunityDetailRoute(
         navigateToCommunityModify = navigateToCommunityModify,
         focusManager = focusManager,
         detailData = viewModel.communityDetail.value,
-        writingCommentData = viewModel.writingCommunityDetail.value,
         commentData = viewModel.communityComment,
-        onRefresh = {
-            viewModel.loadStuff()
-            viewModel.getCommunityDetail(boardId)
-            viewModel.getCommunityComment(boardId)
-        },
+        loadStuff = { viewModel.loadStuff() },
+        getCommunityDetail = { viewModel.getCommunityDetail(boardId) },
+        getCommunityComment = { viewModel.getCommunityComment(boardId) },
+        getLike = { viewModel.getLike(boardId) },
         swipeRefreshState = swipeRefreshState,
         deleteCommunityDetail = viewModel::deleteCommunityDetail,
         postLike = viewModel::postLike,
-        deleteLike = viewModel::postLike,
+        deleteLike = viewModel::deleteLike,
         postWritingCommunityComment = viewModel::postWritingCommunityComment,
+        name = name,
         boardId = boardId,
-        communityId = communityId
+        communityId = communityId,
+        likeState = likeState
     )
 
+    LaunchedEffect(Unit) {
+        viewModel.loadStuff()
+        viewModel.getLike(boardId)
+        viewModel.getCommunityDetail(boardId)
+        viewModel.getCommunityComment(boardId)
+    }
 
     LaunchedEffect(Unit) {
-        getCommunityDetail(
-            viewModel = viewModel,
-            onSuccess = {
-                viewModel.communityDetail.value = it
-            },
-            onFailure = { }
-        )
         getCommunityComment(
             viewModel = viewModel,
             onSuccess = {
@@ -136,6 +144,25 @@ internal fun CommunityDetailRoute(
             onFailure = {
                 viewModel.communityComment.removeRange(0, viewModel.communityComment.size)
             }
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        getCommunityDetail(
+            viewModel = viewModel,
+            onSuccess = {
+                viewModel.communityDetail.value = it
+            },
+            onFailure = { }
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        getLike(
+            viewModel = viewModel,
+            onSuccess = {
+                viewModel.like.value = it
+            },
         )
     }
 }
@@ -176,151 +203,232 @@ private suspend fun getCommunityComment(
     }
 }
 
+private suspend fun getLike(
+    viewModel: CommunityDetailViewModel,
+    onSuccess: (data: Boolean) -> Unit,
+) {
+    viewModel.getLikeResponse.collect { response ->
+        when (response) {
+            is Event.Success -> {
+                onSuccess(response.data!!)
+            }
+
+            else -> {}
+        }
+    }
+}
+
 @Composable
 internal fun CommunityDetailScreen(
     modifier: Modifier = Modifier,
     focusManager: FocusManager,
     scrollState: ScrollState = rememberScrollState(),
     detailData: GetCommunityBoardDetailResponseModel,
-    writingCommentData: PostWritingCommunityCommentRequestModel,
-    commentData: SnapshotStateList<GetCommunityCommentResponseModel>,
+    commentData: List<GetCommunityCommentResponseModel>,
     swipeRefreshState: SwipeRefreshState,
     deleteCommunityDetail: (Long, Long) -> Unit,
     postLike: (Long) -> Unit,
     deleteLike: (Long) -> Unit,
-    postWritingCommunityComment: (Long, PostWritingCommunityCommentRequestModel) -> Unit,
+    postWritingCommunityComment: (Long, String) -> Unit,
+    name: String,
     boardId: Long,
     communityId: Long,
-    onRefresh: () -> Unit,
+    likeState: Boolean,
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: () -> Unit,
+    loadStuff: () -> Unit,
+    getCommunityDetail: () -> Unit,
+    getCommunityComment: () -> Unit,
+    getLike: () -> Unit,
 ) {
     val (isHeartClicked, setIsHeartClicked) = remember { mutableStateOf(false) }
-    val (commentTextState, onCommentTextChange) = remember { mutableStateOf("") }
-    val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember {
-        mutableStateOf(false)
+    val (commentTextState, setCommentTextChange) = remember { mutableStateOf("") }
+    val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember { mutableStateOf(false) }
+    val (like, setLike) = remember { mutableIntStateOf(0) }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(detailData.likes, likeState) {
+        setIsHeartClicked(likeState)
+        setLike(detailData.likes)
     }
 
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = {
-                onRefresh()
+                loadStuff()
+                getCommunityDetail()
+                getCommunityComment()
+                getLike()
+                setIsHeartClicked(likeState)
+                setLike(detailData.likes)
             }
         ) {
-            Box(modifier = modifier.background(color = JDSColor.GRAY50)) {
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(scrollState)
-                        .fillMaxSize()
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                focusManager.clearFocus()
-                            }
-                        }
-                ) {
-                    if (writingDeleteDialogIsVisible) {
-                        Dialog(onDismissRequest = { setWritingDeleteDialogIsVisible(false) }) {
-                            CommunityDeleteDialog(
-                                checkOnClick = {
-                                    setWritingDeleteDialogIsVisible(false)
-                                    deleteCommunityDetail(communityId, boardId)
-                                },
-                                cancelOnClick = { setWritingDeleteDialogIsVisible(false) }
-                            )
+            Column(
+                modifier = Modifier
+                    .background(color = JDSColor.GRAY50)
+                    .fillMaxSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures {
+                            focusManager.clearFocus()
                         }
                     }
-                    JDSArrowTopBar(
-                        startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack() }) },
-                        betweenText = ""
-                    )
-                    Spacer(modifier = Modifier.padding(top = 27.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 24.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            modifier = Modifier.clickableSingle { navigateToCommunityModify() },
-                            text = "수정하기",
-                            style = JDSTypography.RegularM,
-                            color = JDSColor.MAIN,
-                        )
-                        Text(
-                            modifier = Modifier.clickableSingle {
-                                setWritingDeleteDialogIsVisible(true)
+                    .verticalScroll(scrollState)
+            ) {
+                if (writingDeleteDialogIsVisible) {
+                    Dialog(onDismissRequest = { setWritingDeleteDialogIsVisible(false) }) {
+                        CommunityDeleteDialog(
+                            checkOnClick = {
+                                setWritingDeleteDialogIsVisible(false)
+                                deleteCommunityDetail(communityId, boardId)
+                                popUpBackStack()
                             },
-                            text = "삭제하기",
-                            style = JDSTypography.RegularM,
-                            color = JDSColor.ERROR,
+                            cancelOnClick = { setWritingDeleteDialogIsVisible(false) }
                         )
                     }
-                    Spacer(modifier = Modifier.padding(top = 8.dp))
+                }
+                JDSArrowTopBar(
+                    startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack() }) },
+                    betweenText = name
+                )
+                    Spacer(modifier = Modifier.padding(top = 12.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     Text(
-                        modifier = Modifier.padding(horizontal = 24.dp),
-                        text = detailData.title,
-                        style = JDSTypography.titleSmall
+                        modifier = Modifier.clickableSingle { navigateToCommunityModify() },
+                        text = "수정하기",
+                        style = JDSTypography.RegularM,
+                        color = JDSColor.MAIN,
                     )
                     Text(
-                        modifier = Modifier.paddingHorizontal(horizontal = 24.dp, top = 24.dp),
-                        text = detailData.content,
-                        style = JDSTypography.bodySmall
+                        modifier = Modifier.clickableSingle { setWritingDeleteDialogIsVisible(true) },
+                        text = "삭제하기",
+                        style = JDSTypography.RegularM,
+                        color = JDSColor.ERROR,
                     )
-                    Spacer(modifier = Modifier.padding(top = 20.dp))
-                    HeartOutlinedButton(
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        text = detailData.likes.toString(),
-                        startIcon = { HeartIcon(tint = if (isHeartClicked) JDSColor.WHITE else JDSColor.GRAY400) },
-                        onClick = {
-                            if(isHeartClicked) {
+                }
+                Spacer(modifier = Modifier.padding(top = 8.dp))
+                Text(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    text = detailData.title,
+                    style = JDSTypography.titleSmall
+                )
+                Text(
+                    modifier = Modifier.paddingHorizontal(horizontal = 24.dp, top = 24.dp),
+                    text = detailData.content,
+                    style = JDSTypography.bodySmall
+                )
+                Spacer(modifier = Modifier.padding(top = 20.dp))
+                HeartOutlinedButton(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = like.toString(),
+                    startIcon = { HeartIcon(tint = if (isHeartClicked) JDSColor.WHITE else JDSColor.GRAY400) },
+                    onClick = {
+                        if (isHeartClicked) {
+                            coroutineScope.launch {
                                 setIsHeartClicked(false)
                                 deleteLike(boardId)
-                            } else {
+                                getLike()
+                                delay(100L)
+                                setLike(like - 1)
+                            }
+                        } else {
+                            coroutineScope.launch {
                                 setIsHeartClicked(true)
                                 postLike(boardId)
+                                getLike()
+                                delay(100L)
+                                setLike(like + 1)
                             }
-                        },
-                        textColor = if (isHeartClicked) JDSColor.WHITE else JDSColor.GRAY400,
-                        backgroundColor = if (isHeartClicked) JDSColor.MAIN else Color.Unspecified,
-                        outLineColor = if (isHeartClicked) JDSColor.MAIN else JDSColor.GRAY400
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .paddingHorizontal(horizontal = 24.dp, top = 28.dp)
-                            .height(1.dp)
-                            .background(
-                                color = JDSColor.GRAY100,
-                                shape = RoundedCornerShape(size = 5.dp)
-                            )
-                    )
-                    CommentTextField(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .paddingHorizontal(
-                                horizontal = 24.dp,
-                                top = 14.dp
-                            ),
-                        placeholder = "댓글을 작성해보세요",
-                        isDisabled = false,
-                        onValueChange = onCommentTextChange,
-                        value = commentTextState,
-                        singleLine = false,
-                        onButtonClicked = {
-                            postWritingCommunityComment(boardId,writingCommentData)
                         }
-                    )
-                    CommentCardList(data = commentData)
-                }
+                    },
+                    textColor = if (isHeartClicked) JDSColor.WHITE else JDSColor.GRAY400,
+                    backgroundColor = if (isHeartClicked) JDSColor.MAIN else Color.Unspecified,
+                    outLineColor = if (isHeartClicked) JDSColor.MAIN else JDSColor.GRAY400
+                )
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .paddingHorizontal(horizontal = 24.dp, top = 28.dp)
+                        .height(1.dp)
+                        .background(
+                            color = JDSColor.GRAY100,
+                            shape = RoundedCornerShape(size = 5.dp)
+                        )
+                )
+                CommentTextField(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .paddingHorizontal(
+                            horizontal = 24.dp,
+                            top = 14.dp
+                        ),
+                    placeholder = "댓글을 작성해보세요",
+                    isDisabled = false,
+                    onValueChange = setCommentTextChange,
+                    value = commentTextState,
+                    singleLine = false,
+                    onButtonClicked = {
+                        if (commentTextState.isNotEmpty()) {
+                            coroutineScope.launch {
+                                postWritingCommunityComment(boardId, commentTextState)
+                                delay(100L)
+                                getCommunityComment()
+                                setCommentTextChange("")
+                            }
+                        }
+                    }
+                )
+                CommentCardList(data = commentData)
             }
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CommunityDetailPre() {
+    val mockDetailData = GetCommunityBoardDetailResponseModel(
+        communityName = "Mock Comunity Name",
+        title = "Mock Title",
+        content = "Mock content for preview purposes.",
+        likes = 42
+    )
 
+    val mockCommentData = listOf(
+        GetCommunityCommentResponseModel(
+            name = "오은찬",
+            content = "Mock comment 1",
+        ),
+        GetCommunityCommentResponseModel(
+            name = "이명훈",
+            content = "Mock comment 1",
+        )
+    )
+
+    CommunityDetailScreen(
+        focusManager = LocalFocusManager.current,
+        detailData = mockDetailData,
+        commentData = mockCommentData,
+        swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false),
+        deleteCommunityDetail = { _, _ -> },
+        postLike = {},
+        deleteLike = {},
+        postWritingCommunityComment = { _, _ -> },
+        name = "Mock Community",
+        boardId = 1L,
+        communityId = 1L,
+        loadStuff = {},
+        getCommunityDetail = {},
+        getCommunityComment = {},
+        getLike = {},
+        popUpBackStack = {},
+        navigateToCommunityModify = {},
+        likeState = false
+    )
 }

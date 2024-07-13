@@ -24,7 +24,7 @@ fun CommentCard(
     modifier: Modifier = Modifier,
     data: GetCommunityCommentResponseModel
 ) {
-    JusiCoolAndroidTheme { colors, typography ->
+    JusiCoolAndroidTheme { _, typography ->
         Spacer(modifier = Modifier.height(24.dp))
         Column(
             modifier = modifier.fillMaxWidth(),

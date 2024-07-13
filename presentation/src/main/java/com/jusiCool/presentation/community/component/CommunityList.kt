@@ -16,8 +16,9 @@ import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseMod
 fun CommunityList(
     modifier: Modifier = Modifier,
     id: Long,
+    name: String,
     data: List<GetCommunityBoardListResponseModel> = listOf(),
-    navigateToDetailCommunity: (Long, Long) -> Unit
+    navigateToDetailCommunity: (Long, Long, String) -> Unit
 ) {
     JusiCoolAndroidTheme { colors, _ ->
         LazyColumn(
@@ -30,7 +31,8 @@ fun CommunityList(
                 CommunityListItem(
                     data = item,
                     onClick = navigateToDetailCommunity,
-                    id = id
+                    id = id,
+                    name = name
                 )
             }
         }

@@ -1,5 +1,6 @@
 package com.jusiCool.presentation.communityDetail.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +16,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun CommentCardList(
     modifier: Modifier = Modifier,
-    data: List<GetCommunityCommentResponseModel>
+    data: List<GetCommunityCommentResponseModel> = listOf()
 ) {
     JusiCoolAndroidTheme { _, _ ->
         LazyColumn(

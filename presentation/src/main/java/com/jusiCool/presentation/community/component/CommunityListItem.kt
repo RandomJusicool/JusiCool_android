@@ -38,15 +38,16 @@ data class CommunityListItemTemData(
 internal fun CommunityListItem(
     modifier: Modifier = Modifier,
     id: Long,
+    name: String,
     data: GetCommunityBoardListResponseModel,
-    onClick: (Long, Long) -> Unit
+    onClick: (Long, Long, String) -> Unit
     ) {
     JusiCoolAndroidTheme { colors, typography ->
         Spacer(modifier = Modifier.height(12.dp))
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .clickableSingle { onClick(data.id, id) },
+                .clickableSingle { onClick(data.id, id, name) },
             shape = RoundedCornerShape(12.dp),
             color = colors.WHITE
         ) {

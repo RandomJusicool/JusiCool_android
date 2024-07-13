@@ -42,7 +42,7 @@ fun NavController.navigateToCommunity(id: Long, name: String) {
 
 fun NavGraphBuilder.communityRoute(
     navigateToCommunityWriting: (Long) -> Unit,
-    navigateToCommunityDetail: (Long, Long) -> Unit,
+    navigateToCommunityDetail: (Long, Long, String) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     composable("${communityRoute}/{id}/{name}") { backStackEntry ->
@@ -64,11 +64,9 @@ fun NavGraphBuilder.communityRoute(
 internal fun CommunityRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    communityViewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     id: Long,
-    navigateToDetailCommunity: (Long, Long) -> Unit,
+    navigateToDetailCommunity: (Long, Long, String) -> Unit,
     name: String,
-    navigateToDetailCommunity: (Long) -> Unit,
     navigateToCommunityWriting: (Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
@@ -128,11 +126,10 @@ internal fun CommunityScreen(
     modifier: Modifier = Modifier,
     getCommunityListBoard: (Long) -> Unit,
     navigateToCommunityWriting: (Long) -> Unit,
-    navigateToDetailCommunity: (Long, Long) -> Unit,
+    navigateToDetailCommunity: (Long, Long, String) -> Unit,
     id: Long,
+    name: String,
     boardData: List<GetCommunityBoardListResponseModel>,
-    communityData: GetCommunityListResponseModel,
-    topBarNameData: GetCommunityBoardListResponseModel,
     swipeRefreshState: SwipeRefreshState,
     loadStuff: () -> Unit,
     popUpBackStack: () -> Unit,
@@ -163,7 +160,8 @@ internal fun CommunityScreen(
                     CommunityList(
                         data = boardData,
                         navigateToDetailCommunity = navigateToDetailCommunity,
-                        id = id
+                        id = id,
+                        name = name
                     )
                 }
                 WritingCommunityButton(

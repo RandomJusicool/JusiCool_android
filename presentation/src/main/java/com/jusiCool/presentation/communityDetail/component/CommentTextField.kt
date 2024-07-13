@@ -68,7 +68,12 @@ fun CommentTextField(
                 enabled = !isDisabled,
                 singleLine = singleLine,
                 trailingIcon = {
-                    IconButton(onClick = onButtonClicked) {
+                    IconButton(
+                        onClick = {
+                        onButtonClicked()
+                        text = ""
+                        }
+                    ) {
                         SendIcon(tint = if (text.isEmpty()) colors.GRAY400 else colors.MAIN)
                     }
                 }
