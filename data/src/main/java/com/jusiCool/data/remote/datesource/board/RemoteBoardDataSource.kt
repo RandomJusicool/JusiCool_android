@@ -9,5 +9,5 @@ interface RemoteBoardDataSource {
     suspend fun getCommunityDetail(boardId: Long) : Flow<GetCommunityBoardDetailResponse>
     suspend fun postCommunityBoard(communityId: Long ,body: WritingCommunityBoardRequest) : Flow<Unit>
     suspend fun patchCommunityBoard(boardId: Long, body: WritingCommunityBoardRequest) : Flow<Unit>
-    suspend fun deleteCommunityBoard(boardId: Long) : Flow<Unit>
+    suspend fun deleteCommunityBoard(communityId: Long, boardId: Long) : Flow<Unit>
 }

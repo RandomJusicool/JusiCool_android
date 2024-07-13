@@ -46,14 +46,12 @@ fun NavController.navigateToCommunityModify(boardId: Long) {
 
 fun NavGraphBuilder.communityModifyRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunityDetail: (Long) -> Unit
 ) {
     composable("${communityModifyRoute}/{id}") { backStackEntry ->
         val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
         if (id != null) {
             CommunityModifyRoute(
                 id = id,
-                navigateToCommunityDetail = navigateToCommunityDetail,
                 popUpBackStack = popUpBackStack
             )
         }
@@ -66,7 +64,6 @@ internal fun CommunityModifyRoute(
     viewModel: CommunityCUViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     id: Long,
     popUpBackStack: () -> Unit,
-    navigateToCommunityDetail: (Long) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -81,7 +78,7 @@ internal fun CommunityModifyRoute(
             )
             viewModel.title.value = ""
             viewModel.content.value = ""
-            navigateToCommunityDetail(id)
+            popUpBackStack()
         },
         title = viewModel.title.value,
         content = viewModel.content.value,
@@ -192,7 +189,6 @@ internal fun CommunityModifyScreen(
 private fun CommunityModifierPre() {
     CommunityModifyRoute(
         id = 0,
-        navigateToCommunityDetail = { /*TODO*/ },
         popUpBackStack = { /*TODO*/ }
     )
 }

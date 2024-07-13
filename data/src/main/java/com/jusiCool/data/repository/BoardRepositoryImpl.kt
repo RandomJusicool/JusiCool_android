@@ -41,7 +41,10 @@ class BoardRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun deleteCommunityBoard(boardId: Long): Flow<Unit> {
-        return dataSource.deleteCommunityBoard(boardId = boardId)
+    override suspend fun deleteCommunityBoard(communityId:Long, boardId: Long): Flow<Unit> {
+        return dataSource.deleteCommunityBoard(
+            communityId = communityId,
+            boardId = boardId
+        )
     }
 }

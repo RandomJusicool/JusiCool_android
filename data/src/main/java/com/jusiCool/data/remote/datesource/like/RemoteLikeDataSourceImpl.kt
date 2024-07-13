@@ -13,4 +13,7 @@ class RemoteLikeDataSourceImpl @Inject constructor(
 
     override suspend fun deleteLike(boardId: Long): Flow<Unit> =
         performApiRequest { serviceLike.deleteLike(boardId = boardId) }
+
+    override suspend fun getLike(boardId: Long): Flow<Boolean> =
+        performApiRequest { serviceLike.getLike(boardId = boardId) }
 }

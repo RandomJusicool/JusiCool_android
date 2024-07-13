@@ -42,7 +42,7 @@ fun NavController.navigateToCommunity(id: Long, name: String) {
 
 fun NavGraphBuilder.communityRoute(
     navigateToCommunityWriting: (Long) -> Unit,
-    navigateToCommunityDetail: (Long) -> Unit,
+    navigateToCommunityDetail: (Long, Long, String) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     composable("${communityRoute}/{id}/{name}") { backStackEntry ->
@@ -65,8 +65,8 @@ internal fun CommunityRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     id: Long,
+    navigateToDetailCommunity: (Long, Long, String) -> Unit,
     name: String,
-    navigateToDetailCommunity: (Long) -> Unit,
     navigateToCommunityWriting: (Long) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
@@ -126,7 +126,7 @@ internal fun CommunityScreen(
     modifier: Modifier = Modifier,
     getCommunityListBoard: (Long) -> Unit,
     navigateToCommunityWriting: (Long) -> Unit,
-    navigateToDetailCommunity: (Long) -> Unit,
+    navigateToDetailCommunity: (Long, Long, String) -> Unit,
     id: Long,
     name: String,
     boardData: List<GetCommunityBoardListResponseModel>,
@@ -159,7 +159,9 @@ internal fun CommunityScreen(
                     )
                     CommunityList(
                         data = boardData,
-                        navigateToDetailCommunity = navigateToDetailCommunity
+                        navigateToDetailCommunity = navigateToDetailCommunity,
+                        id = id,
+                        name = name
                     )
                 }
                 WritingCommunityButton(
@@ -180,27 +182,5 @@ internal fun CommunityScreen(
 @Preview
 @Composable
 private fun CommunityScreenPre() {
-//    CommunityScreen(
-//        navigateToDetailCommunity = {  },
-//        navigateToCommunityWriting = {  },
-//        popUpBackStack = {  },
-//        boardData = listOf(
-//            GetCommunityBoardListResponseModel(
-//                id = 0,
-//                community_name = "",
-//                name = "이명훈",
-//                title = "ㅁㅇㄴㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ",
-//                content = "ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ;ㅁ농;람넝;람넝;ㅣ라ㅓㅁㄴㅇ;ㅣ라ㅓㅁㄴ;ㅣㅇ라;민얼;ㅁㄴ어ㅏㄹ;ㅁ니ㅏㅓㅇㄹ;미너알;ㅁ",
-//                created_at = "12.12 12:20",
-//                likes = 10,
-//                comment_num = 12
-//            )
-//        ),
-//        loadStuff = {  },
-//        swipeRefreshState = SwipeRefreshState(false),
-//        getCommunityListBoard = {  },
-//        id = 0,
-//        communityData = listOf(),
-//        topBarNameData = listOf()
-//    )
+
 }
