@@ -3,6 +3,7 @@ package com.jusiCool.presentation.stockSell.viewModel
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jusiCool.domain.model.stock.request.StockRequestModel
 import com.jusiCool.domain.usecase.stock.DeleteStockUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
@@ -23,8 +24,14 @@ class StockSellViewModel @Inject constructor(
     var stockText = mutableLongStateOf(0)
         private set
 
-    internal fun deleteStock(stockId: Long) = viewModelScope.launch {
-        deleteStockUseCase(stockId = stockId).onSuccess {
+    internal fun deleteStock(
+        stockId: Long,
+        num: Long
+    ) = viewModelScope.launch {
+        deleteStockUseCase(
+            stockId = stockId,
+            body = StockRequestModel(num = num)
+        ).onSuccess {
             it.catch { remoteError ->
                 _deleteStockResponse.value = remoteError.errorHandling()
             }.collect {

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -72,7 +73,13 @@ internal fun StockSellingRoute(
     StockSellingScreen(
         modifier = modifier,
         id = id,
-        deleteStock = { viewModel.deleteStock(stockId = id) },
+        deleteStock = { num ->
+            viewModel.deleteStock(
+                stockId = id,
+                num = num
+            )
+        },
+        stockText = viewModel.stockText.longValue,
         myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
         entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
@@ -84,13 +91,14 @@ internal fun StockSellingRoute(
 internal fun StockSellingScreen(
     modifier: Modifier = Modifier,
     id: Long,
-    deleteStock: () -> Unit,
+    deleteStock: (num: Long) -> Unit,
+    stockText: Long,
     myStocksData: MyStocksData,
     entireStocksData: EntireStocksData,
     navigateToStockDetail: (Long) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
-    val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
+    val (stockTextState, setStockTextState) = remember { mutableLongStateOf(stockText) }
     val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(true) }
 
     Column(
@@ -100,7 +108,13 @@ internal fun StockSellingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         JDSArrowTopBar(
-            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail(id) }) },
+            startIcon = {
+                LeftArrowIcon(modifier = Modifier.clickableSingle {
+                    navigateToStockDetail(
+                        id
+                    )
+                })
+            },
             betweenText = "주식 판매"
         )
 
@@ -109,12 +123,12 @@ internal fun StockSellingScreen(
 
             JDSTextField(
                 modifier = Modifier.padding(horizontal = 24.dp),
-                textState = stockTextState,
+                textState = stockTextState.toString(),
                 placeHolder = "최대 N주 판매 가능",
                 label = "몇 주 판매할까요?",
                 helperText = "보유 주 ${myStocksData.share}주",
                 placerHolderShare = true,
-                onTextChange = setStockTextState
+                onTextChange = { setStockTextState(it.toLong()) }
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -123,11 +137,11 @@ internal fun StockSellingScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 32.dp),
-                state = if (stockTextState.isEmpty()) ButtonState.Disable else ButtonState.Enable,
+                state = if (stockTextState == 0L) ButtonState.Disable else ButtonState.Enable,
                 text = "판매 하기",
                 onClick = {
                     setIsBuyingSuccessful(false)
-                    deleteStock()
+                    deleteStock(stockTextState)
                 }
             )
         } else {
@@ -140,7 +154,7 @@ internal fun StockSellingScreen(
                 CostImage(modifier = Modifier.size(177.dp))
 
                 Text(
-                    text = "${entireStocksData.stockName} ${stockTextState.formatStockPrice()}주\n" +
+                    text = "${entireStocksData.stockName} ${stockTextState.toInt().formatStockPrice()}주\n" +
                             "${(stockTextState.toInt() * entireStocksData.myStockPrice).formatStockPrice()}P 판매 성공",
                     style = JDSTypography.subTitle,
                     color = JDSColor.Black
@@ -170,11 +184,12 @@ internal fun StockSellingScreen(
 @Composable
 fun StockSellingScreenPreview() {
     StockSellingScreen(
-        myStocksData = MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = 1L,"마이크로소프트", 1231, 10000, 8160, 7.9f),
+        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
+        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
         navigateToOrderHistory = {},
         id = 1L,
-        deleteStock = {  }
+        deleteStock = { },
+        stockText = 0
     )
 }
