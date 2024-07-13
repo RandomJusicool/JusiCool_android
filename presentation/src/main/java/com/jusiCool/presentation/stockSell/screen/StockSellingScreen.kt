@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.stockSelling.screen
+package com.jusiCool.presentation.stockSell.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
