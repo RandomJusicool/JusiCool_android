@@ -153,7 +153,7 @@ internal fun StockReservationBuyScreen(
                             placeHolder = "예약 금액을 달성했을 때 주식을 구매해요",
                             label = "예약 금액을 입력하세요",
                             helperText = "지금 주식 가격: ${entireStocksData.myStockPrice.formatStockPrice()} P",
-                            onTextChange = { setStockReservationTextState(it.toLongOrNull() ?: 0) }
+                            onTextChange = { setStockReservationTextState(it.toLong()) }
                         )
 
                         Spacer(modifier = Modifier.weight(1f))
@@ -178,7 +178,7 @@ internal fun StockReservationBuyScreen(
                             label = "몇 주 구매할까요?",
                             helperText = "보유 포인트 ${myAccountData.point.formatStockPrice()} P",
                             placerHolderShare = true,
-                            onTextChange = { setStockTextState(it.toLongOrNull() ?: 0) }
+                            onTextChange = { setStockTextState(it.toLong()) }
                         )
 
                         Spacer(modifier = Modifier.weight(1f))
