@@ -46,7 +46,6 @@ import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.screen.tempMyAccountData
 import com.jusiCool.presentation.stockReservationBuy.viewmodel.StockReservationBuyViewModel
-import com.jusiCool.presentation.utill.formatLongStockPrice
 import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockReservationBuyRoute = "stockReservationBuyRoute"
@@ -209,7 +208,7 @@ internal fun StockReservationBuyScreen(
                             CostImage(modifier = Modifier.size(177.dp))
 
                             Text(
-                                text = "${entireStocksData.stockName} ${stockTextState.formatLongStockPrice()}주\n" +
+                                text = "${entireStocksData.stockName} ${stockTextState.toInt().formatStockPrice()}주\n" +
                                         "${(stockTextState.toInt() * stockReservationTextState.toInt()).formatStockPrice()}P 구매 예약 성공",
                                 style = JDSTypography.subTitle,
                                 color = JDSColor.Black,
