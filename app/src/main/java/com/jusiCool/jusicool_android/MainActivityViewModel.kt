@@ -46,6 +46,7 @@ class MainActivityViewModel @Inject constructor(
         if (_refreshToken.isEmpty() || _refreshToken == "") {
             _navigateRoute = loginRoute
         } else {
+            _navigateRoute = mainRoute
             login()
         }
     }
