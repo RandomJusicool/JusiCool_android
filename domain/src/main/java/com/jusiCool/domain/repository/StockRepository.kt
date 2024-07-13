@@ -12,5 +12,5 @@ interface StockRepository {
     suspend fun buyStock(stockId: Long, body: StockRequestModel) : Flow<Unit>
     suspend fun sellStockReserve(stockId: Long, body: BuyStockRequestModel) : Flow<Unit>
     suspend fun buyStockReserve(stockId: Long, body: BuyStockRequestModel) : Flow<Unit>
-    suspend fun deleteStock(stockId: Long) : Flow<Unit>
+    suspend fun deleteStock(stockId: Long, body: StockRequestModel) : Flow<Unit>
 }

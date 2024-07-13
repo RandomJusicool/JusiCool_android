@@ -39,6 +39,7 @@ interface StockAPI {
 
     @DELETE("/api/v1/stock/{stock_id}")
     suspend fun deleteStock(
-        @Path("stock_id") stockId: Long
+        @Path("stock_id") stockId: Long,
+        @Body body: StockRequest
     )
 }

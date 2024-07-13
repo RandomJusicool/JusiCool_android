@@ -4,6 +4,7 @@ import com.jusiCool.data.remote.dto.stock.request.BuyStockRequest
 import com.jusiCool.data.remote.dto.stock.request.StockRequest
 import com.jusiCool.data.remote.dto.stock.response.GetStockDetailResponse
 import com.jusiCool.data.remote.dto.stock.response.GetStockListResponse
+import com.jusiCool.domain.model.stock.request.StockRequestModel
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteStockDataSource {
@@ -12,5 +13,5 @@ interface RemoteStockDataSource {
     suspend fun buyStock(stockId: Long, body: StockRequest) : Flow<Unit>
     suspend fun sellStockReserve(stockId: Long, body: BuyStockRequest) : Flow<Unit>
     suspend fun buyStockReserve(stockId: Long, body: BuyStockRequest) : Flow<Unit>
-    suspend fun deleteStock(stockId: Long) : Flow<Unit>
+    suspend fun deleteStock(stockId: Long, body: StockRequest) : Flow<Unit>
 }

@@ -44,7 +44,10 @@ class StockRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun deleteStock(stockId: Long): Flow<Unit> {
-        return dataSource.deleteStock(stockId = stockId)
+    override suspend fun deleteStock(stockId: Long, body: StockRequestModel): Flow<Unit> {
+        return dataSource.deleteStock(
+            stockId = stockId,
+            body = body.toDto()
+        )
     }
 }
