@@ -36,7 +36,7 @@ import com.jusiCool.presentation.splash.screen.splashRoute
 import com.jusiCool.presentation.stockDetail.screen.navigateToStockDetail
 import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
 import com.jusiCool.presentation.stockBuy.screen.stockBuyingRoute
-import com.jusiCool.presentation.stockReservationBuying.screen.stockReservationBuyingRoute
+import com.jusiCool.presentation.stockReservationBuy.screen.stockReservationBuyRoute
 import com.jusiCool.presentation.stockReservationSelling.screen.stockReservationSellingRoute
 import com.jusiCool.presentation.stockSelling.screen.stockSellingRoute
 
@@ -106,7 +106,7 @@ fun JusiCool_Android_NavHost(
             navigateToOrderHistory = navController::navigateToOrderHistory,
         )
 
-        stockReservationBuyingRoute(
+        stockReservationBuyRoute(
             navigateToStockDetail = navController::navigateToStockDetail,
             navigateToOrderHistory = navController::navigateToOrderHistory,
         )
