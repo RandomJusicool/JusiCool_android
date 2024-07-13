@@ -8,29 +8,19 @@ import com.squareup.moshi.JsonClass
 data class GetStockDetailResponse(
     @Json(name = "name") val name: String,
     @Json(name = "code") val code: Int,
-    @Json(name = "marketPrice") val marketPrice: Long,
-    @Json(name = "headPrice") val headPrice: Long,
-    @Json(name = "highPrice") val highPrice: Long,
-    @Json(name = "lowPrice") val lowPrice: Long,
+    @Json(name = "upDownPrice") val upDownPrice: Long,
+    @Json(name = "upDownPercent") val upDownPercent: Double,
     @Json(name = "presentPrice") val presentPrice: Long,
-    @Json(name = "contractPrice") val contractPrice: Long,
-    @Json(name = "fluctuationComparedPreviousDay") val fluctuationComparedPreviousDay: Long,
-    @Json(name = "marketCapitalization") val marketCapitalization: Long,
-    @Json(name = "transactionVolume") val transactionVolume: Long,
+    @Json(name = "transactionVolume") val transactionVolume: Long?=0,
     @Json(name = "transactionPrice") val transactionPrice: Long
 )
 
 fun GetStockDetailResponse.toModel() = GetStockDetailResponseModel(
     name = name,
     code = code,
-    marketPrice = marketPrice,
-    headPrice = headPrice,
-    highPrice = highPrice,
-    lowPrice = lowPrice,
+    upDownPrice = upDownPrice,
+    upDownPercent = upDownPercent,
     presentPrice = presentPrice,
-    contractPrice = contractPrice,
-    fluctuationComparedPreviousDay = fluctuationComparedPreviousDay,
-    marketCapitalization = marketCapitalization,
     transactionVolume = transactionVolume,
     transactionPrice = transactionPrice
 )

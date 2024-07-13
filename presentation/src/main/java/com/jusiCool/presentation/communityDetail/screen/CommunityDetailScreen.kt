@@ -1,6 +1,5 @@
 package com.jusiCool.presentation.communityDetail.screen
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -70,7 +69,7 @@ fun NavController.navigateToCommunityDetail(boardId: Long, communityId: Long, na
 
 fun NavGraphBuilder.communityDetailRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit
+    navigateToCommunityModify: (Long) -> Unit
 ) {
     composable("${communityDetailRoute}/{communityId}/{boardId}/{name}") { backStackEntry ->
         val boardId = backStackEntry.arguments?.getString("boardId")?.toLongOrNull()
@@ -96,7 +95,7 @@ internal fun CommunityDetailRoute(
     boardId: Long,
     communityId: Long,
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit,
+    navigateToCommunityModify: (Long) -> Unit,
     viewModel: CommunityDetailViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     val focusManager = LocalFocusManager.current
@@ -235,7 +234,7 @@ internal fun CommunityDetailScreen(
     communityId: Long,
     likeState: Boolean,
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: () -> Unit,
+    navigateToCommunityModify: (Long) -> Unit,
     loadStuff: () -> Unit,
     getCommunityDetail: () -> Unit,
     getCommunityComment: () -> Unit,
@@ -300,7 +299,7 @@ internal fun CommunityDetailScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        modifier = Modifier.clickableSingle { navigateToCommunityModify() },
+                        modifier = Modifier.clickableSingle { navigateToCommunityModify(0) },
                         text = "수정하기",
                         style = JDSTypography.RegularM,
                         color = JDSColor.MAIN,

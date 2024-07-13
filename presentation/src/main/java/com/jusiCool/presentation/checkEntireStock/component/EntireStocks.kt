@@ -21,6 +21,7 @@ import com.jusiCool.presentation.utill.formatStockPrice
 import com.jusiCool.presentation.utill.formatStockPriceSign
 
 data class EntireStocksData(
+    val id: Long,
     val stockName: String,
     val share: Int,
     val myStockPrice: Int,
@@ -57,7 +58,7 @@ fun EntireStocksItem(
 
             Text(
                 text =
-                if(entireStocksData.share != 0)"${entireStocksData.share.formatStockPrice()} 주 보유"
+                if (entireStocksData.share != 0) "${entireStocksData.share.formatStockPrice()} 주 보유"
                 else "보유 주식 없음",
                 style = JDSTypography.label,
                 color = JDSColor.GRAY400
@@ -96,7 +97,8 @@ fun EntireStocksPreview() {
                 share = 1231,
                 myStockPrice = 11131,
                 myStockRevenue = -8160,
-                myStockRevenuePercent = 7.9f
+                myStockRevenuePercent = 7.9f,
+                id = 1L
             )
         )
 
@@ -107,7 +109,8 @@ fun EntireStocksPreview() {
                 share = 0,
                 myStockPrice = 11131,
                 myStockRevenue = +8160,
-                myStockRevenuePercent = 7.9f
+                myStockRevenuePercent = 7.9f,
+                id = 1L
             )
         )
     }
