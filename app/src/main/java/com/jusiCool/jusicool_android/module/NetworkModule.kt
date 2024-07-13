@@ -8,6 +8,7 @@ import com.jusiCool.data.remote.api.CommunityAPI
 import com.jusiCool.data.remote.api.DayAPI
 import com.jusiCool.data.remote.api.EmailAPI
 import com.jusiCool.data.remote.api.LikeAPI
+import com.jusiCool.data.remote.api.NewsAPI
 import com.jusiCool.data.remote.api.ReservationAPI
 import com.jusiCool.data.remote.api.StockAPI
 import com.jusiCool.data.utill.AuthInterceptor
@@ -81,6 +82,17 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideDeepSearchRetrofitInstance(
+        okHttpClient: OkHttpClient,
+        moshiConverterFactory: MoshiConverterFactory,
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl("https://news.deepsearch.com/v1/")
+        .client(okHttpClient)
+        .addConverterFactory(moshiConverterFactory)
+        .build()
+
+    @Provides
+    @Singleton
     fun AuthAPI(retrofit: Retrofit): AuthAPI {
         return retrofit.create(AuthAPI::class.java)
     }
@@ -131,5 +143,11 @@ object NetworkModule {
     @Singleton
     fun dayAPI(retrofit: Retrofit): DayAPI {
         return retrofit.create(DayAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun NewsAPI(deepSearchRetrofit: Retrofit): NewsAPI {
+        return deepSearchRetrofit.create(NewsAPI::class.java)
     }
 }
