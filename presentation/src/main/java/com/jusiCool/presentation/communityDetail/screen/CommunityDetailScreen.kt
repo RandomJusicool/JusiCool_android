@@ -331,19 +331,19 @@ internal fun CommunityDetailScreen(
                     onClick = {
                         if (isHeartClicked) {
                             coroutineScope.launch {
-                                setIsHeartClicked(false)
                                 deleteLike(boardId)
                                 getLike()
-                                delay(100L)
+                                delay(250L)
                                 setLike(like - 1)
+                                setIsHeartClicked(false)
                             }
                         } else {
                             coroutineScope.launch {
-                                setIsHeartClicked(true)
                                 postLike(boardId)
                                 getLike()
-                                delay(100L)
+                                delay(250L)
                                 setLike(like + 1)
+                                setIsHeartClicked(true)
                             }
                         }
                     },
