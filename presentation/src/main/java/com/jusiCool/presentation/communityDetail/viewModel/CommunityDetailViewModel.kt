@@ -1,5 +1,6 @@
 package com.jusiCool.presentation.communityDetail.viewModel
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableLongStateOf
@@ -18,6 +19,7 @@ import com.jusiCool.domain.usecase.board.PatchCommunityBoardUseCase
 import com.jusiCool.domain.usecase.comment.GetCommunityCommentUseCase
 import com.jusiCool.domain.usecase.comment.PostWritingCommunityCommentUseCase
 import com.jusiCool.domain.usecase.like.DeleteLikeUseCase
+import com.jusiCool.domain.usecase.like.GetLikeUseCase
 import com.jusiCool.domain.usecase.like.PostLikeUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
@@ -33,11 +35,12 @@ import javax.inject.Inject
 class CommunityDetailViewModel @Inject constructor(
     private val getCommunityDetailUseCase: GetCommunityDetailUseCase,
     private val getCommunityCommentUseCase: GetCommunityCommentUseCase,
+    private val getLikeUseCase: GetLikeUseCase,
     private val deleteCommunityBoardUseCase: DeleteCommunityBoardUseCase,
     private val postLikeUseCase: PostLikeUseCase,
     private val deleteLikeUseCase: DeleteLikeUseCase,
     private val postWritingCommunityCommentUseCase: PostWritingCommunityCommentUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _swipeRefreshLoading = MutableStateFlow(false)
     val swipeRefreshLoading = _swipeRefreshLoading.asStateFlow()
 
@@ -45,15 +48,22 @@ class CommunityDetailViewModel @Inject constructor(
     val getCommunityBoardDetailResponse = _getCommunityBoardDetailResponse.asStateFlow()
 
     private val _deleteCommunityBoardDetailResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val deleteCommunityBoardDetailResponse = _deleteCommunityBoardDetailResponse.asStateFlow()
 
     private val _getCommunityCommentResponse = MutableStateFlow<Event<List<GetCommunityCommentResponseModel>>>(Event.Loading)
     val getCommunityCommentResponse = _getCommunityCommentResponse.asStateFlow()
 
+    private val _getLikeResponse = MutableStateFlow<Event<Boolean>>(Event.Loading)
+    val getLikeResponse = _getLikeResponse.asStateFlow()
+
     private val _postLikeResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val postLikeResponse = _postLikeResponse.asStateFlow()
 
     private val _deleteLikeResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val deleteLikeResponse = _deleteLikeResponse.asStateFlow()
 
     private val _postWritingCommunityComment = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val postWritingCommunityComment = _postWritingCommunityComment.asStateFlow()
 
     init {
         loadStuff()
@@ -67,18 +77,21 @@ class CommunityDetailViewModel @Inject constructor(
         }
     }
 
-    private lateinit var _communityDetail: MutableState<GetCommunityBoardDetailResponseModel>
-    val communityDetail: MutableState<GetCommunityBoardDetailResponseModel>
-        get() = _communityDetail
-
-    private lateinit var _writingCommunityDetail: MutableState<PostWritingCommunityCommentRequestModel>
-    val writingCommunityDetail: MutableState<PostWritingCommunityCommentRequestModel>
-        get() = _writingCommunityDetail
-
+    var communityDetail = mutableStateOf(
+        GetCommunityBoardDetailResponseModel(
+            communityName = "",
+            title = "",
+            content = "",
+            likes = 0
+        )
+    )
+        private set
 
     var communityComment = mutableStateListOf<GetCommunityCommentResponseModel>()
+        private set
 
-
+    var like = mutableStateOf(false)
+        private set
 
     internal fun getCommunityDetail(boardId: Long) = viewModelScope.launch {
         getCommunityDetailUseCase(boardId = boardId).onSuccess {
@@ -92,14 +105,14 @@ class CommunityDetailViewModel @Inject constructor(
         }
     }
 
-    internal fun deleteCommunityDetail(communityId: Long,boardId: Long)= viewModelScope.launch {
+    internal fun deleteCommunityDetail(communityId: Long, boardId: Long) = viewModelScope.launch {
         deleteCommunityBoardUseCase(communityId = communityId, boardId = boardId).onSuccess {
-            it.catch {remoteError ->
+            it.catch { remoteError ->
                 _deleteCommunityBoardDetailResponse.value = remoteError.errorHandling()
-            }.collect { response ->
-                _deleteCommunityBoardDetailResponse.value = Event.Success(Unit)
+            }.collect {
+                _deleteCommunityBoardDetailResponse.value = Event.Success()
             }
-        }.onFailure {error ->
+        }.onFailure { error ->
             _deleteCommunityBoardDetailResponse.value = error.errorHandling()
         }
     }
@@ -116,13 +129,25 @@ class CommunityDetailViewModel @Inject constructor(
         }
     }
 
+    internal fun getLike(boardId: Long) = viewModelScope.launch {
+        getLikeUseCase(boardId = boardId).onSuccess {
+            it.catch { remoteError ->
+                _getLikeResponse.value = remoteError.errorHandling()
+            }.collect { response ->
+                _getLikeResponse.value = Event.Success(data = response)
+            }
+        }.onFailure { error ->
+            _getLikeResponse.value = error.errorHandling()
+        }
+    }
+
+
     internal fun postLike(boardId: Long) = viewModelScope.launch {
         postLikeUseCase(boardId = boardId).onSuccess {
-            it.catch {remoteError ->
+            it.catch { remoteError ->
                 _postLikeResponse.value = remoteError.errorHandling()
             }.collect {
                 _postLikeResponse.value = Event.Success()
-                _communityDetail.value = _communityDetail.value.copy(likes = _communityDetail.value.likes + 1)
             }
         }.onFailure { error ->
             _postLikeResponse.value = error.errorHandling()
@@ -131,20 +156,22 @@ class CommunityDetailViewModel @Inject constructor(
 
     internal fun deleteLike(boardId: Long) = viewModelScope.launch {
         deleteLikeUseCase(boardId = boardId).onSuccess {
-            it.catch {remoteError ->
+            it.catch { remoteError ->
                 _deleteLikeResponse.value = remoteError.errorHandling()
             }.collect {
                 _deleteLikeResponse.value = Event.Success()
-                _communityDetail.value = _communityDetail.value.copy(likes = _communityDetail.value.likes - 1)
             }
         }.onFailure { error ->
             _deleteLikeResponse.value = error.errorHandling()
         }
     }
 
-    internal fun postWritingCommunityComment(boardId: Long, body: PostWritingCommunityCommentRequestModel) = viewModelScope.launch {
-        postWritingCommunityCommentUseCase(boardId = boardId, body = body).onSuccess {
-            it.catch {remoteError ->
+    internal fun postWritingCommunityComment(
+        boardId: Long,
+        content: String
+    ) = viewModelScope.launch {
+        postWritingCommunityCommentUseCase(boardId = boardId, body = PostWritingCommunityCommentRequestModel(content)).onSuccess {
+            it.catch { remoteError ->
                 _postWritingCommunityComment.value = remoteError.errorHandling()
             }.collect {
                 _postWritingCommunityComment.value = Event.Success()
