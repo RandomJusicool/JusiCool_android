@@ -139,7 +139,7 @@ internal fun StockBuyingScreen(
                     label = "몇 주 구매할까요?",
                     helperText = "보유 포인트 ${myAccountData.point.formatStockPrice()} P",
                     placerHolderShare = true,
-                    onTextChange = { setStockTextState(it.toLongOrNull() ?: 0) }
+                    onTextChange = { setStockTextState(it.toLong()) }
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 JDSButton(
