@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityDetail.screen
+package com.jusiCool.presentation.communityCU.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
@@ -51,11 +51,11 @@ import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.board.response.GetCommunityBoardDetailResponseModel
 import com.jusiCool.domain.model.comment.response.GetCommunityCommentResponseModel
+import com.jusiCool.presentation.communityCU.viewmodel.CommunityCUViewModel
 import com.jusiCool.presentation.communityDetail.component.CommentCardList
 import com.jusiCool.presentation.communityDetail.component.CommentTextField
 import com.jusiCool.presentation.communityDetail.component.CommunityDeleteDialog
 import com.jusiCool.presentation.communityDetail.component.HeartOutlinedButton
-import com.jusiCool.presentation.communityDetail.viewModel.CommunityDetailViewModel
 import com.jusiCool.presentation.utill.Event
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,14 +63,14 @@ import kotlinx.coroutines.launch
 const val communityDetailRoute = "communityDetailRoute"
 
 fun NavController.navigateToCommunityDetail(boardId: Long, communityId: Long, name: String) {
-    this.navigate("${communityDetailRoute}/${communityId}/${boardId}/${name}")
+    this.navigate("$communityDetailRoute/${communityId}/${boardId}/${name}")
 }
 
 fun NavGraphBuilder.communityDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: (Long) -> Unit
 ) {
-    composable("${communityDetailRoute}/{communityId}/{boardId}/{name}") { backStackEntry ->
+    composable("$communityDetailRoute/{communityId}/{boardId}/{name}") { backStackEntry ->
         val boardId = backStackEntry.arguments?.getString("boardId")?.toLongOrNull()
         val communityId = backStackEntry.arguments?.getString("communityId")?.toLongOrNull()
         val name = backStackEntry.arguments?.getString("name") ?: ""
@@ -95,7 +95,7 @@ internal fun CommunityDetailRoute(
     communityId: Long,
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: (Long) -> Unit,
-    viewModel: CommunityDetailViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
+    viewModel: CommunityCUViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -166,7 +166,7 @@ internal fun CommunityDetailRoute(
 }
 
 private suspend fun getCommunityDetail(
-    viewModel: CommunityDetailViewModel,
+    viewModel: CommunityCUViewModel,
     onSuccess: (data: GetCommunityBoardDetailResponseModel) -> Unit,
     onFailure: () -> Unit
 ) {
@@ -184,7 +184,7 @@ private suspend fun getCommunityDetail(
 }
 
 private suspend fun getCommunityComment(
-    viewModel: CommunityDetailViewModel,
+    viewModel: CommunityCUViewModel,
     onSuccess: (data: List<GetCommunityCommentResponseModel>) -> Unit,
     onFailure: () -> Unit
 ) {
@@ -202,7 +202,7 @@ private suspend fun getCommunityComment(
 }
 
 private suspend fun getLike(
-    viewModel: CommunityDetailViewModel,
+    viewModel: CommunityCUViewModel,
     onSuccess: (data: Boolean) -> Unit,
 ) {
     viewModel.getLikeResponse.collect { response ->
@@ -298,7 +298,7 @@ internal fun CommunityDetailScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        modifier = Modifier.clickableSingle { navigateToCommunityModify(0) },
+                        modifier = Modifier.clickableSingle { navigateToCommunityModify(boardId) },
                         text = "수정하기",
                         style = JDSTypography.RegularM,
                         color = JDSColor.MAIN,

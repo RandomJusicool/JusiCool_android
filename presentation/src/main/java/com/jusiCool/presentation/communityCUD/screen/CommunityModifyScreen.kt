@@ -67,6 +67,10 @@ internal fun CommunityModifyRoute(
 ) {
     val focusManager = LocalFocusManager.current
 
+    LaunchedEffect(id) {
+        viewModel.getDetailValue()
+    }
+
     CommunityModifyScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
@@ -91,14 +95,14 @@ internal fun CommunityModifyRoute(
 internal fun CommunityModifyScreen(
     modifier: Modifier = Modifier,
     id: Long,
-    navigateToCommunityDetail: (content: String, title: String) -> Unit,
+    navigateToCommunityDetail: (title: String, content: String) -> Unit,
     popUpBackStack: () -> Unit,
     focusManager: FocusManager,
     title: String,
     content: String,
 ) {
-    val (titleTextState, setTitleText) = remember { mutableStateOf(title) }
-    val (contentTextState, setContentText) = remember { mutableStateOf(content) }
+    val (titleTextState, setTitleText) = remember(title) { mutableStateOf(title) }
+    val (contentTextState, setContentText) = remember(content) { mutableStateOf(content) }
     val (writingModifierDialogIsVisible, setWritingModifierDialogIsVisible) = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -108,7 +112,6 @@ internal fun CommunityModifyScreen(
 
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         JusiCoolAndroidTheme { colors, typography ->
-
             Surface(modifier = modifier) {
                 Column(
                     modifier = Modifier
@@ -125,6 +128,7 @@ internal fun CommunityModifyScreen(
                             CommunityModifierDialog(
                                 checkOnClick = {
                                     setWritingModifierDialogIsVisible(false)
+                                    popUpBackStack()
                                 },
                                 cancelOnClick = { setWritingModifierDialogIsVisible(false) }
                             )
@@ -133,10 +137,7 @@ internal fun CommunityModifyScreen(
                     JDSArrowTopBar(
                         startIcon = {
                             LeftArrowIcon(
-                                modifier = modifier.clickableSingle {
-                                    popUpBackStack()
-                                    setWritingModifierDialogIsVisible(true)
-                                }
+                                modifier = modifier.clickableSingle { setWritingModifierDialogIsVisible(true) }
                             ) },
                         betweenText = "글 수정"
                     )
