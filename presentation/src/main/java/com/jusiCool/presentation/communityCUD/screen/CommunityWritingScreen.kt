@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityCU.screen
+package com.jusiCool.presentation.communityCUD.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
@@ -36,7 +36,7 @@ import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.communityCU.viewmodel.CommunityCUViewModel
+import com.jusiCool.presentation.communityCUD.viewmodel.CommunityCUDViewModel
 
 const val communityWritingRoute = "communityWritingRoute"
 
@@ -64,7 +64,7 @@ fun NavGraphBuilder.navigateToCommunityWriting(
 internal fun CommunityWritingRoute(
     modifier: Modifier = Modifier,
     id: Long,
-    viewModel: CommunityCUViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    viewModel: CommunityCUDViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit,
 ) {

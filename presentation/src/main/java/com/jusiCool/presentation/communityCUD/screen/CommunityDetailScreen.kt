@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityCU.screen
+package com.jusiCool.presentation.communityCUD.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
@@ -51,7 +51,7 @@ import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.board.response.GetCommunityBoardDetailResponseModel
 import com.jusiCool.domain.model.comment.response.GetCommunityCommentResponseModel
-import com.jusiCool.presentation.communityCU.viewmodel.CommunityCUViewModel
+import com.jusiCool.presentation.communityCUD.viewmodel.CommunityCUDViewModel
 import com.jusiCool.presentation.communityDetail.component.CommentCardList
 import com.jusiCool.presentation.communityDetail.component.CommentTextField
 import com.jusiCool.presentation.communityDetail.component.CommunityDeleteDialog
@@ -95,7 +95,7 @@ internal fun CommunityDetailRoute(
     communityId: Long,
     popUpBackStack: () -> Unit,
     navigateToCommunityModify: (Long) -> Unit,
-    viewModel: CommunityCUViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
+    viewModel: CommunityCUDViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -166,7 +166,7 @@ internal fun CommunityDetailRoute(
 }
 
 private suspend fun getCommunityDetail(
-    viewModel: CommunityCUViewModel,
+    viewModel: CommunityCUDViewModel,
     onSuccess: (data: GetCommunityBoardDetailResponseModel) -> Unit,
     onFailure: () -> Unit
 ) {
@@ -184,7 +184,7 @@ private suspend fun getCommunityDetail(
 }
 
 private suspend fun getCommunityComment(
-    viewModel: CommunityCUViewModel,
+    viewModel: CommunityCUDViewModel,
     onSuccess: (data: List<GetCommunityCommentResponseModel>) -> Unit,
     onFailure: () -> Unit
 ) {
@@ -202,7 +202,7 @@ private suspend fun getCommunityComment(
 }
 
 private suspend fun getLike(
-    viewModel: CommunityCUViewModel,
+    viewModel: CommunityCUDViewModel,
     onSuccess: (data: Boolean) -> Unit,
 ) {
     viewModel.getLikeResponse.collect { response ->

@@ -11,11 +11,11 @@ import com.jusiCool.presentation.checkEntireStock.screen.checkEntireStockListRou
 import com.jusiCool.presentation.checkEntireStock.screen.navigateToCheckEntireStockList
 import com.jusiCool.presentation.community.screen.communityRoute
 import com.jusiCool.presentation.community.screen.navigateToCommunity
-import com.jusiCool.presentation.communityCU.screen.communityModifyRoute
-import com.jusiCool.presentation.communityCU.screen.navigateToCommunityModify
-import com.jusiCool.presentation.communityCU.screen.navigateToCommunityWriting
-import com.jusiCool.presentation.communityDetail.screen.communityDetailRoute
-import com.jusiCool.presentation.communityDetail.screen.navigateToCommunityDetail
+import com.jusiCool.presentation.communityCUD.screen.communityModifyRoute
+import com.jusiCool.presentation.communityCUD.screen.navigateToCommunityModify
+import com.jusiCool.presentation.communityCUD.screen.navigateToCommunityWriting
+import com.jusiCool.presentation.communityCUD.screen.communityDetailRoute
+import com.jusiCool.presentation.communityCUD.screen.navigateToCommunityDetail
 import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityList.screen.navigateToCommunityList
 import com.jusiCool.presentation.communityOtherDetail.screen.communityOtherDetailRoute

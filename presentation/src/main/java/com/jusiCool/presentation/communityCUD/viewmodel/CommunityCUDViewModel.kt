@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityCU.viewmodel
+package com.jusiCool.presentation.communityCUD.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CommunityCUViewModel @Inject constructor(
+class CommunityCUDViewModel @Inject constructor(
     private val postWritingCommunityUseCase: PostWritingCommunityUseCase,
     private val patchCommunityBoardUseCase: PatchCommunityBoardUseCase,
     private val getCommunityDetailUseCase: GetCommunityDetailUseCase,

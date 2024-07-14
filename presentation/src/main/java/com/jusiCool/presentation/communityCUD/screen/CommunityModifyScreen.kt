@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.communityCU.screen
+package com.jusiCool.presentation.communityCUD.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
@@ -35,8 +35,8 @@ import com.example.design_system.component.textfield.JDSNoOutLinedTextField
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
-import com.jusiCool.presentation.communityCU.component.CommunityModifierDialog
-import com.jusiCool.presentation.communityCU.viewmodel.CommunityCUViewModel
+import com.jusiCool.presentation.communityCUD.component.CommunityModifierDialog
+import com.jusiCool.presentation.communityCUD.viewmodel.CommunityCUDViewModel
 
 const val communityModifyRoute = "communityModifyRoute"
 
@@ -61,7 +61,7 @@ fun NavGraphBuilder.communityModifyRoute(
 @Composable
 internal fun CommunityModifyRoute(
     modifier: Modifier = Modifier,
-    viewModel: CommunityCUViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    viewModel: CommunityCUDViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     id: Long,
     popUpBackStack: () -> Unit,
 ) {
