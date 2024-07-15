@@ -11,3 +11,9 @@ data class GetReceipt(
     @Json(name = "status") val status: ReceiptEnumType,
     @Json(name = "price") val price: Long,
 )
+
+fun GetReceipt.toModel() = GetReceiptModel(
+    stockName = stockName,
+    status = status,
+    price = price,
+)
