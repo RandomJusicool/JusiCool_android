@@ -3,6 +3,7 @@ package com.jusiCool.presentation.stockDetail.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jusiCool.domain.model.day.GetDayModel
 import com.jusiCool.domain.model.stock.response.GetStockDetailResponseModel
 import com.jusiCool.domain.usecase.day.GetDayUseCase
 import com.jusiCool.domain.usecase.stock.GetStockDetailUseCase
