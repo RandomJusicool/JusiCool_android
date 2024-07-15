@@ -9,9 +9,7 @@ import retrofit2.http.Path
 interface UserAPI {
 
     @GET("/api/v1/user")
-    suspend fun getMyStock(
-        @Path("stock_code") stockCode: String
-    ) : List<GetMyStock>
+    suspend fun getMyStock() : List<GetMyStock>
 
     @GET("/api/v1/user/board")
     suspend fun getMyCommunityBoard() : List<GetMyCommunityBoard>

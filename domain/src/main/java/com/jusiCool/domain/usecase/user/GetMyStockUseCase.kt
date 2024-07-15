@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetMyStockUseCase @Inject constructor(
     private val repository: UserRepository
 ) {
-    suspend operator fun invoke(stockCode: String) = runCatching {
-        repository.getMyStock(stockCode = stockCode)
+    suspend operator fun invoke() = runCatching {
+        repository.getMyStock()
     }
 }

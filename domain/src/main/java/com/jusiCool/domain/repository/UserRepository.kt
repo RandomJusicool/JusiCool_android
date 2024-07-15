@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     suspend fun getMyCommunityBoard(): Flow<List<GetMyCommunityBoardModel>>
-    suspend fun getMyStock(stockCode: String): Flow<List<GetMyStockModel>>
+    suspend fun getMyStock(): Flow<List<GetMyStockModel>>
     suspend fun getMyPoint(): Flow<GetMyPointModel>
 }

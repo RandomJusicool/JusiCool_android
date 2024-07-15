@@ -14,8 +14,8 @@ class RemoteUserDataSourceImpl @Inject constructor(
     override suspend fun getMyCommunityBoard(): Flow<List<GetMyCommunityBoard>> =
         performApiRequest { serviceUser.getMyCommunityBoard() }
 
-    override suspend fun getMyStock(stockCode: String): Flow<List<GetMyStock>> =
-        performApiRequest { serviceUser.getMyStock(stockCode = stockCode) }
+    override suspend fun getMyStock(): Flow<List<GetMyStock>> =
+        performApiRequest { serviceUser.getMyStock() }
 
     override suspend fun getMyPoint(): Flow<GetMyPoint> =
         performApiRequest { serviceUser.getMyPoint() }
