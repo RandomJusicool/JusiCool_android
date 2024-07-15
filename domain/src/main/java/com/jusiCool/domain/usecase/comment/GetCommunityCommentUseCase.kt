@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetCommunityCommentUseCase @Inject constructor(
     private val repository: CommentRepository
 ) {
-    suspend operator fun invoke(boardId: Long) = runCatching {
+    suspend operator fun invoke(boardId: String) = runCatching {
         repository.getCommunityComment(boardId = boardId)
     }
 }

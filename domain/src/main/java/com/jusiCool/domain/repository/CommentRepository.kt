@@ -5,6 +5,6 @@ import com.jusiCool.domain.model.comment.response.GetCommunityCommentResponseMod
 import kotlinx.coroutines.flow.Flow
 
 interface CommentRepository {
-    suspend fun postWritingCommunityComment(boardId: Long, body: PostWritingCommunityCommentRequestModel) : Flow<Unit>
-    suspend fun getCommunityComment(boardId: Long) : Flow<List<GetCommunityCommentResponseModel>>
+    suspend fun postWritingCommunityComment(boardId: String, body: PostWritingCommunityCommentRequestModel) : Flow<Unit>
+    suspend fun getCommunityComment(boardId: String) : Flow<List<GetCommunityCommentResponseModel>>
 }
