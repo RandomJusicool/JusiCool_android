@@ -15,7 +15,7 @@ import javax.inject.Inject
 class StockRepositoryImpl @Inject constructor(
     private val dataSource: RemoteStockDataSource
 ) : StockRepository {
-    override suspend fun getStockDetail(stockId: Long): Flow<GetStockDetailResponseModel> {
+    override suspend fun getStockDetail(stockId: String): Flow<GetStockDetailResponseModel> {
         return dataSource.getStockDetail(stockId = stockId).map { it.toModel() }
     }
 
@@ -23,28 +23,28 @@ class StockRepositoryImpl @Inject constructor(
         return dataSource.getStockList().map { it.toModel() }
     }
 
-    override suspend fun buyStock(stockId: Long, body: StockRequestModel): Flow<Unit> {
+    override suspend fun buyStock(stockId: String, body: StockRequestModel): Flow<Unit> {
         return dataSource.buyStock(
             stockId = stockId,
             body = body.toDto()
         )
     }
 
-    override suspend fun sellStockReserve(stockId: Long, body: BuyStockRequestModel): Flow<Unit> {
+    override suspend fun sellStockReserve(stockId: String, body: BuyStockRequestModel): Flow<Unit> {
         return dataSource.sellStockReserve(
             stockId = stockId,
             body = body.toDto()
         )
     }
 
-    override suspend fun buyStockReserve(stockId: Long, body: BuyStockRequestModel): Flow<Unit> {
+    override suspend fun buyStockReserve(stockId: String, body: BuyStockRequestModel): Flow<Unit> {
         return dataSource.buyStockReserve(
             stockId = stockId,
             body = body.toDto()
         )
     }
 
-    override suspend fun deleteStock(stockId: Long, body: StockRequestModel): Flow<Unit> {
+    override suspend fun deleteStock(stockId: String, body: StockRequestModel): Flow<Unit> {
         return dataSource.deleteStock(
             stockId = stockId,
             body = body.toDto()
