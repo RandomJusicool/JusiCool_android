@@ -39,7 +39,7 @@ fun NavController.navigateToSearch() {
 
 fun NavGraphBuilder.searchRoute(
     popUpBackStack: () -> Unit,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
 ) {
     composable(route = searchRoute) {
         SearchRoute(
@@ -61,7 +61,7 @@ val tempPopularStocksSearchData = persistentListOf(
 internal fun SearchRoute(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
 ) {
     SearchScreen(
         modifier = modifier,
@@ -76,7 +76,7 @@ internal fun SearchRoute(
 internal fun SearchScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     popularStocksSearchData: ImmutableList<PopularStocksSearchData>
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
@@ -122,7 +122,7 @@ internal fun SearchScreen(
             Column {
                 popularStocksSearchData.forEach { item ->
                     PopularStocksSearch(
-                        modifier = Modifier.clickableSingle { navigateToStockDetail(item.id) },
+                        modifier = Modifier.clickableSingle { navigateToStockDetail(item.id.toString()) },
                         popularStocksSearchData = item
                     )
                 }
