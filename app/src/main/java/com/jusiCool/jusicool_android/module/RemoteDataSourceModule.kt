@@ -18,6 +18,8 @@ import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSour
 import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSourceImpl
 import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSource
 import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSourceImpl
+import com.jusiCool.data.remote.datesource.user.RemoteUserDataSource
+import com.jusiCool.data.remote.datesource.user.RemoteUserDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -70,4 +72,9 @@ abstract class RemoteDataSourceModule {
     abstract fun provideMyDataSource(
         remoteDayDataSourceImpl: RemoteDayDataSourceImpl
     ) : RemoteDayDataSource
+
+    @Binds
+    abstract fun provideUserDataSource(
+        remoteUserDataSourceImpl: RemoteUserDataSourceImpl
+    ) : RemoteUserDataSource
 }
