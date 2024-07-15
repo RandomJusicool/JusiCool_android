@@ -81,16 +81,16 @@ internal fun HoldShareScreen(
             contentPadding = PaddingValues(bottom = 8.dp)
         ) {
             items(myStocksData) { item ->
-                Stocks(
-                    modifier = Modifier
-                        .background(
-                            color = JDSColor.WHITE,
-                            shape = RoundedCornerShape(size = 12.dp)
-                        )
-                        .padding(16.dp),
-                    myStocksData = item,
-                    navigateToStockDetail = navigateToStockDetail
-                )
+//                Stocks(
+//                    modifier = Modifier
+//                        .background(
+//                            color = JDSColor.WHITE,
+//                            shape = RoundedCornerShape(size = 12.dp)
+//                        )
+//                        .padding(16.dp),
+//                    myStocksData = item,
+//                    navigateToStockDetail = navigateToStockDetail
+//                ) 나중에 고칠게여
             }
         }
     }

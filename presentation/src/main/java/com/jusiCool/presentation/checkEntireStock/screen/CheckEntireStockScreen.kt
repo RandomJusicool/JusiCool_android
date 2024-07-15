@@ -111,7 +111,7 @@ fun CheckEntireStockListScreen(
         ) {
             items(entireStocksData) { item ->
                 EntireStocksItem(
-                    modifier = Modifier.clickableSingle { navigateToStockDetail(item.id) },
+                    modifier = Modifier.clickableSingle { navigateToStockDetail(item.id.toString()) },
                     entireStocksData = item
                 )
             }

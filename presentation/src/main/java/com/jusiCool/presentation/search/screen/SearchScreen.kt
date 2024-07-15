@@ -122,7 +122,7 @@ internal fun SearchScreen(
             Column {
                 popularStocksSearchData.forEach { item ->
                     PopularStocksSearch(
-                        modifier = Modifier.clickableSingle { navigateToStockDetail(item.id) },
+                        modifier = Modifier.clickableSingle { navigateToStockDetail(item.id.toString()) },
                         popularStocksSearchData = item
                     )
                 }

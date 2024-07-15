@@ -106,13 +106,7 @@ internal fun StockSellingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         JDSArrowTopBar(
-            startIcon = {
-                LeftArrowIcon(modifier = Modifier.clickableSingle {
-                    navigateToStockDetail(
-                        id
-                    )
-                })
-            },
+            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail(id) }) },
             betweenText = "주식 판매"
         )
 
