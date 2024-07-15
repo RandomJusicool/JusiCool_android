@@ -18,7 +18,7 @@ import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.presentation.utill.formatStockPriceSign
 
 data class MyStocksData(
-    val id: Long,
+    val id: String,
     val stockName: String,
     val share: Int,
     val myStockPrice: Int,
@@ -30,7 +30,7 @@ data class MyStocksData(
 fun Stocks(
     modifier: Modifier = Modifier,
     myStocksData: MyStocksData,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -86,7 +86,7 @@ fun StocksPreview() {
                 myStockPrice = 11131,
                 myStockRevenue = 8160,
                 myStockRevenuePercent = 7.9f,
-                id = 0
+                id = "0"
             ),
             navigateToStockDetail = { /*TODO*/ }
         )
@@ -99,7 +99,7 @@ fun StocksPreview() {
                 myStockPrice = 11131,
                 myStockRevenue = -8160,
                 myStockRevenuePercent = 7.9f,
-                id = 0
+                id = "0"
             ),
             navigateToStockDetail = { /*TODO*/ }
         )
@@ -112,7 +112,7 @@ fun StocksPreview() {
                 myStockPrice = 11131,
                 myStockRevenue = 0,
                 myStockRevenuePercent = 0.0f,
-                id = 0
+                id = "0"
             ),
             navigateToStockDetail = { /*TODO*/ }
         )

@@ -11,14 +11,12 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.icon_image.icon.PencilIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
-import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
-import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 
 @Composable
 fun WritingCommunityButton(
     modifier: Modifier = Modifier,
-    navigateToCommunityWriting: (Long) -> Unit,
-    data: Long
+    navigateToCommunityWriting: (String) -> Unit,
+    data: String
 ) {
     JusiCoolAndroidTheme { colors, _ ->
         Box(

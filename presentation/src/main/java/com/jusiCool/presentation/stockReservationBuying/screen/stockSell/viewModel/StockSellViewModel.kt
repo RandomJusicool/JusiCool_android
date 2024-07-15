@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.stockSell.viewModel
+package com.jusiCool.presentation.stockReservationBuying.screen.stockSell.viewModel
 
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.lifecycle.ViewModel
@@ -25,7 +25,7 @@ class StockSellViewModel @Inject constructor(
         private set
 
     internal fun deleteStock(
-        stockId: Long,
+        stockId: String,
         num: Long
     ) = viewModelScope.launch {
         deleteStockUseCase(

@@ -38,7 +38,7 @@ import com.jusiCool.presentation.communityCUD.viewmodel.CommunityCUDViewModel
 
 const val communityWritingRoute = "communityWritingRoute"
 
-fun NavController.navigateToCommunityWriting(id: Long) {
+fun NavController.navigateToCommunityWriting(id: String) {
     this.navigate("$communityWritingRoute/$id")
 }
 
@@ -47,21 +47,19 @@ fun NavGraphBuilder.navigateToCommunityWriting(
     navigateToCommunity: () -> Unit
 ) {
     composable("$communityWritingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
-            CommunityWritingRoute(
-                id = id,
-                popUpBackStack = popUpBackStack,
-                navigateToCommunity = navigateToCommunity
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        CommunityWritingRoute(
+            id = id,
+            popUpBackStack = popUpBackStack,
+            navigateToCommunity = navigateToCommunity
+        )
     }
 }
 
 @Composable
 internal fun CommunityWritingRoute(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     viewModel: CommunityCUDViewModel = hiltViewModel(),
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit,

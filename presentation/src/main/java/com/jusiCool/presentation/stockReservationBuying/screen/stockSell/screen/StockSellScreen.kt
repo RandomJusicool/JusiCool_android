@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.stockSell.screen
+package com.jusiCool.presentation.stockReservationBuying.screen.stockSell.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
@@ -37,28 +37,26 @@ import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyStocksData
-import com.jusiCool.presentation.stockSell.viewModel.StockSellViewModel
+import com.jusiCool.presentation.stockReservationBuying.screen.stockSell.viewModel.StockSellViewModel
 import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockSellingRoute = "stockSellingRoute"
 
-fun NavController.navigationToStockSelling(id: Long) {
+fun NavController.navigationToStockSelling(id: String) {
     this.navigate("$stockSellingRoute/$id")
 }
 
 fun NavGraphBuilder.stockSellingRoute(
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockSellingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
-            StockSellingRoute(
-                id = id,
-                navigateToStockDetail = navigateToStockDetail,
-                navigateToOrderHistory = navigateToOrderHistory
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        StockSellingRoute(
+            id = id,
+            navigateToStockDetail = navigateToStockDetail,
+            navigateToOrderHistory = navigateToOrderHistory
+        )
     }
 }
 
@@ -66,8 +64,8 @@ fun NavGraphBuilder.stockSellingRoute(
 internal fun StockSellingRoute(
     modifier: Modifier = Modifier,
     viewModel: StockSellViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    id: Long,
-    navigateToStockDetail: (Long) -> Unit,
+    id: String,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockSellingScreen(
@@ -80,8 +78,8 @@ internal fun StockSellingRoute(
             )
         },
         stockText = viewModel.stockText.longValue,
-        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        myStocksData = MyStocksData(id = "1L", "마이크로소프트", 1231, 11131, 0, 0.0f),
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
     )
@@ -90,12 +88,12 @@ internal fun StockSellingRoute(
 @Composable
 internal fun StockSellingScreen(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     deleteStock: (num: Long) -> Unit,
     stockText: Long,
     myStocksData: MyStocksData,
     entireStocksData: EntireStocksData,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockTextState, setStockTextState) = remember { mutableLongStateOf(stockText) }
@@ -154,7 +152,9 @@ internal fun StockSellingScreen(
                 CostImage(modifier = Modifier.size(177.dp))
 
                 Text(
-                    text = "${entireStocksData.stockName} ${stockTextState.toInt().formatStockPrice()}주\n" +
+                    text = "${entireStocksData.stockName} ${
+                        stockTextState.toInt().formatStockPrice()
+                    }주\n" +
                             "${(stockTextState.toInt() * entireStocksData.myStockPrice).formatStockPrice()}P 판매 성공",
                     style = JDSTypography.subTitle,
                     color = JDSColor.Black
@@ -184,11 +184,11 @@ internal fun StockSellingScreen(
 @Composable
 fun StockSellingScreenPreview() {
     StockSellingScreen(
-        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        myStocksData = MyStocksData(id = "1L", "마이크로소프트", 1231, 11131, 0, 0.0f),
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
         navigateToOrderHistory = {},
-        id = 1L,
+        id = "1L",
         deleteStock = { },
         stockText = 0
     )
