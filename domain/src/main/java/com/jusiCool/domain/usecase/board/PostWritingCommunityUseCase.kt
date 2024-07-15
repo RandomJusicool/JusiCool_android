@@ -8,7 +8,7 @@ class PostWritingCommunityUseCase @Inject constructor(
     private val repository: BoardRepository
 ) {
     suspend operator fun invoke(
-        communityId: Long,
+        communityId: String,
         body: WritingCommunityBoardRequestModel
     ) = runCatching {
         repository.postCommunityBoard(

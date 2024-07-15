@@ -13,16 +13,16 @@ import javax.inject.Inject
 class BoardRepositoryImpl @Inject constructor(
     private val dataSource: RemoteBoardDataSource
 ) : BoardRepository {
-    override suspend fun getCommunityBoardList(communityId: Long): Flow<List<GetCommunityBoardListResponseModel>> {
+    override suspend fun getCommunityBoardList(communityId: String): Flow<List<GetCommunityBoardListResponseModel>> {
         return dataSource.getCommunityBoardList(communityId = communityId).map { list -> list.map { it.toModel() } }
     }
 
-    override suspend fun getCommunityDetail(boardId: Long): Flow<GetCommunityBoardDetailResponseModel> {
+    override suspend fun getCommunityDetail(boardId: String): Flow<GetCommunityBoardDetailResponseModel> {
         return dataSource.getCommunityDetail(boardId = boardId).map { it.toModel() }
     }
 
     override suspend fun postCommunityBoard(
-        communityId: Long,
+        communityId: String,
         body: WritingCommunityBoardRequestModel
     ): Flow<Unit> {
         return dataSource.postCommunityBoard(
@@ -32,7 +32,7 @@ class BoardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun patchCommunityBoard(
-        boardId: Long,
+        boardId: String,
         body: WritingCommunityBoardRequestModel
     ): Flow<Unit> {
         return dataSource.patchCommunityBoard(
@@ -41,7 +41,7 @@ class BoardRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun deleteCommunityBoard(communityId:Long, boardId: Long): Flow<Unit> {
+    override suspend fun deleteCommunityBoard(communityId:String, boardId: String): Flow<Unit> {
         return dataSource.deleteCommunityBoard(
             communityId = communityId,
             boardId = boardId
