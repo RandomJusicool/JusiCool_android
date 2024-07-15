@@ -36,6 +36,9 @@ class RemoteStockDataSourceImpl @Inject constructor(
             body = body
         ) }
 
-    override suspend fun deleteStock(stockId: Long): Flow<Unit> =
-        performApiRequest { serviceStock.deleteStock(stockId = stockId) }
+    override suspend fun deleteStock(stockId: Long, body: StockRequest): Flow<Unit> =
+        performApiRequest { serviceStock.deleteStock(
+            stockId = stockId,
+            body = body
+        ) }
 }
