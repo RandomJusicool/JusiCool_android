@@ -36,7 +36,7 @@ import com.jusiCool.presentation.utill.Event
 
 const val communityRoute = "communityRoute"
 
-fun NavController.navigateToCommunity(id: Long, name: String) {
+fun NavController.navigateToCommunity(id: String, name: String) {
     this.navigate("${communityRoute}/${id}/${name}")
 }
 

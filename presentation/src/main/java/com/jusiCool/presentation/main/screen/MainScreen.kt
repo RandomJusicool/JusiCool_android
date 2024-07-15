@@ -42,7 +42,7 @@ fun NavController.navigateToMain() {
 
 fun NavGraphBuilder.mainRoute(
     navigateToSearch: () -> Unit,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
     navigateToCheckEntireStockList: () -> Unit,
@@ -66,7 +66,7 @@ fun NavGraphBuilder.mainRoute(
 fun MainRoute(
     modifier: Modifier = Modifier,
     navigateToSearch: () -> Unit,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
     navigateToCheckEntireStockList: () -> Unit,
@@ -86,14 +86,14 @@ fun MainRoute(
 }
 
 val tempMyStockData = persistentListOf(
-    MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, -8160, 7.9f),
-    MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, 0, 7.9f),
-    MyStocksData(id = 1L,"마이크로소프트", 1, 11131, 8160, 7.9f),
-    MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, -8160, 7.9f),
+    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 0, 7.9f),
+    MyStocksData(id = "1L","마이크로소프트", 1, 11131, 8160, 7.9f),
+    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
 )
 
 val tempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
@@ -109,7 +109,7 @@ val tempPopularSummaryNewsData = PopularSummaryNewsData(
 fun MainScreen(
     modifier: Modifier = Modifier,
     navigateToSearch: () -> Unit,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
     navigateToCheckEntireStockList: () -> Unit,

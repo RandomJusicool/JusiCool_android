@@ -33,44 +33,46 @@ import com.example.design_system.icon_image.icon.RightArrowIcon
 import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.stock.request.BuyStockRequestModel
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyStocksData
 import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockReservationSellingRoute = "stockReservationSellingRoute"
 
-fun NavController.navigationToStockReservationBuying(id: Long) {
+fun NavController.navigationToStockReservationBuying(id: String) {
     this.navigate("$stockReservationSellingRoute/$id")
 }
 
 fun NavGraphBuilder.stockReservationSellingRoute(
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockReservationSellingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
+        val id = backStackEntry.arguments?.getString("id")?:""
             StockReservationSellingRoute(
                 id = id,
                 navigateToStockDetail = navigateToStockDetail,
                 navigateToOrderHistory = navigateToOrderHistory
             )
-        }
     }
 }
 
 @Composable
 internal fun StockReservationSellingRoute(
     modifier: Modifier = Modifier,
-    id: Long,
-    navigateToStockDetail: (Long) -> Unit,
+    id: String,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockReservationSellingScreen(
         modifier = modifier,
         id = id,
-        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        myStocksData = MyStocksData(id = "1L", "마이크로소프트", 1231, 11131, 0, 0.0f),
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        sendStockReservation = { body, onSuccess ->
+
+        },
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
     )
@@ -79,10 +81,11 @@ internal fun StockReservationSellingRoute(
 @Composable
 internal fun StockReservationSellingScreen(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     myStocksData: MyStocksData,
     entireStocksData: EntireStocksData,
-    navigateToStockDetail: (Long) -> Unit,
+    sendStockReservation: (BuyStockRequestModel, () -> Unit) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockReservationTextState, setStockReservationTextState) = remember { mutableStateOf("") }
@@ -151,7 +154,17 @@ internal fun StockReservationSellingScreen(
                         .padding(horizontal = 20.dp, vertical = 32.dp),
                     state = if (stockTextState.isEmpty()) ButtonState.Disable else ButtonState.Enable,
                     text = "판매 하기",
-                    onClick = { setPager(3) }
+                    onClick = {
+                        sendStockReservation(
+                            BuyStockRequestModel(
+                                num = stockTextState.toLong(),
+                                goal_price = stockReservationTextState.toLong()
+
+                            )
+                        ) {
+                            setPager(3)
+                        }
+                    }
                 )
             }
 
@@ -199,10 +212,11 @@ internal fun StockReservationSellingScreen(
 @Composable
 fun StockReservationSellingScreenPreview() {
     StockReservationSellingScreen(
-        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        id = "1L",
+        myStocksData = MyStocksData(id = "1L", "마이크로소프트", 1231, 11131, 0, 0.0f),
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
         navigateToOrderHistory = {},
-        id = 1L,
+        sendStockReservation = { num, goal_price -> },
     )
 }

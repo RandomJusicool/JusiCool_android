@@ -21,7 +21,7 @@ import com.jusiCool.presentation.utill.formatStockPrice
 import com.jusiCool.presentation.utill.formatStockPriceSign
 
 data class EntireStocksData(
-    val id: Long,
+    val id: String,
     val stockName: String,
     val share: Int,
     val myStockPrice: Int,
@@ -98,7 +98,7 @@ fun EntireStocksPreview() {
                 myStockPrice = 11131,
                 myStockRevenue = -8160,
                 myStockRevenuePercent = 7.9f,
-                id = 1L
+                id = "1L"
             )
         )
 
@@ -110,7 +110,7 @@ fun EntireStocksPreview() {
                 myStockPrice = 11131,
                 myStockRevenue = +8160,
                 myStockRevenuePercent = 7.9f,
-                id = 1L
+                id = "1L"
             )
         )
     }
