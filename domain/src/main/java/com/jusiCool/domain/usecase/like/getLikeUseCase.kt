@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetLikeUseCase @Inject constructor(
     private val repository: LikeRepository
 ) {
-    suspend operator fun invoke(boardId: Long) = runCatching {
+    suspend operator fun invoke(boardId: String) = runCatching {
         repository.getLike(boardId = boardId)
     }
 }
