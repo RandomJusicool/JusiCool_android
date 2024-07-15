@@ -7,7 +7,5 @@ import retrofit2.http.Query
 interface ReceiptAPI {
 
     @GET("/api/v1/receipt")
-    suspend fun getReceipt(
-        @Query("status") status: String
-    ) : List<GetReceipt>
+    suspend fun getReceipt() : List<GetReceipt>
 }

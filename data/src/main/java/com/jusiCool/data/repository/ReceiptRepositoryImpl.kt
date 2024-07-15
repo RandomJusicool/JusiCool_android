@@ -11,7 +11,7 @@ import javax.inject.Inject
 class ReceiptRepositoryImpl @Inject constructor(
     private val dataSource: RemoteReceiptDataSource
 ) : ReceiptRepository {
-    override suspend fun getReceipt(status: String): Flow<List<GetReceiptModel>> {
-        return dataSource.getReceipt(status = status).map { list -> list.map { it.toModel() } }
+    override suspend fun getReceipt(): Flow<List<GetReceiptModel>> {
+        return dataSource.getReceipt().map { list -> list.map { it.toModel() } }
     }
 }

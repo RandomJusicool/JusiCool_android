@@ -9,6 +9,6 @@ import javax.inject.Inject
 class RemoteReceiptDataSourceImpl @Inject constructor(
     private val serviceReceipt: ReceiptAPI
 ) : RemoteReceiptDataSource {
-    override suspend fun getReceipt(status: String): Flow<List<GetReceipt>> =
-        performApiRequest { serviceReceipt.getReceipt(status = status) }
+    override suspend fun getReceipt(): Flow<List<GetReceipt>> =
+        performApiRequest { serviceReceipt.getReceipt() }
 }
