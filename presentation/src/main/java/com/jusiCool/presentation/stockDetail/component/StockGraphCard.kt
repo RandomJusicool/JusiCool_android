@@ -117,15 +117,7 @@ fun StockGraphCard(
                 }
             }
         }
-        } else {
-            // TODO: 주식 그래프 추가
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(284.dp)
-            ) {
-                Text(text = "선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프, 선형 그래프")
-            }
+        if (data.isNotEmpty()) {
             if (!isToggleSelected) {
                 val maxHeight = 284.dp // 캔버스의 최대 높이를 284dp로 설정
 
@@ -179,6 +171,39 @@ fun StockGraphCard(
                         )
                     }
                 }
+            } else {
+                val maxHeight = 284.dp // 캔버스의 최대 높이를 284dp로 설정
+
+                Canvas(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(maxHeight)
+                ) {
+                    val maxPoints = 31
+                    val totalWidth = size.width
+                    val pointSpacing = totalWidth / (maxPoints - 1)
+                    val maxHigh = data.maxOf { it.presentPrice }
+                    val minLow = data.minOf { it.presentPrice }
+                    val priceRange = maxHigh - minLow
+
+                    val points = data.take(maxPoints).mapIndexed { index, model ->
+                        val x = index * pointSpacing
+                        val y = maxHeight.toPx() - ((model.presentPrice - minLow).toFloat() / priceRange * maxHeight.toPx())
+                        Offset(x, y)
+                    }
+
+                    for (i in 0 until points.size - 1) {
+                        drawLine(
+                            color = Color.Blue,
+                            start = points[i],
+                            end = points[i + 1],
+                            strokeWidth = 7f
+                        )
+                    }
+                }
+            }
+        } else {
+            Text(text = "데이터가 없습니다")
         }
     }
 }
