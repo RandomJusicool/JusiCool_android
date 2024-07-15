@@ -6,6 +6,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class GetMyStock(
+    @Json(name = "code") val code: String,
     @Json(name = "stock_name") val stock_name: String,
     @Json(name = "stock_num") val stock_num: Long,
     @Json(name = "points") val points: Long,
@@ -14,6 +15,7 @@ data class GetMyStock(
 )
 
 fun GetMyStock.toModel() = GetMyStockModel(
+    code = code,
     stock_name = stock_name,
     stock_num = stock_num,
     points = points,

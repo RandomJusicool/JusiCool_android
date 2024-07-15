@@ -32,7 +32,7 @@ fun NavController.navigateToHoldShare() {
 }
 
 fun NavGraphBuilder.holdShareRoute(
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     popUpBackStack: () -> Unit
 ) {
     composable(route = holdShareRoute) {
@@ -46,7 +46,7 @@ fun NavGraphBuilder.holdShareRoute(
 @Composable
 internal fun HoldShareRoute(
     modifier: Modifier = Modifier,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     popUpBackStack: () -> Unit
 ) {
     HoldShareScreen(
@@ -61,7 +61,7 @@ internal fun HoldShareRoute(
 internal fun HoldShareScreen(
     modifier: Modifier = Modifier,
     myStocksData: ImmutableList<MyStocksData>,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     Column(
@@ -81,16 +81,16 @@ internal fun HoldShareScreen(
             contentPadding = PaddingValues(bottom = 8.dp)
         ) {
             items(myStocksData) { item ->
-                Stocks(
-                    modifier = Modifier
-                        .background(
-                            color = JDSColor.WHITE,
-                            shape = RoundedCornerShape(size = 12.dp)
-                        )
-                        .padding(16.dp),
-                    myStocksData = item,
-                    navigateToStockDetail = navigateToStockDetail
-                )
+//                Stocks(
+//                    modifier = Modifier
+//                        .background(
+//                            color = JDSColor.WHITE,
+//                            shape = RoundedCornerShape(size = 12.dp)
+//                        )
+//                        .padding(16.dp),
+//                    myStocksData = item,
+//                    navigateToStockDetail = navigateToStockDetail
+//                ) 나중에 고칠게여
             }
         }
     }
