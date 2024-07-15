@@ -10,6 +10,7 @@ import com.jusiCool.data.repository.LikeRepositoryImpl
 import com.jusiCool.data.repository.ReservationRepositoryImpl
 import com.jusiCool.data.repository.StockRepositoryImpl
 import com.jusiCool.data.repository.TokenRepositoryImpl
+import com.jusiCool.data.repository.UserRepositoryImpl
 import com.jusiCool.domain.repository.AuthRepository
 import com.jusiCool.domain.repository.BoardRepository
 import com.jusiCool.domain.repository.CommentRepository
@@ -77,4 +78,9 @@ abstract class RepositoryModule {
     abstract fun provideMyRepository(
         dayRepositoryImpl: DayRepositoryImpl
     ) : DayRepository
+
+    @Binds
+    abstract fun provideUserRepository(
+        userRepositoryImpl: UserRepositoryImpl
+    ) : UserRepositoryImpl
 }
