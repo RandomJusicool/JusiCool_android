@@ -7,7 +7,7 @@ import javax.inject.Inject
 class DeleteStockUseCase @Inject constructor(
     private val repository: StockRepository
 ) {
-    suspend operator fun invoke(stockId: Long, body: StockRequestModel) = runCatching {
+    suspend operator fun invoke(stockId: String, body: StockRequestModel) = runCatching {
         repository.deleteStock(
             stockId = stockId,
             body = body
