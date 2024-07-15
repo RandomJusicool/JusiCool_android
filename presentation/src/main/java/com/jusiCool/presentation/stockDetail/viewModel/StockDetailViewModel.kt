@@ -31,7 +31,23 @@ class StockDetailViewModel @Inject constructor(
     )
     val stockDetail = _stockDetail.asStateFlow()
 
-    fun getStockDetail(stockId: Long) = viewModelScope.launch {
+    private val _stockGraph: MutableStateFlow<List<GetDayModel>> = MutableStateFlow(
+        listOf(
+            GetDayModel(
+                marketPrice = 0,
+                highPrice = 0,
+                headPrice = 0,
+                lowPrice = 0,
+                presentPrice = 0,
+                upDownPercent = 0,
+                storeAt = "",
+                volume = 0,
+            )
+        )
+    )
+    val stockGraph = _stockGraph.asStateFlow()
+
+    fun getStockDetail(stockId: String) = viewModelScope.launch {
         getStockDetailUseCase(stockId)
             .onSuccess {
                 it.catch { remoteError ->
@@ -51,8 +67,8 @@ class StockDetailViewModel @Inject constructor(
             .onSuccess {
                 it.catch {
 
-                }.collect {
-
+                }.collect { data ->
+                    _stockGraph.value  = data
                 }
             }.onFailure { }
     }
