@@ -52,6 +52,7 @@ import com.jusiCool.presentation.stockDetail.component.TimeSegment
 import com.jusiCool.presentation.stockDetail.viewModel.StockDetailViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -105,7 +106,7 @@ fun StockDetailRoute(
         navigateToCommunity = {
             navigateToCommunity(id,stockDetail.name)
         },
-        graphData = stockGraph
+        graphData = stockGraph.toImmutableList()
     )
 
     LaunchedEffect(Unit) {
@@ -279,7 +280,6 @@ fun StockDetailScreen(
                 StockGraphCard(
                     whichTimeSegmentSelected = whichTimeSegmentSelected,
                     setWhichTimeSegmentSelected = setWhichTimeSegmentSelected,
-                    toggleOnClick = { /* TODO: 통신 로직 추가 */ },
                     data = graphData
                 )
                 Spacer(modifier = Modifier.height(8.dp))
