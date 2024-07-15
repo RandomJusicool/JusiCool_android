@@ -46,7 +46,7 @@ class OrderHistoryViewModel @Inject constructor(
         }
     }
 
-    private fun fetchReceipt() = viewModelScope.launch {
+    internal fun fetchReceipt() = viewModelScope.launch {
         getReceiptUseCase().onSuccess { it ->
             it.catch { remoteError ->
                 _getReceiptResponse.value = remoteError.errorHandling()
