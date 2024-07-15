@@ -8,6 +8,7 @@ import com.jusiCool.data.remote.api.CommunityAPI
 import com.jusiCool.data.remote.api.DayAPI
 import com.jusiCool.data.remote.api.EmailAPI
 import com.jusiCool.data.remote.api.LikeAPI
+import com.jusiCool.data.remote.api.ReceiptAPI
 import com.jusiCool.data.remote.api.ReservationAPI
 import com.jusiCool.data.remote.api.StockAPI
 import com.jusiCool.data.remote.api.UserAPI
@@ -138,5 +139,11 @@ object NetworkModule {
     @Singleton
     fun UserAPI(retrofit: Retrofit): UserAPI {
         return retrofit.create(UserAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun ReceiptAPI(retrofit: Retrofit): ReceiptAPI {
+        return retrofit.create(ReceiptAPI::class.java)
     }
 }
