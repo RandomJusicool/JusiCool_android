@@ -43,7 +43,7 @@ fun NavController.navigationToStockBuying(id: Long) {
 }
 
 fun NavGraphBuilder.stockBuyingRoute(
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockBuyingRoute/{id}") { backStackEntry ->
@@ -62,7 +62,7 @@ fun NavGraphBuilder.stockBuyingRoute(
 fun StockBuyingRoute(
     modifier: Modifier = Modifier,
     id: Long,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockBuyingScreen(
@@ -81,7 +81,7 @@ internal fun StockBuyingScreen(
     id: Long,
     myAccountData: MyAccountData,
     entireStocksData: EntireStocksData,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
@@ -95,7 +95,7 @@ internal fun StockBuyingScreen(
     ) {
         JDSArrowTopBar(
             startIcon = {
-                LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail(id) })
+                LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail(id.toString()) })
             },
             betweenText = "주식 구매"
         )

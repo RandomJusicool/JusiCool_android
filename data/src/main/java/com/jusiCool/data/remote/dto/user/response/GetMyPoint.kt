@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
 data class GetMyPoint(
     @Json(name = "points") val points: Long,
     @Json(name = "upDownPercent") val upDownPercent: Double,
-    @Json(name = "upDownPoints") val upDownPoints: Long,
+    @Json(name = "upDownPrice") val upDownPoints: Long,
 )
 
 fun GetMyPoint.toModel() = GetMyPointModel(

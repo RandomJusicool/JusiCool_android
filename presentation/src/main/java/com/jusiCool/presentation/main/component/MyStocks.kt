@@ -22,6 +22,7 @@ import com.example.design_system.icon_image.icon.RightChevronIcon
 import com.example.design_system.icon_image.image.GraphSkeletonImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.main.screen.tempMyAccountData
 import com.jusiCool.presentation.main.screen.tempMyStockData
 import kotlinx.collections.immutable.ImmutableList
@@ -29,10 +30,9 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun MyStocks(
     modifier: Modifier = Modifier,
-    myStocksData: ImmutableList<MyStocksData>,
-    myAccountData: MyAccountData,
+    myStocksData: List<GetMyStockModel>,
     navigateToHoldShareRoute: () -> Unit,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val visibleItems = myStocksData.size
@@ -121,18 +121,10 @@ fun MyStocks(
                 color = JDSColor.Black
             )
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.clickableSingle { navigateToOrderHistory() }
-            ) {
-                Text(
-                    text = "이번 달 ${myAccountData.orderesStockHistory}건",
-                    style = JDSTypography.label,
-                    color = JDSColor.GRAY600
-                )
-
-                RightChevronIcon(tint = JDSColor.GRAY400)
-            }
+            RightChevronIcon(
+                modifier = Modifier.clickableSingle { navigateToOrderHistory() },
+                tint = JDSColor.GRAY400
+            )
         }
     }
 }
@@ -141,14 +133,5 @@ fun MyStocks(
 @Preview
 @Composable
 fun MyStocksPreview() {
-    Row {
-        MyStocks(
-            modifier = Modifier.width(280.dp),
-            myStocksData = tempMyStockData,
-            myAccountData = tempMyAccountData,
-            navigateToStockDetail = { },
-            navigateToOrderHistory = { },
-            navigateToHoldShareRoute = { },
-        )
-    }
+
 }
