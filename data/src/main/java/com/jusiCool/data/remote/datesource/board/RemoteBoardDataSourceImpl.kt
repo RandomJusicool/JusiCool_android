@@ -34,6 +34,9 @@ class RemoteBoardDataSourceImpl @Inject constructor(
             body = body
         ) }
 
-    override suspend fun deleteCommunityBoard(boardId: Long): Flow<Unit> =
-        performApiRequest { boardService.deleteBoardCommunity(boardId = boardId) }
+    override suspend fun deleteCommunityBoard(communityId: Long, boardId: Long): Flow<Unit> =
+        performApiRequest { boardService.deleteBoardCommunity(
+            communityId = communityId,
+            boardId = boardId
+        ) }
 }

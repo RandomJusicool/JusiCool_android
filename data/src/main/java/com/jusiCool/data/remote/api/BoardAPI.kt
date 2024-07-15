@@ -27,8 +27,9 @@ interface BoardAPI {
         @Body body: WritingCommunityBoardRequest
     )
 
-    @DELETE("/api/v1/board/{board_id}")
+    @DELETE("/api/v1/board/{community_id}/{board_id}")
     suspend fun deleteBoardCommunity(
+        @Path("community_id") communityId: Long,
         @Path("board_id") boardId: Long
     )
 }
