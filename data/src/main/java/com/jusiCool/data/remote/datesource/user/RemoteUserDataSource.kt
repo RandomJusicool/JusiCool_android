@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface RemoteUserDataSource {
     suspend fun getMyCommunityBoard(): Flow<List<GetMyCommunityBoard>>
-    suspend fun getMyStock(stockCode: String): Flow<List<GetMyStock>>
+    suspend fun getMyStock(): Flow<List<GetMyStock>>
     suspend fun getMyPoint(): Flow<GetMyPoint>
 }

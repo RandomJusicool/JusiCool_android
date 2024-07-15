@@ -17,8 +17,8 @@ class UserRepositoryImpl @Inject constructor(
         return remoteDataSource.getMyCommunityBoard().map { list -> list.map { it.toModel() } }
     }
 
-    override suspend fun getMyStock(stockCode: String): Flow<List<GetMyStockModel>> {
-        return remoteDataSource.getMyStock(stockCode = stockCode).map { list -> list.map { it.toModel() } }
+    override suspend fun getMyStock(): Flow<List<GetMyStockModel>> {
+        return remoteDataSource.getMyStock().map { list -> list.map { it.toModel() } }
     }
 
     override suspend fun getMyPoint(): Flow<GetMyPointModel> {
