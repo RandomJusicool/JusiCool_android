@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -39,6 +41,7 @@ import androidx.navigation.compose.composable
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
+import com.example.design_system.icon_image.icon.SearchIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
@@ -100,7 +103,7 @@ internal fun OrderHistoryScreen(
     val filteredBuyData = if (orderState) buyData else emptyList()
     val filteredSellData = if (!orderState) sellData else emptyList()
 
-    JusiCoolAndroidTheme { _, _ ->
+    JusiCoolAndroidTheme { colors, typography ->
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = { loadStuff() }
@@ -164,24 +167,50 @@ internal fun OrderHistoryScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(24.dp))
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(horizontal = 24.dp)
-                        .heightIn(max = 10000.dp),
-                    verticalArrangement = Arrangement.spacedBy(24.dp),
-                    contentPadding = PaddingValues(bottom = 24.dp)
-                ) {
-                    if (orderState) {
-                        items(filteredBuyData) { item ->
-                            MyStocksOrderHistory(
-                                data = item
+                if (orderState && filteredBuyData.isEmpty() || !orderState && filteredSellData.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            SearchIcon(
+                                modifier = Modifier
+                                    .size(70.dp)
+                                    .padding(bottom = 8.dp)
+                            )
+                            Text(
+                                modifier = Modifier.padding(bottom = 10.dp),
+                                text = "데이터가 없습니다..",
+                                style = typography.titleMedium,
+                                color = colors.GRAY500,
                             )
                         }
-                    } else {
-                        items(filteredSellData) { item ->
-                            MyStocksOrderReservation(
-                                data = item
-                            )
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(horizontal = 24.dp)
+                            .heightIn(max = 10000.dp),
+                        verticalArrangement = Arrangement.spacedBy(24.dp),
+                        contentPadding = PaddingValues(bottom = 24.dp)
+                    ) {
+                        if (orderState) {
+                            items(filteredBuyData) { item ->
+                                MyStocksOrderHistory(
+                                    data = item
+                                )
+                            }
+                        } else {
+                            items(filteredSellData) { item ->
+                                MyStocksOrderReservation(
+                                    data = item
+                                )
+                            }
                         }
                     }
                 }
