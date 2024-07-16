@@ -63,14 +63,11 @@ class MainViewModel @Inject constructor(
         getMyPointUseCase().onSuccess {
             it.catch { remoteError ->
                 _getMyPointResponse.value = remoteError.errorHandling()
-                Log.d("MainViewModel", "Error while collecting GetMyPointUseCase response: ${remoteError.message}")
             }.collect { response ->
                 _getMyPointResponse.value = Event.Success(data = response)
-                Log.d("MainViewModel", "Successfully collected GetMyPointUseCase response: $response")
             }
         }.onFailure { error ->
             _getMyPointResponse.value = error.errorHandling()
-            Log.d("MainViewModel", "Failed to execute GetMyPointUseCase: ${error.message}")
         }
     }
 
