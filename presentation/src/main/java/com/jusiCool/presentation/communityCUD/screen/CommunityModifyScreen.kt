@@ -1,5 +1,6 @@
 package com.jusiCool.presentation.communityCUD.screen
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,8 +47,8 @@ fun NavController.navigateToCommunityModify(boardId: String) {
 fun NavGraphBuilder.communityModifyRoute(
     popUpBackStack: () -> Unit,
 ) {
-    composable("${communityModifyRoute}/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id") ?: ""
+    composable("${communityModifyRoute}/{boardId}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("boardId") ?: ""
         CommunityModifyRoute(
             id = id,
             popUpBackStack = popUpBackStack
@@ -57,13 +59,14 @@ fun NavGraphBuilder.communityModifyRoute(
 @Composable
 internal fun CommunityModifyRoute(
     modifier: Modifier = Modifier,
-    viewModel: CommunityCUDViewModel = hiltViewModel(),
+    viewModel: CommunityCUDViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     id: String,
     popUpBackStack: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(id) {
+        viewModel.getCommunityDetail(id)
         viewModel.getDetailValue()
     }
 
@@ -97,15 +100,11 @@ internal fun CommunityModifyScreen(
     title: String,
     content: String,
 ) {
-    val (titleTextState, setTitleText) = remember(title) { mutableStateOf(title) }
-    val (contentTextState, setContentText) = remember(content) { mutableStateOf(content) }
-    val (writingModifierDialogIsVisible, setWritingModifierDialogIsVisible) = remember {
-        mutableStateOf(
-            false
-        )
-    }
+    val (titleTextState, setTitleText) = remember { mutableStateOf(title) }
+    val (contentTextState, setContentText) = remember { mutableStateOf(content) }
+    val (writingModifierDialogIsVisible, setWritingModifierDialogIsVisible) = remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(id, title, content) {
         setTitleText(title)
         setContentText(content)
     }

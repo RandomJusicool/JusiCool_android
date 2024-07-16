@@ -152,6 +152,8 @@ class CommunityCUDViewModel @Inject constructor(
                 _getCommunityBoardDetailResponse.value = remoteError.errorHandling()
             }.collect { response ->
                 _getCommunityBoardDetailResponse.value = Event.Success(data = response)
+                title.value = response.title
+                content.value = response.content
             }
         }.onFailure { error ->
             _getCommunityBoardDetailResponse.value = error.errorHandling()
