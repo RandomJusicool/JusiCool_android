@@ -24,28 +24,20 @@ import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
 import com.jusiCool.presentation.utill.formatCommunityDate
 
-data class CommunityListItemTemData(
-    val title: String,
-    val content: String,
-    val name: String,
-    val started_date: String,
-    val started_time: String,
-    val heart_count: Int,
-    val comment_count: Int
-)
-
 @Composable
 internal fun CommunityListItem(
     modifier: Modifier = Modifier,
+    id: String,
+    name: String,
     data: GetCommunityBoardListResponseModel,
-    onClick: (Long) -> Unit
+    onClick: (String, String, String) -> Unit
     ) {
     JusiCoolAndroidTheme { colors, typography ->
         Spacer(modifier = Modifier.height(12.dp))
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .clickableSingle { onClick(data.id) },
+                .clickableSingle { onClick(data.id, id, name) },
             shape = RoundedCornerShape(12.dp),
             color = colors.WHITE
         ) {
@@ -117,15 +109,5 @@ internal fun CommunityListItem(
 @Preview
 @Composable
 private fun CommunityListItemPre() {
-    CommunityListItem(data = GetCommunityBoardListResponseModel(
-        id = 0,
-        title = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
-        content = "커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니커뮤니티티커뮤니티커뮤니티커뮤니티커뮤니티커뮤니티",
-        likes = 12,
-        comment_num = 12,
-        created_at = "12.12 12:20",
-        name = "뀨뀨뀨",
-        community_name = "자바보단 코틀린"
-    )) {
-    }
+
 }

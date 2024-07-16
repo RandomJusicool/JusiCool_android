@@ -1,7 +1,10 @@
 package com.jusiCool.presentation.orderHistory.screen
 
+import androidx.activity.ComponentActivity
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,11 +12,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -21,22 +30,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
+import com.example.design_system.icon_image.icon.SearchIcon
 import com.example.design_system.theme.JDSTypography
+import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshState
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.jusiCool.domain.model.receipt.response.GetReceiptModel
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderHistory
-import com.jusiCool.presentation.orderHistory.component.MyStocksOrderHistoryData
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderReservation
-import com.jusiCool.presentation.orderHistory.component.MyStocksOrderReservationData
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
+import com.jusiCool.presentation.orderHistory.viewModel.OrderHistoryViewModel
 
 const val orderHistoryRoute = "orderHistoryRoute"
 
@@ -50,132 +65,156 @@ fun NavGraphBuilder.orderHistoryRoute(popUpBackStack: () -> Unit) {
     }
 }
 
-val tempMyStocksOrderHistoryData = persistentListOf(
-    MyStocksOrderHistoryData("마이크로소프트", 37250, true),
-    MyStocksOrderHistoryData("SOXL", 37250, false),
-    MyStocksOrderHistoryData("AMD", 37250, true),
-    MyStocksOrderHistoryData("엔비디아", 37250, false),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, true),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, false),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, true),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, false),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, true),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, false),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, true),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, false),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, true),
-    MyStocksOrderHistoryData("마이크로소프트", 37250, false),
-)
-
-val tempMyStocksOrderReservationData = persistentListOf(
-    MyStocksOrderReservationData("마이크로소프트", 3725000),
-    MyStocksOrderReservationData("마이크로소프트", 3725000),
-    MyStocksOrderReservationData("마이크로소프트", 3725000),
-    MyStocksOrderReservationData("마이크로소프트", 3725000),
-    MyStocksOrderReservationData("마이크로소프트", 3725000),
-)
-
 @Composable
 internal fun OrderHistoryRoute(
     modifier: Modifier = Modifier,
+    viewModel: OrderHistoryViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     popUpBackStack: () -> Unit,
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.fetchReceipt()
+    }
+
+    val buyData by viewModel.getBuyReceipt.collectAsStateWithLifecycle()
+    val sellData by viewModel.getSellReceipt.collectAsStateWithLifecycle()
+    val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
+
     OrderHistoryScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        orderHistoryData = tempMyStocksOrderHistoryData,
-        orderReservationData = tempMyStocksOrderReservationData
+        buyData = buyData,
+        sellData = sellData,
+        swipeRefreshState = swipeRefreshState,
+        loadStuff = viewModel::refreshReceipts,
     )
 }
-
 
 @Composable
 internal fun OrderHistoryScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    orderHistoryData: ImmutableList<MyStocksOrderHistoryData>,
-    orderReservationData: ImmutableList<MyStocksOrderReservationData>,
+    scrollState: ScrollState = rememberScrollState(),
+    buyData: List<GetReceiptModel>,
+    sellData: List<GetReceiptModel>,
+    swipeRefreshState: SwipeRefreshState,
+    loadStuff: () -> Unit,
 ) {
     val (orderState, setOrderState) = remember { mutableStateOf(true) }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = JDSColor.GRAY50)
-    ) {
-        JDSArrowTopBar(
-            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack() }) },
-            betweenText = "주문내역"
-        )
-
-        Row(modifier = Modifier.padding(horizontal = 24.dp)) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .drawBehind {
-                        drawRect(
-                            if (orderState) JDSColor.Black else JDSColor.GRAY400,
-                            Offset(0f, size.height - 1.dp.toPx()),
-                            Size(size.width, 1.dp.toPx())
-                        )
-                    }
-                    .padding(
-                        horizontal = 10.dp,
-                        vertical = 8.dp
-                    )
-                    .clickableSingle { setOrderState(true) },
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "완료된 주문",
-                    style = JDSTypography.subTitle,
-                    color = if (orderState) JDSColor.Black else JDSColor.GRAY200,
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .drawBehind {
-                        drawRect(
-                            if (orderState) JDSColor.GRAY400 else JDSColor.Black,
-                            Offset(0f, size.height - 1.dp.toPx()),
-                            Size(size.width, 1.dp.toPx())
-                        )
-                    }
-                    .padding(
-                        horizontal = 10.dp,
-                        vertical = 8.dp
-                    )
-                    .clickableSingle { setOrderState(false) },
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "주문 예약",
-                    style = JDSTypography.subTitle,
-                    color = if (orderState) JDSColor.GRAY200 else JDSColor.Black,
-                )
-            }
+    val filteredData = remember(orderState, buyData, sellData) {
+        if (orderState) {
+            buyData + sellData
+        } else {
+            emptyList()
         }
+    }
 
-        Spacer(modifier = Modifier.height(24.dp))
 
-        LazyColumn(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(bottom = 24.dp)
+    JusiCoolAndroidTheme { colors, typography ->
+        SwipeRefresh(
+            state = swipeRefreshState,
+            onRefresh = { loadStuff() }
         ) {
-            if (orderState) {
-                items(orderHistoryData) { item ->
-                    MyStocksOrderHistory(
-                        myStocksOrderHistoryData = item
-                    )
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(color = JDSColor.GRAY50)
+                    .verticalScroll(scrollState)
+            ) {
+                JDSArrowTopBar(
+                    startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack() }) },
+                    betweenText = "주문내역"
+                )
+                Row(modifier = Modifier.padding(horizontal = 24.dp)) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .drawBehind {
+                                drawRect(
+                                    if (orderState) JDSColor.Black else JDSColor.GRAY400,
+                                    Offset(0f, size.height - 1.dp.toPx()),
+                                    Size(size.width, 1.dp.toPx())
+                                )
+                            }
+                            .padding(
+                                horizontal = 10.dp,
+                                vertical = 8.dp
+                            )
+                            .clickableSingle { setOrderState(true) },
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "완료된 주문",
+                            style = JDSTypography.subTitle,
+                            color = if (orderState) JDSColor.Black else JDSColor.GRAY200,
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .drawBehind {
+                                drawRect(
+                                    if (orderState) JDSColor.GRAY400 else JDSColor.Black,
+                                    Offset(0f, size.height - 1.dp.toPx()),
+                                    Size(size.width, 1.dp.toPx())
+                                )
+                            }
+                            .padding(
+                                horizontal = 10.dp,
+                                vertical = 8.dp
+                            )
+                            .clickableSingle { setOrderState(false) },
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "주문 예약",
+                            style = JDSTypography.subTitle,
+                            color = if (orderState) JDSColor.GRAY200 else JDSColor.Black,
+                        )
+                    }
                 }
-            } else {
-                items(orderReservationData) { item ->
-                    MyStocksOrderReservation(
-                        myStocksOrderReservationData = item
-                    )
+                Spacer(modifier = Modifier.height(24.dp))
+                if (filteredData.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            SearchIcon(
+                                modifier = Modifier
+                                    .size(70.dp)
+                                    .padding(bottom = 8.dp)
+                            )
+                            Text(
+                                modifier = Modifier.padding(bottom = 10.dp),
+                                text = "데이터가 없습니다..",
+                                style = typography.titleMedium,
+                                color = colors.GRAY500,
+                            )
+                        }
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(horizontal = 24.dp)
+                            .heightIn(max = 10000.dp),
+                        verticalArrangement = Arrangement.spacedBy(24.dp),
+                        contentPadding = PaddingValues(bottom = 24.dp)
+                    ) {
+                        items(filteredData) { item ->
+                            if (orderState) {
+                                MyStocksOrderHistory(data = item)
+                            } else {
+                                MyStocksOrderReservation(data = item)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -187,7 +226,9 @@ internal fun OrderHistoryScreen(
 fun OrderHistoryScreenPreview() {
     OrderHistoryScreen(
         popUpBackStack = { },
-        orderHistoryData = tempMyStocksOrderHistoryData,
-        orderReservationData = tempMyStocksOrderReservationData
+        sellData = listOf(),
+        buyData = listOf(),
+        swipeRefreshState = SwipeRefreshState(true),
+        loadStuff = {}
     )
 }

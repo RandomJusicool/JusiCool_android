@@ -14,10 +14,14 @@ import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSource
 import com.jusiCool.data.remote.datesource.email.RemoteEmailDataSourceImpl
 import com.jusiCool.data.remote.datesource.like.RemoteLikeDataSource
 import com.jusiCool.data.remote.datesource.like.RemoteLikeDataSourceImpl
+import com.jusiCool.data.remote.datesource.receipt.RemoteReceiptDataSource
+import com.jusiCool.data.remote.datesource.receipt.RemoteReceiptDataSourceImpl
 import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSource
 import com.jusiCool.data.remote.datesource.reservation.RemoteReservationDataSourceImpl
 import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSource
 import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSourceImpl
+import com.jusiCool.data.remote.datesource.user.RemoteUserDataSource
+import com.jusiCool.data.remote.datesource.user.RemoteUserDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -70,4 +74,14 @@ abstract class RemoteDataSourceModule {
     abstract fun provideMyDataSource(
         remoteDayDataSourceImpl: RemoteDayDataSourceImpl
     ) : RemoteDayDataSource
+
+    @Binds
+    abstract fun provideUserDataSource(
+        remoteUserDataSourceImpl: RemoteUserDataSourceImpl
+    ) : RemoteUserDataSource
+
+    @Binds
+    abstract fun provideReceiptDataSource(
+        remoteReceiptDataSourceImpl: RemoteReceiptDataSourceImpl
+    ) : RemoteReceiptDataSource
 }

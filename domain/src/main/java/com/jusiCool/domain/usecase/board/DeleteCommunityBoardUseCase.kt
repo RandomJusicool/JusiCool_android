@@ -6,5 +6,13 @@ import javax.inject.Inject
 class DeleteCommunityBoardUseCase @Inject constructor(
     private val repository: BoardRepository
 ){
-    suspend operator fun invoke(boardId: Long) = runCatching { repository.deleteCommunityBoard(boardId = boardId) }
+    suspend operator fun invoke(
+        communityId:String,
+        boardId: String
+    ) = runCatching {
+        repository.deleteCommunityBoard(
+            communityId = communityId,
+            boardId = boardId
+        )
+    }
 }

@@ -11,7 +11,7 @@ class RemoteCommentDataSourceImpl @Inject constructor(
     private val serviceComment: CommentAPI
 ) : RemoteCommentDataSource {
     override suspend fun postWritingCommunityComment(
-        boardId: Long,
+        boardId: String,
         body: PostWritingCommunityCommentRequest
     ): Flow<Unit> =
         performApiRequest { serviceComment.postWritingCommunityComment(
@@ -19,6 +19,6 @@ class RemoteCommentDataSourceImpl @Inject constructor(
             body = body
         ) }
 
-    override suspend fun getCommunityComment(boardId: Long): Flow<List<GetCommunityCommentResponse>> =
+    override suspend fun getCommunityComment(boardId: String): Flow<List<GetCommunityCommentResponse>> =
         performApiRequest { serviceComment.getCommunityComment(boardId = boardId) }
 }

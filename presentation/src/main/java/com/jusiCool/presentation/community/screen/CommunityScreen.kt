@@ -2,10 +2,13 @@ package com.jusiCool.presentation.community.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,6 +25,7 @@ import androidx.navigation.compose.composable
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
+import com.example.design_system.icon_image.icon.SearchIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
@@ -36,27 +40,25 @@ import com.jusiCool.presentation.utill.Event
 
 const val communityRoute = "communityRoute"
 
-fun NavController.navigateToCommunity(id: Long, name: String) {
+fun NavController.navigateToCommunity(id: String, name: String) {
     this.navigate("${communityRoute}/${id}/${name}")
 }
 
 fun NavGraphBuilder.communityRoute(
-    navigateToCommunityWriting: (Long) -> Unit,
-    navigateToCommunityDetail: (Long) -> Unit,
+    navigateToCommunityWriting: (String) -> Unit,
+    navigateToCommunityDetail: (String, String, String) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     composable("${communityRoute}/{id}/{name}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        val name = backStackEntry.arguments?.getString("name")?: ""
-        if(id != null) {
-            CommunityRoute(
-                id = id,
-                name = name,
-                navigateToDetailCommunity = navigateToCommunityDetail,
-                navigateToCommunityWriting = navigateToCommunityWriting,
-                popUpBackStack = popUpBackStack,
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        val name = backStackEntry.arguments?.getString("name") ?: ""
+        CommunityRoute(
+            id = id,
+            name = name,
+            navigateToDetailCommunity = navigateToCommunityDetail,
+            navigateToCommunityWriting = navigateToCommunityWriting,
+            popUpBackStack = popUpBackStack,
+        )
     }
 }
 
@@ -64,10 +66,10 @@ fun NavGraphBuilder.communityRoute(
 internal fun CommunityRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    id: Long,
+    id: String,
+    navigateToDetailCommunity: (String, String, String) -> Unit,
     name: String,
-    navigateToDetailCommunity: (Long) -> Unit,
-    navigateToCommunityWriting: (Long) -> Unit,
+    navigateToCommunityWriting: (String) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
@@ -79,7 +81,7 @@ internal fun CommunityRoute(
 
     CommunityScreen(
         modifier = modifier,
-        navigateToDetailCommunity =  navigateToDetailCommunity,
+        navigateToDetailCommunity = navigateToDetailCommunity,
         navigateToCommunityWriting = navigateToCommunityWriting,
         popUpBackStack = popUpBackStack,
         boardData = viewModel.communityListBoard,
@@ -124,10 +126,10 @@ private suspend fun getCommunityListBoard(
 @Composable
 internal fun CommunityScreen(
     modifier: Modifier = Modifier,
-    getCommunityListBoard: (Long) -> Unit,
-    navigateToCommunityWriting: (Long) -> Unit,
-    navigateToDetailCommunity: (Long) -> Unit,
-    id: Long,
+    getCommunityListBoard: (String) -> Unit,
+    navigateToCommunityWriting: (String) -> Unit,
+    navigateToDetailCommunity: (String, String, String) -> Unit,
+    id: String,
     name: String,
     boardData: List<GetCommunityBoardListResponseModel>,
     swipeRefreshState: SwipeRefreshState,
@@ -135,7 +137,7 @@ internal fun CommunityScreen(
     popUpBackStack: () -> Unit,
     )
 {
-    JusiCoolAndroidTheme { colors, _ ->
+    JusiCoolAndroidTheme { colors, typography ->
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = {
@@ -155,12 +157,40 @@ internal fun CommunityScreen(
                                 modifier = Modifier.clickableSingle { popUpBackStack() }
                             )
                         },
-                        betweenText = name
+                        betweenText = "$name 커뮤니티"
                     )
-                    CommunityList(
-                        data = boardData,
-                        navigateToDetailCommunity = navigateToDetailCommunity
-                    )
+                    if (boardData.isEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                SearchIcon(
+                                    modifier = Modifier
+                                        .size(70.dp)
+                                        .padding(bottom = 8.dp)
+                                )
+                                Text(
+                                    modifier = Modifier.padding(bottom = 10.dp),
+                                    text = "데이터가 없습니다..",
+                                    style = typography.titleMedium,
+                                    color = colors.GRAY500,
+                                )
+                            }
+                        }
+                    } else {
+                        CommunityList(
+                            data = boardData,
+                            navigateToDetailCommunity = navigateToDetailCommunity,
+                            id = id,
+                            name = name
+                        )
+                    }
                 }
                 WritingCommunityButton(
                     modifier = Modifier
@@ -180,27 +210,15 @@ internal fun CommunityScreen(
 @Preview
 @Composable
 private fun CommunityScreenPre() {
-//    CommunityScreen(
-//        navigateToDetailCommunity = {  },
-//        navigateToCommunityWriting = {  },
-//        popUpBackStack = {  },
-//        boardData = listOf(
-//            GetCommunityBoardListResponseModel(
-//                id = 0,
-//                community_name = "",
-//                name = "이명훈",
-//                title = "ㅁㅇㄴㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ",
-//                content = "ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ;ㅁ농;람넝;람넝;ㅣ라ㅓㅁㄴㅇ;ㅣ라ㅓㅁㄴ;ㅣㅇ라;민얼;ㅁㄴ어ㅏㄹ;ㅁ니ㅏㅓㅇㄹ;미너알;ㅁ",
-//                created_at = "12.12 12:20",
-//                likes = 10,
-//                comment_num = 12
-//            )
-//        ),
-//        loadStuff = {  },
-//        swipeRefreshState = SwipeRefreshState(false),
-//        getCommunityListBoard = {  },
-//        id = 0,
-//        communityData = listOf(),
-//        topBarNameData = listOf()
-//    )
+    CommunityScreen(
+        getCommunityListBoard = { _ -> },
+        boardData = listOf(),
+        id = "0",
+        loadStuff = {},
+        name = "마이크로소프트",
+        navigateToDetailCommunity = { _, _, _ -> },
+        navigateToCommunityWriting = { _ -> },
+        popUpBackStack = {},
+        swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
+    )
 }

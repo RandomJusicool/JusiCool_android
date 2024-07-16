@@ -8,8 +8,10 @@ import com.jusiCool.data.remote.api.CommunityAPI
 import com.jusiCool.data.remote.api.DayAPI
 import com.jusiCool.data.remote.api.EmailAPI
 import com.jusiCool.data.remote.api.LikeAPI
+import com.jusiCool.data.remote.api.ReceiptAPI
 import com.jusiCool.data.remote.api.ReservationAPI
 import com.jusiCool.data.remote.api.StockAPI
+import com.jusiCool.data.remote.api.UserAPI
 import com.jusiCool.data.utill.AuthInterceptor
 import com.jusiCool.jusicool_android.BuildConfig
 import com.squareup.moshi.JsonAdapter
@@ -129,7 +131,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun dayAPI(retrofit: Retrofit): DayAPI {
+    fun DayAPI(retrofit: Retrofit): DayAPI {
         return retrofit.create(DayAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun UserAPI(retrofit: Retrofit): UserAPI {
+        return retrofit.create(UserAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun ReceiptAPI(retrofit: Retrofit): ReceiptAPI {
+        return retrofit.create(ReceiptAPI::class.java)
     }
 }

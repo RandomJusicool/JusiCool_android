@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
 import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 import com.jusiCool.domain.usecase.community.GetCommunityListUseCase
 import com.jusiCool.presentation.utill.Event

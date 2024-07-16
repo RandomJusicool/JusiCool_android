@@ -2,10 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="NewsScreenPreview">
+      <entry key="CommunityDetailPre">
         <State />
       </entry>
-      <entry key="OrderHistoryScreenPreview">
+      <entry key="CommunityScreenPre">
         <State />
       </entry>
       <entry key="PopularStocksSearchPreview">
@@ -18,7 +18,20 @@
         <State />
       </entry>
       <entry key="app">
-        <State />
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\User\.android\avd\New_Device_1_API_34.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-07-10T09:21:44.911361Z" />
+        </State>
       </entry>
     </value>
   </component>

@@ -44,7 +44,7 @@ class CommunityViewModel @Inject constructor(
     var communityListBoard = mutableStateListOf<GetCommunityBoardListResponseModel>()
         private set
 
-    internal fun getListBoard(communityId: Long) = viewModelScope.launch {
+    internal fun getListBoard(communityId: String) = viewModelScope.launch {
         getCommunityBoardListUseCase(communityId = communityId).onSuccess {
             it.catch { remoteError ->
                 _getCommunityListBoardResponse.value = remoteError.errorHandling()

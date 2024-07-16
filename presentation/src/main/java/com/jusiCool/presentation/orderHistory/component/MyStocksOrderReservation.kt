@@ -12,6 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.enumtype.ReceiptEnumType
+import com.jusiCool.domain.model.receipt.response.GetReceiptModel
 
 data class MyStocksOrderReservationData(
     val stockName: String,
@@ -21,20 +23,19 @@ data class MyStocksOrderReservationData(
 @Composable
 fun MyStocksOrderReservation(
     modifier: Modifier = Modifier,
-    myStocksOrderReservationData: MyStocksOrderReservationData
+    data: GetReceiptModel
 ) {
-    val formmatedMyPrice = "%,d".format(myStocksOrderReservationData.price)
+    val formmatedMyPrice = "%,d".format(data.price)
 
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         Text(
-            text = myStocksOrderReservationData.stockName,
+            text = data.stockName,
             style = JDSTypography.bodySmall,
             color = JDSColor.Black
         )
-
         Text(
             text = "${formmatedMyPrice}원 예약완료",
             style = JDSTypography.label,
@@ -48,6 +49,6 @@ fun MyStocksOrderReservation(
 fun MyStocksOrderReservationPreview() {
     MyStocksOrderReservation(
         modifier = Modifier.width(312.dp),
-        myStocksOrderReservationData = MyStocksOrderReservationData("마이크로소프트", 37250)
+        data = GetReceiptModel(ReceiptEnumType.SELL, "ads", 12)
     )
 }

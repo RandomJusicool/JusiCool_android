@@ -11,13 +11,14 @@ import com.jusiCool.presentation.checkEntireStock.screen.checkEntireStockListRou
 import com.jusiCool.presentation.checkEntireStock.screen.navigateToCheckEntireStockList
 import com.jusiCool.presentation.community.screen.communityRoute
 import com.jusiCool.presentation.community.screen.navigateToCommunity
-import com.jusiCool.presentation.communityDetail.screen.communityDetailRoute
-import com.jusiCool.presentation.communityDetail.screen.navigateToCommunityDetail
+import com.jusiCool.presentation.communityCUD.screen.communityModifyRoute
+import com.jusiCool.presentation.communityCUD.screen.navigateToCommunityModify
+import com.jusiCool.presentation.communityCUD.screen.navigateToCommunityWriting
+import com.jusiCool.presentation.communityCUD.screen.communityDetailRoute
+import com.jusiCool.presentation.communityCUD.screen.navigateToCommunityDetail
 import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityList.screen.navigateToCommunityList
-import com.jusiCool.presentation.communityCU.screen.communityModifyRoute
-import com.jusiCool.presentation.communityCU.screen.navigateToCommunityModify
-import com.jusiCool.presentation.communityCU.screen.navigateToCommunityWriting
+import com.jusiCool.presentation.communityOtherDetail.screen.communityOtherDetailRoute
 import com.jusiCool.presentation.holdShare.screen.holdShareRoute
 import com.jusiCool.presentation.holdShare.screen.navigateToHoldShare
 import com.jusiCool.presentation.join.screen.joinRoute
@@ -38,7 +39,7 @@ import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
 import com.jusiCool.presentation.stockBuying.screen.stockBuyingRoute
 import com.jusiCool.presentation.stockReservationBuying.screen.stockReservationBuyingRoute
 import com.jusiCool.presentation.stockReservationSelling.screen.stockReservationSellingRoute
-import com.jusiCool.presentation.stockSelling.screen.stockSellingRoute
+import com.jusiCool.presentation.stockReservationBuying.screen.stockSell.screen.stockSellingRoute
 
 @Composable
 fun JusiCool_Android_NavHost(
@@ -98,7 +99,7 @@ fun JusiCool_Android_NavHost(
             popUpBackStack = navController::popBackStack,
             navigateToStockBuying = { TODO() },
             navigateToStockSell = { TODO() },
-            navigateToCommunityList = navController::navigateToCommunityList,
+            navigateToCommunity = navController::navigateToCommunity,
         )
 
         stockBuyingRoute(
@@ -125,6 +126,8 @@ fun JusiCool_Android_NavHost(
             popUpBackStack = navController::popBackStack,
             navigateToCommunityModify = navController::navigateToCommunityModify
         )
+
+        communityOtherDetailRoute(popUpBackStack = navController::popBackStack)
 
         communityRoute(
             popUpBackStack = navController::popBackStack,
@@ -153,10 +156,6 @@ fun JusiCool_Android_NavHost(
             navigateToStockDetail = navController::navigateToStockDetail,
         )
 
-        communityModifyRoute(
-            popUpBackStack = navController::popBackStack,
-            navigateToCommunityDetail = navController::navigateToCommunityDetail
-        )
-
+        communityModifyRoute(popUpBackStack = navController::popBackStack,)
     }
 }

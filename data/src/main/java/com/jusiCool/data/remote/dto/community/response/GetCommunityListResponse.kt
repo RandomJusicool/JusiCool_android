@@ -12,7 +12,7 @@ data class GetCommunityListResponse(
 )
 
 fun GetCommunityListResponse.toModel() = GetCommunityListResponseModel(
-    id = id,
+    id = id.toString(),
     name = name,
     board_num = board_num
 )

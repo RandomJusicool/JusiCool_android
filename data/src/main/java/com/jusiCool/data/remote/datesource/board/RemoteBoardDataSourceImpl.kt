@@ -10,14 +10,14 @@ import javax.inject.Inject
 class RemoteBoardDataSourceImpl @Inject constructor(
     private val boardService: BoardAPI
 ) : RemoteBoardDataSource {
-    override suspend fun getCommunityBoardList(communityId: Long): Flow<List<GetCommunityBoardListResponse>> =
+    override suspend fun getCommunityBoardList(communityId: String): Flow<List<GetCommunityBoardListResponse>> =
         performApiRequest { boardService.getCommunityBoardList(communityId = communityId) }
 
-    override suspend fun getCommunityDetail(boardId: Long): Flow<GetCommunityBoardDetailResponse> =
+    override suspend fun getCommunityDetail(boardId: String): Flow<GetCommunityBoardDetailResponse> =
         performApiRequest { boardService.getCommunityDetail(boardId = boardId) }
 
     override suspend fun postCommunityBoard(
-        communityId: Long,
+        communityId: String,
         body: WritingCommunityBoardRequest
     ): Flow<Unit> =
         performApiRequest { boardService.postWritingCommunity(
@@ -26,7 +26,7 @@ class RemoteBoardDataSourceImpl @Inject constructor(
         ) }
 
     override suspend fun patchCommunityBoard(
-        boardId: Long,
+        boardId: String,
         body: WritingCommunityBoardRequest
     ): Flow<Unit> =
         performApiRequest { boardService.patchBoardCommunity(
@@ -34,6 +34,9 @@ class RemoteBoardDataSourceImpl @Inject constructor(
             body = body
         ) }
 
-    override suspend fun deleteCommunityBoard(boardId: Long): Flow<Unit> =
-        performApiRequest { boardService.deleteBoardCommunity(boardId = boardId) }
+    override suspend fun deleteCommunityBoard(communityId: String, boardId: String): Flow<Unit> =
+        performApiRequest { boardService.deleteBoardCommunity(
+            communityId = communityId,
+            boardId = boardId
+        ) }
 }
