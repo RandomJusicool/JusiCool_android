@@ -26,7 +26,7 @@ class StockBuyViewModel @Inject constructor(
         private set
 
     internal fun postBuyStock(
-        stockId: Long,
+        stockId: String,
         num: Long
     ) = viewModelScope.launch {
         buyStockUseCase(
