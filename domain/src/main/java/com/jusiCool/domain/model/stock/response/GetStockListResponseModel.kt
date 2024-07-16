@@ -1,8 +1,9 @@
 package com.jusiCool.domain.model.stock.response
 
 data class GetStockListResponseModel(
-    val id: Long,
+    val code: String,
     val name: String,
-    val presentPrice: Int,
-    val fluctuationComparedPreviousDay: Int,
+    val present_price: Long,
+    val upDownPrice: Long,
+    val upDownPercent: Double
 )
