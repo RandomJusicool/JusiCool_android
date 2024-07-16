@@ -1,6 +1,5 @@
 package com.jusiCool.presentation.communityCUD.screen
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -29,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,28 +60,26 @@ import kotlinx.coroutines.launch
 
 const val communityDetailRoute = "communityDetailRoute"
 
-fun NavController.navigateToCommunityDetail(boardId: Long, communityId: Long, name: String) {
+fun NavController.navigateToCommunityDetail(boardId: String, communityId: String, name: String) {
     this.navigate("$communityDetailRoute/${communityId}/${boardId}/${name}")
 }
 
 fun NavGraphBuilder.communityDetailRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: (Long) -> Unit
+    navigateToCommunityModify: (String) -> Unit
 ) {
     composable("$communityDetailRoute/{communityId}/{boardId}/{name}") { backStackEntry ->
-        val boardId = backStackEntry.arguments?.getString("boardId")?.toLongOrNull()
-        val communityId = backStackEntry.arguments?.getString("communityId")?.toLongOrNull()
+        val boardId = backStackEntry.arguments?.getString("boardId") ?: ""
+        val communityId = backStackEntry.arguments?.getString("communityId") ?: ""
         val name = backStackEntry.arguments?.getString("name") ?: ""
 
-        if (boardId != null && communityId != null) {
-            CommunityDetailRoute(
-                name = name,
-                boardId = boardId,
-                communityId = communityId,
-                popUpBackStack = popUpBackStack,
-                navigateToCommunityModify = navigateToCommunityModify
-            )
-        }
+        CommunityDetailRoute(
+            name = name,
+            boardId = boardId,
+            communityId = communityId,
+            popUpBackStack = popUpBackStack,
+            navigateToCommunityModify = navigateToCommunityModify
+        )
     }
 }
 
@@ -91,11 +87,11 @@ fun NavGraphBuilder.communityDetailRoute(
 internal fun CommunityDetailRoute(
     modifier: Modifier = Modifier,
     name: String,
-    boardId: Long,
-    communityId: Long,
+    boardId: String,
+    communityId: String,
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: (Long) -> Unit,
-    viewModel: CommunityCUDViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
+    navigateToCommunityModify: (String) -> Unit,
+    viewModel: CommunityCUDViewModel = hiltViewModel()
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -224,16 +220,16 @@ internal fun CommunityDetailScreen(
     detailData: GetCommunityBoardDetailResponseModel,
     commentData: List<GetCommunityCommentResponseModel>,
     swipeRefreshState: SwipeRefreshState,
-    deleteCommunityDetail: (Long, Long) -> Unit,
-    postLike: (Long) -> Unit,
-    deleteLike: (Long) -> Unit,
-    postWritingCommunityComment: (Long, String) -> Unit,
+    deleteCommunityDetail: (String, String) -> Unit,
+    postLike: (String) -> Unit,
+    deleteLike: (String) -> Unit,
+    postWritingCommunityComment: (String, String) -> Unit,
     name: String,
-    boardId: Long,
-    communityId: Long,
+    boardId: String,
+    communityId: String,
     likeState: Boolean,
     popUpBackStack: () -> Unit,
-    navigateToCommunityModify: (Long) -> Unit,
+    navigateToCommunityModify: (String) -> Unit,
     loadStuff: () -> Unit,
     getCommunityDetail: () -> Unit,
     getCommunityComment: () -> Unit,
@@ -241,7 +237,11 @@ internal fun CommunityDetailScreen(
 ) {
     val (isHeartClicked, setIsHeartClicked) = remember { mutableStateOf(false) }
     val (commentTextState, setCommentTextChange) = remember { mutableStateOf("") }
-    val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember { mutableStateOf(false) }
+    val (writingDeleteDialogIsVisible, setWritingDeleteDialogIsVisible) = remember {
+        mutableStateOf(
+            false
+        )
+    }
     val (like, setLike) = remember { mutableIntStateOf(0) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -289,7 +289,7 @@ internal fun CommunityDetailScreen(
                     startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { popUpBackStack() }) },
                     betweenText = name
                 )
-                    Spacer(modifier = Modifier.padding(top = 12.dp))
+                Spacer(modifier = Modifier.padding(top = 12.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -419,8 +419,8 @@ private fun CommunityDetailPre() {
         deleteLike = {},
         postWritingCommunityComment = { _, _ -> },
         name = "Mock Community",
-        boardId = 1L,
-        communityId = 1L,
+        boardId = "1L",
+        communityId = "1L",
         loadStuff = {},
         getCommunityDetail = {},
         getCommunityComment = {},

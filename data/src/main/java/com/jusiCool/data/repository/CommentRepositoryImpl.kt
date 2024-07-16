@@ -14,7 +14,7 @@ class CommentRepositoryImpl @Inject constructor(
     private val dataSource: RemoteCommentDataSource
 ) : CommentRepository {
     override suspend fun postWritingCommunityComment(
-        boardId: Long,
+        boardId: String,
         body: PostWritingCommunityCommentRequestModel
     ): Flow<Unit> {
         return dataSource.postWritingCommunityComment(
@@ -23,7 +23,7 @@ class CommentRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getCommunityComment(boardId: Long): Flow<List<GetCommunityCommentResponseModel>> {
+    override suspend fun getCommunityComment(boardId: String): Flow<List<GetCommunityCommentResponseModel>> {
         return dataSource.getCommunityComment(boardId = boardId).map { list -> list.map { it.toModel() } }
     }
 

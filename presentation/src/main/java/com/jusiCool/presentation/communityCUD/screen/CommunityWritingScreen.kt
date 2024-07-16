@@ -1,6 +1,5 @@
 package com.jusiCool.presentation.communityCUD.screen
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
@@ -18,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,7 +38,7 @@ import com.jusiCool.presentation.communityCUD.viewmodel.CommunityCUDViewModel
 
 const val communityWritingRoute = "communityWritingRoute"
 
-fun NavController.navigateToCommunityWriting(id: Long) {
+fun NavController.navigateToCommunityWriting(id: String) {
     this.navigate("$communityWritingRoute/$id")
 }
 
@@ -49,22 +47,20 @@ fun NavGraphBuilder.navigateToCommunityWriting(
     navigateToCommunity: () -> Unit
 ) {
     composable("$communityWritingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
-            CommunityWritingRoute(
-                id = id,
-                popUpBackStack = popUpBackStack,
-                navigateToCommunity = navigateToCommunity
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        CommunityWritingRoute(
+            id = id,
+            popUpBackStack = popUpBackStack,
+            navigateToCommunity = navigateToCommunity
+        )
     }
 }
 
 @Composable
 internal fun CommunityWritingRoute(
     modifier: Modifier = Modifier,
-    id: Long,
-    viewModel: CommunityCUDViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    id: String,
+    viewModel: CommunityCUDViewModel = hiltViewModel(),
     popUpBackStack: () -> Unit,
     navigateToCommunity: () -> Unit,
 ) {
@@ -86,20 +82,18 @@ internal fun CommunityWritingRoute(
         },
         content = viewModel.content.value,
         title = viewModel.title.value,
-        id = id
     )
 }
 
 @Composable
 internal fun CommunityWritingScreen(
     modifier: Modifier = Modifier,
-    id: Long,
     focusManager: FocusManager,
     title: String,
     content: String,
     navigateToCommunity: (title: String, content: String) -> Unit,
     popUpBackStack: () -> Unit,
-    ) {
+) {
     val (titleTextState, setTitleText) = remember { mutableStateOf(title) }
     val (contentTextState, setContentText) = remember { mutableStateOf(content) }
 
@@ -185,10 +179,9 @@ internal fun CommunityWritingScreen(
 @Composable
 private fun CommunityWritingScreen() {
     CommunityWritingScreen(
-        id = 0,
         focusManager = LocalFocusManager.current,
         title = "",
         content = "",
-        navigateToCommunity = {_, _ ->}
-    ){}
+        navigateToCommunity = { _, _ -> }
+    ) {}
 }

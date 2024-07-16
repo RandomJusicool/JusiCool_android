@@ -104,7 +104,7 @@ class CommunityCUDViewModel @Inject constructor(
         private set
 
     internal fun postWritingCommunity(
-        communityId: Long,
+        communityId: String,
         title: String,
         content: String
     ) = viewModelScope.launch {
@@ -126,7 +126,7 @@ class CommunityCUDViewModel @Inject constructor(
     }
 
     internal fun patchCommunityBoard(
-        boardId: Long,
+        boardId: String,
         title: String,
         content: String
     ) = viewModelScope.launch {
@@ -146,7 +146,7 @@ class CommunityCUDViewModel @Inject constructor(
             _patchCommunityBoardResponse.value = error.errorHandling()
         }
     }
-    internal fun getCommunityDetail(boardId: Long) = viewModelScope.launch {
+    internal fun getCommunityDetail(boardId: String) = viewModelScope.launch {
         getCommunityDetailUseCase(boardId = boardId).onSuccess {
             it.catch { remoteError ->
                 _getCommunityBoardDetailResponse.value = remoteError.errorHandling()
@@ -158,7 +158,7 @@ class CommunityCUDViewModel @Inject constructor(
         }
     }
 
-    internal fun deleteCommunityDetail(communityId: Long, boardId: Long) = viewModelScope.launch {
+    internal fun deleteCommunityDetail(communityId: String, boardId: String) = viewModelScope.launch {
         deleteCommunityBoardUseCase(communityId = communityId, boardId = boardId).onSuccess {
             it.catch { remoteError ->
                 _deleteCommunityBoardDetailResponse.value = remoteError.errorHandling()
@@ -170,7 +170,7 @@ class CommunityCUDViewModel @Inject constructor(
         }
     }
 
-    internal fun getCommunityComment(boardId: Long) = viewModelScope.launch {
+    internal fun getCommunityComment(boardId: String) = viewModelScope.launch {
         getCommunityCommentUseCase(boardId = boardId).onSuccess {
             it.catch { remoteError ->
                 _getCommunityCommentResponse.value = remoteError.errorHandling()
@@ -182,7 +182,7 @@ class CommunityCUDViewModel @Inject constructor(
         }
     }
 
-    internal fun getLike(boardId: Long) = viewModelScope.launch {
+    internal fun getLike(boardId: String) = viewModelScope.launch {
         getLikeUseCase(boardId = boardId).onSuccess {
             it.catch { remoteError ->
                 _getLikeResponse.value = remoteError.errorHandling()
@@ -195,7 +195,7 @@ class CommunityCUDViewModel @Inject constructor(
     }
 
 
-    internal fun postLike(boardId: Long) = viewModelScope.launch {
+    internal fun postLike(boardId: String) = viewModelScope.launch {
         postLikeUseCase(boardId = boardId).onSuccess {
             it.catch { remoteError ->
                 _postLikeResponse.value = remoteError.errorHandling()
@@ -207,7 +207,7 @@ class CommunityCUDViewModel @Inject constructor(
         }
     }
 
-    internal fun deleteLike(boardId: Long) = viewModelScope.launch {
+    internal fun deleteLike(boardId: String) = viewModelScope.launch {
         deleteLikeUseCase(boardId = boardId).onSuccess {
             it.catch { remoteError ->
                 _deleteLikeResponse.value = remoteError.errorHandling()
@@ -220,7 +220,7 @@ class CommunityCUDViewModel @Inject constructor(
     }
 
     internal fun postWritingCommunityComment(
-        boardId: Long,
+        boardId: String,
         content: String
     ) = viewModelScope.launch {
         postWritingCommunityCommentUseCase(

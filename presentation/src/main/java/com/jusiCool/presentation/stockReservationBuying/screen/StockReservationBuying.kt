@@ -40,7 +40,7 @@ import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockReservationBuyingRoute = "stockReservationBuyingRoute"
 
-fun NavController.navigationToStockReservationBuying(id: Long) {
+fun NavController.navigationToStockReservationBuying(id: String) {
     this.navigate("$stockReservationBuyingRoute/$id")
 }
 
@@ -49,21 +49,19 @@ fun NavGraphBuilder.stockReservationBuyingRoute(
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockReservationBuyingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
-            StockReservationBuyingRoute(
-                id = id,
-                navigateToStockDetail = navigateToStockDetail,
-                navigateToOrderHistory = navigateToOrderHistory
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        StockReservationBuyingRoute(
+            id = id,
+            navigateToStockDetail = navigateToStockDetail,
+            navigateToOrderHistory = navigateToOrderHistory
+        )
     }
 }
 
 @Composable
 internal fun StockReservationBuyingRoute(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
@@ -71,7 +69,7 @@ internal fun StockReservationBuyingRoute(
         modifier = modifier,
         id = id,
         myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
     )
@@ -80,7 +78,7 @@ internal fun StockReservationBuyingRoute(
 @Composable
 internal fun StockReservationBuyingScreen(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     myAccountData: MyAccountData,
     entireStocksData: EntireStocksData,
     navigateToStockDetail: (String) -> Unit,
@@ -100,7 +98,7 @@ internal fun StockReservationBuyingScreen(
             startIcon = {
                 LeftArrowIcon(modifier = Modifier.clickableSingle {
                     if (pager == 2) setPager(1)
-                    else navigateToStockDetail(id.toString())
+                    else navigateToStockDetail(id)
                 })
             },
             betweenText = "주식 구매"
@@ -200,9 +198,9 @@ internal fun StockReservationBuyingScreen(
 fun StockReservationBuyingScreenPreview() {
     StockReservationBuyingScreen(
         myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
         navigateToOrderHistory = {},
-        id = 1L
+        id = "1L"
     )
 }

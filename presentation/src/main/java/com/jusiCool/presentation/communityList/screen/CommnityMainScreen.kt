@@ -4,12 +4,16 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -23,7 +27,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
-import com.jusiCool.presentation.communityList.component.CommunityMainList
+import com.jusiCool.presentation.communityList.component.CommunityMainListItem
 import com.jusiCool.presentation.communityList.viewModel.CommunityListViewModel
 import com.jusiCool.presentation.utill.Event
 
@@ -35,7 +39,7 @@ fun NavController.navigateToCommunityList() {
 
 fun NavGraphBuilder.communityListRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunity: (Long, String) -> Unit,
+    navigateToCommunity: (String, String) -> Unit,
 ) {
     composable(communityListRoute) {
         CommunityListRoute(
@@ -50,7 +54,7 @@ internal fun CommunityListRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     popUpBackStack: () -> Unit,
-    navigateToCommunity: (Long, String) -> Unit,
+    navigateToCommunity: (String, String) -> Unit,
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
@@ -92,6 +96,7 @@ private suspend fun getCommunityList(
             is Event.Success -> {
                 onSuccess(response.data!!)
             }
+
             else -> {
                 onFailure()
             }
@@ -103,7 +108,7 @@ private suspend fun getCommunityList(
 internal fun CommunityListScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunity: (Long, String) -> Unit,
+    navigateToCommunity: (String, String) -> Unit,
     data: List<GetCommunityListResponseModel>,
     loadStuff: () -> Unit,
     swipeRefreshState: SwipeRefreshState,
@@ -131,10 +136,22 @@ internal fun CommunityListScreen(
                         },
                         betweenText = "커뮤니티 목록"
                     )
-                    CommunityMainList(
-                        data = data,
-                        navigateToCommunity = navigateToCommunity
-                    )
+                    LazyColumn(
+                        modifier = modifier
+                            .fillMaxSize()
+                            .background(color = colors.GRAY50)
+                            .padding(
+                                horizontal = 24.dp,
+                                vertical = 8.dp
+                            )
+                    ) {
+                        items(data) { item ->
+                            CommunityMainListItem(
+                                data = item,
+                                navigateToCommunity = navigateToCommunity
+                            )
+                        }
+                    }
                 }
             }
         }

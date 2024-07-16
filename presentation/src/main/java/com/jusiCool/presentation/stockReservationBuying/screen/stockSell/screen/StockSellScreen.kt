@@ -1,5 +1,6 @@
-package com.jusiCool.presentation.stockSelling.screen
+package com.jusiCool.presentation.stockReservationBuying.screen.stockSell.screen
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,12 +13,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -31,13 +35,15 @@ import com.example.design_system.icon_image.icon.RightArrowIcon
 import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
-import com.jusiCool.presentation.main.component.MyStocksData
+import com.jusiCool.presentation.main.viewModel.MainViewModel
+import com.jusiCool.presentation.stockReservationBuying.screen.stockSell.viewModel.StockSellViewModel
 import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockSellingRoute = "stockSellingRoute"
 
-fun NavController.navigationToStockSelling(id: Long) {
+fun NavController.navigationToStockSelling(id: String) {
     this.navigate("$stockSellingRoute/$id")
 }
 
@@ -46,29 +52,36 @@ fun NavGraphBuilder.stockSellingRoute(
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockSellingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
-            StockSellingRoute(
-                id = id,
-                navigateToStockDetail = navigateToStockDetail,
-                navigateToOrderHistory = navigateToOrderHistory
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        StockSellingRoute(
+            id = id,
+            navigateToStockDetail = navigateToStockDetail,
+            navigateToOrderHistory = navigateToOrderHistory
+        )
     }
 }
 
 @Composable
 internal fun StockSellingRoute(
     modifier: Modifier = Modifier,
-    id: Long,
+    viewModel: StockSellViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    id: String,
     navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
+    mainViewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     StockSellingScreen(
         modifier = modifier,
         id = id,
-        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        deleteStock = { num ->
+            viewModel.deleteStock(
+                stockId = id,
+                num = num
+            )
+        },
+        stockText = viewModel.stockText.longValue,
+        stockData = mainViewModel.myStock,
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
     )
@@ -77,13 +90,15 @@ internal fun StockSellingRoute(
 @Composable
 internal fun StockSellingScreen(
     modifier: Modifier = Modifier,
-    id: Long,
-    myStocksData: MyStocksData,
+    id: String,
+    deleteStock: (num: Long) -> Unit,
+    stockText: Long,
+    stockData: List<GetMyStockModel>,
     entireStocksData: EntireStocksData,
     navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
-    val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
+    val (stockTextState, setStockTextState) = remember { mutableLongStateOf(stockText) }
     val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(true) }
 
     Column(
@@ -93,7 +108,7 @@ internal fun StockSellingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         JDSArrowTopBar(
-            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail(id.toString()) }) },
+            startIcon = { LeftArrowIcon(modifier = Modifier.clickableSingle { navigateToStockDetail(id) }) },
             betweenText = "주식 판매"
         )
 
@@ -102,12 +117,12 @@ internal fun StockSellingScreen(
 
             JDSTextField(
                 modifier = Modifier.padding(horizontal = 24.dp),
-                textState = stockTextState,
+                textState = stockTextState.toString(),
                 placeHolder = "최대 N주 판매 가능",
                 label = "몇 주 판매할까요?",
-                helperText = "보유 주 ${myStocksData.share}주",
+                helperText = "보유 주 주",//나중에 함
                 placerHolderShare = true,
-                onTextChange = setStockTextState
+                onTextChange = { setStockTextState(it.toLong()) }
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -116,9 +131,12 @@ internal fun StockSellingScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 32.dp),
-                state = if (stockTextState.isEmpty()) ButtonState.Disable else ButtonState.Enable,
+                state = if (stockTextState == 0L) ButtonState.Disable else ButtonState.Enable,
                 text = "판매 하기",
-                onClick = { setIsBuyingSuccessful(false) }
+                onClick = {
+                    setIsBuyingSuccessful(false)
+                    deleteStock(stockTextState)
+                }
             )
         } else {
             Column(
@@ -130,7 +148,9 @@ internal fun StockSellingScreen(
                 CostImage(modifier = Modifier.size(177.dp))
 
                 Text(
-                    text = "${entireStocksData.stockName} ${stockTextState.formatStockPrice()}주\n" +
+                    text = "${entireStocksData.stockName} ${
+                        stockTextState.toInt().formatStockPrice()
+                    }주\n" +
                             "${(stockTextState.toInt() * entireStocksData.myStockPrice).formatStockPrice()}P 판매 성공",
                     style = JDSTypography.subTitle,
                     color = JDSColor.Black
@@ -159,11 +179,4 @@ internal fun StockSellingScreen(
 @Preview
 @Composable
 fun StockSellingScreenPreview() {
-    StockSellingScreen(
-        myStocksData = MyStocksData(id = 1L,"마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = 1L,"마이크로소프트", 1231, 10000, 8160, 7.9f),
-        navigateToStockDetail = {},
-        navigateToOrderHistory = {},
-        id = 1L
-    )
 }

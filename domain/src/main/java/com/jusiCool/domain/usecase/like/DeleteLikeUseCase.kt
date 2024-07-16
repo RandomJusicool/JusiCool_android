@@ -6,7 +6,7 @@ import javax.inject.Inject
 class DeleteLikeUseCase @Inject constructor(
     private val repository: LikeRepository
 ) {
-    suspend operator fun invoke(boardId: Long) = runCatching {
+    suspend operator fun invoke(boardId: String) = runCatching {
         repository.deleteLike(boardId = boardId)
     }
 }

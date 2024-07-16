@@ -64,18 +64,18 @@ fun CheckEntireStockListRoute(
 
 
 val tempEntireStocksData = persistentListOf(
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, -8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 0, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1, 11131, 8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
-    EntireStocksData(id = 1L,"마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, -8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 0, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
+    EntireStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
 )
 
 @Composable

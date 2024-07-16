@@ -15,10 +15,10 @@ import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseMod
 @Composable
 fun CommunityList(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     name: String,
     data: List<GetCommunityBoardListResponseModel> = listOf(),
-    navigateToDetailCommunity: (Long, Long, String) -> Unit
+    navigateToDetailCommunity: (String, String, String) -> Unit
 ) {
     JusiCoolAndroidTheme { colors, _ ->
         LazyColumn(

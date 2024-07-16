@@ -1,5 +1,6 @@
 package com.jusiCool.presentation.holdShare.screen
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,12 +8,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -20,10 +21,8 @@ import com.example.design_system.component.modifier.clickableSingle.clickableSin
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.main.component.MyStocksData
-import com.jusiCool.presentation.main.component.Stocks
-import com.jusiCool.presentation.main.screen.tempMyStockData
-import kotlinx.collections.immutable.ImmutableList
+import com.jusiCool.domain.model.user.response.GetMyStockModel
+import com.jusiCool.presentation.main.viewModel.MainViewModel
 
 const val holdShareRoute = "holdShareRoute"
 
@@ -47,20 +46,21 @@ fun NavGraphBuilder.holdShareRoute(
 internal fun HoldShareRoute(
     modifier: Modifier = Modifier,
     navigateToStockDetail: (String) -> Unit,
-    popUpBackStack: () -> Unit
+    popUpBackStack: () -> Unit,
+    viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     HoldShareScreen(
         modifier = modifier,
         navigateToStockDetail = navigateToStockDetail,
         popUpBackStack = popUpBackStack,
-        myStocksData = tempMyStockData
+        stockData = viewModel.myStock,
     )
 }
 
 @Composable
 internal fun HoldShareScreen(
     modifier: Modifier = Modifier,
-    myStocksData: ImmutableList<MyStocksData>,
+    stockData: List<GetMyStockModel>,
     navigateToStockDetail: (String) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
@@ -80,7 +80,7 @@ internal fun HoldShareScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(bottom = 8.dp)
         ) {
-            items(myStocksData) { item ->
+//            items(stockData) { item ->
 //                Stocks(
 //                    modifier = Modifier
 //                        .background(
@@ -91,7 +91,7 @@ internal fun HoldShareScreen(
 //                    myStocksData = item,
 //                    navigateToStockDetail = navigateToStockDetail
 //                ) 나중에 고칠게여
-            }
+//            }
         }
     }
 }
@@ -99,9 +99,4 @@ internal fun HoldShareScreen(
 @Preview
 @Composable
 fun HoldShareScreenPreview() {
-    HoldShareScreen(
-        navigateToStockDetail = {},
-        popUpBackStack = {},
-        myStocksData = tempMyStockData
-    )
 }

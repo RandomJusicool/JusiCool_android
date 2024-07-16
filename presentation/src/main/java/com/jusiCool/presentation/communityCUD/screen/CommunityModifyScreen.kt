@@ -1,6 +1,5 @@
 package com.jusiCool.presentation.communityCUD.screen
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
@@ -18,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,7 +38,7 @@ import com.jusiCool.presentation.communityCUD.viewmodel.CommunityCUDViewModel
 
 const val communityModifyRoute = "communityModifyRoute"
 
-fun NavController.navigateToCommunityModify(boardId: Long) {
+fun NavController.navigateToCommunityModify(boardId: String) {
     this.navigate("${communityModifyRoute}/${boardId}")
 }
 
@@ -48,21 +46,19 @@ fun NavGraphBuilder.communityModifyRoute(
     popUpBackStack: () -> Unit,
 ) {
     composable("${communityModifyRoute}/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
-            CommunityModifyRoute(
-                id = id,
-                popUpBackStack = popUpBackStack
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        CommunityModifyRoute(
+            id = id,
+            popUpBackStack = popUpBackStack
+        )
     }
 }
 
 @Composable
 internal fun CommunityModifyRoute(
     modifier: Modifier = Modifier,
-    viewModel: CommunityCUDViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    id: Long,
+    viewModel: CommunityCUDViewModel = hiltViewModel(),
+    id: String,
     popUpBackStack: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
@@ -94,7 +90,7 @@ internal fun CommunityModifyRoute(
 @Composable
 internal fun CommunityModifyScreen(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     navigateToCommunityDetail: (title: String, content: String) -> Unit,
     popUpBackStack: () -> Unit,
     focusManager: FocusManager,
@@ -103,7 +99,11 @@ internal fun CommunityModifyScreen(
 ) {
     val (titleTextState, setTitleText) = remember(title) { mutableStateOf(title) }
     val (contentTextState, setContentText) = remember(content) { mutableStateOf(content) }
-    val (writingModifierDialogIsVisible, setWritingModifierDialogIsVisible) = remember { mutableStateOf(false) }
+    val (writingModifierDialogIsVisible, setWritingModifierDialogIsVisible) = remember {
+        mutableStateOf(
+            false
+        )
+    }
 
     LaunchedEffect(Unit) {
         setTitleText(title)
@@ -137,8 +137,13 @@ internal fun CommunityModifyScreen(
                     JDSArrowTopBar(
                         startIcon = {
                             LeftArrowIcon(
-                                modifier = modifier.clickableSingle { setWritingModifierDialogIsVisible(true) }
-                            ) },
+                                modifier = modifier.clickableSingle {
+                                    setWritingModifierDialogIsVisible(
+                                        true
+                                    )
+                                }
+                            )
+                        },
                         betweenText = "글 수정"
                     )
                     Column(
@@ -189,7 +194,7 @@ internal fun CommunityModifyScreen(
 @Composable
 private fun CommunityModifierPre() {
     CommunityModifyRoute(
-        id = 0,
+        id = "0",
         popUpBackStack = { /*TODO*/ }
     )
 }
