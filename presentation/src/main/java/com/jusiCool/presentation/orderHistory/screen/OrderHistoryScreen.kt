@@ -48,6 +48,7 @@ import com.example.design_system.theme.color.JDSColor
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.jusiCool.domain.enumtype.ReceiptEnumType
 import com.jusiCool.domain.model.receipt.response.GetReceiptModel
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderHistory
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderReservation
@@ -81,7 +82,7 @@ internal fun OrderHistoryRoute(
     OrderHistoryScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        buyData = viewModel.getBuyReceipt,
+        buyData = viewModel.getSellReceipt,
         sellData = viewModel.getBuyReceipt,
         swipeRefreshState = swipeRefreshState,
         loadStuff = viewModel::refreshReceipts,
@@ -100,8 +101,18 @@ internal fun OrderHistoryScreen(
 ) {
     val (orderState, setOrderState) = remember { mutableStateOf(true) }
 
-    val filteredBuyData = if (orderState) buyData else emptyList()
-    val filteredSellData = if (!orderState) sellData else emptyList()
+    val filteredData = remember(orderState, buyData, sellData) {
+        if (orderState) {
+            buyData + sellData
+        } else {
+            if (buyData.isEmpty()) {
+                sellData
+            } else {
+                buyData
+            }
+        }
+    }
+
 
     JusiCoolAndroidTheme { colors, typography ->
         SwipeRefresh(
@@ -167,7 +178,7 @@ internal fun OrderHistoryScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(24.dp))
-                if (orderState && filteredBuyData.isEmpty() || !orderState && filteredSellData.isEmpty()) {
+                if (filteredData.isEmpty()) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -199,17 +210,11 @@ internal fun OrderHistoryScreen(
                         verticalArrangement = Arrangement.spacedBy(24.dp),
                         contentPadding = PaddingValues(bottom = 24.dp)
                     ) {
-                        if (orderState) {
-                            items(filteredBuyData) { item ->
-                                MyStocksOrderHistory(
-                                    data = item
-                                )
-                            }
-                        } else {
-                            items(filteredSellData) { item ->
-                                MyStocksOrderReservation(
-                                    data = item
-                                )
+                        items(filteredData) { item ->
+                            if (orderState) {
+                                MyStocksOrderHistory(data = item)
+                            } else {
+                                MyStocksOrderReservation(data = item)
                             }
                         }
                     }
@@ -224,8 +229,8 @@ internal fun OrderHistoryScreen(
 fun OrderHistoryScreenPreview() {
     OrderHistoryScreen(
         popUpBackStack = { },
-        buyData = listOf(),
         sellData = listOf(),
+        buyData = listOf(),
         swipeRefreshState = SwipeRefreshState(true),
         loadStuff = {}
     )

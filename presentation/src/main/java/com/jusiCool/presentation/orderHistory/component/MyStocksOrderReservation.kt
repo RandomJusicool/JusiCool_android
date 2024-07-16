@@ -36,7 +36,6 @@ fun MyStocksOrderReservation(
             style = JDSTypography.bodySmall,
             color = JDSColor.Black
         )
-
         Text(
             text = "${formmatedMyPrice}원 예약완료",
             style = JDSTypography.label,

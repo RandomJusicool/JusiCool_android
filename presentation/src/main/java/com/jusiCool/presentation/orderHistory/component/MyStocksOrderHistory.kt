@@ -31,13 +31,13 @@ fun MyStocksOrderHistory(
             color = JDSColor.Black
         )
 
-        if(data.status == ReceiptEnumType.BUY) {
+        if (data.status == ReceiptEnumType.BUY) {
             Text(
                 text = "${formmatedMyPrice}원 구매완료",
                 style = JDSTypography.label,
                 color = JDSColor.GRAY400
             )
-        } else {
+        } else if (data.status == ReceiptEnumType.SELL) {
             Text(
                 text = "${formmatedMyPrice}원 판매완료",
                 style = JDSTypography.label,
