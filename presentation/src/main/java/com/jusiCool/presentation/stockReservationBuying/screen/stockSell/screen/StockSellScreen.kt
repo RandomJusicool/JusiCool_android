@@ -36,7 +36,7 @@ import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.domain.model.user.response.GetMyStockModel
-import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
+import com.jusiCool.presentation.main.component.EntireStocksData
 import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.stockReservationBuying.screen.stockSell.viewModel.StockSellViewModel
 import com.jusiCool.presentation.utill.formatStockPrice

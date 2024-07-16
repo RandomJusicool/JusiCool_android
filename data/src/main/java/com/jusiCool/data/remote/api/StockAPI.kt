@@ -17,7 +17,7 @@ interface StockAPI {
     ) : GetStockDetailResponse
 
     @GET("/api/v1/stock")
-    suspend fun getStockList() : GetStockListResponse
+    suspend fun getStockList() : List<GetStockListResponse>
 
     @POST("/api/v1/stock/{stock_code}")
     suspend fun buyStock(

@@ -31,7 +31,7 @@ import com.example.design_system.icon_image.icon.RightArrowIcon
 import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
+import com.jusiCool.presentation.main.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.screen.tempMyAccountData
 import com.jusiCool.presentation.utill.formatStockPrice
