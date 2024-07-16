@@ -7,13 +7,13 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class GetReceipt(
-    @Json(name = "stockName") val stockName: String,
     @Json(name = "status") val status: ReceiptEnumType,
+    @Json(name = "stockName") val stockName: String,
     @Json(name = "price") val price: Long,
 )
 
 fun GetReceipt.toModel() = GetReceiptModel(
-    stockName = stockName,
     status = status,
+    stockName = stockName,
     price = price,
 )

@@ -183,5 +183,5 @@ private fun CommunityWritingScreen() {
         title = "",
         content = "",
         navigateToCommunity = { _, _ -> }
-    ) {}
+    ){}
 }

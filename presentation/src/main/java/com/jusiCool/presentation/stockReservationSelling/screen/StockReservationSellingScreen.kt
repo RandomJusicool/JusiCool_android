@@ -53,12 +53,14 @@ fun NavGraphBuilder.stockReservationSellingRoute(
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockReservationSellingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?:""
+        val id = backStackEntry.arguments?.getString("id")
+        if (id != null) {
             StockReservationSellingRoute(
                 id = id,
                 navigateToStockDetail = navigateToStockDetail,
                 navigateToOrderHistory = navigateToOrderHistory
             )
+        }
     }
 }
 

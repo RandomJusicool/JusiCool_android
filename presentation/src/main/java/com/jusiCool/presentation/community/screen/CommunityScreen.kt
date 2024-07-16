@@ -2,10 +2,13 @@ package com.jusiCool.presentation.community.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,14 +25,17 @@ import androidx.navigation.compose.composable
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
+import com.example.design_system.icon_image.icon.SearchIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
+import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 import com.jusiCool.presentation.community.component.CommunityList
 import com.jusiCool.presentation.community.component.WritingCommunityButton
 import com.jusiCool.presentation.community.viewModel.CommunityViewModel
+import com.jusiCool.presentation.communityList.viewModel.CommunityListViewModel
 import com.jusiCool.presentation.utill.Event
 
 const val communityRoute = "communityRoute"
@@ -110,7 +116,6 @@ private suspend fun getCommunityListBoard(
             is Event.Success -> {
                 onSuccess(response.data!!)
             }
-
             else -> {
                 onFailure()
             }
@@ -130,8 +135,9 @@ internal fun CommunityScreen(
     swipeRefreshState: SwipeRefreshState,
     loadStuff: () -> Unit,
     popUpBackStack: () -> Unit,
-) {
-    JusiCoolAndroidTheme { colors, _ ->
+    )
+{
+    JusiCoolAndroidTheme { colors, typography ->
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = {
@@ -153,12 +159,38 @@ internal fun CommunityScreen(
                         },
                         betweenText = "$name 커뮤니티"
                     )
-                    CommunityList(
-                        data = boardData,
-                        navigateToDetailCommunity = navigateToDetailCommunity,
-                        id = id,
-                        name = name
-                    )
+                    if (boardData.isEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                SearchIcon(
+                                    modifier = Modifier
+                                        .size(70.dp)
+                                        .padding(bottom = 8.dp)
+                                )
+                                Text(
+                                    modifier = Modifier.padding(bottom = 10.dp),
+                                    text = "데이터가 없습니다..",
+                                    style = typography.titleMedium,
+                                    color = colors.GRAY500,
+                                )
+                            }
+                        }
+                    } else {
+                        CommunityList(
+                            data = boardData,
+                            navigateToDetailCommunity = navigateToDetailCommunity,
+                            id = id,
+                            name = name
+                        )
+                    }
                 }
                 WritingCommunityButton(
                     modifier = Modifier

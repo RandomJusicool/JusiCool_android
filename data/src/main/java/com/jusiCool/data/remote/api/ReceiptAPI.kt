@@ -2,6 +2,7 @@ package com.jusiCool.data.remote.api
 
 import com.jusiCool.data.remote.dto.receipt.response.GetReceipt
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ReceiptAPI {
 
