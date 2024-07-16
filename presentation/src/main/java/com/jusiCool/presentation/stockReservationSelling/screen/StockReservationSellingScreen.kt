@@ -1,5 +1,6 @@
 package com.jusiCool.presentation.stockReservationSelling.screen
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,9 +18,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -34,8 +37,9 @@ import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.domain.model.stock.request.BuyStockRequestModel
+import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
-import com.jusiCool.presentation.main.component.MyStocksData
+import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockReservationSellingRoute = "stockReservationSellingRoute"
@@ -64,11 +68,12 @@ internal fun StockReservationSellingRoute(
     id: String,
     navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
+    viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     StockReservationSellingScreen(
         modifier = modifier,
         id = id,
-        myStocksData = MyStocksData(id = "1L", "마이크로소프트", 1231, 11131, 0, 0.0f),
+        stockData = viewModel.myStock,
         entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         sendStockReservation = { body, onSuccess ->
 
@@ -82,7 +87,7 @@ internal fun StockReservationSellingRoute(
 internal fun StockReservationSellingScreen(
     modifier: Modifier = Modifier,
     id: String,
-    myStocksData: MyStocksData,
+    stockData: List<GetMyStockModel>,
     entireStocksData: EntireStocksData,
     sendStockReservation: (BuyStockRequestModel, () -> Unit) -> Unit,
     navigateToStockDetail: (String) -> Unit,
@@ -141,7 +146,7 @@ internal fun StockReservationSellingScreen(
                     textState = stockTextState,
                     placeHolder = "최대 N주 판매 가능",
                     label = "몇 주 판매할까요?",
-                    helperText = "보유 주 ${myStocksData.share.formatStockPrice()}주",
+                    helperText = "보유 주",//나중에 함
                     placerHolderShare = true,
                     onTextChange = setStockTextState
                 )
@@ -211,12 +216,5 @@ internal fun StockReservationSellingScreen(
 @Preview
 @Composable
 fun StockReservationSellingScreenPreview() {
-    StockReservationSellingScreen(
-        id = "1L",
-        myStocksData = MyStocksData(id = "1L", "마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
-        navigateToStockDetail = {},
-        navigateToOrderHistory = {},
-        sendStockReservation = { num, goal_price -> },
-    )
+
 }

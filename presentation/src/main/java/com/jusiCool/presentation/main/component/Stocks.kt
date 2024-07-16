@@ -18,19 +18,10 @@ import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.utill.formatStockPriceSign
 
-data class MyStocksData(
-    val id: String,
-    val stockName: String,
-    val share: Int,
-    val myStockPrice: Int,
-    val myStockRevenue: Int,
-    val myStockRevenuePercent: Float,
-)
-
 @Composable
 fun Stocks(
     modifier: Modifier = Modifier,
-    myStocksData: MyStocksData,
+    myStocksData: GetMyStockModel,
     navigateToStockDetail: (String) -> Unit,
 ) {
     Row(
@@ -78,44 +69,4 @@ fun Stocks(
 @Preview
 @Composable
 fun StocksPreview() {
-    Column {
-        Stocks(
-            modifier = Modifier.width(280.dp),
-            myStocksData = MyStocksData(
-                stockName = "마이크로소프트",
-                share = 1231,
-                myStockPrice = 11131,
-                myStockRevenue = 8160,
-                myStockRevenuePercent = 7.9f,
-                id = "0"
-            ),
-            navigateToStockDetail = { /*TODO*/ }
-        )
-
-        Stocks(
-            modifier = Modifier.width(280.dp),
-            myStocksData = MyStocksData(
-                stockName = "마이크로소프트",
-                share = 1231,
-                myStockPrice = 11131,
-                myStockRevenue = -8160,
-                myStockRevenuePercent = 7.9f,
-                id = "0"
-            ),
-            navigateToStockDetail = { /*TODO*/ }
-        )
-
-        Stocks(
-            modifier = Modifier.width(280.dp),
-            myStocksData = MyStocksData(
-                stockName = "마이크로소프트",
-                share = 1231,
-                myStockPrice = 11131,
-                myStockRevenue = 0,
-                myStockRevenuePercent = 0.0f,
-                id = "0"
-            ),
-            navigateToStockDetail = { /*TODO*/ }
-        )
-    }
 }

@@ -35,8 +35,9 @@ import com.example.design_system.icon_image.icon.RightArrowIcon
 import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
-import com.jusiCool.presentation.main.component.MyStocksData
+import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.stockReservationBuying.screen.stockSell.viewModel.StockSellViewModel
 import com.jusiCool.presentation.utill.formatStockPrice
 
@@ -67,6 +68,7 @@ internal fun StockSellingRoute(
     id: String,
     navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
+    mainViewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     StockSellingScreen(
         modifier = modifier,
@@ -78,7 +80,7 @@ internal fun StockSellingRoute(
             )
         },
         stockText = viewModel.stockText.longValue,
-        myStocksData = MyStocksData(id = "1L", "마이크로소프트", 1231, 11131, 0, 0.0f),
+        stockData = mainViewModel.myStock,
         entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
@@ -91,7 +93,7 @@ internal fun StockSellingScreen(
     id: String,
     deleteStock: (num: Long) -> Unit,
     stockText: Long,
-    myStocksData: MyStocksData,
+    stockData: List<GetMyStockModel>,
     entireStocksData: EntireStocksData,
     navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
@@ -118,7 +120,7 @@ internal fun StockSellingScreen(
                 textState = stockTextState.toString(),
                 placeHolder = "최대 N주 판매 가능",
                 label = "몇 주 판매할까요?",
-                helperText = "보유 주 ${myStocksData.share}주",
+                helperText = "보유 주 주",//나중에 함
                 placerHolderShare = true,
                 onTextChange = { setStockTextState(it.toLong()) }
             )
@@ -177,13 +179,4 @@ internal fun StockSellingScreen(
 @Preview
 @Composable
 fun StockSellingScreenPreview() {
-    StockSellingScreen(
-        myStocksData = MyStocksData(id = "1L", "마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
-        navigateToStockDetail = {},
-        navigateToOrderHistory = {},
-        id = "1L",
-        deleteStock = { },
-        stockText = 0
-    )
 }

@@ -23,9 +23,6 @@ import com.example.design_system.icon_image.image.GraphSkeletonImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.domain.model.user.response.GetMyStockModel
-import com.jusiCool.presentation.main.screen.tempMyAccountData
-import com.jusiCool.presentation.main.screen.tempMyStockData
-import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun MyStocks(

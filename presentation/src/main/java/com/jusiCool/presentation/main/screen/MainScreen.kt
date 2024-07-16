@@ -40,7 +40,6 @@ import com.jusiCool.presentation.main.component.CommunityButton
 import com.jusiCool.presentation.main.component.MyAccount
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.component.MyStocks
-import com.jusiCool.presentation.main.component.MyStocksData
 import com.jusiCool.presentation.main.component.PopularNews
 import com.jusiCool.presentation.main.component.PopularSummaryNewsData
 import com.jusiCool.presentation.main.viewModel.MainViewModel
@@ -136,17 +135,6 @@ fun MainRoute(
         )
     }
 }
-
-val tempMyStockData = persistentListOf(
-    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
-    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, -8160, 7.9f),
-    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 0, 7.9f),
-    MyStocksData(id = "1L","마이크로소프트", 1, 11131, 8160, 7.9f),
-    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
-    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
-    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
-    MyStocksData(id = "1L","마이크로소프트", 1231, 11131, 8160, 7.9f),
-)
 
 val tempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
 
