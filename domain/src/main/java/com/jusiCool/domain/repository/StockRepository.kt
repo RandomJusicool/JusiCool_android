@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface StockRepository {
     suspend fun getStockDetail(stockId: String): Flow<GetStockDetailResponseModel>
-    suspend fun getStockList(): Flow<GetStockListResponseModel>
+    suspend fun getStockList(): Flow<List<GetStockListResponseModel>>
     suspend fun buyStock(stockId: String, body: StockRequestModel): Flow<Unit>
     suspend fun sellStockReserve(stockId: String, body: BuyStockRequestModel): Flow<Unit>
     suspend fun buyStockReserve(stockId: String, body: BuyStockRequestModel): Flow<Unit>

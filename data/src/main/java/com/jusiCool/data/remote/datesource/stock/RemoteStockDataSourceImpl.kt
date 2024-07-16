@@ -15,7 +15,7 @@ class RemoteStockDataSourceImpl @Inject constructor(
     override suspend fun getStockDetail(stockId: String): Flow<GetStockDetailResponse> =
         performApiRequest { serviceStock.getStockDetail(stockId = stockId) }
 
-    override suspend fun getStockList(): Flow<GetStockListResponse> =
+    override suspend fun getStockList(): Flow<List<GetStockListResponse>> =
         performApiRequest { serviceStock.getStockList() }
 
     override suspend fun buyStock(stockId: String, body: StockRequest): Flow<Unit> =

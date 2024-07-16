@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.jusiCool.presentation.checkEntireStock.screen.checkEntireStockListRoute
-import com.jusiCool.presentation.checkEntireStock.screen.navigateToCheckEntireStockList
+import com.jusiCool.presentation.main.screen.checkEntireStockListRoute
+import com.jusiCool.presentation.main.screen.navigateToCheckEntireStockList
 import com.jusiCool.presentation.community.screen.communityRoute
 import com.jusiCool.presentation.community.screen.navigateToCommunity
 import com.jusiCool.presentation.communityCUD.screen.communityModifyRoute
@@ -19,8 +19,8 @@ import com.jusiCool.presentation.communityCUD.screen.navigateToCommunityDetail
 import com.jusiCool.presentation.communityList.screen.communityListRoute
 import com.jusiCool.presentation.communityList.screen.navigateToCommunityList
 import com.jusiCool.presentation.communityOtherDetail.screen.communityOtherDetailRoute
-import com.jusiCool.presentation.holdShare.screen.holdShareRoute
-import com.jusiCool.presentation.holdShare.screen.navigateToHoldShare
+import com.jusiCool.presentation.main.screen.holdShareRoute
+import com.jusiCool.presentation.main.screen.navigateToHoldShare
 import com.jusiCool.presentation.join.screen.joinRoute
 import com.jusiCool.presentation.join.screen.navigateToJoin
 import com.jusiCool.presentation.login.screen.loginRoute

@@ -6,15 +6,17 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class GetStockListResponse(
-    @Json(name = "id") val id: Long,
+    @Json(name = "code") val code: String,
     @Json(name = "name") val name: String,
-    @Json(name = "presentprice") val presentPrice: Int,
-    @Json(name = "fluctuationcomparedpreviousday") val fluctuationComparedPreviousDay: Int
+    @Json(name = "presentPrice") val present_price: Long,
+    @Json(name = "upDownPrice") val upDownPrice: Long,
+    @Json(name = "upDownPercent") val upDownPercent: Double
 )
 
 fun GetStockListResponse.toModel() = GetStockListResponseModel(
-    id = id,
+    code = code,
     name = name,
-    presentPrice = presentPrice,
-    fluctuationComparedPreviousDay = fluctuationComparedPreviousDay
+    present_price = present_price,
+    upDownPrice = upDownPrice,
+    upDownPercent = upDownPercent
 )

@@ -1,6 +1,7 @@
 package com.jusiCool.data.repository
 
 import com.jusiCool.data.remote.datesource.stock.RemoteStockDataSource
+import com.jusiCool.data.remote.dto.board.response.toModel
 import com.jusiCool.data.remote.dto.stock.request.toDto
 import com.jusiCool.data.remote.dto.stock.response.toModel
 import com.jusiCool.domain.model.stock.request.BuyStockRequestModel
@@ -19,8 +20,8 @@ class StockRepositoryImpl @Inject constructor(
         return dataSource.getStockDetail(stockId = stockId).map { it.toModel() }
     }
 
-    override suspend fun getStockList(): Flow<GetStockListResponseModel> {
-        return dataSource.getStockList().map { it.toModel() }
+    override suspend fun getStockList(): Flow<List<GetStockListResponseModel>> {
+        return dataSource.getStockList().map { list -> list.map { it.toModel() } }
     }
 
     override suspend fun buyStock(stockId: String, body: StockRequestModel): Flow<Unit> {
