@@ -29,7 +29,7 @@ class StockReservationBuyViewModel @Inject constructor(
         private set
 
     fun postBuyStock(
-        stockId: Long,
+        stockId: String,
         num: Long,
         goal_price: Long,
     ) = viewModelScope.launch {

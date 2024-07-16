@@ -42,7 +42,7 @@ import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
+import com.jusiCool.presentation.main.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.screen.tempMyAccountData
 import com.jusiCool.presentation.stockReservationBuy.viewmodel.StockReservationBuyViewModel
@@ -50,23 +50,21 @@ import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockReservationBuyRoute = "stockReservationBuyRoute"
 
-fun NavController.navigationToStockReservationBuy(id: Long) {
+fun NavController.navigationToStockReservationBuy(id: String) {
     this.navigate("${stockReservationBuyRoute}/${id}")
 }
 
 fun NavGraphBuilder.stockReservationBuyRoute(
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockReservationBuyRoute}/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if(id != null) {
+        val id = backStackEntry.arguments?.getString("id") ?: ""
             StockReservationBuyRoute(
                 id = id,
                 navigateToStockDetail = navigateToStockDetail,
                 navigateToOrderHistory = navigateToOrderHistory
             )
-        }
     }
 }
 
@@ -74,8 +72,8 @@ fun NavGraphBuilder.stockReservationBuyRoute(
 internal fun StockReservationBuyRoute(
     modifier: Modifier = Modifier,
     viewModel: StockReservationBuyViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    id: Long,
-    navigateToStockDetail: (Long) -> Unit,
+    id: String,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
@@ -84,7 +82,7 @@ internal fun StockReservationBuyRoute(
         modifier = modifier,
         id = id,
         myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData(0, "", 10000, 8160, 6, 4.9f),
+        entireStocksData = EntireStocksData("", "", 10000, 8160, 6, 4.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory,
         focusManager = focusManager,
@@ -105,11 +103,11 @@ internal fun StockReservationBuyRoute(
 @Composable
 internal fun StockReservationBuyScreen(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     myAccountData: MyAccountData,
     entireStocksData: EntireStocksData,
     postBuyStock: (num: Long, goal_price: Long) -> Unit,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
     focusManager: FocusManager,
     postStock: Long,
@@ -243,9 +241,9 @@ internal fun StockReservationBuyScreen(
 @Composable
 fun StockReservationBuyingScreenPreview() {
     StockReservationBuyScreen(
-        id = 0,
+        id = "",
         myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData(0, "", 10000, 8160, 23, 9.3f),
+        entireStocksData = EntireStocksData("", "", 10000, 8160, 23, 9.3f),
         navigateToStockDetail = {},
         navigateToOrderHistory = {},
         focusManager = LocalFocusManager.current,
