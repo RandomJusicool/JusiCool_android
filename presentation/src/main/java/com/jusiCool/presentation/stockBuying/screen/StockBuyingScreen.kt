@@ -44,6 +44,7 @@ import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.screen.tempMyAccountData
 import com.jusiCool.presentation.stockBuying.viewModel.StockBuyViewModel
+import com.jusiCool.presentation.utill.formatCommunityDate
 import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockBuyingRoute = "stockBuyingRoute"
@@ -90,7 +91,7 @@ fun StockBuyingRoute(
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory,
         focusManager = focusManager,
-        stockText = viewModel.stockText.longValue
+        stockText = viewModel.stockText.longValue,
     )
 }
 
@@ -106,8 +107,9 @@ internal fun StockBuyingScreen(
     focusManager: FocusManager,
     stockText: Long
 ) {
-    val (stockTextState, setStockTextState) = remember { mutableLongStateOf(stockText) }
+    val (stockTextState, setStockTextState) = remember { mutableStateOf(stockText.toString()) }
     val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(false) }
+    val (errorMessage, setErrorMessage) = remember { mutableStateOf<String?>(null) }
 
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         Column(
@@ -132,23 +134,31 @@ internal fun StockBuyingScreen(
                 Spacer(modifier = Modifier.height(40.dp))
                 JDSTextField(
                     modifier = Modifier.padding(horizontal = 24.dp),
-                    textState = stockTextState.toString(),
+                    textState = stockTextState,
                     placeHolder = "최대 N주 구매 가능",
                     label = "몇 주 구매할까요?",
                     helperText = "보유 포인트 ${myAccountData.point.formatStockPrice()} P",
                     placerHolderShare = true,
-                    onTextChange = { setStockTextState(it.toLong()) }
+                    onTextChange = {
+                        setStockTextState(it)
+                        setErrorMessage(null)
+                    }
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 JDSButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp, vertical = 32.dp),
-                    state = if (stockTextState == 0L) ButtonState.Disable else ButtonState.Enable,
+                    state = if (stockTextState.isEmpty() || stockTextState.toLongOrNull() == null || stockTextState.toLong() == 0L) ButtonState.Disable else ButtonState.Enable,
                     text = "구매 하기",
                     onClick = {
-                        postBuyStock(stockTextState)
-                        setIsBuyingSuccessful(true)
+                        val num = stockTextState.toLongOrNull()
+                        if (num != null && num > 0) {
+                            postBuyStock(num)
+                            setIsBuyingSuccessful(true)
+                        } else {
+                            setErrorMessage("잘못된 입력입니다")
+                        }
                     }
                 )
             } else {
@@ -159,8 +169,8 @@ internal fun StockBuyingScreen(
                     Spacer(modifier = Modifier.height(120.dp))
                     CostImage(modifier = Modifier.size(177.dp))
                     Text(
-                        text = "${entireStocksData.stockName} ${stockTextState}주\n" + // 전 pr 병합후 formatLongStockPrice로 변경해 타입을 맞추어 주세요
-                                " ${(stockTextState.toInt() * entireStocksData.myStockPrice).formatStockPrice()}P 구매 성공",
+                        text = "${entireStocksData.stockName} ${stockTextState}주\n" +
+                                " ${(stockTextState.toLong() * entireStocksData.myStockPrice)}P 구매 성공",
                         style = JDSTypography.subTitle,
                         color = JDSColor.Black
                     )
@@ -194,6 +204,6 @@ fun StockBuyingScreenPreview() {
         id = "1L",
         focusManager = LocalFocusManager.current,
         postBuyStock = { _ ->  },
-        stockText = 0
+        stockText = 0,
     )
 }

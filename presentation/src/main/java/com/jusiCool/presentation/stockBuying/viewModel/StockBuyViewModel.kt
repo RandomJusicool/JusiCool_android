@@ -22,7 +22,7 @@ class StockBuyViewModel @Inject constructor(
     private val _postBuyStockResponse = MutableStateFlow<Event<StockRequestModel>>(Event.Loading)
     val postBuyStockResponse = _postBuyStockResponse.asStateFlow()
 
-    var stockText = mutableLongStateOf(0)
+    var stockText = mutableLongStateOf(0L)
         private set
 
     internal fun postBuyStock(
