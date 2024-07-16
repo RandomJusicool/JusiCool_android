@@ -10,9 +10,8 @@ data class GetDayResponse(
     @Json(name = "highPrice") val highPrice: Long, // 고가
     @Json(name = "lowPrice") val lowPrice: Long, // 저가
     @Json(name = "presentPrice") val presentPrice: Long, // 현재가
-    @Json(name = "headPrice") val headPrice: Long, // 종가
     @Json(name = "volume") val volume: Long, // 거래량
-    @Json(name = "upDownPercent") val upDownPercent: Long, // 등락률
+    @Json(name = "upDownPercent") val upDownPercent: Double, // 등락률
     @Json(name = "storeAt") val storeAt: String // 저장된 시간
 )
 
@@ -21,7 +20,6 @@ fun GetDayResponse.toModel(): GetDayModel = GetDayModel(
     highPrice = highPrice,
     lowPrice = lowPrice,
     presentPrice = presentPrice,
-    headPrice = headPrice,
     volume = volume,
     upDownPercent = upDownPercent,
     storeAt = storeAt,
