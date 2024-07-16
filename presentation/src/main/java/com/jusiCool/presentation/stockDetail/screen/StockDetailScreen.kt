@@ -315,10 +315,9 @@ fun StockDetailScreenPreView() {
             GetDayModel(
                 marketPrice = 0,
                 highPrice = 0,
-                headPrice = 0,
                 lowPrice = 0,
                 presentPrice = 0,
-                upDownPercent = 0,
+                upDownPercent = 0.0,
                 storeAt = "",
                 volume = 0,
             )
