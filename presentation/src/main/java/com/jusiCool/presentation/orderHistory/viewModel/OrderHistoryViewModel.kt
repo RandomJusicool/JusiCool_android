@@ -1,9 +1,7 @@
 package com.jusiCool.presentation.orderHistory.viewModel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jusiCool.domain.enumtype.ReceiptEnumType
 import com.jusiCool.domain.model.receipt.response.GetReceiptModel
 import com.jusiCool.domain.usecase.receipt.GetReceiptUseCase
@@ -27,11 +25,11 @@ class OrderHistoryViewModel @Inject constructor(
     private val _getReceiptResponse = MutableStateFlow<Event<List<GetReceiptModel>>>(Event.Loading)
     val getReceiptResponse = _getReceiptResponse.asStateFlow()
 
-    var getBuyReceipt = mutableStateListOf<GetReceiptModel>()
-        private set
+    private val _getBuyReceipt = MutableStateFlow<List<GetReceiptModel>>(emptyList())
+    val getBuyReceipt = _getBuyReceipt.asStateFlow()
 
-    var getSellReceipt = mutableStateListOf<GetReceiptModel>()
-        private set
+    private val _getSellReceipt = MutableStateFlow<List<GetReceiptModel>>(emptyList())
+    val getSellReceipt = _getSellReceipt.asStateFlow()
 
     init {
         loadStuff()
@@ -54,11 +52,8 @@ class OrderHistoryViewModel @Inject constructor(
                 val buyReceipts = response.filter { it.status == ReceiptEnumType.BUY }
                 val sellReceipts = response.filter { it.status == ReceiptEnumType.SELL }
 
-                this@OrderHistoryViewModel.getBuyReceipt.clear()
-                this@OrderHistoryViewModel.getBuyReceipt.addAll(buyReceipts)
-
-                this@OrderHistoryViewModel.getSellReceipt.clear()
-                this@OrderHistoryViewModel.getSellReceipt.addAll(sellReceipts)
+                _getBuyReceipt.value = buyReceipts
+                _getSellReceipt.value = sellReceipts
 
                 _getReceiptResponse.value = Event.Success(data = response)
             }
