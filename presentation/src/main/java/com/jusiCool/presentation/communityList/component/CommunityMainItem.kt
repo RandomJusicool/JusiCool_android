@@ -18,13 +18,12 @@ import com.example.design_system.component.modifier.clickableSingle.clickableSin
 import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
 import com.jusiCool.presentation.R
-import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun CommunityMainListItem(
     modifier: Modifier = Modifier,
     data: GetCommunityListResponseModel,
-    navigateToCommunity: (Long, String) -> Unit
+    navigateToCommunity: (String, String) -> Unit
 ) {
     JusiCoolAndroidTheme { colors, typography ->
         Spacer(modifier = modifier.height(8.dp))

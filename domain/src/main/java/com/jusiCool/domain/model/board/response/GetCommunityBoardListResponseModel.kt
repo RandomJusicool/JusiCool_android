@@ -1,7 +1,7 @@
 package com.jusiCool.domain.model.board.response
 
 data class GetCommunityBoardListResponseModel(
-    val id: Long,
+    val id: String,
     val community_name: String,
     val name: String,
     val title: String,

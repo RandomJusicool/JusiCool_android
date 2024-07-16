@@ -3,6 +3,7 @@ package com.jusiCool.presentation.stockDetail.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jusiCool.domain.model.day.GetDayModel
 import com.jusiCool.domain.model.stock.response.GetStockDetailResponseModel
 import com.jusiCool.domain.usecase.day.GetDayUseCase
 import com.jusiCool.domain.usecase.stock.GetStockDetailUseCase
@@ -31,7 +32,23 @@ class StockDetailViewModel @Inject constructor(
     )
     val stockDetail = _stockDetail.asStateFlow()
 
-    fun getStockDetail(stockId: Long) = viewModelScope.launch {
+    private val _stockGraph: MutableStateFlow<List<GetDayModel>> = MutableStateFlow(
+        listOf(
+            GetDayModel(
+                marketPrice = 0,
+                highPrice = 0,
+                headPrice = 0,
+                lowPrice = 0,
+                presentPrice = 0,
+                upDownPercent = 0,
+                storeAt = "",
+                volume = 0,
+            )
+        )
+    )
+    val stockGraph = _stockGraph.asStateFlow()
+
+    fun getStockDetail(stockId: String) = viewModelScope.launch {
         getStockDetailUseCase(stockId)
             .onSuccess {
                 it.catch { remoteError ->
@@ -51,8 +68,8 @@ class StockDetailViewModel @Inject constructor(
             .onSuccess {
                 it.catch {
 
-                }.collect {
-
+                }.collect { data ->
+                    _stockGraph.value  = data
                 }
             }.onFailure { }
     }

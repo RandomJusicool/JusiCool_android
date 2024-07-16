@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.user.response.GetMyPointModel
 import com.jusiCool.presentation.utill.formatStockPriceSign
 
 data class MyAccountData(
@@ -29,7 +30,7 @@ data class MyAccountData(
 @Composable
 fun MyAccount(
     modifier: Modifier = Modifier,
-    myAccountData: MyAccountData,
+    myPoint: GetMyPointModel,
 ) {
     Column(
         modifier = modifier
@@ -50,7 +51,7 @@ fun MyAccount(
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
-                text = "%,d".format(myAccountData.point),
+                text = "%,d".format(myPoint.points),
                 color = JDSColor.Black,
                 style = JDSTypography.titleMedium
             )
@@ -65,9 +66,9 @@ fun MyAccount(
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "${myAccountData.revenue.formatStockPriceSign()} 원 (${myAccountData.revenuePercent}%)",
-            color = if (myAccountData.revenue < 0) JDSColor.MAIN
-            else if (myAccountData.revenue > 0) JDSColor.ERROR
+            text = "${myPoint.upDownPoints.toInt().formatStockPriceSign()} 원 (${myPoint.upDownPercent}%)",
+            color = if (myPoint.upDownPoints < 0) JDSColor.MAIN
+            else if (myPoint.upDownPoints > 0) JDSColor.ERROR
             else JDSColor.GRAY600,
             style = JDSTypography.bodySmall
         )
@@ -77,23 +78,5 @@ fun MyAccount(
 @Preview
 @Composable
 fun MyAccountPreview() {
-    Column {
-        MyAccount(
-            modifier = Modifier
-                .width(312.dp),
-            myAccountData = MyAccountData(137871, -5778, 4.0f, 6)
-        )
 
-        MyAccount(
-            modifier = Modifier
-                .width(312.dp),
-            myAccountData = MyAccountData(137871, 5778, 4.0f, 6)
-        )
-
-        MyAccount(
-            modifier = Modifier
-                .width(312.dp),
-            myAccountData = MyAccountData(137871, 0, 0.0f, 6)
-        )
-    }
 }

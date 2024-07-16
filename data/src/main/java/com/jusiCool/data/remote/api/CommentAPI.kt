@@ -10,12 +10,12 @@ import retrofit2.http.Path
 interface CommentAPI {
     @POST("/api/v1/comment/{board_id}")
     suspend fun postWritingCommunityComment(
-        @Path("board_id") boardId: Long,
+        @Path("board_id") boardId: String,
         @Body body: PostWritingCommunityCommentRequest
     )
 
     @GET("/api/v1/comment/{board_id}")
     suspend fun getCommunityComment(
-        @Path("board_id") boardId: Long
+        @Path("board_id") boardId: String
     ) : List<GetCommunityCommentResponse>
 }

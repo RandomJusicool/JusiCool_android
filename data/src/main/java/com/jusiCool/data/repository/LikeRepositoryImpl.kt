@@ -8,11 +8,15 @@ import javax.inject.Inject
 class LikeRepositoryImpl @Inject constructor(
     private val dataSource : RemoteLikeDataSource
 ) : LikeRepository {
-    override suspend fun postLike(boardId: Long): Flow<Unit> {
+    override suspend fun postLike(boardId: String): Flow<Unit> {
         return dataSource.postLike(boardId)
     }
 
-    override suspend fun deleteLike(boardId: Long): Flow<Unit> {
+    override suspend fun deleteLike(boardId: String): Flow<Unit> {
         return dataSource.deleteLike(boardId)
+    }
+
+    override suspend fun getLike(boardId: String): Flow<Boolean> {
+        return dataSource.getLike(boardId)
     }
 }

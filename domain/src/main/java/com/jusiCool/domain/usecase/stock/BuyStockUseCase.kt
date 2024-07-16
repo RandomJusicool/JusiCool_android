@@ -8,7 +8,7 @@ class BuyStockUseCase @Inject constructor(
     private val repository: StockRepository
 ) {
     suspend operator fun invoke(
-        stockId: Long,
+        stockId: String,
         body: StockRequestModel
     ) = runCatching {
         repository.buyStock(
