@@ -48,7 +48,6 @@ import com.example.design_system.theme.color.JDSColor
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.jusiCool.domain.enumtype.ReceiptEnumType
 import com.jusiCool.domain.model.receipt.response.GetReceiptModel
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderHistory
 import com.jusiCool.presentation.orderHistory.component.MyStocksOrderReservation
@@ -105,11 +104,7 @@ internal fun OrderHistoryScreen(
         if (orderState) {
             buyData + sellData
         } else {
-            if (buyData.isEmpty()) {
-                sellData
-            } else {
-                buyData
-            }
+            emptyList()
         }
     }
 
