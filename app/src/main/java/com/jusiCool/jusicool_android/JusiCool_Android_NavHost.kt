@@ -39,7 +39,7 @@ import com.jusiCool.presentation.stockDetail.screen.stockDetailRoute
 import com.jusiCool.presentation.stockBuy.screen.stockBuyingRoute
 import com.jusiCool.presentation.stockReservationBuy.screen.stockReservationBuyRoute
 import com.jusiCool.presentation.stockReservationSelling.screen.stockReservationSellingRoute
-import com.jusiCool.presentation.stockReservationBuying.screen.stockSell.screen.stockSellingRoute
+import com.jusiCool.presentation.stockSell.screen.stockSellingRoute
 
 @Composable
 fun JusiCool_Android_NavHost(

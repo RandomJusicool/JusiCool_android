@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.stockReservationBuying.screen.stockSell.viewModel
+package com.jusiCool.presentation.stockSell.viewModel
 
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.lifecycle.ViewModel

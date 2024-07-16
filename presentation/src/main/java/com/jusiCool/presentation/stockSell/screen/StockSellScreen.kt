@@ -1,4 +1,4 @@
-package com.jusiCool.presentation.stockReservationBuying.screen.stockSell.screen
+package com.jusiCool.presentation.stockSell.screen
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
@@ -38,7 +38,7 @@ import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.main.component.EntireStocksData
 import com.jusiCool.presentation.main.viewModel.MainViewModel
-import com.jusiCool.presentation.stockReservationBuying.screen.stockSell.viewModel.StockSellViewModel
+import com.jusiCool.presentation.stockSell.viewModel.StockSellViewModel
 import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockSellingRoute = "stockSellingRoute"
