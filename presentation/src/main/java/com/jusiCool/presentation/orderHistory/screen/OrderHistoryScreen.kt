@@ -75,14 +75,16 @@ internal fun OrderHistoryRoute(
         viewModel.fetchReceipt()
     }
 
+    val buyData by viewModel.getBuyReceipt.collectAsStateWithLifecycle()
+    val sellData by viewModel.getSellReceipt.collectAsStateWithLifecycle()
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
 
     OrderHistoryScreen(
         modifier = modifier,
         popUpBackStack = popUpBackStack,
-        buyData = viewModel.getSellReceipt,
-        sellData = viewModel.getBuyReceipt,
+        buyData = buyData,
+        sellData = sellData,
         swipeRefreshState = swipeRefreshState,
         loadStuff = viewModel::refreshReceipts,
     )
