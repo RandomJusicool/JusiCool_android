@@ -23,7 +23,7 @@ import com.jusiCool.presentation.R
 fun CommunityMainListItem(
     modifier: Modifier = Modifier,
     data: GetCommunityListResponseModel,
-    navigateToCommunity: (Long, String) -> Unit
+    navigateToCommunity: (String, String) -> Unit
 ) {
     JusiCoolAndroidTheme { colors, typography ->
         Spacer(modifier = modifier.height(8.dp))

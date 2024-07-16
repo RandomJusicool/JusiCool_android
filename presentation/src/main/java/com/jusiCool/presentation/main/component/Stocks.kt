@@ -18,15 +18,6 @@ import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.utill.formatStockPriceSign
 
-data class MyStocksData(
-    val id: Long,
-    val stockName: String,
-    val share: Int,
-    val myStockPrice: Int,
-    val myStockRevenue: Int,
-    val myStockRevenuePercent: Float,
-)
-
 @Composable
 fun Stocks(
     modifier: Modifier = Modifier,
@@ -78,5 +69,4 @@ fun Stocks(
 @Preview
 @Composable
 fun StocksPreview() {
-
 }

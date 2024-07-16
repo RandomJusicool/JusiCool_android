@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -25,7 +28,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.component.topbar.JDSArrowTopBar
-import com.example.design_system.icon_image.icon.GraphIcon
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.icon_image.icon.SearchIcon
 import com.example.design_system.theme.JusiCoolAndroidTheme
@@ -33,7 +35,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jusiCool.domain.model.community.response.GetCommunityListResponseModel
-import com.jusiCool.presentation.communityList.component.CommunityMainList
+import com.jusiCool.presentation.communityList.component.CommunityMainListItem
 import com.jusiCool.presentation.communityList.viewModel.CommunityListViewModel
 import com.jusiCool.presentation.utill.Event
 
@@ -45,7 +47,7 @@ fun NavController.navigateToCommunityList() {
 
 fun NavGraphBuilder.communityListRoute(
     popUpBackStack: () -> Unit,
-    navigateToCommunity: (Long, String) -> Unit,
+    navigateToCommunity: (String, String) -> Unit,
 ) {
     composable(communityListRoute) {
         CommunityListRoute(
@@ -60,7 +62,7 @@ internal fun CommunityListRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityListViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     popUpBackStack: () -> Unit,
-    navigateToCommunity: (Long, String) -> Unit,
+    navigateToCommunity: (String, String) -> Unit,
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
@@ -102,7 +104,6 @@ private suspend fun getCommunityList(
             is Event.Success -> {
                 onSuccess(response.data!!)
             }
-
             else -> {
                 onFailure()
             }
@@ -114,7 +115,7 @@ private suspend fun getCommunityList(
 internal fun CommunityListScreen(
     modifier: Modifier = Modifier,
     popUpBackStack: () -> Unit,
-    navigateToCommunity: (Long, String) -> Unit,
+    navigateToCommunity: (String, String) -> Unit,
     data: List<GetCommunityListResponseModel>,
     loadStuff: () -> Unit,
     swipeRefreshState: SwipeRefreshState,
@@ -167,10 +168,22 @@ internal fun CommunityListScreen(
                             }
                         }
                     } else {
-                        CommunityMainList(
-                            data = data,
-                            navigateToCommunity = navigateToCommunity
-                        )
+                        LazyColumn(
+                            modifier = modifier
+                                .fillMaxSize()
+                                .background(color = colors.GRAY50)
+                                .padding(
+                                    horizontal = 24.dp,
+                                    vertical = 8.dp
+                                )
+                        ) {
+                            items(data) { item ->
+                                CommunityMainListItem(
+                                    data = item,
+                                    navigateToCommunity = navigateToCommunity
+                                )
+                            }
+                        }
                     }
                 }
             }

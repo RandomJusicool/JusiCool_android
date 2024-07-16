@@ -42,6 +42,7 @@ import com.example.design_system.component.topbar.JDSArrowTopBar
 import com.example.design_system.icon_image.icon.LeftArrowIcon
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.day.GetDayModel
 import com.jusiCool.domain.model.stock.response.GetStockDetailResponseModel
 import com.jusiCool.presentation.stockDetail.component.CommunityCard
 import com.jusiCool.presentation.stockDetail.component.StockGraphCard
@@ -49,6 +50,9 @@ import com.jusiCool.presentation.stockDetail.component.StockPreviewCard
 import com.jusiCool.presentation.stockDetail.component.StockQuotesCard
 import com.jusiCool.presentation.stockDetail.component.TimeSegment
 import com.jusiCool.presentation.stockDetail.viewModel.StockDetailViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -56,7 +60,7 @@ const val stockDetail = "stockDetail"
 
 // 화면이동을 구현하는 NavController확장함수
 fun NavController.navigateToStockDetail(id: String) {
-    this.navigate("${stockDetail}/${id}")
+    this.navigate("$stockDetail/$id")
 }
 
 // navHost에 화면을 등록할 수 있게 하는 확장 함수
@@ -64,19 +68,17 @@ fun NavGraphBuilder.stockDetailRoute(
     popUpBackStack: () -> Unit,
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
-    navigateToCommunityList: () -> Unit,
+    navigateToCommunity: (String, String) -> Unit,
 ) {
     composable("$stockDetail/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
-            StockDetailRoute(
-                id = id,
-                popUpBackStack = popUpBackStack,
-                navigateToStockBuying = navigateToStockBuying,
-                navigateToStockSell = navigateToStockSell,
-                navigateToCommunityList = navigateToCommunityList,
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        StockDetailRoute(
+            id = "005930",
+            popUpBackStack = popUpBackStack,
+            navigateToStockBuying = navigateToStockBuying,
+            navigateToStockSell = navigateToStockSell,
+            navigateToCommunity = navigateToCommunity,
+        )
     }
 }
 
@@ -86,13 +88,14 @@ fun NavGraphBuilder.stockDetailRoute(
 fun StockDetailRoute(
     modifier: Modifier = Modifier,
     stockDetailViewModel: StockDetailViewModel = hiltViewModel(),
-    id: Long,
+    id: String,
     popUpBackStack: () -> Unit,
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
-    navigateToCommunityList: () -> Unit,
+    navigateToCommunity: (String, String) -> Unit,
 ) {
     val stockDetail by stockDetailViewModel.stockDetail.collectAsStateWithLifecycle()
+    val stockGraph by stockDetailViewModel.stockGraph.collectAsStateWithLifecycle()
 
     StockDetailScreen(
         modifier = modifier,
@@ -100,12 +103,15 @@ fun StockDetailRoute(
         popUpBackStack = popUpBackStack,
         navigateToStockBuying = navigateToStockBuying,
         navigateToStockSell = navigateToStockSell,
-        navigateToCommunityList = navigateToCommunityList,
+        navigateToCommunity = {
+            navigateToCommunity(id,stockDetail.name)
+        },
+        graphData = stockGraph.toImmutableList()
     )
 
     LaunchedEffect(Unit) {
         stockDetailViewModel.getStockDetail(id)
-
+        stockDetailViewModel.getDay(id)
     }
 }
 
@@ -116,12 +122,13 @@ fun StockDetailRoute(
 fun StockDetailScreen(
     modifier: Modifier = Modifier,
     stockDetailData: GetStockDetailResponseModel,
+    graphData: ImmutableList<GetDayModel>,
     popUpBackStack: () -> Unit,
     scrollState: ScrollState = rememberScrollState(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navigateToStockBuying: () -> Unit,
     navigateToStockSell: () -> Unit,
-    navigateToCommunityList: () -> Unit,
+    navigateToCommunity: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden,
@@ -273,13 +280,13 @@ fun StockDetailScreen(
                 StockGraphCard(
                     whichTimeSegmentSelected = whichTimeSegmentSelected,
                     setWhichTimeSegmentSelected = setWhichTimeSegmentSelected,
-                    toggleOnClick = { /* TODO: 통신 로직 추가 */ }
+                    data = graphData
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                CommunityCard(navigateToCommunity = navigateToCommunityList)
+                CommunityCard(navigateToCommunity = navigateToCommunity)
                 Spacer(modifier = Modifier.height(6.dp))
                 StockQuotesCard(
-                    transactionVolume = stockDetailData.transactionVolume?:0L,
+                    transactionVolume = stockDetailData.transactionVolume ?: 0L,
                     transactionPrice = stockDetailData.transactionPrice,
                 )
             }
@@ -294,7 +301,7 @@ fun StockDetailScreenPreView() {
         popUpBackStack = {},
         navigateToStockBuying = {},
         navigateToStockSell = {},
-        navigateToCommunityList = {},
+        navigateToCommunity = {},
         stockDetailData = GetStockDetailResponseModel(
             name = "삼성전자",
             code = 5930,
@@ -303,7 +310,18 @@ fun StockDetailScreenPreView() {
             presentPrice = 61000, // 예시: 현재 거래 가격 61,000원
             transactionVolume = 3000000, // 예시: 총 거래량 3,000,000주
             transactionPrice = 183000000000, // 예시: 총 거래 금액 1830억원
+        ),
+        graphData = persistentListOf(
+            GetDayModel(
+                marketPrice = 0,
+                highPrice = 0,
+                headPrice = 0,
+                lowPrice = 0,
+                presentPrice = 0,
+                upDownPercent = 0,
+                storeAt = "",
+                volume = 0,
+            )
         )
-
     )
 }

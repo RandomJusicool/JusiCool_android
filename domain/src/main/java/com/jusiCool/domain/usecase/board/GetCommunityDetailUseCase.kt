@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetCommunityDetailUseCase @Inject constructor(
     private val repository: BoardRepository
 ) {
-    suspend operator fun invoke(boardId: Long) = runCatching {
+    suspend operator fun invoke(boardId: String) = runCatching {
         repository.getCommunityDetail(boardId = boardId)
     }
 }

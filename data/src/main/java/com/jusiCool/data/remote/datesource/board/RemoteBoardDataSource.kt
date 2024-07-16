@@ -5,9 +5,9 @@ import com.jusiCool.data.remote.dto.board.response.*
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteBoardDataSource {
-    suspend fun getCommunityBoardList(communityId: Long) : Flow<List<GetCommunityBoardListResponse>>
-    suspend fun getCommunityDetail(boardId: Long) : Flow<GetCommunityBoardDetailResponse>
-    suspend fun postCommunityBoard(communityId: Long ,body: WritingCommunityBoardRequest) : Flow<Unit>
-    suspend fun patchCommunityBoard(boardId: Long, body: WritingCommunityBoardRequest) : Flow<Unit>
-    suspend fun deleteCommunityBoard(communityId: Long, boardId: Long) : Flow<Unit>
+    suspend fun getCommunityBoardList(communityId: String) : Flow<List<GetCommunityBoardListResponse>>
+    suspend fun getCommunityDetail(boardId: String) : Flow<GetCommunityBoardDetailResponse>
+    suspend fun postCommunityBoard(communityId: String ,body: WritingCommunityBoardRequest) : Flow<Unit>
+    suspend fun patchCommunityBoard(boardId: String, body: WritingCommunityBoardRequest) : Flow<Unit>
+    suspend fun deleteCommunityBoard(communityId: String, boardId: String) : Flow<Unit>
 }

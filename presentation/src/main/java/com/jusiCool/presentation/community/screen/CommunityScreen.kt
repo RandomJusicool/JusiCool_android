@@ -40,27 +40,25 @@ import com.jusiCool.presentation.utill.Event
 
 const val communityRoute = "communityRoute"
 
-fun NavController.navigateToCommunity(id: Long, name: String) {
+fun NavController.navigateToCommunity(id: String, name: String) {
     this.navigate("${communityRoute}/${id}/${name}")
 }
 
 fun NavGraphBuilder.communityRoute(
-    navigateToCommunityWriting: (Long) -> Unit,
-    navigateToCommunityDetail: (Long, Long, String) -> Unit,
+    navigateToCommunityWriting: (String) -> Unit,
+    navigateToCommunityDetail: (String, String, String) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     composable("${communityRoute}/{id}/{name}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        val name = backStackEntry.arguments?.getString("name")?: ""
-        if(id != null) {
-            CommunityRoute(
-                id = id,
-                name = name,
-                navigateToDetailCommunity = navigateToCommunityDetail,
-                navigateToCommunityWriting = navigateToCommunityWriting,
-                popUpBackStack = popUpBackStack,
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        val name = backStackEntry.arguments?.getString("name") ?: ""
+        CommunityRoute(
+            id = id,
+            name = name,
+            navigateToDetailCommunity = navigateToCommunityDetail,
+            navigateToCommunityWriting = navigateToCommunityWriting,
+            popUpBackStack = popUpBackStack,
+        )
     }
 }
 
@@ -68,10 +66,10 @@ fun NavGraphBuilder.communityRoute(
 internal fun CommunityRoute(
     modifier: Modifier = Modifier,
     viewModel: CommunityViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
-    id: Long,
-    navigateToDetailCommunity: (Long, Long, String) -> Unit,
+    id: String,
+    navigateToDetailCommunity: (String, String, String) -> Unit,
     name: String,
-    navigateToCommunityWriting: (Long) -> Unit,
+    navigateToCommunityWriting: (String) -> Unit,
     popUpBackStack: () -> Unit,
 ) {
     val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
@@ -83,7 +81,7 @@ internal fun CommunityRoute(
 
     CommunityScreen(
         modifier = modifier,
-        navigateToDetailCommunity =  navigateToDetailCommunity,
+        navigateToDetailCommunity = navigateToDetailCommunity,
         navigateToCommunityWriting = navigateToCommunityWriting,
         popUpBackStack = popUpBackStack,
         boardData = viewModel.communityListBoard,
@@ -128,10 +126,10 @@ private suspend fun getCommunityListBoard(
 @Composable
 internal fun CommunityScreen(
     modifier: Modifier = Modifier,
-    getCommunityListBoard: (Long) -> Unit,
-    navigateToCommunityWriting: (Long) -> Unit,
-    navigateToDetailCommunity: (Long, Long, String) -> Unit,
-    id: Long,
+    getCommunityListBoard: (String) -> Unit,
+    navigateToCommunityWriting: (String) -> Unit,
+    navigateToDetailCommunity: (String, String, String) -> Unit,
+    id: String,
     name: String,
     boardData: List<GetCommunityBoardListResponseModel>,
     swipeRefreshState: SwipeRefreshState,
@@ -159,7 +157,7 @@ internal fun CommunityScreen(
                                 modifier = Modifier.clickableSingle { popUpBackStack() }
                             )
                         },
-                        betweenText = name
+                        betweenText = "$name 커뮤니티"
                     )
                     if (boardData.isEmpty()) {
                         Box(
@@ -212,5 +210,15 @@ internal fun CommunityScreen(
 @Preview
 @Composable
 private fun CommunityScreenPre() {
-
+    CommunityScreen(
+        getCommunityListBoard = { _ -> },
+        boardData = listOf(),
+        id = "0",
+        loadStuff = {},
+        name = "마이크로소프트",
+        navigateToDetailCommunity = { _, _, _ -> },
+        navigateToCommunityWriting = { _ -> },
+        popUpBackStack = {},
+        swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
+    )
 }

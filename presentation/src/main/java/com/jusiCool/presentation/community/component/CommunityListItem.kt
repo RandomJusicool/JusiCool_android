@@ -24,23 +24,13 @@ import com.example.design_system.theme.JusiCoolAndroidTheme
 import com.jusiCool.domain.model.board.response.GetCommunityBoardListResponseModel
 import com.jusiCool.presentation.utill.formatCommunityDate
 
-data class CommunityListItemTemData(
-    val title: String,
-    val content: String,
-    val name: String,
-    val started_date: String,
-    val started_time: String,
-    val heart_count: Int,
-    val comment_count: Int
-)
-
 @Composable
 internal fun CommunityListItem(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     name: String,
     data: GetCommunityBoardListResponseModel,
-    onClick: (Long, Long, String) -> Unit
+    onClick: (String, String, String) -> Unit
     ) {
     JusiCoolAndroidTheme { colors, typography ->
         Spacer(modifier = Modifier.height(12.dp))
