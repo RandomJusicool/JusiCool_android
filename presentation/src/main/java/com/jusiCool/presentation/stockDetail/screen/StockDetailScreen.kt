@@ -73,7 +73,7 @@ fun NavGraphBuilder.stockDetailRoute(
     composable("$stockDetail/{id}") { backStackEntry ->
         val id = backStackEntry.arguments?.getString("id") ?: ""
         StockDetailRoute(
-            id = "005930",
+            id = id,
             popUpBackStack = popUpBackStack,
             navigateToStockBuying = navigateToStockBuying,
             navigateToStockSell = navigateToStockSell,
@@ -311,10 +311,9 @@ fun StockDetailScreenPreView() {
             GetDayModel(
                 marketPrice = 0,
                 highPrice = 0,
-                headPrice = 0,
                 lowPrice = 0,
                 presentPrice = 0,
-                upDownPercent = 0,
+                upDownPercent = 0.0,
                 storeAt = "",
                 volume = 0,
             )

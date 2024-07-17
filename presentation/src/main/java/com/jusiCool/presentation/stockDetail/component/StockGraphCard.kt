@@ -118,9 +118,8 @@ fun StockGraphCard(
             }
         }
         if (data.isNotEmpty()) {
-            if (!isToggleSelected) {
+            if (isToggleSelected) {
                 val maxHeight = 284.dp // 캔버스의 최대 높이를 284dp로 설정
-
                 Canvas(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -154,7 +153,7 @@ fun StockGraphCard(
                             color = color,
                             start = Offset(x, highY),
                             end = Offset(x, lowY),
-                            strokeWidth = 4f
+                            strokeWidth = 2f
                         )
 
                         // 시가와 종가를 연결하는 사각형을 그립니다.
@@ -188,7 +187,8 @@ fun StockGraphCard(
 
                     val points = data.take(maxPoints).mapIndexed { index, model ->
                         val x = index * pointSpacing
-                        val y = maxHeight.toPx() - ((model.presentPrice - minLow).toFloat() / priceRange * maxHeight.toPx())
+                        val y =
+                            maxHeight.toPx() - ((model.presentPrice - minLow).toFloat() / priceRange * maxHeight.toPx())
                         Offset(x, y)
                     }
 
@@ -253,29 +253,25 @@ fun StockGraphCardPreview() {
         whichTimeSegmentSelected = whichTimeSegmentSelected,
         setWhichTimeSegmentSelected = setWhichTimeSegmentSelected,
         data = immutableListOf(
-            GetDayModel(100, 110, 90, 105, 105, 1500, 5, "2023-07-01"), // 상승
-            GetDayModel(105, 115, 100, 110, 110, 1600, 5, "2023-07-02"), // 상승
-            GetDayModel(110, 120, 105, 115, 115, 1700, 5, "2023-07-03"), // 상승
-            GetDayModel(115, 125, 110, 120, 120, 1800, 5, "2023-07-04"), // 상승
-            GetDayModel(120, 130, 115, 125, 125, 1900, 5, "2023-07-05"), // 상승
-            GetDayModel(135, 145, 130, 125, 125, 3700, -5, "2023-07-23"), // 하락
-            GetDayModel(125, 135, 120, 115, 115, 3800, -5, "2023-07-24"), // 하락
-            GetDayModel(170, 180, 165, 175, 175, 2900, 5, "2023-07-15"), // 상승
-            GetDayModel(125, 135, 120, 130, 130, 2000, 5, "2023-07-06"), // 상승
-            GetDayModel(130, 140, 125, 135, 135, 2100, 5, "2023-07-07"), // 상승
-            GetDayModel(140, 150, 135, 145, 145, 2300, 5, "2023-07-09"), // 상승
-            GetDayModel(150, 160, 145, 155, 155, 2500, 5, "2023-07-11"), // 상승
-            GetDayModel(155, 165, 150, 160, 160, 2600, 5, "2023-07-12"), // 상승
-            GetDayModel(160, 170, 155, 165, 165, 2700, 5, "2023-07-13"), // 상승
-            GetDayModel(165, 175, 160, 170, 170, 2800, 5, "2023-07-14"), // 상승
-            GetDayModel(175, 185, 170, 180, 180, 3000, 5, "2023-07-16"), // 상승
-            GetDayModel(180, 190, 175, 185, 185, 3100, 5, "2023-07-17"), // 상승
-            GetDayModel(185, 195, 180, 175, 175, 3200, -5, "2023-07-18"), // 하락
-            GetDayModel(165, 175, 160, 155, 155, 3400, -5, "2023-07-20"), // 하락
-            GetDayModel(155, 165, 150, 145, 145, 3500, -5, "2023-07-21"), // 하락
-            GetDayModel(145, 155, 140, 135, 135, 3600, -5, "2023-07-22"), // 하락
-            GetDayModel(115, 125, 110, 105, 105, 3900, -5, "2023-07-25"), // 하락
-            GetDayModel(105, 115, 100, 95, 95, 4000, -5, "2023-07-26")    // 하락
+            GetDayModel(86900, 87400, 86700, 86900, 1851251, 0.0, "2024-07-16 AM 09:15"),
+            GetDayModel(86900, 87500, 86800, 87300, 879560, 0.4, "2024-07-16 AM 09:25"),
+            GetDayModel(86900, 87500, 86800, 87300, 879560, 0.4, "2024-07-16 AM 09:35"),
+            GetDayModel(86900, 87500, 86800, 87300, 879560, 0.4, "2024-07-16 AM 09:45"),
+            GetDayModel(86900, 87500, 86800, 87300, 879560, 0.4, "2024-07-16 AM 09:55"),
+            GetDayModel(86900, 87500, 86800, 87300, 879560, 0.4, "2024-07-16 AM 10:05"),
+            GetDayModel(86900, 87500, 86800, 87300, 879560, 0.4, "2024-07-16 AM 10:15"),
+            GetDayModel(86900, 87500, 86800, 87300, 879560, 0.4, "2024-07-16 AM 10:25"),
+            GetDayModel(87700, 87800, 87500, 87600, 210163, -0.2, "2024-07-16 AM 10:45"),
+            GetDayModel(87300, 87300, 87200, 87300, 29495, 0.0, "2024-07-16 AM 10:55"),
+            GetDayModel(87300, 87300, 87200, 87300, 29495, 0.0, "2024-07-16 AM 11:05"),
+            GetDayModel(87200, 87400, 87200, 87200, 186338, 0.0, "2024-07-16 AM 11:15"),
+            GetDayModel(87700, 87700, 87600, 87600, 13761, -0.2, "2024-07-16 AM 11:25"),
+            GetDayModel(87700, 87700, 87600, 87600, 21855, -0.2, "2024-07-16 AM 11:35"),
+            GetDayModel(87500, 87600, 87500, 87500, 22532, 0.0, "2024-07-16 AM 11:45"),
+            GetDayModel(87600, 87700, 87600, 87700, 118226, 0.1, "2024-07-16 AM 11:55"),
+            GetDayModel(87900, 87900, 87700, 87900, 301911, 0.0, "2024-07-16 PM 12:05"),
+            GetDayModel(87900, 87900, 87700, 87900, 301911, 0.0, "2024-07-16 PM 12:15"),
+            GetDayModel(87800, 87700, 87700, 87700, 73220, -0.2, "2024-07-16 PM 12:35"),
         )
     )
 }

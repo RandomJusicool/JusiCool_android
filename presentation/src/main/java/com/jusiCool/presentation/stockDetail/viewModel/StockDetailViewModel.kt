@@ -37,10 +37,9 @@ class StockDetailViewModel @Inject constructor(
             GetDayModel(
                 marketPrice = 0,
                 highPrice = 0,
-                headPrice = 0,
                 lowPrice = 0,
                 presentPrice = 0,
-                upDownPercent = 0,
+                upDownPercent = 0.0,
                 storeAt = "",
                 volume = 0,
             )
@@ -67,10 +66,12 @@ class StockDetailViewModel @Inject constructor(
         getDayUseCase(stockCode)
             .onSuccess {
                 it.catch {
-
+                    Log.e("Error", "Error collecting data", it)
                 }.collect { data ->
-                    _stockGraph.value  = data
+                    _stockGraph.value = data
                 }
-            }.onFailure { }
+            }.onFailure { error ->
+                Log.e("Error", "Error fetching data", error)
+            }
     }
 }
