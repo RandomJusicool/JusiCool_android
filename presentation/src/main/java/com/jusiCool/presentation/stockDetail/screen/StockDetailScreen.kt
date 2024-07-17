@@ -73,7 +73,7 @@ fun NavGraphBuilder.stockDetailRoute(
     composable("$stockDetail/{id}") { backStackEntry ->
         val id = backStackEntry.arguments?.getString("id") ?: ""
         StockDetailRoute(
-            id = "005930",
+            id = id,
             popUpBackStack = popUpBackStack,
             navigateToStockBuying = navigateToStockBuying,
             navigateToStockSell = navigateToStockSell,
