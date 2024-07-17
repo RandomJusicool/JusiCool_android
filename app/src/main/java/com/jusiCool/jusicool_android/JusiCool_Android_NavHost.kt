@@ -92,12 +92,12 @@ fun JusiCool_Android_NavHost(
             navigateToStockDetail = navController::navigateToStockDetail
         )
 
-        orderHistoryRoute(popUpBackStack = navController::popBackStack)
+        orderHistoryRoute(popUpBackStack = navController::navigateToMain)
 
         newsRoute(popUpBackStack = navController::popBackStack)
 
         stockDetailRoute(
-            popUpBackStack = navController::popBackStack,
+            popUpBackStack = navController::navigateToMain,
             navigateToStockBuying = navController::navigationToStockBuying,
             navigateToStockSell = { TODO() },
             navigateToCommunity = navController::navigateToCommunity,
