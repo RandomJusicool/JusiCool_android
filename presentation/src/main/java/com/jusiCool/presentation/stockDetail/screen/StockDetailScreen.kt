@@ -66,7 +66,7 @@ fun NavController.navigateToStockDetail(id: String) {
 // navHost에 화면을 등록할 수 있게 하는 확장 함수
 fun NavGraphBuilder.stockDetailRoute(
     popUpBackStack: () -> Unit,
-    navigateToStockBuying: () -> Unit,
+    navigateToStockBuying: (String) -> Unit,
     navigateToStockSell: () -> Unit,
     navigateToCommunity: (String, String) -> Unit,
 ) {
@@ -82,15 +82,13 @@ fun NavGraphBuilder.stockDetailRoute(
     }
 }
 
-// Route
-
 @Composable
 fun StockDetailRoute(
     modifier: Modifier = Modifier,
     stockDetailViewModel: StockDetailViewModel = hiltViewModel(),
     id: String,
     popUpBackStack: () -> Unit,
-    navigateToStockBuying: () -> Unit,
+    navigateToStockBuying: (String) -> Unit,
     navigateToStockSell: () -> Unit,
     navigateToCommunity: (String, String) -> Unit,
 ) {
@@ -101,11 +99,9 @@ fun StockDetailRoute(
         modifier = modifier,
         stockDetailData = stockDetail,
         popUpBackStack = popUpBackStack,
-        navigateToStockBuying = navigateToStockBuying,
+        navigateToStockBuying = { navigateToStockBuying(id) },
         navigateToStockSell = navigateToStockSell,
-        navigateToCommunity = {
-            navigateToCommunity(id,stockDetail.name)
-        },
+        navigateToCommunity = { navigateToCommunity(id,stockDetail.name) },
         graphData = stockGraph.toImmutableList()
     )
 
@@ -183,13 +179,13 @@ fun StockDetailScreen(
                             modifier = Modifier.fillMaxWidth(),
                             text = "현재가 판매 하기",
                             outLineColor = JDSColor.MAIN,
-                            onClick = navigateToStockBuying
+                            onClick = navigateToStockSell
                         )
                         JDSOutlinedButton(
                             modifier = Modifier.fillMaxWidth(),
                             text = "예약 판매 하기",
                             outLineColor = JDSColor.MAIN,
-                            onClick = navigateToStockBuying
+                            onClick = navigateToStockSell
                         )
                     } else {
                         JDSOutlinedButton(
@@ -197,14 +193,14 @@ fun StockDetailScreen(
                             text = "현재가 구매 하기",
                             textColor = JDSColor.ERROR,
                             outLineColor = JDSColor.ERROR,
-                            onClick = navigateToStockSell
+                            onClick = navigateToStockBuying
                         )
                         JDSOutlinedButton(
                             modifier = Modifier.fillMaxWidth(),
                             text = "예약 구매 하기",
                             textColor = JDSColor.ERROR,
                             outLineColor = JDSColor.ERROR,
-                            onClick = navigateToStockSell
+                            onClick = navigateToStockBuying
                         )
                     }
                 }
