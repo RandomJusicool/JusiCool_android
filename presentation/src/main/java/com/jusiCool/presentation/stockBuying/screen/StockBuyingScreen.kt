@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,10 +41,14 @@ import com.example.design_system.icon_image.icon.RightArrowIcon
 import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.user.response.GetMyPointModel
+import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.main.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.screen.tempMyAccountData
+import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.stockBuying.viewModel.StockBuyViewModel
+import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.formatCommunityDate
 import com.jusiCool.presentation.utill.formatStockPrice
 
@@ -86,22 +91,89 @@ fun StockBuyingRoute(
             )
         },
         id = id,
-        myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory,
+        stockData = viewModel.myStock,
         focusManager = focusManager,
         stockText = viewModel.stockText.longValue,
+        getMyPoint = { viewModel.getMyPoint() },
+        getMyStock = { viewModel.getMyStock() },
+        pointData = viewModel.myPoint.value
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.getMyPoint()
+    }
+
+    LaunchedEffect(Unit) {
+        getMyPoint(
+            viewModel = viewModel,
+            onSuccess = {
+                viewModel.myPoint.value = it
+            },
+            onFailure = { }
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        getMyStock(
+            viewModel = viewModel,
+            onSuccess = {
+                viewModel.myStock.removeRange(0, viewModel.myStock.size)
+                viewModel.myStock.addAll(it)
+            },
+            onFailure = {
+                viewModel.myStock.removeRange(0, viewModel.myStock.size)
+            }
+        )
+    }
+}
+
+private suspend fun getMyStock(
+    viewModel: StockBuyViewModel,
+    onSuccess: (data: List<GetMyStockModel>) -> Unit,
+    onFailure: () -> Unit
+) {
+    viewModel.getMyStockResponse.collect { response ->
+        when (response) {
+            is Event.Success -> {
+                onSuccess(response.data!!)
+            }
+
+            else -> {
+                onFailure()
+            }
+        }
+    }
+}
+
+private suspend fun getMyPoint(
+    viewModel: StockBuyViewModel,
+    onSuccess: (data: GetMyPointModel) -> Unit,
+    onFailure: () -> Unit
+) {
+    viewModel.getMyPointResponse.collect { response ->
+        when (response) {
+            is Event.Success -> {
+                onSuccess(response.data!!)
+            }
+
+            else -> {
+                onFailure()
+            }
+        }
+    }
 }
 
 @Composable
 internal fun StockBuyingScreen(
     modifier: Modifier = Modifier,
     id: String,
+    stockData: List<GetMyStockModel>,
+    pointData: GetMyPointModel,
     postBuyStock: (num: Long) -> Unit,
-    myAccountData: MyAccountData,
-    entireStocksData: EntireStocksData,
+    getMyStock: () -> Unit,
+    getMyPoint: () -> Unit,
     navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
     focusManager: FocusManager,
@@ -110,6 +182,11 @@ internal fun StockBuyingScreen(
     val (stockTextState, setStockTextState) = remember { mutableStateOf(stockText.toString()) }
     val (isBuyingSuccessful, setIsBuyingSuccessful) = remember { mutableStateOf(false) }
     val (errorMessage, setErrorMessage) = remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        getMyPoint()
+        getMyStock()
+    }
 
     CompositionLocalProvider(LocalFocusManager provides focusManager) {
         Column(
@@ -137,7 +214,7 @@ internal fun StockBuyingScreen(
                     textState = stockTextState,
                     placeHolder = "최대 N주 구매 가능",
                     label = "몇 주 구매할까요?",
-                    helperText = "보유 포인트 ${myAccountData.point.formatStockPrice()} P",
+                    helperText = "보유 포인트 ${pointData.points.toInt().formatStockPrice()} P",
                     placerHolderShare = true,
                     onTextChange = {
                         setStockTextState(it)
@@ -168,9 +245,14 @@ internal fun StockBuyingScreen(
                 ) {
                     Spacer(modifier = Modifier.height(120.dp))
                     CostImage(modifier = Modifier.size(177.dp))
+                    val firstStock = stockData.firstOrNull()
                     Text(
-                        text = "${entireStocksData.stockName} ${stockTextState}주\n" +
-                                " ${(stockTextState.toLong() * entireStocksData.myStockPrice)}P 구매 성공",
+                        text = if (firstStock != null) {
+                            "${firstStock.stock_name} ${stockTextState}주\n" +
+                                    " ${(stockTextState.toLong() * firstStock.points)}P 구매 성공"
+                        } else {
+                            "구매성공"
+                        },
                         style = JDSTypography.subTitle,
                         color = JDSColor.Black
                     )
@@ -197,13 +279,19 @@ internal fun StockBuyingScreen(
 @Composable
 fun StockBuyingScreenPreview() {
     StockBuyingScreen(
-        myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
         navigateToOrderHistory = {},
         id = "1L",
         focusManager = LocalFocusManager.current,
-        postBuyStock = { _ ->  },
+        postBuyStock = { _ -> },
         stockText = 0,
+        getMyPoint = {},
+        pointData = GetMyPointModel(
+            points = 0L,
+            upDownPercent = 0.0,
+            upDownPoints = 0
+        ),
+        getMyStock = {},
+        stockData = listOf()
     )
 }
