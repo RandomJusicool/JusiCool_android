@@ -96,8 +96,8 @@ fun StockBuyingRoute(
         stockData = viewModel.myStock,
         focusManager = focusManager,
         stockText = viewModel.stockText.longValue,
-        getMyPoint = { viewModel.getMyPoint() },
-        getMyStock = { viewModel.getMyStock() },
+        getMyPoint = viewModel::getMyPoint,
+        getMyStock = viewModel::getMyStock,
         pointData = viewModel.myPoint.value
     )
 
