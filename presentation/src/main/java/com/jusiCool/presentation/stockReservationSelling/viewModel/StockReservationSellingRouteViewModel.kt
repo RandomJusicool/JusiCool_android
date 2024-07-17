@@ -14,7 +14,7 @@ class StockReservationSellingRouteViewModel @Inject constructor(
     private val sellStockReserveUseCase: SellStockReserveUseCase,
 ) : ViewModel() {
     fun sellStockReserve(
-        stockId: Long,
+        stockId: String,
         body: BuyStockRequestModel,
         onSuccess: () -> Unit,
     ) = viewModelScope.launch {

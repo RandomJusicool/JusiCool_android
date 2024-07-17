@@ -40,9 +40,6 @@ import com.jusiCool.domain.model.stock.request.BuyStockRequestModel
 import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.main.component.EntireStocksData
 import com.jusiCool.presentation.main.viewModel.MainViewModel
-import com.jusiCool.domain.model.stock.request.BuyStockRequestModel
-import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
-import com.jusiCool.presentation.main.component.MyStocksData
 import com.jusiCool.presentation.stockReservationSelling.viewModel.StockReservationSellingRouteViewModel
 import com.jusiCool.presentation.utill.formatStockPrice
 
@@ -57,14 +54,12 @@ fun NavGraphBuilder.stockReservationSellingRoute(
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockReservationSellingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?:""
-        if (id != null) {
-            StockReservationSellingRoute(
-                id = id,
-                navigateToStockDetail = navigateToStockDetail,
-                navigateToOrderHistory = navigateToOrderHistory
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        StockReservationSellingRoute(
+            id = id,
+            navigateToStockDetail = navigateToStockDetail,
+            navigateToOrderHistory = navigateToOrderHistory
+        )
     }
 }
 
@@ -72,8 +67,6 @@ fun NavGraphBuilder.stockReservationSellingRoute(
 internal fun StockReservationSellingRoute(
     modifier: Modifier = Modifier,
     stockReservationSellingRouteViewModel: StockReservationSellingRouteViewModel = hiltViewModel(),
-    id: Long,
-    navigateToStockDetail: (Long) -> Unit,
     id: String,
     navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
@@ -159,7 +152,7 @@ internal fun StockReservationSellingScreen(
                     textState = stockTextState,
                     placeHolder = "최대 N주 판매 가능",
                     label = "몇 주 판매할까요?",
-                    helperText = "보유 주 ${myStocksData.share.formatStockPrice()}주",
+                    helperText = "보유 주 ${entireStocksData.share.formatStockPrice()}주",
                     placerHolderShare = true,
                     onTextChange = setStockTextState
                 )
