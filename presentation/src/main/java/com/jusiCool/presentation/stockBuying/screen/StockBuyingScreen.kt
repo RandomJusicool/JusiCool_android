@@ -31,45 +31,43 @@ import com.example.design_system.icon_image.icon.RightArrowIcon
 import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
+import com.jusiCool.presentation.main.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyAccountData
 import com.jusiCool.presentation.main.screen.tempMyAccountData
 import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockBuyingRoute = "stockBuyingRoute"
 
-fun NavController.navigationToStockBuying(id: Long) {
+fun NavController.navigationToStockBuying(id: String) {
     this.navigate("$stockBuyingRoute/$id")
 }
 
 fun NavGraphBuilder.stockBuyingRoute(
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockBuyingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
-        if (id != null) {
-            StockBuyingRoute(
-                id = id,
-                navigateToStockDetail = navigateToStockDetail,
-                navigateToOrderHistory = navigateToOrderHistory
-            )
-        }
+        val id = backStackEntry.arguments?.getString("id") ?: ""
+        StockBuyingRoute(
+            id = id,
+            navigateToStockDetail = navigateToStockDetail,
+            navigateToOrderHistory = navigateToOrderHistory
+        )
     }
 }
 
 @Composable
 fun StockBuyingRoute(
     modifier: Modifier = Modifier,
-    id: Long,
-    navigateToStockDetail: (Long) -> Unit,
+    id: String,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     StockBuyingScreen(
         modifier = modifier,
         id = id,
         myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
     )
@@ -78,10 +76,10 @@ fun StockBuyingRoute(
 @Composable
 internal fun StockBuyingScreen(
     modifier: Modifier = Modifier,
-    id: Long,
+    id: String,
     myAccountData: MyAccountData,
     entireStocksData: EntireStocksData,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockTextState, setStockTextState) = remember { mutableStateOf("") }
@@ -164,9 +162,9 @@ internal fun StockBuyingScreen(
 fun StockBuyingScreenPreview() {
     StockBuyingScreen(
         myAccountData = tempMyAccountData,
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = {},
         navigateToOrderHistory = {},
-        id = 1L
+        id = "1L"
     )
 }

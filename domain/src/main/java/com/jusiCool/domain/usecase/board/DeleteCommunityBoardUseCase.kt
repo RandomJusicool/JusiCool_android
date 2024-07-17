@@ -7,8 +7,8 @@ class DeleteCommunityBoardUseCase @Inject constructor(
     private val repository: BoardRepository
 ){
     suspend operator fun invoke(
-        communityId:Long,
-        boardId: Long
+        communityId:String,
+        boardId: String
     ) = runCatching {
         repository.deleteCommunityBoard(
             communityId = communityId,

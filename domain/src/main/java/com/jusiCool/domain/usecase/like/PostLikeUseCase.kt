@@ -6,7 +6,7 @@ import javax.inject.Inject
 class PostLikeUseCase @Inject constructor(
     private val likeRepository: LikeRepository
 ) {
-    suspend operator fun invoke(boardId: Long) = runCatching {
+    suspend operator fun invoke(boardId: String) = runCatching {
         likeRepository.postLike(boardId = boardId)
     }
 }

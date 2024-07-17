@@ -1,5 +1,6 @@
 package com.jusiCool.presentation.stockReservationSelling.screen
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,10 @@ import com.example.design_system.icon_image.image.CostImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.domain.model.stock.request.BuyStockRequestModel
+import com.jusiCool.domain.model.user.response.GetMyStockModel
+import com.jusiCool.presentation.main.component.EntireStocksData
+import com.jusiCool.presentation.main.viewModel.MainViewModel
+import com.jusiCool.domain.model.stock.request.BuyStockRequestModel
 import com.jusiCool.presentation.checkEntireStock.component.EntireStocksData
 import com.jusiCool.presentation.main.component.MyStocksData
 import com.jusiCool.presentation.stockReservationSelling.viewModel.StockReservationSellingRouteViewModel
@@ -42,16 +48,16 @@ import com.jusiCool.presentation.utill.formatStockPrice
 
 const val stockReservationSellingRoute = "stockReservationSellingRoute"
 
-fun NavController.navigationToStockReservationBuying(id: Long) {
+fun NavController.navigationToStockReservationBuying(id: String) {
     this.navigate("$stockReservationSellingRoute/$id")
 }
 
 fun NavGraphBuilder.stockReservationSellingRoute(
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     composable("$stockReservationSellingRoute/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+        val id = backStackEntry.arguments?.getString("id")?:""
         if (id != null) {
             StockReservationSellingRoute(
                 id = id,
@@ -68,13 +74,14 @@ internal fun StockReservationSellingRoute(
     stockReservationSellingRouteViewModel: StockReservationSellingRouteViewModel = hiltViewModel(),
     id: Long,
     navigateToStockDetail: (Long) -> Unit,
+    id: String,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
+    viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     StockReservationSellingScreen(
         modifier = modifier,
         id = id,
-        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
         sendStockReservation = { body, onSuccess ->
             stockReservationSellingRouteViewModel.sellStockReserve(
                 stockId = id,
@@ -82,6 +89,8 @@ internal fun StockReservationSellingRoute(
                 onSuccess = onSuccess
             )
         },
+        stockData = viewModel.myStock,
+        entireStocksData = EntireStocksData(id = "1L", "마이크로소프트", 1231, 10000, 8160, 7.9f),
         navigateToStockDetail = navigateToStockDetail,
         navigateToOrderHistory = navigateToOrderHistory
     )
@@ -90,11 +99,11 @@ internal fun StockReservationSellingRoute(
 @Composable
 internal fun StockReservationSellingScreen(
     modifier: Modifier = Modifier,
-    id: Long,
-    myStocksData: MyStocksData,
+    id: String,
+    stockData: List<GetMyStockModel>,
     entireStocksData: EntireStocksData,
     sendStockReservation: (BuyStockRequestModel, () -> Unit) -> Unit,
-    navigateToStockDetail: (Long) -> Unit,
+    navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,
 ) {
     val (stockReservationTextState, setStockReservationTextState) = remember { mutableStateOf("") }
@@ -220,12 +229,5 @@ internal fun StockReservationSellingScreen(
 @Preview
 @Composable
 fun StockReservationSellingScreenPreview() {
-    StockReservationSellingScreen(
-        id = 1L,
-        myStocksData = MyStocksData(id = 1L, "마이크로소프트", 1231, 11131, 0, 0.0f),
-        entireStocksData = EntireStocksData(id = 1L, "마이크로소프트", 1231, 10000, 8160, 7.9f),
-        navigateToStockDetail = {},
-        navigateToOrderHistory = {},
-        sendStockReservation = { num, goal_price -> },
-    )
+
 }

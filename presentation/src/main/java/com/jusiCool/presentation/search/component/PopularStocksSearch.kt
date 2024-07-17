@@ -13,7 +13,7 @@ import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 
 data class PopularStocksSearchData(
-    val id: Long,
+    val id: String,
     val number: Int,
     val stockName: String,
     val revenuePercent: Float
@@ -79,5 +79,5 @@ fun PopularStocksSearch(
 @Preview
 @Composable
 fun PopularStocksSearchPreview() {
-    PopularStocksSearch(popularStocksSearchData = PopularStocksSearchData(id = 2, number = 2, stockName = "dqw",+2.9f,))
+    PopularStocksSearch(popularStocksSearchData = PopularStocksSearchData(id = "2", number = 2, stockName = "dqw",+2.9f,))
 }

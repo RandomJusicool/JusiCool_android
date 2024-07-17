@@ -15,39 +15,31 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.component.modifier.clickableSingle.clickableSingle
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
+import com.jusiCool.domain.model.user.response.GetMyStockModel
 import com.jusiCool.presentation.utill.formatStockPriceSign
-
-data class MyStocksData(
-    val id: Long,
-    val stockName: String,
-    val share: Int,
-    val myStockPrice: Int,
-    val myStockRevenue: Int,
-    val myStockRevenuePercent: Float,
-)
 
 @Composable
 fun Stocks(
     modifier: Modifier = Modifier,
-    myStocksData: MyStocksData,
-    navigateToStockDetail: (Long) -> Unit,
+    myStocksData: GetMyStockModel,
+    navigateToStockDetail: (String) -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .background(color = JDSColor.WHITE)
-            .clickableSingle { navigateToStockDetail(myStocksData.id) },
+            .clickableSingle { navigateToStockDetail(myStocksData.code) },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(
-                text = myStocksData.stockName,
+                text = myStocksData.stock_name,
                 style = JDSTypography.bodySmall,
                 color = JDSColor.Black
             )
 
             Text(
-                text = "${"%,d".format(myStocksData.share)} 주",
+                text = "${"%,d".format(myStocksData.stock_num)} 주",
                 style = JDSTypography.label,
                 color = JDSColor.GRAY400
             )
@@ -58,16 +50,16 @@ fun Stocks(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "${"%,d".format(myStocksData.myStockPrice)} P",
+                text = "${"%,d".format(myStocksData.points)} P",
                 style = JDSTypography.bodySmall,
                 color = JDSColor.Black
             )
 
             Text(
-                text = "${myStocksData.myStockRevenue.formatStockPriceSign()} (${myStocksData.myStockRevenuePercent}%)",
+                text = "${myStocksData.upDownPoints.toInt().formatStockPriceSign()} (${myStocksData.upDownPercent}%)",
                 style = JDSTypography.label,
-                color = if (myStocksData.myStockRevenue < 0) JDSColor.MAIN
-                else if (myStocksData.myStockRevenue > 0) JDSColor.ERROR
+                color = if (myStocksData.upDownPoints < 0) JDSColor.MAIN
+                else if (myStocksData.upDownPoints > 0) JDSColor.ERROR
                 else JDSColor.GRAY600,
             )
         }
@@ -77,44 +69,4 @@ fun Stocks(
 @Preview
 @Composable
 fun StocksPreview() {
-    Column {
-        Stocks(
-            modifier = Modifier.width(280.dp),
-            myStocksData = MyStocksData(
-                stockName = "마이크로소프트",
-                share = 1231,
-                myStockPrice = 11131,
-                myStockRevenue = 8160,
-                myStockRevenuePercent = 7.9f,
-                id = 0
-            ),
-            navigateToStockDetail = { /*TODO*/ }
-        )
-
-        Stocks(
-            modifier = Modifier.width(280.dp),
-            myStocksData = MyStocksData(
-                stockName = "마이크로소프트",
-                share = 1231,
-                myStockPrice = 11131,
-                myStockRevenue = -8160,
-                myStockRevenuePercent = 7.9f,
-                id = 0
-            ),
-            navigateToStockDetail = { /*TODO*/ }
-        )
-
-        Stocks(
-            modifier = Modifier.width(280.dp),
-            myStocksData = MyStocksData(
-                stockName = "마이크로소프트",
-                share = 1231,
-                myStockPrice = 11131,
-                myStockRevenue = 0,
-                myStockRevenuePercent = 0.0f,
-                id = 0
-            ),
-            navigateToStockDetail = { /*TODO*/ }
-        )
-    }
 }

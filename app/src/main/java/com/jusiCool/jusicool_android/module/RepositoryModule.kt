@@ -7,9 +7,11 @@ import com.jusiCool.data.repository.CommunityRepositoryImpl
 import com.jusiCool.data.repository.DayRepositoryImpl
 import com.jusiCool.data.repository.EmailRepositoryImpl
 import com.jusiCool.data.repository.LikeRepositoryImpl
+import com.jusiCool.data.repository.ReceiptRepositoryImpl
 import com.jusiCool.data.repository.ReservationRepositoryImpl
 import com.jusiCool.data.repository.StockRepositoryImpl
 import com.jusiCool.data.repository.TokenRepositoryImpl
+import com.jusiCool.data.repository.UserRepositoryImpl
 import com.jusiCool.domain.repository.AuthRepository
 import com.jusiCool.domain.repository.BoardRepository
 import com.jusiCool.domain.repository.CommentRepository
@@ -17,9 +19,11 @@ import com.jusiCool.domain.repository.CommunityRepository
 import com.jusiCool.domain.repository.DayRepository
 import com.jusiCool.domain.repository.EmailRepository
 import com.jusiCool.domain.repository.LikeRepository
+import com.jusiCool.domain.repository.ReceiptRepository
 import com.jusiCool.domain.repository.ReservationRepository
 import com.jusiCool.domain.repository.StockRepository
 import com.jusiCool.domain.repository.TokenRepository
+import com.jusiCool.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -77,4 +81,14 @@ abstract class RepositoryModule {
     abstract fun provideMyRepository(
         dayRepositoryImpl: DayRepositoryImpl
     ) : DayRepository
+
+    @Binds
+    abstract fun provideUserRepository(
+        userRepositoryImpl: UserRepositoryImpl
+    ) : UserRepository
+
+    @Binds
+    abstract fun provideReceiptRepository(
+        receiptRepositoryImpl: ReceiptRepositoryImpl
+    ) : ReceiptRepository
 }
