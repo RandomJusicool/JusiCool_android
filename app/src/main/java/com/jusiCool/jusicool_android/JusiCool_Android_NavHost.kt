@@ -97,7 +97,7 @@ fun JusiCool_Android_NavHost(
         newsRoute(popUpBackStack = navController::popBackStack)
 
         stockDetailRoute(
-            popUpBackStack = navController::popBackStack,
+            popUpBackStack = navController::navigateToMain,
             navigateToStockBuying = navController::navigationToStockBuying,
             navigateToStockSell = { TODO() },
             navigateToCommunity = navController::navigateToCommunity,
