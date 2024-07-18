@@ -1,6 +1,5 @@
 package com.jusiCool.presentation.main.screen
 
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,14 +13,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -44,7 +43,7 @@ import com.jusiCool.presentation.main.component.PopularNews
 import com.jusiCool.presentation.main.component.PopularSummaryNewsData
 import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.utill.Event
-import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.delay
 
 const val mainRoute = "mainRoute"
 
@@ -53,8 +52,8 @@ fun NavController.navigateToMain() {
 }
 
 fun NavGraphBuilder.mainRoute(
-    navigateToSearch: () -> Unit,
     navigateToStockDetail: (String) -> Unit,
+    navigateToSearch: () -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
     navigateToCheckEntireStockList: () -> Unit,
@@ -63,8 +62,8 @@ fun NavGraphBuilder.mainRoute(
 ) {
     composable(mainRoute) {
         MainRoute(
-            navigateToSearch = navigateToSearch,
             navigateToStockDetail = navigateToStockDetail,
+            navigateToSearch = navigateToSearch,
             navigateToNews = navigateToNews,
             navigateToOrderHistory = navigateToOrderHistory,
             navigateToCheckEntireStockList = navigateToCheckEntireStockList,
@@ -77,17 +76,17 @@ fun NavGraphBuilder.mainRoute(
 @Composable
 fun MainRoute(
     modifier: Modifier = Modifier,
-    navigateToSearch: () -> Unit,
+    viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     navigateToStockDetail: (String) -> Unit,
+    navigateToSearch: () -> Unit,
     navigateToNews: () -> Unit,
     navigateToOrderHistory: () -> Unit,
     navigateToCheckEntireStockList: () -> Unit,
     navigateToCommunity: () -> Unit,
     navigateToHoldShareRoute: () -> Unit,
-    viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
-    val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
+    val (isSwipeRefreshLoading, setIsSwipeRefreshLoading) = remember { mutableStateOf(false) }
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isSwipeRefreshLoading)
 
     MainScreen(
         modifier = modifier,
@@ -106,10 +105,11 @@ fun MainRoute(
         navigateToHoldShareRoute = navigateToHoldShareRoute,
     )
 
-    LaunchedEffect(Unit) {
-        viewModel.loadStuff()
-        viewModel.getMyPoint()
-        viewModel.getMyStock()
+    LaunchedEffect(isSwipeRefreshLoading) {
+        if (isSwipeRefreshLoading) {
+            delay(1000L)
+            setIsSwipeRefreshLoading(false)
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -199,6 +199,9 @@ fun MainScreen(
     navigateToHoldShareRoute: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
+    LaunchedEffect(Unit) {
+        onRefresh
+    }
 
     SwipeRefresh(
         state = swipeRefreshState,

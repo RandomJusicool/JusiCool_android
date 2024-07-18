@@ -1,12 +1,9 @@
 package com.jusiCool.presentation.main.viewModel
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jusiCool.domain.model.board.response.GetCommunityBoardDetailResponseModel
-import com.jusiCool.domain.model.comment.response.GetCommunityCommentResponseModel
 import com.jusiCool.domain.model.stock.response.GetStockListResponseModel
 import com.jusiCool.domain.model.user.response.GetMyPointModel
 import com.jusiCool.domain.model.user.response.GetMyStockModel
@@ -16,7 +13,6 @@ import com.jusiCool.domain.usecase.user.GetMyStockUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -29,9 +25,6 @@ class MainViewModel @Inject constructor(
     private val getMyStockUseCase: GetMyStockUseCase,
     private val getStockListUseCase: GetStockListUseCase
 ) : ViewModel() {
-    private val _swipeRefreshLoading = MutableStateFlow(false)
-    val swipeRefreshLoading = _swipeRefreshLoading.asStateFlow()
-
     private val _getMyPointResponse = MutableStateFlow<Event<GetMyPointModel>>(Event.Loading)
     val getMyPointResponse = _getMyPointResponse.asStateFlow()
 
@@ -40,18 +33,6 @@ class MainViewModel @Inject constructor(
 
     private val _getStockListResponse = MutableStateFlow<Event<List<GetStockListResponseModel>>>(Event.Loading)
     val getStockListResponse = _getStockListResponse.asStateFlow()
-
-    init {
-        loadStuff()
-    }
-
-    fun loadStuff() {
-        viewModelScope.launch {
-            _swipeRefreshLoading.value = true
-            delay(1000L)
-            _swipeRefreshLoading.value = false
-        }
-    }
 
     var myStock = mutableStateListOf<GetMyStockModel>()
         private set
