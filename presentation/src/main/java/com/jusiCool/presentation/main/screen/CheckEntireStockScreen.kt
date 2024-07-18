@@ -43,9 +43,9 @@ fun NavController.navigateToCheckEntireStockList() {
 }
 
 fun NavGraphBuilder.checkEntireStockListRoute(
+    navigateToStockDetail: (String) -> Unit,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
-    navigateToStockDetail: (String) -> Unit,
 ) {
     composable(checkEntireStockListRoute) {
         CheckEntireStockListRoute(
@@ -59,10 +59,10 @@ fun NavGraphBuilder.checkEntireStockListRoute(
 @Composable
 fun CheckEntireStockListRoute(
     modifier: Modifier = Modifier,
+    viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    navigateToStockDetail: (String) -> Unit,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
-    navigateToStockDetail: (String) -> Unit,
-    viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
     val (isSwipeRefreshLoading, setIsSwipeRefreshLoading) = remember { mutableStateOf(false) }
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isSwipeRefreshLoading)
@@ -89,32 +89,16 @@ fun CheckEntireStockListRoute(
     }
 
     LaunchedEffect(Unit) {
-        getStockList(
-            viewModel = viewModel,
-            onSuccess = {
-                viewModel.stockList.removeRange(0, viewModel.stockList.size)
-                viewModel.stockList.addAll(it)
-            },
-            onFailure = {
-                viewModel.stockList.removeRange(0, viewModel.stockList.size)
-            }
-        )
-    }
-}
+        viewModel.getStockListResponse.collect { response ->
+            when (response) {
+                is Event.Success -> {
+                    viewModel.stockList.removeRange(0, viewModel.stockList.size)
+                    viewModel.stockList.addAll(response.data!!)
+                }
 
-private suspend fun getStockList(
-    viewModel: MainViewModel,
-    onSuccess: (data: List<GetStockListResponseModel>) -> Unit,
-    onFailure: () -> Unit
-) {
-    viewModel.getStockListResponse.collect { response ->
-        when (response) {
-            is Event.Success -> {
-                onSuccess(response.data!!)
-            }
-
-            else -> {
-                onFailure()
+                else -> {
+                    viewModel.stockList.removeRange(0, viewModel.stockList.size)
+                }
             }
         }
     }

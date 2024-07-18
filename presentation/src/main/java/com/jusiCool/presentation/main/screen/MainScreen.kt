@@ -117,26 +117,30 @@ fun MainRoute(
     }
 
     LaunchedEffect(Unit) {
-        getMyPoint(
-            viewModel = viewModel,
-            onSuccess = {
-                viewModel.myPoint.value = it
-            },
-            onFailure = { }
-        )
+        viewModel.getMyPointResponse.collect { response ->
+            when (response) {
+                is Event.Success -> {
+                    viewModel.myPoint.value = response.data!!
+                }
+
+                else -> {}
+            }
+        }
     }
 
     LaunchedEffect(Unit) {
-        getMyStock(
-            viewModel = viewModel,
-            onSuccess = {
-                viewModel.myStock.removeRange(0, viewModel.myStock.size)
-                viewModel.myStock.addAll(it)
-            },
-            onFailure = {
-                viewModel.myStock.removeRange(0, viewModel.myStock.size)
+        viewModel.getMyStockResponse.collect { response ->
+            when (response) {
+                is Event.Success -> {
+                    viewModel.myStock.removeRange(0, viewModel.myStock.size)
+                    viewModel.myStock.addAll(response.data!!)
+                }
+
+                else -> {
+                    viewModel.myStock.removeRange(0, viewModel.myStock.size)
+                }
             }
-        )
+        }
     }
 }
 
@@ -148,42 +152,6 @@ val tempPopularSummaryNewsData = PopularSummaryNewsData(
     "파이낸셜뉴스",
     1
 )
-
-private suspend fun getMyPoint(
-    viewModel: MainViewModel,
-    onSuccess: (data: GetMyPointModel) -> Unit,
-    onFailure: () -> Unit
-) {
-    viewModel.getMyPointResponse.collect { response ->
-        when (response) {
-            is Event.Success -> {
-                onSuccess(response.data!!)
-            }
-
-            else -> {
-                onFailure()
-            }
-        }
-    }
-}
-
-private suspend fun getMyStock(
-    viewModel: MainViewModel,
-    onSuccess: (data: List<GetMyStockModel>) -> Unit,
-    onFailure: () -> Unit
-) {
-    viewModel.getMyStockResponse.collect { response ->
-        when (response) {
-            is Event.Success -> {
-                onSuccess(response.data!!)
-            }
-
-            else -> {
-                onFailure()
-            }
-        }
-    }
-}
 
 @Composable
 fun MainScreen(
