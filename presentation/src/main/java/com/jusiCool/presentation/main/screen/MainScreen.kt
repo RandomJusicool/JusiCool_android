@@ -93,9 +93,13 @@ fun MainRoute(
         swipeRefreshState = swipeRefreshState,
         pointData = viewModel.myPoint.value,
         stockData = viewModel.myStock,
-        loadStuff = { viewModel.loadStuff() },
-        getMyPoint = { viewModel.getMyPoint() },
-        getMyStock = { viewModel.getMyStock() },
+        onRefresh = {
+            viewModel.apply {
+                getMyPoint()
+                getMyStock()
+            }
+            setIsSwipeRefreshLoading(true)
+        },
         navigateToSearch = navigateToSearch,
         navigateToStockDetail = navigateToStockDetail,
         navigateToNews = navigateToNews,
@@ -187,9 +191,7 @@ fun MainScreen(
     swipeRefreshState: SwipeRefreshState,
     pointData: GetMyPointModel,
     stockData: List<GetMyStockModel>,
-    loadStuff: () -> Unit,
-    getMyPoint: () -> Unit,
-    getMyStock: () -> Unit,
+    onRefresh: () -> Unit,
     navigateToSearch: () -> Unit,
     navigateToStockDetail: (String) -> Unit,
     navigateToNews: () -> Unit,
@@ -205,11 +207,7 @@ fun MainScreen(
 
     SwipeRefresh(
         state = swipeRefreshState,
-        onRefresh = {
-            loadStuff()
-            getMyPoint()
-            getMyStock()
-        }
+        onRefresh = onRefresh
     ) {
         Box(
             modifier = modifier
