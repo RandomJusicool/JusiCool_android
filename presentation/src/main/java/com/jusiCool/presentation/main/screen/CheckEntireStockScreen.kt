@@ -72,8 +72,10 @@ fun CheckEntireStockListRoute(
         modifier = modifier,
         stockData = viewModel.stockList,
         swipeRefreshState = swipeRefreshState,
-        loadStuff = { viewModel.loadStuff() },
-        getStockList = { viewModel.getStockList() },
+        onRefresh = {
+            viewModel.getStockList()
+            setIsSwipeRefreshLoading(true)
+        },
         navigateToSearch = navigateToSearch,
         navigateToMain = navigateToMain,
         navigateToStockDetail = navigateToStockDetail,
@@ -123,18 +125,18 @@ fun CheckEntireStockListScreen(
     modifier: Modifier = Modifier,
     swipeRefreshState: SwipeRefreshState,
     stockData: List<GetStockListResponseModel>,
-    getStockList: () -> Unit,
-    loadStuff: () -> Unit,
+    onRefresh: () -> Unit,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
     navigateToStockDetail: (String) -> Unit,
 ) {
+    LaunchedEffect(Unit) {
+        onRefresh
+    }
+
     SwipeRefresh(
         state = swipeRefreshState,
-        onRefresh = {
-            loadStuff()
-            getStockList()
-        }
+        onRefresh = onRefresh
     ) {
         Column(
             modifier = modifier
