@@ -78,7 +78,7 @@ fun NavGraphBuilder.mainRoute(
 }
 
 @Composable
-fun MainRoute(
+internal fun MainRoute(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     navigateToStockDetail: (String) -> Unit,
@@ -158,7 +158,7 @@ val tempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
 
 
 @Composable
-fun MainScreen(
+internal fun MainScreen(
     modifier: Modifier = Modifier,
     scrollState: ScrollState = rememberScrollState(),
     swipeRefreshState: SwipeRefreshState,
