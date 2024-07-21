@@ -43,6 +43,8 @@ import com.jusiCool.presentation.main.component.PopularNews
 import com.jusiCool.presentation.main.component.PopularSummaryNewsData
 import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.utill.Event
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 
 const val mainRoute = "mainRoute"
@@ -98,7 +100,7 @@ fun MainRoute(
             1
         ),
         pointData = viewModel.myPoint.value,
-        stockData = viewModel.myStock,
+        stockData = viewModel.myStock.toImmutableList(),
         onRefresh = {
             viewModel.apply {
                 getMyPoint()
@@ -159,7 +161,7 @@ fun MainScreen(
     swipeRefreshState: SwipeRefreshState,
     pointData: GetMyPointModel,
     popularSummaryNewsData: PopularSummaryNewsData,
-    stockData: List<GetMyStockModel>,
+    stockData: ImmutableList<GetMyStockModel>,
     onRefresh: () -> Unit,
     navigateToSearch: () -> Unit,
     navigateToStockDetail: (String) -> Unit,
