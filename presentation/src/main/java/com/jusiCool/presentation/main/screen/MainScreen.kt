@@ -1,6 +1,7 @@
 package com.jusiCool.presentation.main.screen
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,6 +45,7 @@ import com.jusiCool.presentation.main.component.PopularSummaryNewsData
 import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.utill.Event
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 
@@ -158,6 +160,7 @@ val tempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
+    scrollState: ScrollState = rememberScrollState(),
     swipeRefreshState: SwipeRefreshState,
     pointData: GetMyPointModel,
     popularSummaryNewsData: PopularSummaryNewsData,
@@ -171,9 +174,8 @@ fun MainScreen(
     navigateToCommunity: () -> Unit,
     navigateToHoldShareRoute: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
     LaunchedEffect(Unit) {
-        onRefresh
+        onRefresh()
     }
 
     SwipeRefresh(
@@ -185,7 +187,7 @@ fun MainScreen(
                 .fillMaxSize()
                 .background(color = JDSColor.GRAY50)
         ) {
-            Column(modifier = Modifier) {
+            Column {
                 JDSMainTopBar(
                     startIcon = { LogoImage() },
                     betweenIcon = {
