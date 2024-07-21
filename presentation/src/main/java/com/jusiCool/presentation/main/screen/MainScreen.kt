@@ -239,5 +239,19 @@ fun MainScreen(
 
 @Preview
 @Composable
-fun MainScreenPriview() {
+fun MainScreenPreview() {
+    MainScreen(
+        swipeRefreshState = rememberSwipeRefreshState(isRefreshing = true),
+        navigateToStockDetail = {},
+        navigateToNews = {},
+        navigateToCommunity = {},
+        navigateToSearch = {},
+        navigateToCheckEntireStockList = {},
+        navigateToOrderHistory = {},
+        navigateToHoldShareRoute = {},
+        onRefresh = {},
+        pointData = GetMyPointModel(0, 0.0, 0),
+        popularSummaryNewsData = PopularSummaryNewsData("", "", "", 0),
+        stockData = persistentListOf()
+    )
 }
