@@ -91,6 +91,12 @@ fun MainRoute(
     MainScreen(
         modifier = modifier,
         swipeRefreshState = swipeRefreshState,
+        popularSummaryNewsData = PopularSummaryNewsData(
+            "https://newsimg.sedaily.com/2023/04/19/29OD2TUOJ3_1.jpg",
+            "\"고마워요 엔비디아\"...삼성전자, 간만의 '불기둥' 지속될까",
+            "파이낸셜뉴스",
+            1
+        ),
         pointData = viewModel.myPoint.value,
         stockData = viewModel.myStock,
         onRefresh = {
@@ -146,18 +152,13 @@ fun MainRoute(
 
 val tempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
 
-val tempPopularSummaryNewsData = PopularSummaryNewsData(
-    "https://newsimg.sedaily.com/2023/04/19/29OD2TUOJ3_1.jpg",
-    "\"고마워요 엔비디아\"...삼성전자, 간만의 '불기둥' 지속될까",
-    "파이낸셜뉴스",
-    1
-)
 
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
     swipeRefreshState: SwipeRefreshState,
     pointData: GetMyPointModel,
+    popularSummaryNewsData: PopularSummaryNewsData,
     stockData: List<GetMyStockModel>,
     onRefresh: () -> Unit,
     navigateToSearch: () -> Unit,
@@ -212,7 +213,7 @@ fun MainScreen(
                     )
 
                     PopularNews(
-                        popularSummaryNewsData = tempPopularSummaryNewsData,
+                        popularSummaryNewsData = popularSummaryNewsData,
                         navigateToNews = navigateToNews,
                     )
 
