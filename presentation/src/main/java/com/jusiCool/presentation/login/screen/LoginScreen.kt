@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -129,7 +130,8 @@ internal fun LoginScreen(
                     textState = passwordTextState,
                     placeHolder = "비밀번호를 입력해주세요",
                     label = "비밀번호",
-                    onTextChange = onChangePassword
+                    onTextChange = onChangePassword,
+                    visualTransformation = PasswordVisualTransformation()
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Column(
