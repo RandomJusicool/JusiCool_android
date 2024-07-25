@@ -23,11 +23,12 @@ import com.example.design_system.icon_image.image.GraphSkeletonImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
 import com.jusiCool.domain.model.user.response.GetMyStockModel
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun MyStocks(
     modifier: Modifier = Modifier,
-    myStocksData: List<GetMyStockModel>,
+    myStocksData: ImmutableList<GetMyStockModel>,
     navigateToHoldShareRoute: () -> Unit,
     navigateToStockDetail: (String) -> Unit,
     navigateToOrderHistory: () -> Unit,

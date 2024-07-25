@@ -11,13 +11,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -34,6 +34,7 @@ import com.jusiCool.domain.model.stock.response.GetStockListResponseModel
 import com.jusiCool.presentation.main.component.EntireStocksItem
 import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.utill.Event
+import kotlinx.coroutines.delay
 
 const val checkEntireStockListRoute = "checkEntireStockListRoute"
 
@@ -42,9 +43,9 @@ fun NavController.navigateToCheckEntireStockList() {
 }
 
 fun NavGraphBuilder.checkEntireStockListRoute(
+    navigateToStockDetail: (String) -> Unit,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
-    navigateToStockDetail: (String) -> Unit,
 ) {
     composable(checkEntireStockListRoute) {
         CheckEntireStockListRoute(
@@ -58,57 +59,46 @@ fun NavGraphBuilder.checkEntireStockListRoute(
 @Composable
 fun CheckEntireStockListRoute(
     modifier: Modifier = Modifier,
+    viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
+    navigateToStockDetail: (String) -> Unit,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
-    navigateToStockDetail: (String) -> Unit,
-    viewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
 ) {
-    val swipeRefreshLoading by viewModel.swipeRefreshLoading.collectAsStateWithLifecycle()
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = swipeRefreshLoading)
+    val (isSwipeRefreshLoading, setIsSwipeRefreshLoading) = remember { mutableStateOf(false) }
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isSwipeRefreshLoading)
+
 
     CheckEntireStockListScreen(
         modifier = modifier,
         stockData = viewModel.stockList,
         swipeRefreshState = swipeRefreshState,
-        loadStuff = { viewModel.loadStuff() },
-        getStockList = { viewModel.getStockList() },
+        onRefresh = {
+            viewModel.getStockList()
+            setIsSwipeRefreshLoading(true)
+        },
         navigateToSearch = navigateToSearch,
         navigateToMain = navigateToMain,
         navigateToStockDetail = navigateToStockDetail,
     )
 
-    LaunchedEffect(Unit) {
-        viewModel.loadStuff()
-        viewModel.getStockList()
+    LaunchedEffect(isSwipeRefreshLoading) {
+        if (isSwipeRefreshLoading) {
+            delay(1000L)
+            setIsSwipeRefreshLoading(false)
+        }
     }
 
     LaunchedEffect(Unit) {
-        getStockList(
-            viewModel = viewModel,
-            onSuccess = {
-                viewModel.stockList.removeRange(0, viewModel.stockList.size)
-                viewModel.stockList.addAll(it)
-            },
-            onFailure = {
-                viewModel.stockList.removeRange(0, viewModel.stockList.size)
-            }
-        )
-    }
-}
+        viewModel.getStockListResponse.collect { response ->
+            when (response) {
+                is Event.Success -> {
+                    viewModel.stockList.removeRange(0, viewModel.stockList.size)
+                    viewModel.stockList.addAll(response.data!!)
+                }
 
-private suspend fun getStockList(
-    viewModel: MainViewModel,
-    onSuccess: (data: List<GetStockListResponseModel>) -> Unit,
-    onFailure: () -> Unit
-) {
-    viewModel.getStockListResponse.collect { response ->
-        when (response) {
-            is Event.Success -> {
-                onSuccess(response.data!!)
-            }
-
-            else -> {
-                onFailure()
+                else -> {
+                    viewModel.stockList.removeRange(0, viewModel.stockList.size)
+                }
             }
         }
     }
@@ -119,18 +109,18 @@ fun CheckEntireStockListScreen(
     modifier: Modifier = Modifier,
     swipeRefreshState: SwipeRefreshState,
     stockData: List<GetStockListResponseModel>,
-    getStockList: () -> Unit,
-    loadStuff: () -> Unit,
+    onRefresh: () -> Unit,
     navigateToSearch: () -> Unit,
     navigateToMain: () -> Unit,
     navigateToStockDetail: (String) -> Unit,
 ) {
+    LaunchedEffect(Unit) {
+        onRefresh
+    }
+
     SwipeRefresh(
         state = swipeRefreshState,
-        onRefresh = {
-            loadStuff()
-            getStockList()
-        }
+        onRefresh = onRefresh
     ) {
         Column(
             modifier = modifier

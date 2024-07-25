@@ -27,7 +27,6 @@ import com.example.design_system.icon_image.icon.RightChevronIcon
 import com.example.design_system.icon_image.image.EllipseImage
 import com.example.design_system.theme.JDSTypography
 import com.example.design_system.theme.color.JDSColor
-import com.jusiCool.presentation.main.screen.tempPopularSummaryNewsData
 
 data class PopularSummaryNewsData(
     val imageUrl: String,
@@ -119,7 +118,12 @@ fun PopularNews(
 fun PopularNewsPreview() {
     PopularNews(
         modifier = Modifier.width(312.dp),
-        popularSummaryNewsData = tempPopularSummaryNewsData,
+        popularSummaryNewsData = PopularSummaryNewsData(
+            "https://newsimg.sedaily.com/2023/04/19/29OD2TUOJ3_1.jpg",
+            "\"고마워요 엔비디아\"...삼성전자, 간만의 '불기둥' 지속될까",
+            "파이낸셜뉴스",
+            1
+        ),
         navigateToNews = { /*TODO*/ }
     )
 }
