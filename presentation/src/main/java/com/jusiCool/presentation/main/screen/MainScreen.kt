@@ -139,6 +139,14 @@ internal fun MainRoute(
             setIsSwipeRefreshLoading(false)
         }
     }
+
+    LaunchedEffect(Unit) {
+        viewModel.apply {
+            getMyPoint()
+            getMyStock()
+        }
+        setIsSwipeRefreshLoading(true)
+    }
 }
 
 val tempMyAccountData = MyAccountData(137871, -5778, 4.0f, 6)
@@ -161,10 +169,6 @@ internal fun MainScreen(
     navigateToCommunity: () -> Unit,
     navigateToHoldShareRoute: () -> Unit,
 ) {
-    LaunchedEffect(Unit) {
-        onRefresh()
-    }
-
     SwipeRefresh(
         state = swipeRefreshState,
         onRefresh = onRefresh
