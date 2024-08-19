@@ -47,7 +47,6 @@ import com.jusiCool.presentation.main.component.PopularSummaryNewsData
 import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.utill.Event
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.immutableListOf
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 
@@ -115,7 +114,7 @@ internal fun MainRoute(
         },
         stockData = when (getMyStockResponse) {
             is Event.Success -> getMyStockResponse.data!!
-            else -> immutableListOf()
+            else -> persistentListOf()
         },
         onRefresh = {
             viewModel.apply {
