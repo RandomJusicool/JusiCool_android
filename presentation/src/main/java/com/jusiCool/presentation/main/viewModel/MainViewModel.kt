@@ -13,6 +13,8 @@ import com.jusiCool.domain.usecase.user.GetMyStockUseCase
 import com.jusiCool.presentation.utill.Event
 import com.jusiCool.presentation.utill.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -28,7 +30,7 @@ class MainViewModel @Inject constructor(
     private val _getMyPointResponse = MutableStateFlow<Event<GetMyPointModel>>(Event.Loading)
     val getMyPointResponse = _getMyPointResponse.asStateFlow()
 
-    private val _getMyStockResponse = MutableStateFlow<Event<List<GetMyStockModel>>>(Event.Loading)
+    private val _getMyStockResponse = MutableStateFlow<Event<ImmutableList<GetMyStockModel>>>(Event.Loading)
     val getMyStockResponse = _getMyStockResponse.asStateFlow()
 
     private val _getStockListResponse = MutableStateFlow<Event<List<GetStockListResponseModel>>>(Event.Loading)
@@ -38,15 +40,6 @@ class MainViewModel @Inject constructor(
         private set
 
     var stockList = mutableStateListOf<GetStockListResponseModel>()
-        private set
-
-    var myPoint = mutableStateOf(
-        GetMyPointModel(
-            points = 0,
-            upDownPercent = 0.0,
-            upDownPoints = 0,
-        )
-    )
         private set
 
     internal fun getMyPoint() = viewModelScope.launch {
@@ -66,7 +59,7 @@ class MainViewModel @Inject constructor(
             it.catch { remoteError ->
                 _getMyStockResponse.value = remoteError.errorHandling()
             }.collect { response ->
-                _getMyStockResponse.value = Event.Success(data = response)
+                _getMyStockResponse.value = Event.Success(data = response.toImmutableList())
             }
         }.onFailure { error ->
             _getMyStockResponse.value = error.errorHandling()
@@ -78,7 +71,7 @@ class MainViewModel @Inject constructor(
             it.catch { remoteError ->
                 _getStockListResponse.value = remoteError.errorHandling()
             }.collect { response ->
-                _getStockListResponse.value = Event.Success(data = response)
+                _getStockListResponse.value = Event.Success(data = response.toImmutableList())
             }
         }.onFailure { error ->
             _getStockListResponse.value = error.errorHandling()

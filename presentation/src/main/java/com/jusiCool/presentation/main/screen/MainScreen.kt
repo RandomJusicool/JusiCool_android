@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -45,8 +47,8 @@ import com.jusiCool.presentation.main.component.PopularSummaryNewsData
 import com.jusiCool.presentation.main.viewModel.MainViewModel
 import com.jusiCool.presentation.utill.Event
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.immutableListOf
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 
 const val mainRoute = "mainRoute"
@@ -91,6 +93,8 @@ internal fun MainRoute(
 ) {
     val (isSwipeRefreshLoading, setIsSwipeRefreshLoading) = remember { mutableStateOf(false) }
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isSwipeRefreshLoading)
+    val getMyPointResponse by viewModel.getMyPointResponse.collectAsStateWithLifecycle()
+    val getMyStockResponse by viewModel.getMyStockResponse.collectAsStateWithLifecycle()
 
     MainScreen(
         modifier = modifier,
@@ -101,8 +105,18 @@ internal fun MainRoute(
             "파이낸셜뉴스",
             1
         ),
-        pointData = viewModel.myPoint.value,
-        stockData = viewModel.myStock.toImmutableList(),
+        pointData = when (getMyPointResponse) {
+            is Event.Success -> getMyPointResponse.data!!
+            else -> GetMyPointModel(
+                points = 0,
+                upDownPercent = 0.0,
+                upDownPoints = 0,
+            )
+        },
+        stockData = when (getMyStockResponse) {
+            is Event.Success -> getMyStockResponse.data!!
+            else -> immutableListOf()
+        },
         onRefresh = {
             viewModel.apply {
                 getMyPoint()
@@ -123,33 +137,6 @@ internal fun MainRoute(
         if (isSwipeRefreshLoading) {
             delay(1000L)
             setIsSwipeRefreshLoading(false)
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.getMyPointResponse.collect { response ->
-            when (response) {
-                is Event.Success -> {
-                    viewModel.myPoint.value = response.data!!
-                }
-
-                else -> {}
-            }
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.getMyStockResponse.collect { response ->
-            when (response) {
-                is Event.Success -> {
-                    viewModel.myStock.removeRange(0, viewModel.myStock.size)
-                    viewModel.myStock.addAll(response.data!!)
-                }
-
-                else -> {
-                    viewModel.myStock.removeRange(0, viewModel.myStock.size)
-                }
-            }
         }
     }
 }
